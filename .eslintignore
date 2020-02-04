@@ -1,0 +1,10 @@
+**/build/**
+**/dist/**
+**/node_modules/**
+**/public/**
+
+/docs/**
+/jsdoc/**
+/tmp/**
+
+!.eslintrc.js

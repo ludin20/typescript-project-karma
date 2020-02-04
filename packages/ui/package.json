@@ -1,0 +1,21 @@
+{
+  "name": "@karma/ui",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "build-storybook",
+    "storybook": "start-storybook -p 6006"
+  },
+  "dependencies": {
+    "formik": "^2.1.2",
+    "found": "^0.4.9",
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
+    "styled-components": "^4.4.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-docs": "^5.3.11",
+    "@storybook/addon-options": "5.3.0-rc.7",
+    "@storybook/react": "5.3.0-rc.7"
+  }
+}

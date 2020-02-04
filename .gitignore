@@ -1,0 +1,48 @@
+# macOS files
+.DS_Store
+.idea
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+node_modules/
+jspm_packages/
+
+# TypeScript v1 declaration files
+typings/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# build
+build
+dist
+
+# relay
+__generated__
+
+# editor
+.vscode
+.editorconfig
+
+# typescript composite build info
+tsconfig.tsbuildinfo

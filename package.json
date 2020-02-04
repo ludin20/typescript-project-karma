@@ -1,0 +1,48 @@
+{
+  "name": "karma",
+  "version": "0.0.1",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "index.js",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": []
+  },
+  "scripts": {
+    "babel": "babel-node --extensions \".es6,.js,.es,.jsx,.mjs,.ts,.tsx\"",
+    "build": "yarn workspace @karma/web build",
+    "lint": "eslint --fix --ext .js,jsx,.ts,.tsx",
+    "lint:ci": "eslint --quiet --ext .js,jsx,.ts,.tsx .",
+    "lint:fix": "eslint --fix --ext .js,jsx,.ts,.tsx .",
+    "prettier": "prettier",
+    "relay": "yarn workspace @karma/web relay",
+    "startup": "./scripts/startup.sh",
+    "storybook": "yarn workspace @karma/ui storybook",
+    "typecheck": "tsc --pretty",
+    "web": "yarn workspace @karma/web start"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "yarn prettier --write",
+      "yarn lint"
+    ],
+    "package.json": [
+      "yarn prettier --write",
+      "yarn sort-package-json"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@karma/babel": "*",
+    "@karma/eslint": "*",
+    "husky": "^3.1.0",
+    "lint-staged": "^10.0.2",
+    "prettier": "^1.19.1",
+    "sort-package-json": "^1.39.0",
+    "typescript": "^3.7.5"
+  }
+}
