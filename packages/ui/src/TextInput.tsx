@@ -1,13 +1,12 @@
 import React, { useState, useCallback } from 'react';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Container = styled.div<Props>`
   border-radius: 4px;
   background: ${props => props.theme.dark};
   padding: 10px 20px;
-  border-bottom: ${props => (props.empty ? `4px solid ${props.theme.white}` : `4px solid ${props.theme.green}`)};
-  transition: border-bottom 0.2s;
+  transition: all 0.2s;
 
   display: flex;
   flex-direction: column;
@@ -33,22 +32,45 @@ const Container = styled.div<Props>`
     background: none;
     color: ${props => props.theme.white};
     border: none;
-    font-size: 20px;
+    font-size: 15px;
+    padding: 5px 0;
+    -moz-appearance: textfield;
 
     resize: none;
 
     &::placeholder {
       color: ${props => props.theme.gray};
     }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
+
+  ${props =>
+    props.bordered &&
+    css`
+      border-bottom: ${props => (props.empty ? `4px solid ${props.theme.white}` : `4px solid ${props.theme.green}`)};
+    `}
+
+  ${props =>
+    props.changeBackgroundOnEmpty &&
+    css`
+      background: ${props => (props.empty ? 'none' : props.theme.black)};
+    `}
 `;
 
-interface Props {
+export interface Props {
   required?: boolean;
-  label: string;
+  label?: string;
   placeholder?: string;
   multiline?: boolean;
+  bordered?: boolean;
   onChange?: (value: string) => void;
+  changeBackgroundOnEmpty?: boolean;
+  numberOnly?: boolean;
 }
 
 const TextInput: React.FC<Props> = ({ onChange, multiline, ...props }) => {
@@ -71,12 +93,18 @@ const TextInput: React.FC<Props> = ({ onChange, multiline, ...props }) => {
 
   return (
     <Container empty={empty} {...props}>
-      <header>
-        <span>{props.label}</span>
-        {props.required && <strong>*</strong>}
-      </header>
+      {props.label && (
+        <header>
+          <span>{props.label}</span>
+          {props.required && <strong>*</strong>}
+        </header>
+      )}
       {!multiline ? (
-        <input type="text" placeholder={props.placeholder} onChange={e => setValue(e)} />
+        <input
+          type={!props.numberOnly ? 'text' : 'number'}
+          placeholder={props.placeholder}
+          onChange={e => setValue(e)}
+        />
       ) : (
         <textarea placeholder={props.placeholder} onChange={e => setValue(e)} rows={4} />
       )}

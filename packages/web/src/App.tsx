@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { RouterState } from 'found';
 
-import theme from './utils/theme';
+import { theme } from '@karma/ui';
 
 interface Props extends RouterState {
   children: React.ReactNode;

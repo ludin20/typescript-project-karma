@@ -8,7 +8,7 @@ const notFound = [
     path: '*',
     // eslint-disable-next-line react/display-name
     Component: () => {
-      return <div />;
+      return <div>not found</div>;
     },
   },
 ];
