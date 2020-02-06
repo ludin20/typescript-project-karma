@@ -1,7 +1,7 @@
 import { Meta, Props, Story, Preview } from '@storybook/addon-docs/blocks';
 import Button from '../src/Button';
 
-<Meta title="Components|Button" component={Button} />
+<Meta title="Components/Button" component={Button} />
 
 # Button
 
@@ -69,7 +69,7 @@ The Karma web button.
 
 <Preview>
   <Story name="bordered">
-    <div style={{background: '#20252d', padding: '20px'}}>
+    <div style={{background: '#20252E', padding: '20px'}}>
       <Button border>bordered button</Button>
     </div>
   </Story>
@@ -79,6 +79,6 @@ The Karma web button.
 
 <Preview>
   <Story name="loading">
-    <Button background="green" loading>loading button</Button>
+    <Button background="green" loading={1}>loading button</Button>
   </Story>
 </Preview>

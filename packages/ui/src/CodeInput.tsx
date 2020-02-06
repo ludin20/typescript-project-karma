@@ -37,7 +37,7 @@ const Number = styled.input`
 
 interface Props {
   code: string;
-  onChange: (value) => void;
+  onChange?: (value) => void;
 }
 
 const CodeInput: React.FC<Props> = ({ onChange }) => {
@@ -62,7 +62,7 @@ const CodeInput: React.FC<Props> = ({ onChange }) => {
       setInternalCode(newCode);
 
       const codeString = internalCode.reduce((prev, next) => prev.concat(next), '');
-      onChange(codeString);
+      onChange && onChange(codeString);
 
       if (value === '') {
         if (inputRefs && index > 0) {

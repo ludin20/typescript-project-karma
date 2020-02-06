@@ -52,13 +52,13 @@ const Container = styled.div<Props>`
   ${props =>
     props.bordered &&
     css`
-      border-bottom: ${props => (props.empty ? `4px solid ${props.theme.white}` : `4px solid ${props.theme.green}`)};
+      border-bottom: ${props.empty ? `4px solid ${props.theme.white}` : `4px solid ${props.theme.green}`};
     `}
 
   ${props =>
     props.changeBackgroundOnEmpty &&
     css`
-      background: ${props => (props.empty ? 'none' : props.theme.black)};
+      background: ${props.empty ? 'none' : props.theme.black};
     `}
 `;
 
