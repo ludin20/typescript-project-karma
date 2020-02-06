@@ -10,6 +10,7 @@ declare module 'styled-components' {
     blue: string;
     gray: string;
     pink: string;
+    warning: string;
   }
 }
 
@@ -24,6 +25,7 @@ const theme = {
   blue: '#33375D',
   gray: '#757676',
   pink: '#f9c6ce',
+  warning: '#EF3D52',
 };
 
 export default theme;
