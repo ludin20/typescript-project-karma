@@ -6,19 +6,22 @@ declare module 'styled-components' {
     darkGradient: string;
     lightGradient: string;
     dark: string;
+    black: string;
+    blue: string;
     gray: string;
     pink: string;
   }
 }
 
 const theme = {
-  primary: '#59ca89',
+  primary: '#26CC8B',
   white: '#ffffff',
-  green: '#59ca89',
+  green: '#26CC8B',
   darkGradient: 'linear-gradient(green, #333)',
   lightGradient: 'linear-gradient(green, #f4f4f4)',
-  dark: '#191a19',
-  blue: '#20252d',
+  dark: '#20252E',
+  black: '#191A19',
+  blue: '#33375D',
   gray: '#757676',
   pink: '#f9c6ce',
 };
