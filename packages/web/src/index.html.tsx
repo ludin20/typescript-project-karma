@@ -22,13 +22,14 @@ const indexHtml = ({ helmet, assets, styleTags, relayData, html, lang = 'en' }) 
         <meta charset="utf-8" />
         <title>Karma</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet">
         <link rel="manifest" href="/site.webmanifest">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
 
         ${helmet.meta.toString()}
         <style>
+          @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap');
+
           * {
             margin: 0;
             padding: 0;
@@ -71,7 +72,7 @@ const indexHtml = ({ helmet, assets, styleTags, relayData, html, lang = 'en' }) 
           }
         
           body, input, textarea, button {
-            font: 1.4rem 'Roboto', sans-serif;
+            font: 1.4rem 'Montserrat', sans-serif;
           }
         
           a {

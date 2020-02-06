@@ -8,8 +8,9 @@ const Container = styled.button<Props>`
   padding: 5px 20px;
   border: ${props => (props.border ? '1px solid #fff' : 'none')};
   border-radius: ${props => (props.radius === 'default' ? '8px' : '26px')};
-  opacity: ${props => (!props.disabled ? '1' : '0.7')};
+  opacity: ${props => (!props.disabled ? '1' : '0.2')};
   cursor: ${props => (!props.disabled ? 'pointer' : 'not-allowed')};
+  transition: all 0.2s;
 `;
 
 interface Props {
@@ -20,7 +21,8 @@ interface Props {
   loading?: boolean;
   border?: boolean;
   children: React.ReactChild;
-  css: React.CSSProperties;
+  css?: React.CSSProperties;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const Button: React.FC<Props> = ({ children, radius = 'default', ...props }) => {
