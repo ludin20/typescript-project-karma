@@ -5,7 +5,7 @@ import close from '../../assets/close.svg';
 
 const Container = styled.div<{ focused: boolean }>`
   width: 100%;
-  max-width: 600px;
+  max-width: 550px;
   background: linear-gradient(90deg, #20252e 0%, #191a19 100%) 0% 0%;
   padding: 10px 15px;
   border-radius: 50px;

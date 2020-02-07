@@ -8,7 +8,6 @@ import SidebarNav from './SidebarNav';
 
 const Container = styled.div<Props>`
   width: 300px;
-  height: 100%;
   min-height: 100%;
   background: ${props => props.theme.dark};
   padding: 30px 0;

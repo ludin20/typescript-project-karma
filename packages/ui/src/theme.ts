@@ -3,6 +3,7 @@ declare module 'styled-components' {
     primary: string;
     white: string;
     green: string;
+    lightGreen: string;
     darkGradient: string;
     lightGradient: string;
     dark: string;
@@ -18,6 +19,7 @@ const theme = {
   primary: '#26CC8B',
   white: '#ffffff',
   green: '#26CC8B',
+  lightGreen: 'rgba(38, 204, 139, 0.2)',
   darkGradient: 'linear-gradient(green, #333)',
   lightGradient: 'linear-gradient(green, #f4f4f4)',
   dark: '#20252E',

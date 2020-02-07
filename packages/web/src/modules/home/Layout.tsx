@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { Sidebar, Header } from '@karma/ui';
+import { Sidebar, Header, Aside } from '@karma/ui';
 
 const Wrapper = styled.div`
   background: ${props => props.theme.black};
@@ -10,8 +10,10 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div<{ collapsed: boolean }>`
-  width: calc(100% - 370px);
-  padding: 30px 0 0 50px;
+  width: calc(100% - 350px);
+  margin-left: 300px;
+  padding-top: 30px;
+  margin: 0 50px;
 
   position: relative;
   left: ${props => (!props.collapsed ? '0' : '-300px')};
@@ -19,7 +21,7 @@ const Container = styled.div<{ collapsed: boolean }>`
 
 const Content = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 550px;
   padding: 30px 0 0;
 `;
 
@@ -50,7 +52,7 @@ const Layout: React.FC<Props> = ({ children }) => {
 
         <Wrapper>
           <Content>{children}</Content>
-          <aside>aside</aside>
+          <Aside />
         </Wrapper>
       </Container>
     </Wrapper>
