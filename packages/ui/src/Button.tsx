@@ -6,7 +6,7 @@ const Container = styled.button<Props>`
   background: ${props => (props.background ? props.theme[props.background] : 'none')};
   color: ${props => props.color || props.theme.white};
   padding: 5px 20px;
-  border: ${props => (props.border ? '1px solid #fff' : 'none')};
+  border: ${props => (props.border ? '2px solid #fff' : 'none')};
   border-radius: ${props => (props.radius === 'default' ? '8px' : '26px')};
   opacity: ${props => (!props.disabled ? '1' : '0.2')};
   cursor: ${props => (!props.disabled ? 'pointer' : 'not-allowed')};
@@ -14,7 +14,7 @@ const Container = styled.button<Props>`
 `;
 
 interface Props {
-  background?: 'green' | 'darkGradient' | 'lightGradient' | 'dark';
+  background?: 'green' | 'darkGradient' | 'lightGradient' | 'dark' | 'lightGreen';
   color?: string;
   radius?: 'default' | 'rounded';
   disabled?: boolean;
