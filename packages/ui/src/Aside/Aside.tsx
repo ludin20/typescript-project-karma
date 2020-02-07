@@ -5,8 +5,8 @@ import WhoToFollow from './WhoToFollow';
 import Trending from './Trending';
 
 const Container = styled.div`
-  width: calc(100% - 550px);
-  margin: 30px 0 0 50px;
+  width: 310px;
+  margin: 30px 0 0;
 `;
 
 const Aside: React.FC = () => {

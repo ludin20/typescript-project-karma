@@ -8,7 +8,7 @@ const Container = styled.div<{ toogled: boolean }>`
   width: 100%;
   background: ${props => props.theme.dark};
   border-radius: 25px 25px 25px 25px;
-  padding-bottom: ${props => props.toogled && '25px'};
+  padding-bottom: ${props => props.toogled && '20px'};
 
   > div {
     padding: 20px 15px 0;
@@ -77,7 +77,7 @@ const AsideCard: React.FC<Props> = ({ title, seeMore, data, renderItem }) => {
           {!toogled && <section>{data.map(item => renderItem(item))}</section>}
         </div>
 
-        {seeMore && !toogled && <button onClick={() => router.push(seeMore)}>See More</button>}
+        {seeMore && !toogled && <button onClick={() => router.push(seeMore)}>See More People</button>}
       </Container>
     </>
   );

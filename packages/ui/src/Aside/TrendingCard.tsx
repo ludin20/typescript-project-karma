@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Button from '../Button';
+import FollowButton from '../FollowButton';
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Container = styled.div`
 
     strong {
       color: #fff;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     span {
@@ -26,10 +26,6 @@ const Container = styled.div`
   }
 `;
 
-const FollowButton = styled(Button)`
-  font-size: 16px;
-`;
-
 const TrendingCard: React.FC = ({ id, hashtag, count, following }: any) => {
   return (
     <Container key={id}>
@@ -38,14 +34,7 @@ const TrendingCard: React.FC = ({ id, hashtag, count, following }: any) => {
         <span>{count} Posts</span>
       </section>
 
-      <FollowButton
-        background={following && 'lightGreen'}
-        border={!following}
-        radius="rounded"
-        color={following ? '#26CC8B' : null}
-      >
-        {!following ? 'Follow' : 'Following'}
-      </FollowButton>
+      <FollowButton following={following} />
     </Container>
   );
 };

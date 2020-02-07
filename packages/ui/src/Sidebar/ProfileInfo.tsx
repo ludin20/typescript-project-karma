@@ -14,7 +14,7 @@ const Container = styled.ul`
     align-items: center;
 
     strong {
-      font-weight: 500px;
+      font-weight: 500;
       color: #fff;
       font-size: 16px;
     }

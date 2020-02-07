@@ -1,7 +1,8 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-import Button from '../Button';
+import FollowButton from '../FollowButton';
+import ProfileImage from '../ProfileImage';
 
 const Container = styled.div`
   width: 100%;
@@ -21,7 +22,7 @@ const Container = styled.div`
 
     strong {
       color: #fff;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     span {
@@ -32,36 +33,6 @@ const Container = styled.div`
   }
 `;
 
-const ProfileImage = styled.img<{ online: boolean }>`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 8px;
-
-  position: relative;
-
-  ${props =>
-    props.online &&
-    css`
-      &::after {
-        content: '';
-        width: 8px;
-        height: 8px;
-        background: ${props => props.theme.green};
-        border-radius: 50%;
-
-        /*  position: absolute;
-        top: 2px;
-        right: -10px; */
-      }
-    `}
-`;
-
-const FollowButton = styled(Button)`
-  margin-left: 50px;
-  font-size: 16px;
-`;
-
 interface Props {
   children: React.ReactChild;
 }
@@ -70,21 +41,14 @@ const WhoToFollowCard: React.FC<Props> = ({ id, name, username, profileImageUrl,
   return (
     <Container key={id}>
       <div>
-        <ProfileImage online={online} src={profileImageUrl} alt={name} />
+        <ProfileImage online={online} path={profileImageUrl} alt={name} size="small" />
         <section>
           <strong>{name}</strong>
           <span>{username}</span>
         </section>
       </div>
 
-      <FollowButton
-        background={following && 'lightGreen'}
-        border={!following}
-        radius="rounded"
-        color={following ? '#26CC8B' : null}
-      >
-        {!following ? 'Follow' : 'Following'}
-      </FollowButton>
+      <FollowButton following={following} />
     </Container>
   );
 };

@@ -10,18 +10,23 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div<{ collapsed: boolean }>`
-  width: calc(100% - 350px);
-  margin-left: 300px;
+  width: calc(100% - 280px);
   padding-top: 30px;
-  margin: 0 50px;
+  margin: 0 30px 0 50px;
 
   position: relative;
   left: ${props => (!props.collapsed ? '0' : '-300px')};
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
 `;
 
 const Content = styled.div`
   width: 100%;
-  max-width: 550px;
+  max-width: 640px;
   padding: 30px 0 0;
 `;
 
@@ -50,10 +55,10 @@ const Layout: React.FC<Props> = ({ children }) => {
       <Container collapsed={collapsed}>
         <Header />
 
-        <Wrapper>
+        <div>
           <Content>{children}</Content>
           <Aside />
-        </Wrapper>
+        </div>
       </Container>
     </Wrapper>
   );

@@ -7,7 +7,7 @@ import ProfileInfo from './ProfileInfo';
 import SidebarNav from './SidebarNav';
 
 const Container = styled.div<Props>`
-  width: 300px;
+  width: 280px;
   min-height: 100%;
   background: ${props => props.theme.dark};
   padding: 30px 0;
@@ -46,7 +46,7 @@ const Container = styled.div<Props>`
     strong {
       color: #fff;
       font-weight: 600;
-      font-size: 24px;
+      font-size: 22px;
     }
 
     span {

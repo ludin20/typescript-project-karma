@@ -5,11 +5,10 @@ import close from '../../assets/close.svg';
 
 const Container = styled.div<{ focused: boolean }>`
   width: 100%;
-  max-width: 550px;
+  max-width: 640px;
   background: linear-gradient(90deg, #20252e 0%, #191a19 100%) 0% 0%;
   padding: 10px 15px;
   border-radius: 50px;
-  border: ${props => `1px solid ${props.theme.dark}`};
 
   display: flex;
   justify-content: space-between;
