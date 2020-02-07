@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import close from '../../assets/close.svg';
+import search from '../../assets/search.svg';
 
 const Container = styled.div<{ focused: boolean }>`
   width: 100%;
@@ -15,8 +16,8 @@ const Container = styled.div<{ focused: boolean }>`
   align-items: center;
 
   img {
-    width: 18px;
-    height: 18px;
+    width: auto;
+    height: 16px;
   }
 
   input {
@@ -24,7 +25,7 @@ const Container = styled.div<{ focused: boolean }>`
     width: 100%;
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 14px;
     color: #fff;
     margin-left: 10px;
 
@@ -36,6 +37,11 @@ const Container = styled.div<{ focused: boolean }>`
   button {
     display: none;
     background: none;
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
   }
 
   ${props =>
@@ -54,7 +60,8 @@ const SearchBar: React.FC = () => {
 
   return (
     <Container focused={focused}>
-      <input type="text" placeholder="Search Karma" onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
+      <img src={search} alt="search" />
+      <input type="text" placeholder="Search KARMA" onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
       {focused && (
         <button onClick={() => setFocused(false)}>
           <img src={close} alt="close" />

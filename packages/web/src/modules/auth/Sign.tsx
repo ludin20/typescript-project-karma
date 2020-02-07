@@ -27,11 +27,17 @@ const Container = styled.div`
   position: relative;
 `;
 
+const StyledLogo = styled(Logo)`
+  position: absolute;
+  top: 20px;
+  right: 40px;
+`;
+
 const Sign: React.FC = () => {
   return (
     <Container>
       <Bg src={karmaBg} alt="Karma" />
-      <Logo />
+      <StyledLogo />
       <JoinBox />
     </Container>
   );

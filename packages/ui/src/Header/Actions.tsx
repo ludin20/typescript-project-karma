@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from 'found';
 
 import activity from '../../assets/activity-white.svg';
+import plus from '../../assets/plus.svg';
 
 const Container = styled.div`
   display: flex;
@@ -33,11 +34,11 @@ const Container = styled.div`
   }
 
   button:last-child {
-    width: 180px;
+    width: 160px;
     background: linear-gradient(270deg, #26cc8b 0%, #2adce8 100%) 0% 0%;
     color: #fff;
     padding: 10px 15px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     box-shadow: 0px 3px 25px #26cc8b80;
     border-radius: 90px;
@@ -45,13 +46,10 @@ const Container = styled.div`
     display: flex;
     align-items: center;
 
-    div {
+    img {
       width: 20px;
       height: 20px;
-      background: #ffffff66;
-      border: 1px solid #ffffff;
       margin-right: 10px;
-      border-radius: 8px;
     }
   }
 `;
@@ -66,7 +64,7 @@ const Actions: React.FC = () => {
       </button>
 
       <button>
-        <div></div>
+        <img src={plus} alt="create post" />
         Create Post
       </button>
     </Container>
