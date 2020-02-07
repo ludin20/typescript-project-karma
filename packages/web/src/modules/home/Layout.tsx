@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import { Sidebar, Header, Aside } from '@karma/ui';
 
+import { signOut } from '../../store/modules/auth/actions';
+
 const Wrapper = styled.div`
   background: ${props => props.theme.black};
   display: flex;
@@ -50,6 +52,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         }}
         collapsed={collapsed}
         setCollapsed={setCollapsed}
+        signOut={signOut}
       />
 
       <Container collapsed={collapsed}>

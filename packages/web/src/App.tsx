@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { RouterState } from 'found';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
 
 import { theme } from '@karma/ui';
+
+import { store, persistor } from './store';
 
 interface Props extends RouterState {
   children: React.ReactNode;
@@ -21,7 +25,13 @@ const App = ({ children, ...props }: Props) => {
     }
   }, [props, lastRoute]);
 
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      </PersistGate>
+    </Provider>
+  );
 };
 
 export default App;

@@ -1,9 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'found';
 
 import { PhoneInput, CodeInput, Button } from '@karma/ui';
 
 import smartphone from '../../assets/smartphone.svg';
+
+import { signRequest, authenticateCodeRequest } from '../../store/modules/auth/actions';
 
 const Container = styled.form`
   width: 400px;
@@ -77,30 +81,28 @@ const SubmitButton = styled(Button)`
 const JoinBox: React.FC = () => {
   const [number, setNumber] = useState('');
   const [code, setCode] = useState('');
-  const [codeSent, setCodeSent] = useState(false);
+
+  const { router } = useRouter();
+
+  const dispatch = useDispatch();
+  const codeSent = useSelector(state => state.auth.codeSent);
 
   const sendCode = useCallback(
     e => {
       e.preventDefault();
 
-      setTimeout(() => {
-        console.log(number); //eslint-disable-line no-console
-        setCodeSent(true);
-      }, 1000);
+      dispatch(signRequest(number));
     },
-    [number],
+    [number, dispatch],
   );
 
   const validateCode = useCallback(
     e => {
       e.preventDefault();
 
-      setTimeout(() => {
-        console.log(code); //eslint-disable-line no-console
-        //pushTo(dashboard)
-      }, 1000);
+      dispatch(authenticateCodeRequest(code, router));
     },
-    [code],
+    [code, dispatch, router],
   );
 
   return (
