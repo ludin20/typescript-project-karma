@@ -18,7 +18,7 @@ const Container = styled.div<Props>`
 
   position: relative;
   top: 0;
-  left: ${props => (!props.collapsed ? '0' : '-300px')};
+  left: ${props => (!props.collapsed ? '0' : '-280px')};
 
   header {
     display: flex;

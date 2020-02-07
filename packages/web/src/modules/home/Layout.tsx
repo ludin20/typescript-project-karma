@@ -19,7 +19,7 @@ const Container = styled.div<{ collapsed: boolean }>`
   position: relative;
   left: ${props => (!props.collapsed ? '0' : '-300px')};
 
-  > div {
+  > div:nth-child(2) {
     display: flex;
     justify-content: space-between;
     width: 100%;

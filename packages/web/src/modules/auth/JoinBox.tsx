@@ -86,6 +86,7 @@ const JoinBox: React.FC = () => {
 
   const dispatch = useDispatch();
   const codeSent = useSelector(state => state.auth.codeSent);
+  const loading = useSelector(state => state.auth.loading);
 
   const sendCode = useCallback(
     e => {
@@ -135,7 +136,7 @@ const JoinBox: React.FC = () => {
           </>
         )}
       </p>
-      <SubmitButton background="green" disabled={!codeSent ? !number : code.length < 6} type="submit">
+      <SubmitButton loading={loading} background="green" disabled={!codeSent ? !number : code.length < 6} type="submit">
         {!codeSent ? 'Send' : 'Confirm'}
       </SubmitButton>
     </Container>
