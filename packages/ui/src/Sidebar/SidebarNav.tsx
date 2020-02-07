@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'found';
+import { useDispatch } from 'react-redux';
 
 import home from '../../assets/home.svg';
 import discover from '../../assets/discover.svg';
@@ -93,14 +94,22 @@ interface Props {
   profileImage: string;
   setCollapsed: (value: boolean) => void;
   collapsed: boolean;
+  signOut: any;
 }
 
-const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed }) => {
+const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ...props }) => {
   const { match, router } = useRouter();
+
+  const dispatch = useDispatch();
 
   const selected = useMemo(() => {
     return match.location.pathname;
   }, [match.location.pathname]);
+
+  const signOut = () => {
+    dispatch(props.signOut());
+    router.push('/auth');
+  };
 
   return (
     <Container>
@@ -141,7 +150,7 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed }) 
           <img src={arrow} alt="arrow" />
         </button>
       </div>
-      <Link onClick={() => router.push('home')} selected={false}>
+      <Link onClick={signOut} selected={false}>
         <div>
           <img src={logout} alt="Logout" />
           logout

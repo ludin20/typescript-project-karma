@@ -71,9 +71,10 @@ interface Props {
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
   profile: ProfileProps;
+  signOut: any;
 }
 
-const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed, profile }) => {
+const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed, profile, signOut }) => {
   if (!profile) return <div />;
 
   return (
@@ -89,7 +90,7 @@ const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed, profile }) => {
 
       <ProfileInfo profile={profile} />
 
-      <SidebarNav profileImage={profile.imageUrl} setCollapsed={setCollapsed} collapsed={collapsed} />
+      <SidebarNav profileImage={profile.imageUrl} setCollapsed={setCollapsed} collapsed={collapsed} signOut={signOut} />
     </Container>
   );
 };
