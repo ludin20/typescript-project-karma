@@ -7,5 +7,21 @@ import Logo from './src/Logo';
 import Sidebar from './src/Sidebar/Sidebar';
 import Header from './src/Header/Header';
 import Aside from './src/Aside/Aside';
+import Title from './src/Title';
+import ProfileImage from './src/ProfileImage';
+import FollowButton from './src/FollowButton';
 
-export { theme, Button, TextInput, PhoneInput, CodeInput, Logo, Sidebar, Header, Aside };
+export {
+  theme,
+  Button,
+  TextInput,
+  PhoneInput,
+  CodeInput,
+  Logo,
+  Sidebar,
+  Header,
+  Aside,
+  Title,
+  ProfileImage,
+  FollowButton,
+};
