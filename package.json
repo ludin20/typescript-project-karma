@@ -21,7 +21,8 @@
     "startup": "./scripts/startup.sh",
     "storybook": "yarn workspace @karma/ui storybook",
     "typecheck": "tsc --pretty",
-    "web": "yarn workspace @karma/web start"
+    "web": "yarn workspace @karma/web start",
+    "web:next": "yarn workspace @karma/web-next dev"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

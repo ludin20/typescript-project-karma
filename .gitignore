@@ -46,3 +46,4 @@ __generated__
 
 # typescript composite build info
 tsconfig.tsbuildinfo
+.next
