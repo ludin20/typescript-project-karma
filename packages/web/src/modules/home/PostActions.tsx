@@ -39,12 +39,12 @@ const Container = styled.div`
 interface Props {
   likes: string | number;
   comments: string | number;
-  retweets: string | number;
+  reTweets: string | number;
   item: string | number;
   item2: string | number;
 }
 
-const PostActions: React.FC<Props> = ({ likes, comments, retweets, item, item2 }) => {
+const PostActions: React.FC<Props> = ({ likes, comments, reTweets, item, item2 }) => {
   return (
     <Container>
       <button>
@@ -59,7 +59,7 @@ const PostActions: React.FC<Props> = ({ likes, comments, retweets, item, item2 }
 
       <button>
         <img src={retweet} alt="retweet" />
-        {retweets}
+        {reTweets}
       </button>
 
       <button>

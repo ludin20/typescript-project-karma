@@ -1,13 +1,12 @@
 module.exports = {
   parser: '@typescript-eslint/parser', // Specifies the ESLint parser
-  plugins: ['react', 'import', 'relay', 'react-hooks'],
+  plugins: ['react', 'import', 'react-hooks'],
   extends: [
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
     'plugin:prettier/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
-    'plugin:relay/recommended',
   ],
   parserOptions: {
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
@@ -39,12 +38,6 @@ module.exports = {
     'import/no-cycle': 'error',
     'import/no-self-import': 'warn',
     'import/extensions': ['off', 'never', { ts: 'never' }],
-    'relay/graphql-syntax': 'error',
-    'relay/compat-uses-vars': 'warn',
-    'relay/graphql-naming': 'error',
-    'relay/generated-flow-types': 'warn',
-    'relay/no-future-added-value': 'warn',
-    'relay/unused-fields': 'warn',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/camelcase': ['off', { ignoreDestructuring: true }],

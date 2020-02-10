@@ -17,12 +17,10 @@
     "lint:ci": "eslint --quiet --ext .js,jsx,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,jsx,.ts,.tsx .",
     "prettier": "prettier",
-    "relay": "yarn workspace @karma/web relay",
     "startup": "./scripts/startup.sh",
     "storybook": "yarn workspace @karma/ui storybook",
     "typecheck": "tsc --pretty",
-    "web": "yarn workspace @karma/web start",
-    "web:next": "yarn workspace @karma/web-next dev"
+    "web": "yarn workspace @karma/web dev"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

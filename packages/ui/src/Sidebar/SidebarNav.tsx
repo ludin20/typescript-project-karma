@@ -108,7 +108,7 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ..
 
   const signOut = () => {
     dispatch(props.signOut());
-    router.push('/auth');
+    router.push('/');
   };
 
   return (

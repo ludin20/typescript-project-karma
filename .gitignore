@@ -37,9 +37,6 @@ typings/
 build
 dist
 
-# relay
-__generated__
-
 # editor
 .vscode
 .editorconfig

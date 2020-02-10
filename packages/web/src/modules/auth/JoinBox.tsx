@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'found';
+import { useRouter } from 'next/router';
 
 import { PhoneInput, CodeInput, Button } from '@karma/ui';
 
@@ -82,7 +82,7 @@ const JoinBox: React.FC = () => {
   const [number, setNumber] = useState('');
   const [code, setCode] = useState('');
 
-  const { router } = useRouter();
+  const router = useRouter();
 
   const dispatch = useDispatch();
   const codeSent = useSelector(state => state.auth.codeSent);
@@ -136,7 +136,12 @@ const JoinBox: React.FC = () => {
           </>
         )}
       </p>
-      <SubmitButton loading={loading} background="green" disabled={!codeSent ? !number : code.length < 6} type="submit">
+      <SubmitButton
+        loading={loading ? 1 : 0}
+        background="green"
+        disabled={!codeSent ? !number : code.length < 6}
+        type="submit"
+      >
         {!codeSent ? 'Send' : 'Confirm'}
       </SubmitButton>
     </Container>

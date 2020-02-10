@@ -1,4 +1,4 @@
-import { Router } from 'found';
+import { Router } from 'next/router';
 
 export const types = {
   SIGN_REQUEST: '@auth/SIGN_REQUEST',

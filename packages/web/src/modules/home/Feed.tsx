@@ -16,7 +16,7 @@ const Feed: React.FC = () => {
       date: '3m',
       likes: 536,
       comments: 36,
-      retweets: 22,
+      reTweets: 22,
       item: 175,
       item2: '6,500',
       content: {
@@ -40,7 +40,7 @@ const Feed: React.FC = () => {
       date: '1h',
       likes: 536,
       comments: 36,
-      retweets: 22,
+      reTweets: 22,
       item: 175,
       item2: '6,500',
       content: {
