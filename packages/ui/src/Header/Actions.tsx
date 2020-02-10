@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'found';
+import { useRouter } from 'next/router';
 
 import activity from '../../assets/activity-white.svg';
 import plus from '../../assets/plus.svg';
@@ -55,7 +55,7 @@ const Container = styled.div`
 `;
 
 const Actions: React.FC = () => {
-  const { router } = useRouter();
+  const router = useRouter();
 
   return (
     <Container>

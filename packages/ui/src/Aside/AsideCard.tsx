@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'found';
+import { useRouter } from 'next/router';
 
 import arrow from '../../assets/arrow.svg';
 
@@ -60,8 +60,7 @@ interface Props {
 
 const AsideCard: React.FC<Props> = ({ title, seeMore, data, renderItem }) => {
   const [toogled, setToogled] = useState(false);
-
-  const { router } = useRouter();
+  const router = useRouter();
 
   return (
     <>

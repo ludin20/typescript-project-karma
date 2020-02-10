@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import styled, { css } from 'styled-components';
-import { useRouter } from 'found';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import home from '../../assets/home.svg';
 import discover from '../../assets/discover.svg';
@@ -98,13 +98,13 @@ interface Props {
 }
 
 const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ...props }) => {
-  const { match, router } = useRouter();
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
   const selected = useMemo(() => {
-    return match.location.pathname;
-  }, [match.location.pathname]);
+    return router.pathname.replace('/', '');
+  }, [router.pathname]);
 
   const signOut = () => {
     dispatch(props.signOut());
