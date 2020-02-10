@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 import activity from '../../assets/activity-white.svg';
 import plus from '../../assets/plus.svg';
@@ -54,12 +55,7 @@ const Container = styled.div`
 `;
 
 const Actions: React.FC = () => {
-  const router = {
-    push: (route: string) => {
-      // eslint-disable-next-line no-console
-      console.log({ route });
-    },
-  };
+  const router = useRouter();
 
   return (
     <Container>
