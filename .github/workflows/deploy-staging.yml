@@ -1,0 +1,32 @@
+name: Karma web Deploy on Staging
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'packages/web/**'
+      - 'packages/ui/**'
+      - '.now/**'
+
+jobs:
+  # DEPLOY WEB STAGING
+  deploy-web-staging:
+    name: Deploy Web on Staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.15'
+
+      - name: Install Now CLI
+        run: |
+          sudo npm install --global --unsafe-perm now
+      
+      - name: Deploy to Now
+        run: |
+          now --token $ZEIT_TOKEN --local-config .now/now.json --prod --confirm
+        env:
+          ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}

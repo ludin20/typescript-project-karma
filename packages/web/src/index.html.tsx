@@ -9,18 +9,11 @@ const indexHtml = ({ helmet, assets, styleTags, relayData, html, lang = 'en' }) 
     <!doctype html>
       <html lang="${lang}">
       <head>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', "${GA_ID}");
-        </script>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta charset="utf-8" />
+
         <title>Karma</title>
+        
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="/site.webmanifest">
         <meta name="msapplication-TileColor" content="#da532c">

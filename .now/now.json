@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "scope": "fotontech",
+  "builds": [
+    {
+      "src": "packages/web-next/package.json",
+      "use": "@now/next@canary"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "packages/web-next/$1"
+    }
+  ],
+  "build": {
+    "env": {
+      "NODE_ENV": "production",
+      "RELEASE_STAGE": "staging"
+    }
+  }
+}
