@@ -10,4 +10,11 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-module.exports = withPlugins([withTranspileModules, withImages, withBundleAnalyzer]);
+module.exports = withPlugins([withTranspileModules, withImages, withBundleAnalyzer], {
+  // https://github.com/zeit/next.js/pull/9138
+  typescript: {
+    transpileOnly: true,
+    ignoreDevErrors: true,
+    ignoreBuildErrors: true,
+  },
+});

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRouter } from 'found';
 
 import arrow from '../../assets/arrow.svg';
 
@@ -61,7 +60,12 @@ interface Props {
 const AsideCard: React.FC<Props> = ({ title, seeMore, data, renderItem }) => {
   const [toogled, setToogled] = useState(false);
 
-  const { router } = useRouter();
+  const router = {
+    push: (route: string) => {
+      // eslint-disable-next-line no-console
+      console.log({ route });
+    },
+  };
 
   return (
     <>
