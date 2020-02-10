@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Feed from '../modules/home/Feed';
+import Auth from '../modules/auth/Auth';
 
 export default function Index() {
-  return <Feed />;
+  return <Auth />;
 }
