@@ -33,6 +33,7 @@
     "yup": "0.27.0"
   },
   "devDependencies": {
+    "@karma/babel": "*",
     "@types/node": "^12.12.26",
     "@types/react": "^16.9.0",
     "cross-env": "^7.0.0",
