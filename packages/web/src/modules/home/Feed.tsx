@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import { Title } from '@karma/ui';
 
-import Layout from './Layout';
+import Layout from '../layout/Layout';
+
 import Posts from './Posts';
 import PostCard from './PostCard';
 

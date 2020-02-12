@@ -113,32 +113,32 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ..
 
   return (
     <Container>
-      <Link onClick={() => router.push('home')} selected={selected.includes('home')}>
+      <Link onClick={() => router.push('/home')} selected={selected.includes('home')}>
         <div>
           <img src={home} alt="Home" />
           Home
         </div>
       </Link>
-      <Link onClick={() => router.push('discover')} selected={selected.includes('discover')}>
+      <Link onClick={() => router.push('/discover')} selected={selected.includes('discover')}>
         <div>
           <img src={discover} alt="Discover" />
           Discover
         </div>
       </Link>
-      <Link onClick={() => router.push('activity')} selected={selected.includes('activity')}>
+      <Link onClick={() => router.push('/activity')} selected={selected.includes('activity')}>
         <div>
           <img src={activity} alt="Activity" />
           Activity
         </div>
         <span>17</span>
       </Link>
-      <Link onClick={() => router.push('wallet')} selected={selected.includes('wallet')}>
+      <Link onClick={() => router.push('/wallet')} selected={selected.includes('wallet')}>
         <div>
           <img src={wallet} alt="Wallet" />
           Wallet
         </div>
       </Link>
-      <Link onClick={() => router.push('profile')} selected={selected.includes('profile')}>
+      <Link onClick={() => router.push('/profile')} selected={selected.includes('profile')}>
         <div>
           <img src={profileImage} alt="Profile" />
           Profile
