@@ -1,14 +1,16 @@
 name: Karma Web Deploy on Staging
 
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'packages/ui/**'
-      - 'packages/babel/**'
-      - 'packages/web/**'
-      - '.now/**'
+on: [push]
+
+#on:
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - 'packages/ui/**'
+#      - 'packages/babel/**'
+#      - 'packages/web/**'
+#      - '.now/**'
 
 jobs:
   # DEPLOY WEB STAGING
