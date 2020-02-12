@@ -1,6 +1,13 @@
 import { takeLatest, all, put } from 'redux-saga/effects';
 
-import { signSuccess, signFailure, authenticateCodeSuccess, authenticateCodeFailure, types } from './actions';
+import {
+  signSuccess,
+  signFailure,
+  authenticateCodeRequest,
+  authenticateCodeSuccess,
+  authenticateCodeFailure,
+  types,
+} from './actions';
 
 export function* sign() {
   try {
@@ -14,7 +21,7 @@ export function* sign() {
   }
 }
 
-export function* authenticateCode({ payload }) {
+export function* authenticateCode({ payload }: ReturnType<typeof authenticateCodeRequest>) {
   try {
     const { code, router } = payload;
 

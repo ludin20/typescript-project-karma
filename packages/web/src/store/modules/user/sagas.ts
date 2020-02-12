@@ -1,8 +1,25 @@
 import { takeLatest, all, put } from 'redux-saga/effects';
 
-import { updateProfileSuccess, updateProfileFailure, types } from './actions';
+import {
+  createProfileRequest,
+  createProfileSuccess,
+  updateProfileRequest,
+  updateProfileSuccess,
+  profileFailure,
+  types,
+} from './actions';
 
-export function* updateProfile({ payload }) {
+export function* createProfile({ payload }: ReturnType<typeof createProfileRequest>) {
+  try {
+    const { data } = payload;
+
+    yield put(createProfileSuccess(data));
+  } catch (error) {
+    yield put(profileFailure());
+  }
+}
+
+export function* updateProfile({ payload }: ReturnType<typeof updateProfileRequest>) {
   try {
     const { name, ...rest } = payload.data;
 
@@ -13,8 +30,11 @@ export function* updateProfile({ payload }) {
 
     yield put(updateProfileSuccess(profile));
   } catch (error) {
-    yield put(updateProfileFailure());
+    yield put(profileFailure());
   }
 }
 
-export default all([takeLatest(types.UPDATE_PROFILE_REQUEST, updateProfile)]);
+export default all([
+  takeLatest(types.UPDATE_PROFILE_REQUEST, updateProfile),
+  takeLatest(types.CREATE_PROFILE_REQUEST, createProfile),
+]);

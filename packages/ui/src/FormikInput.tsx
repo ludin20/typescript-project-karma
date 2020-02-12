@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
+import { useField, useFormikContext } from 'formik';
 
 const Container = styled.div<Props>`
   border-radius: 4px;
@@ -96,10 +97,13 @@ export interface Props {
   numberOnly?: boolean;
   mask?: string;
   empty?: boolean;
+  name?: string;
 }
 
-const TextInput: React.FC<Props> = ({ onChange, multiline, ...props }) => {
+const FormikInput: React.FC<Props> = ({ onChange, multiline, name, ...props }) => {
   const [empty, setEmpty] = useState(true);
+  const [field] = useField(name);
+  const { setFieldValue } = useFormikContext<any>();
 
   const setValue = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -112,8 +116,10 @@ const TextInput: React.FC<Props> = ({ onChange, multiline, ...props }) => {
       if (onChange) {
         onChange(e.target.value);
       }
+
+      return setFieldValue(name, e.target.value);
     },
-    [onChange],
+    [name, onChange, setFieldValue],
   );
 
   return (
@@ -129,12 +135,14 @@ const TextInput: React.FC<Props> = ({ onChange, multiline, ...props }) => {
           type={!props.numberOnly ? 'text' : 'number'}
           placeholder={props.placeholder}
           onChange={e => setValue(e)}
+          name={name}
+          value={field.value}
         />
       ) : (
-        <textarea placeholder={props.placeholder} onChange={e => setValue(e)} rows={3} />
+        <textarea placeholder={props.placeholder} onChange={e => setValue(e)} rows={3} name={name} />
       )}
     </Container>
   );
 };
 
-export default TextInput;
+export default FormikInput;

@@ -7,7 +7,7 @@ const Container = styled.button<Props>`
   color: ${props => props.color || props.theme.white};
   padding: 5px 20px;
   border: ${props => (props.border ? '2px solid #fff' : 'none')};
-  border-radius: ${props => (props.radius === 'default' ? '8px' : '26px')};
+  border-radius: ${props => (props.radius === 'default' ? '8px' : '25px')};
   opacity: ${props => (!props.disabled ? '1' : '0.2')};
   cursor: ${props => (!props.disabled ? 'pointer' : 'not-allowed')};
   transition: all 0.2s;

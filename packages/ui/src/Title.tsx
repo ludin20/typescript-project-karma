@@ -1,30 +1,18 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import arrow from '../assets/arrow.svg';
 
-const Container = styled.div<{ toogled: boolean }>`
-  padding-bottom: 10px;
-  position: relative;
-
-  &::after {
-    content: '';
-    width: 50px;
-    height: 4px;
-    background: ${props => props.theme.green};
-    border-radius: 5px;
-
-    position: absolute;
-    bottom: 0;
-  }
-
+const Container = styled.div<{ toogled: boolean; size: 'default' | 'small'; bordered: boolean }>`
   display: flex;
   align-items: center;
 
   strong {
-    font-size: 30px;
+    font-size: ${props => (props.size === 'default' ? '30px' : '25px')};
+    font-weight: 600;
     color: #fff;
   }
+
   button {
     background: none;
     margin-left: 10px;
@@ -35,18 +23,38 @@ const Container = styled.div<{ toogled: boolean }>`
       transform: ${props => props.toogled && 'rotate(-90deg)'};
     }
   }
+
+  ${props =>
+    props.bordered &&
+    css`
+      padding-bottom: 10px;
+      position: relative;
+
+      &::after {
+        content: '';
+        width: 50px;
+        height: 4px;
+        background: ${props => props.theme.green};
+        border-radius: 5px;
+
+        position: absolute;
+        bottom: 0;
+      }
+    `}
 `;
 
 interface Props {
   children: React.ReactChild;
   withDropDown?: boolean;
+  bordered?: boolean;
+  size?: 'default' | 'small';
 }
 
-const Title: React.FC<Props> = ({ children, withDropDown }) => {
+const Title: React.FC<Props> = ({ children, withDropDown, bordered = true, size = 'default' }) => {
   const [toogled, setToogled] = useState(false);
 
   return (
-    <Container toogled={toogled}>
+    <Container toogled={toogled} bordered={bordered} size={size}>
       <strong>{children}</strong>
       {withDropDown && (
         <button onClick={() => setToogled(!toogled)}>
