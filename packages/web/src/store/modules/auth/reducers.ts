@@ -1,47 +1,63 @@
 import produce from 'immer';
 
-import { types } from './actions';
+import { types as userTypes } from '../user/actions';
+
+import { types as authTypes } from './actions';
+
+export interface AuthState {
+  token: string | null;
+  signed: boolean;
+  loading: boolean;
+  codeSent: boolean;
+  isNewUser: boolean;
+}
 
 const INITIAL_STATE = {
   token: null,
   signed: false,
   loading: false,
   codeSent: false,
+  isNewUser: true,
 };
 
 export default function auth(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case types.SIGN_REQUEST: {
+      case authTypes.SIGN_REQUEST: {
         draft.loading = true;
         break;
       }
-      case types.SIGN_SUCCESS: {
+      case authTypes.SIGN_SUCCESS: {
         draft.loading = false;
         draft.codeSent = true;
         break;
       }
-      case types.AUTHENTICATE_CODE_REQUEST: {
+      case authTypes.AUTHENTICATE_CODE_REQUEST: {
         draft.loading = true;
         break;
       }
-      case types.AUTHENTICATE_CODE_SUCCESS: {
+      case authTypes.AUTHENTICATE_CODE_SUCCESS: {
         draft.loading = false;
         draft.token = action.payload.token;
         break;
       }
-      case types.SIGN_OUT: {
+      case authTypes.SIGN_OUT: {
+        draft.token = null;
         draft.signed = false;
         draft.codeSent = false;
-        draft.token = null;
+        draft.isNewUser = true;
         break;
       }
-      case types.SIGN_FAILURE: {
+      case authTypes.SIGN_FAILURE: {
         draft.loading = false;
         break;
       }
-      case types.AUTHENTICATE_CODE_FAILURE: {
+      case authTypes.AUTHENTICATE_CODE_FAILURE: {
         draft.loading = false;
+        break;
+      }
+      case userTypes.CREATE_PROFILE_SUCCESS: {
+        draft.isNewUser = false;
         break;
       }
       default:

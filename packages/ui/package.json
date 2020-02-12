@@ -17,6 +17,7 @@
   "devDependencies": {
     "@storybook/addon-docs": "^5.3.11",
     "@storybook/addon-options": "5.3.0-rc.7",
-    "@storybook/react": "5.3.0-rc.7"
+    "@storybook/react": "5.3.0-rc.7",
+    "@types/styled-components": "^4.4.2"
   }
 }

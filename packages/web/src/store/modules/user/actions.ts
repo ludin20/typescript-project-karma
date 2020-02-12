@@ -1,8 +1,35 @@
 export const types = {
+  CREATE_PROFILE_REQUEST: '@user/CREATE_PROFILE_REQUEST',
+  CREATE_PROFILE_SUCCESS: '@user/CREATE_PROFILE_SUCCESS',
   UPDATE_PROFILE_REQUEST: '@user/UPDATE_PROFILE_REQUEST',
   UPDATE_PROFILE_SUCCESS: '@user/UPDATE_PROFILE_SUCCESS',
-  UPDATE_PROFILE_FAILURE: '@user/UPDATE_PROFILE_FAILURE',
+  PROFILE_FAILURE: '@user/PROFILE_FAILURE',
 };
+
+export interface ProfileProps {
+  name: string;
+  username: string;
+  bio: string;
+  website: string;
+}
+
+export function createProfileRequest(data: ProfileProps) {
+  return {
+    type: types.CREATE_PROFILE_REQUEST,
+    payload: {
+      data,
+    },
+  };
+}
+
+export function createProfileSuccess(user: ProfileProps) {
+  return {
+    type: types.CREATE_PROFILE_SUCCESS,
+    payload: {
+      user,
+    },
+  };
+}
 
 export function updateProfileRequest(data) {
   return {
@@ -21,8 +48,9 @@ export function updateProfileSuccess(user) {
     },
   };
 }
-export function updateProfileFailure() {
+
+export function profileFailure() {
   return {
-    type: types.UPDATE_PROFILE_FAILURE,
+    type: types.PROFILE_FAILURE,
   };
 }
