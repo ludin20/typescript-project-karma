@@ -25,7 +25,7 @@ const theme = {
   dark: '#20252E',
   black: '#191A19',
   blue: '#33375D',
-  gray: '#757676',
+  gray: '#B1B1B1;',
   pink: '#f9c6ce',
   warning: '#EF3D52',
 };

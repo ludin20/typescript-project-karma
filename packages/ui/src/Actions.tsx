@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import heart from '../../assets/heart.svg';
-import comment from '../../assets/comment.svg';
-import retweet from '../../assets/retweet.svg';
-import rocket from '../../assets/rocket.svg';
-import share from '../../assets/share.svg';
+import heart from '../assets/withoulike.svg';
+import comment from '../assets/comment.svg';
+import retweet from '../assets/retweet.svg';
+import rocket from '../assets/rocket.svg';
+import share from '../assets/share.svg';
 
 const Container = styled.div`
   margin-left: 60px;
@@ -17,7 +17,7 @@ const Container = styled.div`
     background: none;
     color: #fff;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 600;
 
     display: flex;
     align-items: center;
@@ -44,9 +44,9 @@ interface Props {
   item2: string | number;
 }
 
-const PostActions: React.FC<Props> = ({ likes, comments, reTweets, item, item2 }) => {
+const Actions: React.FC<Props> = ({ likes, comments, reTweets, item, item2, ...props }) => {
   return (
-    <Container>
+    <Container {...props}>
       <button>
         <img src={heart} alt="like" />
         {likes} Likes
@@ -79,4 +79,4 @@ const PostActions: React.FC<Props> = ({ likes, comments, reTweets, item, item2 }
   );
 };
 
-export default PostActions;
+export default Actions;

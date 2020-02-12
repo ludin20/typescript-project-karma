@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FollowButton, ProfileImage } from '@karma/ui';
+import { FollowButton, ProfileImage, Actions } from '@karma/ui';
 
 import PostContent from './PostContent';
-import PostActions from './PostActions';
 
 const Container = styled.li`
   & + li {
@@ -57,7 +56,7 @@ const PostCard: React.FC = ({ id, date, likes, comments, reTweets, item, item2, 
       </header>
 
       <PostContent content={content} />
-      <PostActions likes={likes} comments={comments} reTweets={reTweets} item={item} item2={item2} />
+      <Actions likes={likes} comments={comments} reTweets={reTweets} item={item} item2={item2} />
     </Container>
   );
 };

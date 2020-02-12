@@ -12,6 +12,8 @@ import Title from './src/Title';
 import ProfileImage from './src/ProfileImage';
 import FollowButton from './src/FollowButton';
 import CreateProfile from './src/CreateProfile';
+import Tabs from './src/Tabs';
+import Actions from './src/Actions';
 
 export {
   theme,
@@ -28,4 +30,6 @@ export {
   ProfileImage,
   FollowButton,
   CreateProfile,
+  Tabs,
+  Actions,
 };
