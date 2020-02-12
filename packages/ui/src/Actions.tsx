@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import heart from '../assets/withoulike.svg';
 import comment from '../assets/comment.svg';
 import retweet from '../assets/retweet.svg';
+import tip from '../assets/tip.png';
 import rocket from '../assets/rocket.svg';
 import share from '../assets/share.svg';
 
@@ -63,7 +64,7 @@ const Actions: React.FC<Props> = ({ likes, comments, reTweets, item, item2, ...p
       </button>
 
       <button>
-        {/* <img src={item} alt="item" /> */}
+        <img src={tip} alt="tip" />
         {item}
       </button>
 
