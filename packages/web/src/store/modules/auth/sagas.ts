@@ -29,8 +29,13 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
       console.log('code authenticated', code); //eslint-disable-line no-console
     }, 1000);
 
-    yield put(authenticateCodeSuccess('12345', {}));
-    router.push('/home');
+    if (code !== '123456') throw new Error();
+
+    yield put(authenticateCodeSuccess('123456', {}));
+
+    if (process.env.NODE_ENV !== 'test') {
+      router.push('/home');
+    }
   } catch (error) {
     yield put(authenticateCodeFailure());
   }

@@ -13,6 +13,8 @@ export function* createProfile({ payload }: ReturnType<typeof createProfileReque
   try {
     const { data } = payload;
 
+    if (!data) throw new Error();
+
     yield put(createProfileSuccess(data));
   } catch (error) {
     yield put(profileFailure());
@@ -21,14 +23,11 @@ export function* createProfile({ payload }: ReturnType<typeof createProfileReque
 
 export function* updateProfile({ payload }: ReturnType<typeof updateProfileRequest>) {
   try {
-    const { name, ...rest } = payload.data;
+    const { data } = payload;
 
-    const profile = {
-      name,
-      ...(rest.oldPassword ? rest : {}),
-    };
+    if (!data) throw new Error();
 
-    yield put(updateProfileSuccess(profile));
+    yield put(updateProfileSuccess(data));
   } catch (error) {
     yield put(profileFailure());
   }

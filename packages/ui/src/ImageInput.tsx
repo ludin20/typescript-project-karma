@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
 
+import { useField, useFormikContext } from 'formik';
+
 import camera from '../assets/camera.svg';
 
 const Container = styled.div`
@@ -48,25 +50,37 @@ const WithPreview = styled.div`
   }
 `;
 
-const ImageInput: React.FC = () => {
-  const [file, setFile] = useState(null);
+interface Props {
+  name: string;
+}
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
-    onDrop: acceptedFiles => {
-      setFile(
-        Object.assign(acceptedFiles[0], {
-          preview: URL.createObjectURL(acceptedFiles[0]),
-        }),
-      );
-    },
-  });
+const ImageInput: React.FC<Props> = ({ name }) => {
+  const [file, setFile] = useState(null);
+  const [field] = useField(name);
+  const { setFieldValue } = useFormikContext<any>();
+
+  const onDrop = acceptedFiles => {
+    setFile(
+      Object.assign(acceptedFiles[0], {
+        preview: URL.createObjectURL(acceptedFiles[0]),
+      }),
+    );
+
+    setFieldValue(
+      name,
+      Object.assign(acceptedFiles[0], {
+        preview: URL.createObjectURL(acceptedFiles[0]),
+      }),
+    );
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({ accept: 'image/*', onDrop });
 
   return (
     <Container {...getRootProps()}>
       {!file ? (
         <>
-          <input {...getInputProps()} />
+          <input {...getInputProps()} name={name} />
           <img src={camera} alt="Profile image" />
         </>
       ) : (
@@ -74,7 +88,7 @@ const ImageInput: React.FC = () => {
           <img src={file.preview} />
 
           <div>
-            <input {...getInputProps()} />
+            <input {...getInputProps()} name={name} />
             <img src={camera} alt="Profile image" />
           </div>
         </WithPreview>

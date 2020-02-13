@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import Logo from '../Logo';
 
-import ProfileInfo from './ProfileInfo';
+import withoutAvatar from '../../assets/withoutAvatar.svg';
+
 import SidebarNav from './SidebarNav';
 
 const Container = styled.div<Props>`
@@ -37,8 +38,8 @@ const Container = styled.div<Props>`
       align-items: center;
 
       > img {
-        width: 75px;
-        height: 75px;
+        width: ${props => (props.withAvatar ? '75px' : '50px')};
+        height: ${props => (props.withAvatar ? '75px' : ' 50px')};
         border-radius: 50%;
       }
     }
@@ -59,7 +60,7 @@ const Container = styled.div<Props>`
 `;
 
 export interface ProfileProps {
-  imageUrl: string;
+  avatar?: string;
   name: string;
   username: string;
   followers: string | number;
@@ -72,25 +73,35 @@ interface Props {
   setCollapsed: (value: boolean) => void;
   profile: ProfileProps;
   signOut: any;
+  withAvatar?: boolean;
 }
 
 const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed, profile, signOut }) => {
   if (!profile) return <div />;
 
   return (
-    <Container collapsed={collapsed}>
+    <Container
+      collapsed={collapsed}
+      setCollapsed={setCollapsed}
+      profile={profile}
+      signOut={signOut}
+      withAvatar={!!profile.avatar}
+    >
       <Logo size="small" />
       <header>
         <div>
-          <img src={profile.imageUrl} alt={profile.name} />
+          <img src={profile.avatar || withoutAvatar} alt={profile.name} />
         </div>
         <strong>{profile.name}</strong>
         <span>{profile.username}</span>
       </header>
 
-      <ProfileInfo profile={profile} />
-
-      <SidebarNav profileImage={profile.imageUrl} setCollapsed={setCollapsed} collapsed={collapsed} signOut={signOut} />
+      <SidebarNav
+        profileImage={profile.avatar || withoutAvatar}
+        setCollapsed={setCollapsed}
+        collapsed={collapsed}
+        signOut={signOut}
+      />
     </Container>
   );
 };

@@ -12,7 +12,7 @@ export interface AuthState {
   isNewUser: boolean;
 }
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   token: null,
   signed: false,
   loading: false,
@@ -33,10 +33,12 @@ export default function auth(state = INITIAL_STATE, action) {
         break;
       }
       case authTypes.AUTHENTICATE_CODE_REQUEST: {
+        draft.codeSent = true;
         draft.loading = true;
         break;
       }
       case authTypes.AUTHENTICATE_CODE_SUCCESS: {
+        draft.signed = true;
         draft.loading = false;
         draft.token = action.payload.token;
         break;
@@ -49,10 +51,12 @@ export default function auth(state = INITIAL_STATE, action) {
         break;
       }
       case authTypes.SIGN_FAILURE: {
+        draft.codeSent = false;
         draft.loading = false;
         break;
       }
       case authTypes.AUTHENTICATE_CODE_FAILURE: {
+        draft.codeSent = false;
         draft.loading = false;
         break;
       }

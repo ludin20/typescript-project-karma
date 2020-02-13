@@ -2,15 +2,25 @@ import produce from 'immer';
 
 import { types as authTypes } from '../auth/actions';
 
-import { types as userTypes } from './actions';
+import { types as userTypes, ProfileProps } from './actions';
 
 export interface UserState {
-  profile: {};
+  profile: ProfileProps;
   loading: boolean;
 }
 
-const INITIAL_STATE = {
-  profile: {},
+export const defaultProfile: ProfileProps = {
+  name: 'Full Name',
+  username: '@username',
+  bio: '',
+  followers: 0,
+  power: 0,
+  following: 0,
+  website: '',
+};
+
+export const INITIAL_STATE: UserState = {
+  profile: defaultProfile,
   loading: false,
 };
 
@@ -22,7 +32,7 @@ export default function user(state = INITIAL_STATE, action) {
         break;
       }
       case authTypes.SIGN_OUT: {
-        draft.profile = {};
+        draft.profile = defaultProfile;
         break;
       }
       case userTypes.CREATE_PROFILE_REQUEST: {
