@@ -7,19 +7,40 @@ export const types = {
 };
 
 export interface ProfileProps {
+  avatar?: string | File;
   name: string;
   username: string;
   bio: string;
   website: string;
+  followers?: string | number;
+  power?: string | number;
+  following?: string | number;
 }
 
 export function createProfileRequest(data: ProfileProps) {
-  return {
-    type: types.CREATE_PROFILE_REQUEST,
-    payload: {
-      data,
-    },
-  };
+  const { avatar } = data;
+
+  if (typeof avatar === 'string' || !avatar) {
+    return {
+      type: types.CREATE_PROFILE_REQUEST,
+      payload: {
+        data: {
+          ...data,
+          avatar,
+        },
+      },
+    };
+  } else {
+    return {
+      type: types.CREATE_PROFILE_REQUEST,
+      payload: {
+        data: {
+          ...data,
+          avatar: avatar.preview,
+        },
+      },
+    };
+  }
 }
 
 export function createProfileSuccess(user: ProfileProps) {
