@@ -35,7 +35,7 @@ const CreateProfile: React.FC<Props> = ({ open, close, formik }) => {
       <Space height={35} />
 
       <Header>
-        <ImageInput />
+        <ImageInput name="avatar" />
         <Input label="Name" name="name" placeholder="Enter Name" required bordered />
       </Header>
       <Space height={25} />

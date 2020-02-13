@@ -3,7 +3,10 @@ import styled from 'styled-components';
 
 import { Sidebar, Header, Aside } from '@karma/ui';
 
+import { useSelector } from 'react-redux';
+
 import { signOut } from '../../store/modules/auth/actions';
+import { RootState } from '../../store/modules/rootReducer';
 
 const Wrapper = styled.div`
   background: ${props => props.theme.black};
@@ -28,7 +31,7 @@ const Container = styled.div<{ collapsed: boolean }>`
 
 const Content = styled.div`
   width: 100%;
-  max-width: 640px;
+  max-width: 630px;
   padding: 30px 0 0;
 `;
 
@@ -38,22 +41,11 @@ interface Props {
 
 const Layout: React.FC<Props> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const profile = useSelector((state: RootState) => state.user.profile);
 
   return (
     <Wrapper>
-      <Sidebar
-        profile={{
-          imageUrl: `https://api.adorable.io/avatars/100/storybook`,
-          name: 'storybook story',
-          username: '@storybook',
-          followers: '2.9k',
-          power: '1.3m',
-          following: '397',
-        }}
-        collapsed={collapsed}
-        setCollapsed={setCollapsed}
-        signOut={signOut}
-      />
+      <Sidebar profile={profile} collapsed={collapsed} setCollapsed={setCollapsed} signOut={signOut} />
 
       <Container collapsed={collapsed}>
         <Header />

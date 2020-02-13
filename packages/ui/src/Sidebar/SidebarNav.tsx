@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import styled, { css } from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import home from '../../assets/home.svg';
@@ -9,10 +9,11 @@ import activity from '../../assets/activity.svg';
 import wallet from '../../assets/wallet.svg';
 import logout from '../../assets/logout.svg';
 import arrow from '../../assets/arrow.svg';
+import referAndEarn from '../../assets/referAndEarn.svg';
 
 const Container = styled.nav`
   width: 100%;
-  margin-top: 25px;
+  margin-top: 5px;
   padding-left: 35px;
 
   display: flex;
@@ -72,13 +73,13 @@ const Link = styled.button<{ selected: boolean }>`
     margin-right: 20px;
   }
 
-  &:nth-child(5) {
+  &:nth-child(6) {
     img {
       border-radius: 50%;
     }
   }
 
-  &:nth-child(7) {
+  &:nth-child(8) {
     margin-top: 0;
   }
 
@@ -101,6 +102,7 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ..
   const router = useRouter();
 
   const dispatch = useDispatch();
+  const notifications = useSelector(state => state.activity.notifications);
 
   const selected = useMemo(() => {
     return router.pathname.replace('/', '');
@@ -130,12 +132,18 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ..
           <img src={activity} alt="Activity" />
           Activity
         </div>
-        <span>17</span>
+        <span>{notifications}</span>
       </Link>
       <Link onClick={() => router.push('/wallet')} selected={selected.includes('wallet')}>
         <div>
           <img src={wallet} alt="Wallet" />
           Wallet
+        </div>
+      </Link>
+      <Link onClick={() => router.push('/referAndEarn')} selected={selected.includes('referAndEarn')}>
+        <div>
+          <img src={referAndEarn} alt="Refer and Earn" />
+          Refer & Earn
         </div>
       </Link>
       <Link onClick={() => router.push('/profile')} selected={selected.includes('profile')}>
