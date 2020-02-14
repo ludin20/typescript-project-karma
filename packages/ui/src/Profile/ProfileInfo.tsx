@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Button from '../Button';
 
 import verified from '../../assets/verified.png';
+import powerIcon from '../../assets/power.svg';
 
 const Container = styled.div`
   > header {
@@ -72,10 +73,21 @@ const Container = styled.div`
   }
 `;
 
-const Actions = styled.div``;
+const Actions = styled.div`
+  display: flex;
+`;
 
 const ActionsButton = styled(Button)`
-  font-weight: 600;
+  font-weight: 900;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 16px;
+    margin-right: 5px;
+  }
 
   &:first-child {
     box-shadow: 0px 3px 50px #00000034;
@@ -97,7 +109,7 @@ interface Props {
 }
 
 const ProfileInfo: React.FC<Props> = ({ name, username, isVerified, power, website, handleModal, ...props }) => {
-  const bio = props.bio.split('\n');
+  const bio = props.bio ? props.bio.split('\n') : [];
 
   return (
     <Container {...props}>
@@ -116,6 +128,7 @@ const ProfileInfo: React.FC<Props> = ({ name, username, isVerified, power, websi
 
         <Actions>
           <ActionsButton background="dark" radius="rounded" color={'#26CC8B'}>
+            <img src={powerIcon} alt="power" />
             {power} Power
           </ActionsButton>
 
@@ -125,7 +138,7 @@ const ProfileInfo: React.FC<Props> = ({ name, username, isVerified, power, websi
         </Actions>
       </header>
 
-      {bio.length > 1 && (
+      {bio.length > 0 && (
         <p>
           {bio.map(line => (
             <>

@@ -5,6 +5,7 @@ import Button from './Button';
 
 const Container = styled(Button)`
   font-size: 14px;
+  font-weight: 900;
 `;
 
 interface Props {

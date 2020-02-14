@@ -21,7 +21,7 @@ const Input = styled(TextInput)`
 const SubmitButton = styled(Button)`
   height: 50px;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 900;
 `;
 
 const UpdateProfile: React.FC<Props> = ({ open, close, formik }) => {

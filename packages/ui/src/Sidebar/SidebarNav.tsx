@@ -52,7 +52,7 @@ const Link = styled.button<{ selected: boolean }>`
   background: none;
   color: #fff;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 900;
   margin-top: 30px;
   padding-right: 20px;
   opacity: 0.4;

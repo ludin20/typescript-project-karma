@@ -9,7 +9,7 @@ const Container = styled.div<{ toogled: boolean; size: 'default' | 'small'; bord
 
   strong {
     font-size: ${props => (props.size === 'default' ? '30px' : '25px')};
-    font-weight: 600;
+    font-weight: 900;
     color: #fff;
   }
 

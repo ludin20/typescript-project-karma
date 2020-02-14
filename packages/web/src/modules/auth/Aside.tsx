@@ -16,6 +16,7 @@ const Container = styled.div`
 
   p {
     margin-top: 20px;
+    font-family: Montserrat, sans-serif;
 
     &:first-child,
     &:nth-child(3) {
