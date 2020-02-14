@@ -39,7 +39,7 @@ const Container = styled.div`
     color: #fff;
     padding: 10px 15px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 900;
     box-shadow: 0px 3px 25px #26cc8b80;
     border-radius: 90px;
 

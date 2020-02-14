@@ -37,7 +37,7 @@ const Container = styled.div`
       span {
         color: ${props => props.theme.gray};
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 900;
       }
     }
   }

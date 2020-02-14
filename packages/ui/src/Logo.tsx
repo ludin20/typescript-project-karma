@@ -11,6 +11,7 @@ const Container = styled.div<Props>`
   strong {
     color: #fff;
     font-size: 30px;
+    font-family: Montserrat, sans-serif;
     margin-left: 10px;
   }
 

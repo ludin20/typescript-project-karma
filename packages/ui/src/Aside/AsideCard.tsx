@@ -40,7 +40,7 @@ const Container = styled.div<{ toogled: boolean }>`
     background: #000;
     color: #fff;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 900;
     padding: 15px 0;
     box-shadow: 0 3px 6px #00000029;
     border-radius: 0 0 25px 25px;

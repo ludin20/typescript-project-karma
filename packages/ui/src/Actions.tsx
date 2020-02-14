@@ -18,7 +18,7 @@ const Container = styled.div`
     background: none;
     color: #fff;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 900;
 
     display: flex;
     align-items: center;

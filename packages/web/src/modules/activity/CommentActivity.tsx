@@ -19,7 +19,7 @@ const Container = styled.div`
     color: ${props => props.theme.gray};
     font-size: 14px;
     line-height: 22px;
-    font-weight: 600;
+    font-weight: 900;
     margin: 5px 0 0 95px;
   }
 
@@ -45,7 +45,7 @@ const Container = styled.div`
     span {
       color: ${props => props.theme.gray};
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 900;
     }
   }
 `;

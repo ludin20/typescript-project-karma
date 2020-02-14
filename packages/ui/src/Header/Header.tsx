@@ -5,6 +5,8 @@ import SearchBar from './SearchBar';
 import Actions from './Actions';
 
 const Container = styled.div`
+  height: 50px;
+
   display: flex;
   flex-direction: row;
   justify-content: space-between;

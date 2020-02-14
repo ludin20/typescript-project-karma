@@ -34,7 +34,7 @@ const Container = styled.div`
         margin-left: 10px;
         color: ${props => props.theme.gray};
         font-size: 14px;
-        font-weight: 600;
+        font-weight: 900;
       }
     }
   }

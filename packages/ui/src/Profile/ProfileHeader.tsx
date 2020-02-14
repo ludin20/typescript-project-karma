@@ -20,7 +20,7 @@ const Container = styled.div`
       align-items: center;
 
       strong {
-        font-weight: 600;
+        font-weight: 900;
         font-size: 25px;
       }
 

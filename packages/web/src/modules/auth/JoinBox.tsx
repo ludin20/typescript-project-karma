@@ -8,6 +8,7 @@ import { PhoneInput, CodeInput, Button } from '@karma/ui';
 import smartphone from '../../assets/smartphone.svg';
 
 import { signRequest, authenticateCodeRequest } from '../../store/modules/auth/actions';
+import { RootState } from '../../store/modules/rootReducer';
 
 const Container = styled.form`
   width: 400px;
@@ -46,7 +47,6 @@ const Container = styled.form`
     span {
       color: #fff;
       font-size: 18px;
-      font-weight: 500;
       margin-left: 15px;
     }
 
@@ -59,10 +59,14 @@ const Container = styled.form`
     width: 100%;
     margin: 15px 0 30px;
 
+    &:first-child {
+      margin: 0 0 10px;
+      text-align: center;
+    }
+
     span {
       color: #fff;
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 14px;
       line-height: 18px;
     }
 
@@ -76,6 +80,8 @@ const Container = styled.form`
 const SubmitButton = styled(Button)`
   width: 100%;
   padding: 15px 0;
+  font-size: 20px;
+  font-weight: 900;
 `;
 
 const JoinBox: React.FC = () => {
@@ -85,8 +91,8 @@ const JoinBox: React.FC = () => {
   const router = useRouter();
 
   const dispatch = useDispatch();
-  const codeSent = useSelector(state => state.auth.codeSent);
-  const loading = useSelector(state => state.auth.loading);
+  const codeSent = useSelector((state: RootState) => state.auth.codeSent);
+  const loading = useSelector((state: RootState) => state.auth.loading);
 
   const sendCode = useCallback(
     e => {
@@ -119,7 +125,7 @@ const JoinBox: React.FC = () => {
       </section>
 
       {!codeSent ? (
-        <PhoneInput placeholder="Enter number here" onChange={setNumber} />
+        <PhoneInput placeholder="Enter number here" onChange={setNumber} value={number} />
       ) : (
         <CodeInput code={code} onChange={setCode} />
       )}

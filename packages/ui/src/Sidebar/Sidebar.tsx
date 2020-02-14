@@ -32,6 +32,7 @@ const Container = styled.div<Props>`
       margin: 20px 0 15px;
       border-radius: 50%;
       border: ${props => `4px solid ${props.theme.green}`};
+      box-shadow: 1px 1px 4px #26cc8b;
 
       display: flex;
       justify-content: center;
@@ -46,7 +47,8 @@ const Container = styled.div<Props>`
 
     strong {
       color: #fff;
-      font-weight: 600;
+      font-weight: 900;
+      font-family: Montserrat, sans-serif;
       font-size: 22px;
     }
 
