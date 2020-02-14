@@ -1,3 +1,5 @@
+import returnAvatarUrl from '../../util/returnAvatarUrl';
+
 export const types = {
   CREATE_PROFILE_REQUEST: '@user/CREATE_PROFILE_REQUEST',
   CREATE_PROFILE_SUCCESS: '@user/CREATE_PROFILE_SUCCESS',
@@ -15,32 +17,22 @@ export interface ProfileProps {
   followers?: string | number;
   power?: string | number;
   following?: string | number;
+  posts?: string | number;
+  isVerified?: boolean;
 }
 
 export function createProfileRequest(data: ProfileProps) {
   const { avatar } = data;
 
-  if (typeof avatar === 'string' || !avatar) {
-    return {
-      type: types.CREATE_PROFILE_REQUEST,
-      payload: {
-        data: {
-          ...data,
-          avatar,
-        },
+  return {
+    type: types.CREATE_PROFILE_REQUEST,
+    payload: {
+      data: {
+        ...data,
+        avatar: returnAvatarUrl(avatar),
       },
-    };
-  } else {
-    return {
-      type: types.CREATE_PROFILE_REQUEST,
-      payload: {
-        data: {
-          ...data,
-          avatar: avatar.preview,
-        },
-      },
-    };
-  }
+    },
+  };
 }
 
 export function createProfileSuccess(user: ProfileProps) {
@@ -53,10 +45,15 @@ export function createProfileSuccess(user: ProfileProps) {
 }
 
 export function updateProfileRequest(data) {
+  const { avatar } = data;
+
   return {
     type: types.UPDATE_PROFILE_REQUEST,
     payload: {
-      data,
+      data: {
+        ...data,
+        avatar: returnAvatarUrl(avatar),
+      },
     },
   };
 }

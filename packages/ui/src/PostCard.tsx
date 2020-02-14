@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FollowButton, ProfileImage, Actions } from '@karma/ui';
+
+import { FollowButton, ProfileImage, Actions } from '../index';
+
+import withoutAvatar from '../assets/withoutAvatar.svg';
 
 import PostContent from './PostContent';
 
@@ -38,12 +41,16 @@ const Container = styled.li`
   }
 `;
 
-const PostCard: React.FC = ({ id, date, likes, comments, reTweets, item, item2, content, author }: any) => {
+const PostCard: React.FC = ({ id, date, likes, comments, reTweets, item, item2, content, author, me, size }: any) => {
   return (
     <Container key={id}>
       <header>
         <div>
-          <ProfileImage online={author.online} path={author.imageUrl} alt={author.name} />
+          <ProfileImage
+            online={author.online || false}
+            path={author.imageUrl || author.avatar || withoutAvatar}
+            alt={author.name}
+          />
           <section>
             <strong>{author.name}</strong>
             <span>
@@ -52,10 +59,10 @@ const PostCard: React.FC = ({ id, date, likes, comments, reTweets, item, item2, 
           </section>
         </div>
 
-        <FollowButton following={author.following} />
+        {!me && <FollowButton following={author.following} />}
       </header>
 
-      <PostContent content={content} />
+      <PostContent content={content} size={size} />
       <Actions likes={likes} comments={comments} reTweets={reTweets} item={item} item2={item2} />
     </Container>
   );

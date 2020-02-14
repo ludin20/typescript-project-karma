@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
 
@@ -58,6 +58,12 @@ const ImageInput: React.FC<Props> = ({ name }) => {
   const [file, setFile] = useState(null);
   const [field] = useField(name);
   const { setFieldValue } = useFormikContext<any>();
+
+  useEffect(() => {
+    if (field.value) {
+      setFile({ ...file, preview: field.value });
+    }
+  }, []); //eslint-disable-line
 
   const onDrop = acceptedFiles => {
     setFile(

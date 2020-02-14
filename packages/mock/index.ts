@@ -8,6 +8,12 @@ import d7 from './assets/d7.png';
 import d8 from './assets/d8.png';
 import d9 from './assets/d9.png';
 import recycle from './assets/recycle.png';
+import p1 from './assets/p1.png';
+import p2 from './assets/p2.png';
+import p3 from './assets/p3.png';
+import p4 from './assets/p4.png';
+import p5 from './assets/p5.png';
+import p6 from './assets/p6.png';
 
 export const discover = [
   {
@@ -103,6 +109,66 @@ export const activities = [
     item2: '6,500',
     post: {
       image: recycle,
+    },
+  },
+];
+
+export const posts = [
+  {
+    id: 1,
+    type: 'media',
+    image: p1,
+  },
+  {
+    id: 2,
+    type: 'media',
+    image: p2,
+  },
+  {
+    id: 3,
+    type: 'media',
+    image: p3,
+  },
+  {
+    id: 4,
+    type: 'media',
+    image: p4,
+  },
+  {
+    id: 5,
+    type: 'media',
+    image: p5,
+  },
+  {
+    id: 6,
+    type: 'media',
+    image: p6,
+  },
+  {
+    id: 7,
+    type: 'thought',
+    date: '3m',
+    likes: 536,
+    comments: 36,
+    recycles: 22,
+    tips: 175,
+    power: '6,500',
+    content: {
+      description: 'Momentum is a secret of the universe. ',
+      hashtags: ['#studynumbers'],
+    },
+  },
+  {
+    id: 8,
+    type: 'thought',
+    date: '3m',
+    likes: 229,
+    comments: 17,
+    recycles: 8,
+    tips: 650,
+    power: '9,250',
+    content: {
+      description: 'What day should we have the KARMA meetup in LA?',
     },
   },
 ];

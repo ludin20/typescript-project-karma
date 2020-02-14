@@ -13,14 +13,13 @@ const Container = styled.button<Props>`
   transition: all 0.2s;
 `;
 
-interface Props {
+interface Props extends React.ButtonHTMLAttributes<any> {
   background?: 'green' | 'darkGradient' | 'lightGradient' | 'dark' | 'lightGreen';
   color?: string;
   radius?: 'default' | 'rounded';
   disabled?: boolean;
   loading?: boolean;
   border?: boolean;
-  children: React.ReactChild;
   css?: React.CSSProperties;
   type?: 'button' | 'submit' | 'reset';
 }

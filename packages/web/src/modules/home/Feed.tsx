@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Title } from '@karma/ui';
+import { Title, PostCard } from '@karma/ui';
 
 import Layout from '../layout/Layout';
 
 import Posts from './Posts';
-import PostCard from './PostCard';
 
 const Container = styled.div``;
 
