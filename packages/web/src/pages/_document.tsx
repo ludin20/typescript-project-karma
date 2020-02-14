@@ -92,9 +92,9 @@ export default class MyDocument extends Document {
           <title>Karma</title>
           <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap" rel="stylesheet" />
           {this.props.styleTags}
+          <GlobalStyle />
         </Head>
         <body>
-          <GlobalStyle />
           <Main />
           <NextScript />
         </body>
