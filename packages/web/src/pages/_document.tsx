@@ -1,8 +1,6 @@
 import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
-import { ServerStyleSheet, createGlobalStyle } from 'styled-components';
-
-//fonts don't load correctly without createGlobalStyle
+import { ServerStyleSheet } from 'styled-components';
 
 export default class MyDocument extends Document {
   static async getInitialProps({ renderPage }) {
