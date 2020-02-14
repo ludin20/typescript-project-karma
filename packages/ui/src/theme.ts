@@ -9,6 +9,7 @@ declare module 'styled-components' {
     dark: string;
     black: string;
     blue: string;
+    lightBlue: string;
     gray: string;
     pink: string;
     warning: string;
@@ -25,6 +26,7 @@ const theme = {
   dark: '#20252E',
   black: '#191A19',
   blue: '#33375D',
+  lightBlue: '#C7D9FF',
   gray: '#B1B1B1;',
   pink: '#f9c6ce',
   warning: '#EF3D52',

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import TitleWithTabs from './TitleWithTabs';
+import TabHeader from './TabHeader';
 
 const Container = styled.div`
   margin-top: 30px;
@@ -13,7 +14,7 @@ export interface TabInterface {
 }
 
 interface Props {
-  title: string;
+  title?: string;
   tabs: TabInterface[];
 }
 
@@ -22,9 +23,13 @@ const Tabs: React.FC<Props> = ({ title, tabs }) => {
 
   return (
     <>
-      <TitleWithTabs tabs={tabs} setActive={setActive} active={active}>
-        {title}
-      </TitleWithTabs>
+      {title ? (
+        <TitleWithTabs tabs={tabs} setActive={setActive} active={active}>
+          {title}
+        </TitleWithTabs>
+      ) : (
+        <TabHeader tabs={tabs} setActive={setActive} active={active} />
+      )}
       <Container>{tabs[active].render({})}</Container>
     </>
   );

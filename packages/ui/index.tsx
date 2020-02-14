@@ -14,6 +14,8 @@ import FollowButton from './src/FollowButton';
 import CreateProfile from './src/CreateProfile';
 import Tabs from './src/Tabs';
 import Actions from './src/Actions';
+import ProfileContainer from './src/Profile/Profile';
+import PostCard from './src/PostCard';
 
 export {
   theme,
@@ -32,4 +34,6 @@ export {
   CreateProfile,
   Tabs,
   Actions,
+  ProfileContainer,
+  PostCard,
 };

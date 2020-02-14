@@ -1,3 +1,5 @@
+import { triggerAsyncId } from 'async_hooks';
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
@@ -44,6 +46,7 @@ export default function Home() {
       bio: '',
       website: '',
     },
+    validateOnMount: true,
     validationSchema: Yup.object().shape({
       name: Yup.string().required('Name is required'),
       username: Yup.string().required('Username is required'),

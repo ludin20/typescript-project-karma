@@ -17,6 +17,8 @@ export const defaultProfile: ProfileProps = {
   power: 0,
   following: 0,
   website: '',
+  posts: 0,
+  isVerified: false,
 };
 
 export const INITIAL_STATE: UserState = {
@@ -40,7 +42,7 @@ export default function user(state = INITIAL_STATE, action) {
         break;
       }
       case userTypes.CREATE_PROFILE_SUCCESS: {
-        draft.profile = action.payload.user;
+        draft.profile = { ...defaultProfile, ...action.payload.user };
         draft.loading = false;
         break;
       }
@@ -49,7 +51,7 @@ export default function user(state = INITIAL_STATE, action) {
         break;
       }
       case userTypes.UPDATE_PROFILE_SUCCESS: {
-        draft.profile = action.payload.user;
+        draft.profile = { ...defaultProfile, ...action.payload.user };
         draft.loading = false;
         break;
       }
