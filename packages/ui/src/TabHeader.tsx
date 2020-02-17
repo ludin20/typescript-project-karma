@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 import { TabInterface } from './Tabs';
 
@@ -29,10 +30,27 @@ interface Props {
 }
 
 const TabHeader: React.FC<Props> = ({ tabs, active, setActive }) => {
+  const router = useRouter();
+
+  const [_, route] = router.pathname.split('/');
+
+  const handleClick = (index: number) => {
+    setActive(index);
+    pushToRoute(index);
+  };
+
+  const pushToRoute = (index: number) => {
+    router.push(
+      `/${route}/?tab=${tabs[index].name.toLocaleLowerCase()}`,
+      `/${route}/${tabs[index].name.toLocaleLowerCase()}`,
+      { shallow: true },
+    );
+  };
+
   return (
     <Container>
       {tabs.map((tab, index) => (
-        <Button key={index} onClick={() => setActive(index)} active={active === index}>
+        <Button key={index} onClick={() => handleClick(index)} active={active === index}>
           {tab.name}
         </Button>
       ))}

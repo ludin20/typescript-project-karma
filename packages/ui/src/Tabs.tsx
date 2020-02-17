@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
+
+import { useRouter } from 'next/router';
 
 import TitleWithTabs from './TitleWithTabs';
 import TabHeader from './TabHeader';
@@ -15,11 +17,19 @@ export interface TabInterface {
 
 interface Props {
   title?: string;
+  paramTab?: string;
   tabs: TabInterface[];
 }
 
-const Tabs: React.FC<Props> = ({ title, tabs }) => {
+const Tabs: React.FC<Props> = ({ title, tabs, paramTab }) => {
   const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (paramTab) {
+      const firstTab = tabs.findIndex(tab => tab.name.toLowerCase() === paramTab);
+      setActive(firstTab);
+    }
+  }, []); //eslint-disable-line
 
   return (
     <>

@@ -20,7 +20,7 @@ interface Props {
 const Popular: React.FC<Props> = () => {
   return (
     <Container>
-      {discover.reverse().map(item => (
+      {discover.map(item => (
         <img key={item.id} src={item.image} alt="popular" />
       ))}
     </Container>

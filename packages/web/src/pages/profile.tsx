@@ -10,7 +10,11 @@ import Layout from '../modules/layout/Layout';
 import { ProfileProps, updateProfileRequest } from '../store/modules/user/actions';
 import { RootState } from '../store/modules/rootReducer';
 
-const Profile: React.FC = () => {
+interface Props {
+  tab: string;
+}
+
+const Profile: React.FC<Props> = ({ tab }) => {
   const dispatch = useDispatch();
   const profile = useSelector((state: RootState) => state.user.profile);
 
@@ -37,9 +41,15 @@ const Profile: React.FC = () => {
 
   return (
     <Layout>
-      <ProfileContainer posts={posts} profile={profile} formik={formik} />
+      <ProfileContainer tab={tab} posts={posts} profile={profile} formik={formik} />
     </Layout>
   );
+};
+
+Profile.getInitialProps = ({ query }) => {
+  return {
+    tab: query.tab,
+  };
 };
 
 export default Profile;

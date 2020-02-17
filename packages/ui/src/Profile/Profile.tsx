@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FormikProps } from 'formik';
+
+import { useRouter } from 'next/router';
 
 import UpdateProfile from '../UpdateProfile';
 
@@ -30,12 +32,14 @@ interface Props {
   profile: ProfileProps;
   posts: [];
   formik: FormikProps<any>;
+  tab: string;
 }
 
-const ProfileContainer: React.FC<Props> = ({ profile, posts, formik }) => {
+const ProfileContainer: React.FC<Props> = ({ profile, posts, formik, tab }) => {
   const { avatar, posts: PostCount, followers, following, name, username, isVerified, power, bio, website } = profile;
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const router = useRouter();
 
   const tabs = [
     {
@@ -51,6 +55,14 @@ const ProfileContainer: React.FC<Props> = ({ profile, posts, formik }) => {
       render: () => ProfileMedia({ posts }),
     }, */
   ];
+
+  useEffect(() => {
+    const isTab = tabs.find(t => t.name.toLocaleLowerCase() === tab);
+
+    if (!tab || !isTab) {
+      router.push('/profile/media');
+    }
+  }, [router, tab, tabs]);
 
   return (
     <Container>

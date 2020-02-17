@@ -16,6 +16,7 @@ const withFonts = require('next-fonts');
 
 module.exports = withPlugins([withTranspileModules, withImages, withCSS, withBundleAnalyzer, withFonts], {
   // https://github.com/zeit/next.js/pull/9138
+  useFileSystemPublicRoutes: false,
   typescript: {
     transpileOnly: true,
     ignoreDevErrors: true,
