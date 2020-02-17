@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
+import InputMask from 'react-input-mask';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -12,7 +13,10 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const Number = styled.input`
+const Number = styled(InputMask).attrs({
+  mask: `9`,
+  maskPlaceholder: null,
+})`
   width: 37px;
   background: rgba(38, 204, 139, 0.2);
   padding: 7px 8px;
@@ -81,48 +85,12 @@ const CodeInput: React.FC<Props> = ({ onChange }) => {
 
   return (
     <Container>
-      <Number
-        value={internalCode[0]}
-        onChange={({ target }) => changeValue(target.value, 0)}
-        ref={inputRef0}
-        maxlength="1"
-        type="number"
-      />
-      <Number
-        value={internalCode[1]}
-        onChange={({ target }) => changeValue(target.value, 1)}
-        ref={inputRef1}
-        maxlength="1"
-        type="number"
-      />
-      <Number
-        value={internalCode[2]}
-        onChange={({ target }) => changeValue(target.value, 2)}
-        ref={inputRef2}
-        maxlength="1"
-        type="number"
-      />
-      <Number
-        value={internalCode[3]}
-        onChange={({ target }) => changeValue(target.value, 3)}
-        ref={inputRef3}
-        maxlength="1"
-        type="number"
-      />
-      <Number
-        value={internalCode[4]}
-        onChange={({ target }) => changeValue(target.value, 4)}
-        ref={inputRef4}
-        maxlength="1"
-        type="number"
-      />
-      <Number
-        value={internalCode[5]}
-        onChange={({ target }) => changeValue(target.value, 5)}
-        ref={inputRef5}
-        maxlength="1"
-        type="number"
-      />
+      <Number value={internalCode[0]} onChange={({ target }) => changeValue(target.value, 0)} ref={inputRef0} />
+      <Number value={internalCode[1]} onChange={({ target }) => changeValue(target.value, 1)} ref={inputRef1} />
+      <Number value={internalCode[2]} onChange={({ target }) => changeValue(target.value, 2)} ref={inputRef2} />
+      <Number value={internalCode[3]} onChange={({ target }) => changeValue(target.value, 3)} ref={inputRef3} />
+      <Number value={internalCode[4]} onChange={({ target }) => changeValue(target.value, 4)} ref={inputRef4} />
+      <Number value={internalCode[5]} onChange={({ target }) => changeValue(target.value, 5)} ref={inputRef5} />
     </Container>
   );
 };
