@@ -7,9 +7,9 @@ import * as Yup from 'yup';
 import { ProfileContainer, ProfileMedia, ProfileThoughts } from '@karma/ui';
 import { posts } from '@karma/mock';
 
-import Layout from '../../../modules/layout/Layout';
-import { ProfileProps, updateProfileRequest } from '../../../store/modules/user/actions';
-import { RootState } from '../../../store/modules/rootReducer';
+import Layout from '../modules/layout/Layout';
+import { ProfileProps, updateProfileRequest } from '../store/modules/user/actions';
+import { RootState } from '../store/modules/rootReducer';
 
 interface Props {
   tab: string;
@@ -51,17 +51,13 @@ const Profile: React.FC<Props> = ({ tab }) => {
       name: 'Thoughts',
       render: () => ProfileThoughts({ profile, posts: posts.filter((post: any) => post.type === 'thought' && post) }),
     },
-    /*  {
-      name: 'Articles',
-      render: () => ProfileMedia({ posts }),
-    }, */
   ];
 
   useEffect(() => {
     const isTab = tabs.find(t => t.name.toLocaleLowerCase() === tab);
 
-    if (!tab || !isTab) {
-      router.push('/discover/popular');
+    if (!isTab) {
+      //router.push('/discover/popular');
     }
   }, [router, tab, tabs]);
 
@@ -72,10 +68,10 @@ const Profile: React.FC<Props> = ({ tab }) => {
   );
 };
 
-Profile.getInitialProps = ({ query }) => {
+/* Profile.getInitialProps = ({ query }) => {
   return {
     tab: query.tab,
   };
-};
+}; */
 
 export default Profile;
