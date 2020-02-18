@@ -9,22 +9,6 @@ const Container = styled.img<{ online: boolean; size: 'default' | 'small' | 'big
   border-radius: 50%;
   margin-right: 8px;
 
-  /* ${props =>
-    props.online &&
-    css`
-      &::after {
-        content: '';
-        width: 8px;
-        height: 8px;
-        background: ${props => props.theme.green};
-        border-radius: 50%;
-
-        position: absolute;
-        top: 2px;
-        right: -10px;
-      }
-    `} */
-
   ${props =>
     props.size === 'big' &&
     css`
@@ -40,8 +24,8 @@ interface Props {
   size?: 'default' | 'small' | 'big';
 }
 
-const ProfileImage: React.FC<Props> = ({ path, online, alt, size = 'default' }) => {
-  return <Container src={path || withoutAvatar} online={online} alt={alt} size={size} />;
+const ProfileImage: React.FC<Props> = ({ path, online, alt, size = 'default', ...props }) => {
+  return <Container {...props} src={path || withoutAvatar} online={online} alt={alt} size={size} />;
 };
 
 export default ProfileImage;

@@ -14,7 +14,7 @@ export const Container = styled.div<{ open: boolean }>`
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 2;
+  z-index: 40000;
   overflow: auto;
 
   form {

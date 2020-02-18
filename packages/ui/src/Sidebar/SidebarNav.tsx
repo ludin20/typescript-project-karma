@@ -121,7 +121,7 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ..
           Home
         </div>
       </Link>
-      <Link onClick={() => router.push('/discover/popular')} selected={selected.includes('discover')}>
+      <Link onClick={() => router.push('/discover')} selected={selected.includes('discover')}>
         <div>
           <img src={discover} alt="Discover" />
           Discover
@@ -146,7 +146,7 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ..
           Refer & Earn
         </div>
       </Link>
-      <Link onClick={() => router.push('/profile/media')} selected={selected.includes('profile')}>
+      <Link onClick={() => router.push('/profile')} selected={selected.includes('profile')}>
         <div>
           <img src={profileImage} alt="Profile" />
           Profile

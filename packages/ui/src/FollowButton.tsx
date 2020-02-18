@@ -12,9 +12,10 @@ interface Props {
   following: boolean;
 }
 
-const FollowButton: React.FC<Props> = ({ following }) => {
+const FollowButton: React.FC<Props> = ({ following, ...props }) => {
   return (
     <Container
+      {...props}
       background={following ? 'lightGreen' : undefined}
       border={!following}
       radius="rounded"

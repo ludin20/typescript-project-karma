@@ -8,19 +8,22 @@ const Container = styled.div`
   width: 100%;
   margin: 30px 0;
 
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 24px;
 `;
 
 const Button = styled.button<{ active: boolean }>`
+  width: 100%;
+  max-width: calc(580px / 3);
   background: none;
   color: ${props => (props.active ? '#fff' : 'rgba(255,255,255,0.4)')};
   font-size: 22px;
   transition: color 0.2s;
 
-  & + button {
+  /* & + button {
     margin-left: 15px;
-  }
+  } */
 `;
 
 interface Props {
@@ -36,7 +39,7 @@ const TabHeader: React.FC<Props> = ({ tabs, active, setActive }) => {
 
   const handleClick = (index: number) => {
     setActive(index);
-    pushToRoute(index);
+    //pushToRoute(index);
   };
 
   const pushToRoute = (index: number) => {
