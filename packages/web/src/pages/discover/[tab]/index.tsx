@@ -4,9 +4,9 @@ import { Tabs } from '@karma/ui';
 
 import { useRouter } from 'next/router';
 
-import Layout from '../modules/layout/Layout';
-import Popular from '../modules/discover/Popular';
-import New from '../modules/discover/New';
+import Layout from '../../../modules/layout/Layout';
+import Popular from '../../../modules/discover/Popular';
+import New from '../../../modules/discover/New';
 
 interface Props {
   tab: string;
