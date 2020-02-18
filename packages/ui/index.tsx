@@ -14,6 +14,8 @@ import FollowButton from './src/FollowButton';
 import CreateProfile from './src/CreateProfile';
 import Tabs from './src/Tabs';
 import Actions from './src/Actions';
+import ProfileMedia from './src/Profile/ProfileMedia';
+import ProfileThoughts from './src/Profile/ProfileThoughts';
 import ProfileContainer from './src/Profile/Profile';
 import PostCard from './src/PostCard';
 
@@ -35,5 +37,7 @@ export {
   Tabs,
   Actions,
   ProfileContainer,
+  ProfileMedia,
+  ProfileThoughts,
   PostCard,
 };

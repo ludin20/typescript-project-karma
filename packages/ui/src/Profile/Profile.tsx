@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FormikProps } from 'formik';
-
-import { useRouter } from 'next/router';
 
 import UpdateProfile from '../UpdateProfile';
 
@@ -10,8 +8,6 @@ import Tabs from '../Tabs';
 
 import ProfileHeader from './ProfileHeader';
 import ProfileInfo from './ProfileInfo';
-import ProfileMedia from './ProfileMedia';
-import ProfileThoughts from './ProfileThoughts';
 
 const Container = styled.div``;
 
@@ -32,37 +28,14 @@ interface Props {
   profile: ProfileProps;
   posts: [];
   formik: FormikProps<any>;
+  tabs: any[];
   tab: string;
 }
 
-const ProfileContainer: React.FC<Props> = ({ profile, posts, formik, tab }) => {
+const ProfileContainer: React.FC<Props> = ({ profile, tabs, formik, tab }) => {
   const { avatar, posts: PostCount, followers, following, name, username, isVerified, power, bio, website } = profile;
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const router = useRouter();
-
-  const tabs = [
-    {
-      name: 'Media',
-      render: () => ProfileMedia({ posts: posts.filter((post: any) => post.type === 'media' && post) }),
-    },
-    {
-      name: 'Thoughts',
-      render: () => ProfileThoughts({ profile, posts: posts.filter((post: any) => post.type === 'thought' && post) }),
-    },
-    /*  {
-      name: 'Articles',
-      render: () => ProfileMedia({ posts }),
-    }, */
-  ];
-
-  useEffect(() => {
-    const isTab = tabs.find(t => t.name.toLocaleLowerCase() === tab);
-
-    if (!tab || !isTab) {
-      router.push('/profile/media');
-    }
-  }, [router, tab, tabs]);
 
   return (
     <Container>
@@ -79,7 +52,7 @@ const ProfileContainer: React.FC<Props> = ({ profile, posts, formik, tab }) => {
       />
 
       <UpdateProfile formik={formik} open={modalIsOpen} close={() => setModalIsOpen(false)} />
-      <Tabs tabs={tabs} />
+      <Tabs tabs={tabs} paramTab={tab || ''} />
     </Container>
   );
 };

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
-
-import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
 import TitleWithTabs from './TitleWithTabs';
 import TabHeader from './TabHeader';
