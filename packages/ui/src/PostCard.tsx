@@ -41,7 +41,7 @@ const Container = styled.li`
   }
 `;
 
-const PostCard: React.FC = ({ id, date, likes, comments, reTweets, item, item2, content, author, me, size }: any) => {
+const PostCard: React.FC = ({ id, date, likes, comments, recycles, tips, power, content, author, me, size }: any) => {
   return (
     <Container key={id}>
       <header>
@@ -63,7 +63,7 @@ const PostCard: React.FC = ({ id, date, likes, comments, reTweets, item, item2, 
       </header>
 
       <PostContent content={content} size={size} />
-      <Actions likes={likes} comments={comments} reTweets={reTweets} item={item} item2={item2} />
+      <Actions likes={likes} comments={comments} recycles={recycles} tips={tips} power={power} />
     </Container>
   );
 };

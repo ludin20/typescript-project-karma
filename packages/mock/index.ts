@@ -80,9 +80,9 @@ export const activities = [
     date: '2h',
     likes: 19,
     comments: 36,
-    reTweets: 22,
-    item: 175,
-    item2: '6,500',
+    recycles: 22,
+    tips: 175,
+    power: '6,500',
   },
   {
     id: 3,
@@ -104,9 +104,9 @@ export const activities = [
     date: '7h',
     likes: 19,
     comments: 36,
-    reTweets: 22,
-    item: 175,
-    item2: '6,500',
+    recycles: 22,
+    tips: 175,
+    power: '6,500',
     post: {
       image: recycle,
     },
@@ -202,3 +202,56 @@ export const search = [
     verified: false,
   },
 ];
+
+export const post = {
+  id: 1,
+  date: '3m',
+  likes: 536,
+  recycles: 22,
+  tips: 175,
+  power: '6,500',
+  content: {
+    description: 'Be where you need to be when you need to be.',
+    hashtags: ['#greece'],
+    medias: [
+      'https://api.adorable.io/avatars/300/quezpearson',
+      'https://api.adorable.io/avatars/300/quezpearson',
+      'https://api.adorable.io/avatars/300/quezpearson',
+    ],
+  },
+  author: {
+    imageUrl: `https://api.adorable.io/avatars/100/quezpearson`,
+    name: 'Quez Pearson',
+    username: '@quezpearson',
+    following: false,
+  },
+  comments: [
+    {
+      id: 1,
+      author: {
+        avatar: `https://api.adorable.io/avatars/100/alexrincon`,
+        username: 'alexrincon',
+      },
+      time: '2h',
+      content: 'This looks gorgeous I would love to go to Greece!',
+    },
+    {
+      id: 2,
+      author: {
+        avatar: `https://api.adorable.io/avatars/100/amyzhu`,
+        username: 'amyzhu',
+      },
+      time: '45m',
+      content: 'I’ve been there once before @alexrincon Athens was my favorite :)',
+    },
+    {
+      id: 3,
+      author: {
+        avatar: `https://api.adorable.io/avatars/100/quezpearson`,
+        username: 'quezpearson',
+      },
+      time: '7s',
+      content: 'You guys always show me love I really appreciate it #KARMA',
+    },
+  ],
+};

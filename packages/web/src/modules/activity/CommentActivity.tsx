@@ -68,7 +68,7 @@ interface Props {
 }
 
 const CommentActivity: React.FC<Props> = ({ item: data }) => {
-  const { author, likes, comments, reTweets, item, item2 } = data;
+  const { author, likes, comments, recycles, tips, power } = data;
 
   return (
     <Container>
@@ -84,7 +84,7 @@ const CommentActivity: React.FC<Props> = ({ item: data }) => {
         <p>commented on your post: {data.content}</p>
       </section>
 
-      <CommentActions likes={likes} comments={comments} reTweets={reTweets} item={item} item2={item2} />
+      <CommentActions likes={likes} comments={comments} recycles={recycles} tips={tips} power={power} />
     </Container>
   );
 };

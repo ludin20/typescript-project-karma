@@ -16,9 +16,9 @@ const Feed: React.FC = () => {
       date: '3m',
       likes: 536,
       comments: 36,
-      reTweets: 22,
-      item: 175,
-      item2: '6,500',
+      recycles: 22,
+      tips: 175,
+      power: '6,500',
       content: {
         description: 'Be where you need to be when you need to be.',
         hashtags: ['#greece'],
@@ -40,9 +40,9 @@ const Feed: React.FC = () => {
       date: '1h',
       likes: 536,
       comments: 36,
-      reTweets: 22,
-      item: 175,
-      item2: '6,500',
+      recycles: 22,
+      tips: 175,
+      power: '6,500',
       content: {
         description:
           'I just came back from Budapest, Hungary. I have to say this is the most beautiful city I’ve ever been to!',
