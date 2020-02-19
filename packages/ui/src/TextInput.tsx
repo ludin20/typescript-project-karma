@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 const Container = styled.div<Props>`
   border-radius: 4px;
-  background: ${props => props.theme.black};
+  background: ${props => (!props.dark ? props.theme.black : props.theme.dark)};
   padding: 10px 20px;
   transition: all 0.2s;
 
@@ -37,7 +37,7 @@ const Container = styled.div<Props>`
     background: none;
     color: ${props => props.theme.white};
     border: none;
-    font-size: 20px;
+    font-size: ${props => (props.font === 'default' ? '20px' : '14px')};
 
     padding: 3px 0;
 
@@ -96,9 +96,11 @@ export interface Props {
   numberOnly?: boolean;
   mask?: string;
   empty?: boolean;
+  dark?: boolean;
+  font?: 'small' | 'default';
 }
 
-const TextInput: React.FC<Props> = ({ onChange, multiline, ...props }) => {
+const TextInput: React.FC<Props> = ({ onChange, font = 'default', multiline, ...props }) => {
   const [empty, setEmpty] = useState(true);
 
   const setValue = useCallback(
@@ -117,7 +119,7 @@ const TextInput: React.FC<Props> = ({ onChange, multiline, ...props }) => {
   );
 
   return (
-    <Container empty={empty} {...props}>
+    <Container empty={empty} font={font} {...props}>
       {props.label && (
         <header>
           <span>{props.label}</span>

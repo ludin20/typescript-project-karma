@@ -35,16 +35,12 @@ const Content = styled.div`
   padding: 30px 0 0;
 `;
 
-interface Props {
-  children: React.ReactChild;
-}
-
-const Layout: React.FC<Props> = ({ children }) => {
+const Layout: React.FC = ({ children, ...props }) => {
   const [collapsed, setCollapsed] = useState(false);
   const profile = useSelector((state: RootState) => state.user.profile);
 
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <Sidebar profile={profile} collapsed={collapsed} setCollapsed={setCollapsed} signOut={signOut} />
 
       <Container collapsed={collapsed}>

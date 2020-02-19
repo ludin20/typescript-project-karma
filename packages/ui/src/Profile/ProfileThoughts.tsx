@@ -22,9 +22,9 @@ const ProfileThoughts: React.FC<Props> = ({ posts, profile }) => {
           date={item.date}
           likes={item.likes}
           comments={item.comments}
-          reTweets={item.recycles}
-          item={item.tips}
-          item2={item.power}
+          recycles={item.recycles}
+          tips={item.tips}
+          power={item.power}
           content={item.content}
           author={profile}
           me

@@ -10,6 +10,7 @@ import share from '../assets/share.svg';
 
 const Container = styled.div`
   margin-left: 60px;
+  width: 85%;
 
   display: flex;
   justify-content: space-between;
@@ -40,12 +41,12 @@ const Container = styled.div`
 interface Props {
   likes: string | number;
   comments: string | number;
-  reTweets: string | number;
-  item: string | number;
-  item2: string | number;
+  recycles: string | number;
+  tips: string | number;
+  power: string | number;
 }
 
-const Actions: React.FC<Props> = ({ likes, comments, reTweets, item, item2, ...props }) => {
+const Actions: React.FC<Props> = ({ likes, comments, recycles, tips, power, ...props }) => {
   return (
     <Container {...props}>
       <button>
@@ -60,17 +61,17 @@ const Actions: React.FC<Props> = ({ likes, comments, reTweets, item, item2, ...p
 
       <button>
         <img src={retweet} alt="retweet" />
-        {reTweets}
+        {recycles}
       </button>
 
       <button>
         <img src={tip} alt="tip" />
-        {item}
+        {tips}
       </button>
 
       <button>
         <img src={rocket} alt="rocket" />
-        {item2}
+        {power}
       </button>
 
       <button>

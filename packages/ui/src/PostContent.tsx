@@ -42,7 +42,7 @@ const PostContent: React.FC<Props> = ({ content, size }) => {
           {content.description}
         </Text>
         <Text size={size} hashtag>
-          {content.hashtags}
+          {`  ${content.hashtags}`}
         </Text>
       </p>
 

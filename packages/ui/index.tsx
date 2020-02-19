@@ -19,6 +19,8 @@ import ProfileThoughts from './src/Profile/ProfileThoughts';
 import ProfileContainer from './src/Profile/Profile';
 import PostCard from './src/PostCard';
 
+import withoutAvatar from './assets/withoutAvatar.svg';
+
 export {
   theme,
   Button,
@@ -40,4 +42,5 @@ export {
   ProfileMedia,
   ProfileThoughts,
   PostCard,
+  withoutAvatar,
 };
