@@ -13,7 +13,7 @@
       "dest": "packages/web/$1"
     },
     {
-      "src": "/(.*)/(.*)",
+      "src": "/discover/(.*)",
       "dest": "packages/web/$1"
     }
   ],
