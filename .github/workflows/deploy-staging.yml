@@ -1,15 +1,17 @@
 name: Web deploy on staging
 
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - '.github/workflows/deploy-staging.yml'
-      - '.now/**'
-      - 'public/**'
-      - 'src/**'
-      - 'package.json'
+on: [push]
+
+#on:
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - '.github/workflows/deploy-staging.yml'
+#      - '.now/**'
+#      - 'public/**'
+#      - 'src/**'
+#      - 'package.json'
 
 jobs:
   deploy-staging:

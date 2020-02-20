@@ -100,6 +100,7 @@
     "jest-runner-eslint": "^0.7.6",
     "lint-staged": "^10.0.2",
     "prettier": "^1.19.1",
-    "sort-package-json": "^1.39.0"
+    "sort-package-json": "^1.39.0",
+    "webpack": "^4.41.6"
   }
 }
