@@ -59,7 +59,7 @@ const TitleWithTabs: React.FC<Props> = ({ children, tabs, active, setActive }) =
 
   const handleClick = (index: number) => {
     setActive(index);
-    //pushToRoute(index);
+    pushToRoute(index);
   };
 
   const pushToRoute = (index: number) => {

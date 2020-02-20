@@ -39,7 +39,7 @@ const TabHeader: React.FC<Props> = ({ tabs, active, setActive }) => {
 
   const handleClick = (index: number) => {
     setActive(index);
-    //pushToRoute(index);
+    pushToRoute(index);
   };
 
   const pushToRoute = (index: number) => {

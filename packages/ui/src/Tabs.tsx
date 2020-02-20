@@ -22,12 +22,12 @@ interface Props {
 const Tabs: React.FC<Props> = ({ title, tabs, paramTab }) => {
   const [active, setActive] = useState(0);
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (paramTab) {
       const firstTab = tabs.findIndex(tab => tab.name.toLowerCase() === paramTab);
       setActive(firstTab);
     }
-  }, []); //eslint-disable-line */
+  }, []); // eslint-disable-line
 
   return (
     <>
