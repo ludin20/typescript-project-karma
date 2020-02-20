@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Title, PostCard } from '../../ui';
+import { Title } from '../../ui';
 
 import Layout from '../layout/Layout';
 
@@ -29,7 +29,7 @@ const Feed: React.FC = () => {
         ],
       },
       author: {
-        imageUrl: `https://api.adorable.io/avatars/100/quezpearson`,
+        avatar: `https://api.adorable.io/avatars/100/quezpearson`,
         name: 'Quez Pearson',
         username: '@quezpearson',
         following: false,
@@ -50,7 +50,7 @@ const Feed: React.FC = () => {
         medias: ['https://api.adorable.io/avatars/1200/quezpearson'],
       },
       author: {
-        imageUrl: `https://api.adorable.io/avatars/100/alexfuentes`,
+        avatar: `https://api.adorable.io/avatars/100/alexfuentes`,
         name: 'Alexis Fuentes',
         username: '@alexfuentes',
         following: true,
@@ -63,7 +63,7 @@ const Feed: React.FC = () => {
       <Container>
         <Title withDropDown>Feed</Title>
 
-        <Posts data={data} renderItem={PostCard} />
+        <Posts data={data} />
       </Container>
     </Layout>
   );

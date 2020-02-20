@@ -1,21 +1,19 @@
-name: Karma Web Deploy on Staging
+name: Web deploy on staging
 
-on: [push]
-
-#on:
-#  push:
-#    branches:
-#      - master
-#    paths:
-#      - 'packages/ui/**'
-#      - 'packages/babel/**'
-#      - 'packages/web/**'
-#      - '.now/**'
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/deploy-staging.yml'
+      - '.now/**'
+      - 'public/**'
+      - 'src/**'
+      - 'package.json'
 
 jobs:
-  # DEPLOY WEB STAGING
-  deploy-web-staging:
-    name: Deploy Web on Staging
+  deploy-staging:
+    name: Web deploy on staging
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +25,7 @@ jobs:
       - name: Install Now CLI
         run: |
           sudo npm install --global --unsafe-perm now
+
       - name: Deploy to Now
         run: |
           now --token $ZEIT_TOKEN --local-config .now/now.json --prod --confirm

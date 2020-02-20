@@ -1,4 +1,4 @@
-import { Router } from 'next/router';
+import { NextRouter } from 'next/router';
 
 export const types = {
   SIGN_REQUEST: '@auth/SIGN_REQUEST',
@@ -25,7 +25,7 @@ export function signSuccess() {
   };
 }
 
-export function authenticateCodeRequest(code: string, router: Router) {
+export function authenticateCodeRequest(code: string, router: NextRouter) {
   return {
     type: types.AUTHENTICATE_CODE_REQUEST,
     payload: {

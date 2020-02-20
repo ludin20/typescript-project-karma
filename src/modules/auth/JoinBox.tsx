@@ -142,12 +142,7 @@ const JoinBox: React.FC = () => {
           </>
         )}
       </p>
-      <SubmitButton
-        loading={loading ? 1 : 0}
-        background="green"
-        disabled={!codeSent ? !number : code.length < 6}
-        type="submit"
-      >
+      <SubmitButton loading={loading} background="green" disabled={!codeSent ? !number : code.length < 6} type="submit">
         {!codeSent ? 'Send' : 'Confirm'}
       </SubmitButton>
     </Container>

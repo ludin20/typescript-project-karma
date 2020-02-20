@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import * as Yup from 'yup';
 
 import { ProfileContainer, ProfileMedia, ProfileThoughts } from '../ui';
@@ -57,7 +57,7 @@ const Profile: React.FC<Props> = ({ tab }) => {
     const isTab = tabs.find(t => t.name.toLocaleLowerCase() === tab);
 
     if (!isTab) {
-      //router.push('/discover/popular');
+      router.push('/profile/media', undefined, { shallow: true });
     }
   }, [router, tab, tabs]);
 
@@ -68,10 +68,10 @@ const Profile: React.FC<Props> = ({ tab }) => {
   );
 };
 
-/* Profile.getInitialProps = ({ query }) => {
+Profile.getInitialProps = ({ query }) => {
   return {
     tab: query.tab,
   };
-}; */
+};
 
 export default Profile;
