@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 
 import { ProfileContainer, ProfileMedia, ProfileThoughts } from '../ui';
