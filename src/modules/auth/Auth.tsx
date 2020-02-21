@@ -6,9 +6,8 @@ import Aside from './Aside';
 import Sign from './Sign';
 
 const Container = styled.div`
+  height: 100%;
   background: ${props => props.theme.blue};
-
-  overflow: hidden;
 
   display: flex;
   flex-direction: column;

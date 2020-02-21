@@ -22,14 +22,6 @@ const Discover: React.FC = () => {
       name: 'All',
       render: AllActivities,
     },
-    {
-      name: 'KARMA',
-      render: AllActivities,
-    },
-    {
-      name: 'Tags',
-      render: AllActivities,
-    },
   ];
 
   return (

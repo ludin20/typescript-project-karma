@@ -28,19 +28,9 @@ const Post: React.FC = () => {
         <Title bordered={false}>Post</Title>
       </TitleWrapper>
 
-      <PostCard
-        id={post.id}
-        date={post.date}
-        likes={post.likes}
-        comments={post.comments.length}
-        recycles={post.recycles}
-        tips={post.tips}
-        power={post.power}
-        content={post.content}
-        author={post.author}
-      />
+      <PostCard post={{ ...post, comments: post.comments.length }} />
 
-      <PostComments comments={post.comments} avatar={avatar} />
+      <PostComments comments={post.comments} avatar={avatar as string} />
     </Container>
   );
 };

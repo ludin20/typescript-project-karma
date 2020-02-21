@@ -87,6 +87,7 @@ export const activities = [
   {
     id: 3,
     type: 'tip',
+    date: '36m',
     author: {
       name: 'Yuly Gonzalez',
       imageUrl: `https://api.adorable.io/avatars/100/yuly`,
@@ -220,7 +221,7 @@ export const post = {
     ],
   },
   author: {
-    imageUrl: `https://api.adorable.io/avatars/100/quezpearson`,
+    avatar: `https://api.adorable.io/avatars/100/quezpearson`,
     name: 'Quez Pearson',
     username: '@quezpearson',
     following: false,

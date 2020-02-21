@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import * as Yup from 'yup';
 
@@ -15,7 +16,7 @@ interface Props {
   tab: string;
 }
 
-const Profile: React.FC<Props> = ({ tab }) => {
+const Profile: NextPage<Props> = ({ tab }) => {
   const dispatch = useDispatch();
   const profile = useSelector((state: RootState) => state.user.profile);
 
@@ -68,10 +69,14 @@ const Profile: React.FC<Props> = ({ tab }) => {
   );
 };
 
-Profile.getInitialProps = ({ query }) => {
-  return {
-    tab: query.tab,
+interface Context extends NextPageContext {
+  query: {
+    tab?: string | null;
   };
+}
+
+Profile.getInitialProps = async ({ query }: Context) => {
+  return { tab: query.tab };
 };
 
 export default Profile;

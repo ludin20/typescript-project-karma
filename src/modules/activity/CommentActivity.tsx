@@ -1,64 +1,52 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Actions } from '../../ui';
-
 import commented from '../../assets/commented.svg';
 
 const Container = styled.div`
-  width: 95%;
-  margin-top: 40px;
+  width: 100%;
+  margin-top: 60px;
+
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
 
   img {
-    width: 30px;
+    width: 40px;
   }
 
   p {
     color: ${props => props.theme.gray};
-    font-size: 14px;
-    line-height: 22px;
+    font-size: 22px;
     font-weight: 900;
-    margin: 5px 0 0 95px;
+    line-height: 30px;
   }
 
-  header {
+  img {
+    height: 40px;
+
+    &:first-child {
+      margin-right: 20px;
+    }
+  }
+
+  span {
+    color: ${props => props.theme.gray};
+    font-size: 22px;
+    font-weight: 900;
+  }
+
+  section {
     display: flex;
-    align-items: center;
 
-    img {
-      height: 30px;
+    img:nth-child(1) {
       border-radius: 50%;
-
-      &:first-child {
-        margin-right: 20px;
-      }
     }
 
     strong {
-      margin: 0 5px 0 15px;
       color: #fff;
-      font-size: 14px;
-    }
-
-    span {
-      color: ${props => props.theme.gray};
-      font-size: 14px;
-      font-weight: 900;
-    }
-  }
-`;
-
-const CommentActions = styled(Actions)`
-  margin: 20px 0 0 95px;
-  width: 80%;
-
-  button {
-    font-size: 12px;
-
-    img {
-      height: 12px;
+      font-size: 22px;
     }
   }
 `;
@@ -68,23 +56,21 @@ interface Props {
 }
 
 const CommentActivity: React.FC<Props> = ({ item: data }) => {
-  const { author, likes, comments, recycles, tips, power } = data;
+  const { author } = data;
 
   return (
     <Container>
-      <header>
-        <img src={commented} alt="comment" />
-
-        <img src={author.imageUrl} alt={author.name} />
-        <strong>{author.name}</strong>
-        <span>{data.date}</span>
-      </header>
+      <img src={commented} alt="comment" />
 
       <section>
-        <p>commented on your post: {data.content}</p>
+        <img src={author.imageUrl} alt={author.name} />
+        <p>
+          <strong>{`${author.name}  `}</strong>
+          commented on your post: {data.content}
+        </p>
       </section>
 
-      <CommentActions likes={likes} comments={comments} recycles={recycles} tips={tips} power={power} />
+      <span>{data.date}</span>
     </Container>
   );
 };

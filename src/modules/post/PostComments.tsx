@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { TextInput, ProfileImage, withoutAvatar } from '../../ui';
 
 const Container = styled.div`
-  margin-top: 30px;
+  margin-top: 50px;
 
   li {
-    margin: 20px 0;
+    margin: 30px 0;
 
     display: flex;
     align-items: center;
@@ -23,21 +23,21 @@ const Container = styled.div`
         flex-direction: row;
 
         strong {
-          font-size: 15px;
+          font-size: 22px;
           font-weight: 900;
           color: #fff;
         }
 
         span {
           margin-left: 8px;
-          font-size: 15px;
+          font-size: 22px;
           color: #6f767e;
         }
       }
 
       p {
         margin-top: 8px;
-        font-size: 14px;
+        font-size: 20px;
         font-weight: 900;
         color: #fff;
       }
@@ -54,7 +54,7 @@ const Input = styled(TextInput)`
   margin-left: 10px;
   border-radius: 100px;
   flex: 1;
-  padding: 10px 15px;
+  padding: 10px 20px;
 `;
 
 interface Props {

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import recycle from '../../assets/recycle.svg';
 
 const Container = styled.div`
-  margin-top: 40px;
+  margin-top: 60px;
 
   > img {
     margin: 20px 0 0 95px;
@@ -14,14 +14,26 @@ const Container = styled.div`
   header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    div {
+      display: flex;
+      align-items: center;
+    }
+
+    span {
+      color: ${props => props.theme.gray};
+      font-size: 22px;
+      font-weight: 900;
+    }
 
     img {
-      width: 30px;
+      width: 40px;
     }
 
     img:nth-child(2) {
       margin-left: 20px;
-      height: 30px;
+      height: 40px;
       border-radius: 50%;
     }
 
@@ -30,14 +42,8 @@ const Container = styled.div`
 
       strong {
         color: #fff;
-        font-size: 14px;
+        font-size: 22px;
         margin-right: 5px;
-      }
-
-      span {
-        color: ${props => props.theme.gray};
-        font-size: 14px;
-        font-weight: 900;
       }
     }
   }
@@ -47,21 +53,23 @@ interface Props {
   item: any;
 }
 
-const TipActivity: React.FC<Props> = ({ item }) => {
+const RecycleActivity: React.FC<Props> = ({ item }) => {
   const { author, post } = item;
 
   return (
     <Container>
       <header>
-        <img src={recycle} alt="recycle" />
+        <div>
+          <img src={recycle} alt="recycle" />
 
-        <img src={author.imageUrl} alt={author.name} />
-        <p>
-          <strong>{author.name}</strong>
-          <span>
-            recycled your post: {`"${item.content}"`} - {item.date}
-          </span>
-        </p>
+          <img src={author.imageUrl} alt={author.name} />
+          <p>
+            <strong>{author.name}</strong>
+            <span>recycled your post: {`"${item.content}"`}</span>
+          </p>
+        </div>
+
+        <span>{item.date}</span>
       </header>
 
       <img src={post.image} alt={item.content} />
@@ -69,4 +77,4 @@ const TipActivity: React.FC<Props> = ({ item }) => {
   );
 };
 
-export default TipActivity;
+export default RecycleActivity;

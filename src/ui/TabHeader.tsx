@@ -15,10 +15,10 @@ const Container = styled.div`
 
 const Button = styled.button<{ active: boolean }>`
   width: 100%;
-  max-width: calc(580px / 3);
   background: none;
   color: ${props => (props.active ? '#fff' : 'rgba(255,255,255,0.4)')};
-  font-size: 22px;
+  font-size: 23px;
+  font-weight: 900;
   transition: color 0.2s;
 `;
 

@@ -7,8 +7,8 @@ import { useField, useFormikContext } from 'formik';
 import camera from './assets/camera.svg';
 
 const Container = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   background: ${props => props.theme.black};
   border-radius: 50%;
   margin-right: 30px;
@@ -21,7 +21,7 @@ const Container = styled.div`
   cursor: pointer;
 
   img {
-    width: 40px;
+    width: 56px;
   }
 `;
 
