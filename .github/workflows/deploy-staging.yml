@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - '.github/workflows/deploy-staging.yml'
-      - '.now/**'
-      - 'public/**'
-      - 'src/**'
-      - 'package.json'
 
 jobs:
   deploy-staging:

@@ -2,10 +2,6 @@ name: Web build
 
 on:
   push:
-    paths:
-      - '.github/workflows/web-build.yml'
-      - 'src/**'
-      - 'package.json'
     branches-ignore:
       - 'master'
       - 'feature-production/*'
