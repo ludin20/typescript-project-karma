@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+
+import { CreatePostModal } from '../index';
 
 import activity from '../assets/activity-white.svg';
 import plus from '../assets/plus.svg';
@@ -55,19 +57,23 @@ const Container = styled.div`
 `;
 
 const Actions: React.FC = () => {
+  const [open, setOpen] = useState(false);
   const router = useRouter();
 
   return (
-    <Container>
-      <button onClick={() => router.push('/activity')}>
-        <img src={activity} alt="Activity" />
-      </button>
+    <>
+      <Container>
+        <button onClick={() => router.push('/activity')}>
+          <img src={activity} alt="Activity" />
+        </button>
 
-      <button>
-        <img src={plus} alt="create post" />
-        Create Post
-      </button>
-    </Container>
+        <button onClick={() => setOpen(true)}>
+          <img src={plus} alt="create post" />
+          Create Post
+        </button>
+      </Container>
+      {open && <CreatePostModal open={open} close={() => setOpen(false)} />}
+    </>
   );
 };
 
