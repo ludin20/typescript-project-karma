@@ -1,3 +1,5 @@
+import Router from 'next/router';
+
 import { takeLatest, all, put } from 'redux-saga/effects';
 
 import {
@@ -34,7 +36,7 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
     yield put(authenticateCodeSuccess('123456', {}));
 
     if (process.env.NODE_ENV !== 'test') {
-      router.push('/home');
+      Router.push('/home');
     }
   } catch (error) {
     yield put(authenticateCodeFailure());

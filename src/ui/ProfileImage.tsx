@@ -12,8 +12,8 @@ const Container = styled.img<{ online: boolean; size: 'default' | 'small' | 'big
   ${props =>
     props.size === 'big' &&
     css`
-      width: 110px;
-      height: 110px;
+      width: 170px;
+      height: 170px;
     `}
 `;
 

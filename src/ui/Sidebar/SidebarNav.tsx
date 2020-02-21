@@ -53,9 +53,9 @@ const Container = styled.nav`
 const Link = styled.button<{ selected: boolean }>`
   background: none;
   color: #fff;
-  font-size: 16px;
+  font-size: 24px;
   font-weight: 900;
-  margin-top: 30px;
+  margin-top: 44px;
   padding-right: 20px;
   opacity: 0.4;
   border-radius: 3px;
@@ -64,14 +64,16 @@ const Link = styled.button<{ selected: boolean }>`
   align-items: center;
   justify-content: space-between;
 
-  div {
+  > div {
     display: flex;
-    align-items: center;
+
+    span {
+      margin-top: 5px;
+    }
   }
 
   img {
-    width: 22px;
-    height: 22px;
+    height: 30px;
     margin-right: 20px;
   }
 
@@ -89,7 +91,20 @@ const Link = styled.button<{ selected: boolean }>`
     props.selected &&
     css`
       opacity: 1;
-      border-right: ${`4px solid ${props.theme.green}`};
+
+      position: relative;
+
+      &::after {
+        content: '';
+        width: 3px;
+        height: 100%;
+        background: ${props.theme.green};
+        border-radius: 4px;
+
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
     `}
 `;
 
@@ -120,38 +135,38 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ..
       <Link onClick={() => router.push('/home')} selected={selected.includes('home')}>
         <div>
           <img src={home} alt="Home" />
-          Home
+          <span>Home</span>
         </div>
       </Link>
       <Link onClick={() => router.push('/discover/popular')} selected={selected.includes('discover')}>
         <div>
           <img src={discover} alt="Discover" />
-          Discover
+          <span>Discover</span>
         </div>
       </Link>
       <Link onClick={() => router.push('/activity')} selected={selected.includes('activity')}>
         <div>
           <img src={activity} alt="Activity" />
-          Activity
+          <span>Activity</span>
         </div>
         <span>{notifications}</span>
       </Link>
       <Link onClick={() => router.push('/wallet')} selected={selected.includes('wallet')}>
         <div>
           <img src={wallet} alt="Wallet" />
-          Wallet
+          <span>Wallet</span>
         </div>
       </Link>
       <Link onClick={() => router.push('/referAndEarn')} selected={selected.includes('referAndEarn')}>
         <div>
           <img src={referAndEarn} alt="Refer and Earn" />
-          Refer & Earn
+          <span>Refer & Earn</span>
         </div>
       </Link>
       <Link onClick={() => router.push('/profile/media')} selected={selected.includes('profile')}>
         <div>
           <img src={profileImage as string} alt="Profile" />
-          Profile
+          <span>Profile</span>
         </div>
       </Link>
 
@@ -163,7 +178,7 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ..
       <Link onClick={signOut} selected={false}>
         <div>
           <img src={logout} alt="Logout" />
-          logout
+          <span>logout</span>
         </div>
       </Link>
     </Container>

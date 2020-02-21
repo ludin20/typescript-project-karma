@@ -15,12 +15,13 @@ const Container = styled.div`
 
     strong {
       color: #fff;
-      font-size: 14px;
+      font-size: 22px;
+      font-weight: bold;
     }
 
     span {
       color: #6f767e;
-      font-size: 14px;
+      font-size: 20px;
       margin-top: 5px;
     }
   }

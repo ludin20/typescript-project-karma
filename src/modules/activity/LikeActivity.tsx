@@ -9,7 +9,7 @@ const Container = styled.div`
   justify-content: space-between;
 
   img {
-    width: 30px;
+    width: 40px;
   }
 
   section {
@@ -18,7 +18,7 @@ const Container = styled.div`
 
     img:nth-child(2) {
       margin-left: 20px;
-      height: 30px;
+      height: 40px;
       border-radius: 50%;
     }
 
@@ -27,13 +27,14 @@ const Container = styled.div`
 
       strong {
         color: #fff;
-        font-size: 14px;
+        font-size: 22px;
+        font-weight: 900;
       }
 
       span {
         margin-left: 10px;
         color: ${props => props.theme.gray};
-        font-size: 14px;
+        font-size: 22px;
         font-weight: 900;
       }
     }

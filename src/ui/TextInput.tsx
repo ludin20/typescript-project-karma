@@ -37,7 +37,8 @@ const Container = styled.div<Props>`
     background: none;
     color: ${props => props.theme.white};
     border: none;
-    font-size: ${props => (props.font === 'default' ? '20px' : '14px')};
+    font-size: ${props => (props.font === 'default' ? '30px' : '20px')};
+    font-weight: 400;
 
     padding: 3px 0;
 

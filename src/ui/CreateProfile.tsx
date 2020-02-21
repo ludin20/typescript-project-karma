@@ -15,13 +15,16 @@ const Header = styled.div`
 
 const Input = styled(TextInput)`
   flex: 1;
-  max-height: 80px;
 `;
 
 const SubmitButton = styled(Button)`
   height: 50px;
-  font-size: 18px;
+  font-size: 30px;
   font-weight: 900;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const CreateProfile: React.FC<Props> = ({ open, close, formik }) => {
@@ -40,7 +43,7 @@ const CreateProfile: React.FC<Props> = ({ open, close, formik }) => {
       </Header>
       <Space height={25} />
 
-      <Input label="Username" name="username" placeholder="@" required bordered mask="@" />
+      <Input label="Username" name="username" required bordered mask="@" />
       <Space height={25} />
 
       <TextInput
@@ -52,7 +55,7 @@ const CreateProfile: React.FC<Props> = ({ open, close, formik }) => {
       />
       <Space height={25} />
 
-      <Input label="Website" name="website" placeholder="https://www." bordered />
+      <Input label="Website" name="website" mask="https://www." bordered />
       <Space height={25} />
 
       <SubmitButton type="submit" background="green" radius="rounded" disabled={!isValid}>

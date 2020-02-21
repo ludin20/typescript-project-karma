@@ -15,9 +15,9 @@ const Container = styled.div`
 
   &::after {
     content: '';
-    width: 50px;
-    height: 4px;
-    background: ${props => props.theme.green};
+    width: 60px;
+    height: 7px;
+    background: linear-gradient(90deg, #2adce8 0%, #29db95 100%);
     border-radius: 5px;
 
     position: absolute;
@@ -25,7 +25,8 @@ const Container = styled.div`
   }
 
   strong {
-    font-size: 30px;
+    font-size: 44px;
+    font-weight: 900;
     color: #fff;
   }
 
@@ -37,7 +38,8 @@ const Container = styled.div`
 const Button = styled.button<{ active: boolean }>`
   background: none;
   color: ${props => (props.active ? '#fff' : 'rgba(255,255,255,0.4)')};
-  font-size: 18px;
+  font-size: 23px;
+  font-weight: 900;
   transition: color 0.2s;
 
   & + button {

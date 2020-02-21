@@ -16,8 +16,8 @@ const Container = styled.div`
     position: relative;
 
     img {
-      width: 30px;
-      height: 30px;
+      width: 38px;
+      height: 38px;
     }
 
     &:after {
@@ -34,11 +34,11 @@ const Container = styled.div`
   }
 
   button:last-child {
-    width: 160px;
+    width: 200px;
     background: linear-gradient(270deg, #26cc8b 0%, #2adce8 100%) 0% 0%;
     color: #fff;
     padding: 10px 15px;
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 900;
     box-shadow: 0px 3px 25px #26cc8b80;
     border-radius: 90px;
@@ -47,8 +47,8 @@ const Container = styled.div`
     align-items: center;
 
     img {
-      width: 20px;
-      height: 20px;
+      width: 29px;
+      height: 29px;
       margin-right: 10px;
     }
   }

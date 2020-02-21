@@ -18,7 +18,8 @@ const Container = styled.div<{ toogled: boolean }>`
       display: flex;
 
       strong {
-        font-size: 18px;
+        font-size: 26px;
+        font-weight: bold;
         color: #fff;
       }
 
@@ -27,7 +28,7 @@ const Container = styled.div<{ toogled: boolean }>`
         margin-left: 10px;
 
         img {
-          width: 14px;
+          width: 20px;
           transition: transform 0.2s;
           transform: ${props => props.toogled && 'rotate(-90deg)'};
         }
@@ -39,7 +40,7 @@ const Container = styled.div<{ toogled: boolean }>`
     width: 100%;
     background: #000;
     color: #fff;
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 900;
     padding: 15px 0;
     box-shadow: 0 3px 6px #00000029;

@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, ChangeEvent, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useField, useFormikContext } from 'formik';
+import InputMask from 'react-input-mask';
 
 const Container = styled.div<Props>`
   border-radius: 4px;
@@ -20,7 +21,8 @@ const Container = styled.div<Props>`
     position: relative;
 
     span {
-      font-size: 13px;
+      font-size: 18px;
+      font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
     }
 
@@ -38,9 +40,9 @@ const Container = styled.div<Props>`
     background: none;
     color: ${props => props.theme.white};
     border: none;
-    font-size: 20px;
+    font-size: 30px;
 
-    padding: 3px 0;
+    padding: 8px 0;
 
     -moz-appearance: textfield;
 
@@ -100,10 +102,14 @@ export interface Props {
   name?: string;
 }
 
-const FormikInput: React.FC<Props> = ({ onChange, multiline, name, ...props }) => {
+const FormikInput: React.FC<Props> = ({ onChange, multiline, mask, name, ...props }) => {
   const [empty, setEmpty] = useState(true);
   const [field] = useField(name);
   const { setFieldValue } = useFormikContext<any>();
+
+  useEffect(() => {
+    if (field.value) setEmpty(false);
+  }, []); //eslint-disable-line
 
   const setValue = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -113,13 +119,28 @@ const FormikInput: React.FC<Props> = ({ onChange, multiline, name, ...props }) =
         setEmpty(false);
       }
 
+      if (mask) {
+        const [firstValue, secondValue] = e.target.value.split(mask);
+
+        const valueWithOutMask = `${secondValue ? secondValue : !!firstValue && firstValue !== mask ? firstValue : ''}`;
+        const value = valueWithOutMask ? `${mask}${valueWithOutMask}` : '';
+
+        if (!valueWithOutMask) setEmpty(true);
+
+        if (onChange) {
+          onChange(value);
+        }
+
+        return setFieldValue(name, value);
+      }
+
       if (onChange) {
         onChange(e.target.value);
       }
 
       return setFieldValue(name, e.target.value);
     },
-    [name, onChange, setFieldValue],
+    [mask, name, onChange, setFieldValue],
   );
 
   return (
@@ -133,13 +154,13 @@ const FormikInput: React.FC<Props> = ({ onChange, multiline, name, ...props }) =
       {!multiline ? (
         <input
           type={!props.numberOnly ? 'text' : 'number'}
-          placeholder={props.placeholder}
+          placeholder={props.placeholder || mask}
           onChange={e => setValue(e)}
           name={name}
           value={field.value}
         />
       ) : (
-        <textarea placeholder={props.placeholder} onChange={e => setValue(e)} rows={3} name={name} />
+        <textarea placeholder={props.placeholder || mask} onChange={e => setValue(e)} rows={3} name={name} />
       )}
     </Container>
   );

@@ -15,13 +15,16 @@ const Header = styled.div`
 
 const Input = styled(TextInput)`
   flex: 1;
-  max-height: 80px;
 `;
 
 const SubmitButton = styled(Button)`
   height: 50px;
-  font-size: 18px;
+  font-size: 30px;
   font-weight: 900;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const UpdateProfile: React.FC<Props> = ({ open, close, formik }) => {
@@ -37,7 +40,7 @@ const UpdateProfile: React.FC<Props> = ({ open, close, formik }) => {
   return (
     <ProfileModal open={open} close={close} handleSubmit={handleSubmit} formik={formik}>
       <Title bordered={false} size="small">
-        Update Profile
+        Edit Profile
       </Title>
       <Space height={35} />
 

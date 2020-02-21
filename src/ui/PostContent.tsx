@@ -2,25 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div<{ size: 'default' | 'small' }>`
-  margin: ${props => (props.size === 'small' ? '10px 0 15px 60px' : '10px 0 30px 60px')};
+  margin: ${props => (props.size === 'small' ? '10px 0 15px 60px' : '20px 0 30px 60px')};
 
   div {
     max-width: 600px;
     margin-top: 15px;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 24px;
   }
 `;
 
 const Text = styled.strong<{ hashtag: boolean; size: 'default' | 'small' }>`
   color: ${props => (props.hashtag ? props.theme.green : '#fff')};
-  font-size: ${props => (props.size === 'small' ? '16px' : '20px')};
+  font-size: 28px;
 `;
 
 const Img = styled.img<{ divider: number }>`
-  width: ${props => `calc((100%/${props.divider}) - 20px)`};
+  width: calc((780px / 3) - 20px);
   height: auto;
   border-radius: 25px;
 

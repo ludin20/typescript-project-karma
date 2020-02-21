@@ -31,12 +31,13 @@ const Container = styled.div`
       }
 
       strong {
-        font-size: 24px;
+        font-size: 36px;
+        font-weight: 900;
       }
 
       span {
         margin-top: 6px;
-        font-size: 16px;
+        font-size: 26px;
         color: ${props => props.theme.lightBlue};
       }
     }
@@ -45,9 +46,9 @@ const Container = styled.div`
   > p {
     max-width: 250px;
     color: #fff;
-    font-size: 15px;
+    font-size: 25px;
     line-height: 1.4;
-    margin: 12px 0 6px;
+    margin: 20px 0 10px;
     padding-left: 16px;
     text-align: left;
 
@@ -68,7 +69,7 @@ const Container = styled.div`
 
   > a {
     color: #2996dd;
-    font-size: 14px;
+    font-size: 24px;
     margin-left: 10px;
   }
 `;
@@ -78,6 +79,7 @@ const Actions = styled.div`
 `;
 
 const ActionsButton = styled(Button)`
+  font-size: 20px;
   font-weight: 900;
 
   display: flex;
@@ -85,8 +87,8 @@ const ActionsButton = styled(Button)`
   align-items: center;
 
   img {
-    height: 16px;
-    margin-right: 5px;
+    height: 23px;
+    margin-right: 10px;
   }
 
   &:first-child {

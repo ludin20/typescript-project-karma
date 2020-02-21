@@ -8,7 +8,7 @@ const Container = styled.div`
   margin-top: 30px;
 
   img {
-    max-width: calc(580px / 3);
+    width: 100%;
   }
 `;
 

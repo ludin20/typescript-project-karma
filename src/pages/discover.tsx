@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-
 import { useRouter } from 'next/router';
+import { NextPage, NextPageContext } from 'next';
 
 import { Tabs } from '../ui';
 
@@ -12,7 +12,7 @@ interface Props {
   tab: string;
 }
 
-const Discover: React.FC<Props> = ({ tab }) => {
+const Discover: NextPage<Props> = ({ tab }) => {
   const router = useRouter();
 
   const tabs = [
@@ -41,7 +41,13 @@ const Discover: React.FC<Props> = ({ tab }) => {
   );
 };
 
-Discover.getInitialProps = ({ query }) => {
+interface Context extends NextPageContext {
+  query: {
+    tab?: string | null;
+  };
+}
+
+Discover.getInitialProps = async ({ query }: Context) => {
   return {
     tab: query.tab,
   };

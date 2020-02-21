@@ -4,17 +4,31 @@ import styled from 'styled-components';
 import tip from '../../assets/tip-big.png';
 
 const Container = styled.div`
-  margin-top: 40px;
+  width: 100%;
+  margin-top: 60px;
   display: flex;
   align-items: center;
 
+  section {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      color: ${props => props.theme.gray};
+      font-size: 22px;
+      font-weight: 900;
+    }
+  }
+
   img {
-    width: 30px;
+    width: 40px;
   }
 
   img:nth-child(2) {
     margin-left: 20px;
-    height: 30px;
+    height: 40px;
     border-radius: 50%;
   }
 
@@ -23,13 +37,13 @@ const Container = styled.div`
 
     strong {
       color: #fff;
-      font-size: 14px;
+      font-size: 22px;
       margin-right: 5px;
     }
 
     span {
       color: ${props => props.theme.gray};
-      font-size: 14px;
+      font-size: 22px;
       font-weight: 900;
 
       &:last-child {
@@ -51,11 +65,15 @@ const TipActivity: React.FC<Props> = ({ item }) => {
       <img src={tip} alt="tip" />
 
       <img src={author.imageUrl} alt={author.name} />
-      <p>
-        <strong>{author.name}</strong>
-        <span>tipped you: </span>
-        <span>{item.content}</span>
-      </p>
+      <section>
+        <p>
+          <strong>{`${author.name}  `}</strong>
+          <span>tipped you:</span>
+          <span>{`  ${item.content}`}</span>
+        </p>
+
+        <span>{item.date}</span>
+      </section>
     </Container>
   );
 };

@@ -11,7 +11,7 @@ import { UserProps } from './Header';
 
 const Container = styled.div<{ focused: boolean }>`
   width: 100%;
-  max-width: 640px;
+  max-width: 853px;
   background: linear-gradient(90deg, #20252e 0%, #191a19 100%) 0% 0%;
   padding: 10px 15px;
   border-radius: 50px;
@@ -25,7 +25,7 @@ const Container = styled.div<{ focused: boolean }>`
 
   img {
     width: auto;
-    height: 16px;
+    height: 24px;
   }
 
   input {
@@ -33,7 +33,8 @@ const Container = styled.div<{ focused: boolean }>`
     width: 100%;
     background: none;
     border: none;
-    font-size: 14px;
+    font-size: 20px;
+    font-weight: 300;
     color: #fff;
     margin-left: 10px;
 
@@ -47,8 +48,8 @@ const Container = styled.div<{ focused: boolean }>`
     background: none;
 
     img {
-      width: 18px;
-      height: 18px;
+      width: 26px;
+      height: 26px;
     }
   }
 

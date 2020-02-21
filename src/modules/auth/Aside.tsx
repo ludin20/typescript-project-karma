@@ -18,11 +18,15 @@ const Container = styled.div`
     margin-top: 20px;
     font-family: Montserrat, sans-serif;
 
+    strong {
+      font-weight: bold;
+      font-size: 60px;
+    }
+
     &:first-child,
     &:nth-child(3) {
       strong {
         color: #fff;
-        font-size: 40px;
 
         & + strong {
           color: ${props => props.theme.green};
@@ -33,7 +37,6 @@ const Container = styled.div`
     &:nth-child(2) {
       strong {
         color: ${props => props.theme.green};
-        font-size: 40px;
 
         & + strong {
           color: #fff;

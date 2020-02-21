@@ -15,11 +15,12 @@ export const Container = styled.div<{ open: boolean }>`
   left: 0;
   top: 0;
   z-index: 40000;
-  overflow: auto;
+
+  overflow-y: scroll;
 
   form {
     width: 100%;
-    max-width: 700px;
+    max-width: 853px;
     background: ${props => props.theme.dark};
     padding: 30px 50px;
     margin: 40px 0;
