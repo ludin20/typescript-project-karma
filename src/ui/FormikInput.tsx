@@ -39,6 +39,7 @@ const Container = styled.div<Props>`
     color: ${props => props.theme.white};
     border: none;
     font-size: 20px;
+    flex: 1;
 
     padding: 3px 0;
 
@@ -98,6 +99,7 @@ export interface Props {
   mask?: string;
   empty?: boolean;
   name?: string;
+  dark?: boolean;
 }
 
 const FormikInput: React.FC<Props> = ({ onChange, multiline, name, ...props }) => {

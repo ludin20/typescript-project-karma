@@ -2,12 +2,6 @@ name: Web test
 
 on:
   push:
-    paths:
-      - '.github/workflows/web-test.yml'
-      - 'src/modules/**'
-      - 'src/pages/**'
-      - 'src/store/**'
-      - 'src/ui/**'
     branches-ignore:
       - 'master'
       - 'feature-production/*'

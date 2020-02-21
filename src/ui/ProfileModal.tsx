@@ -40,10 +40,10 @@ export interface Props {
 const ProfileModal: React.FC<Props> = ({ open, close, handleSubmit, children, formik }) => {
   return (
     <Container
-      id="container"
+      id="profile-modal"
       open={open}
       onClick={e => {
-        const container = document.getElementById('container');
+        const container = document.getElementById('profile-modal');
 
         if (e.target === container) {
           close();
