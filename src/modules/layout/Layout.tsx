@@ -10,14 +10,13 @@ import { RootState } from '../../store/modules/rootReducer';
 const Wrapper = styled.div`
   background: ${props => props.theme.black};
   display: flex;
-  min-width: 1920px;
   width: 100%;
 `;
 
 const Container = styled.div<{ collapsed: boolean }>`
-  width: calc(100% - 382px);
+  width: calc(100% - 280px);
   padding-top: 30px;
-  margin: 0 50px 0 80px;
+  margin: 0 30px 0 50px;
 
   position: relative;
   left: ${props => (!props.collapsed ? '0' : '-300px')};
@@ -31,7 +30,7 @@ const Container = styled.div<{ collapsed: boolean }>`
 
 const Content = styled.div`
   width: 100%;
-  max-width: 853px;
+  max-width: 630px;
   padding: 30px 0 0;
 `;
 

@@ -9,7 +9,7 @@ const Container = styled.div`
   grid-gap: 24px;
 
   img {
-    max-width: calc(853px / 3);
+    max-width: calc(630px / 3);
   }
 `;
 

@@ -19,7 +19,7 @@ const Input = styled(TextInput)`
 
 const SubmitButton = styled(Button)`
   height: 50px;
-  font-size: 30px;
+  font-size: 18px;
   font-weight: 900;
 
   display: flex;

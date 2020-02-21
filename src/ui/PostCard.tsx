@@ -29,13 +29,13 @@ const Container = styled.li`
 
       strong {
         color: #fff;
-        font-size: 25px;
+        font-size: 16px;
         font-weight: 900;
       }
 
       span {
         color: #6f767e;
-        font-size: 20px;
+        font-size: 14px;
         margin-top: 5px;
       }
     }

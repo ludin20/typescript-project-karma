@@ -5,7 +5,7 @@ import commented from '../../assets/commented.svg';
 
 const Container = styled.div`
   width: 100%;
-  margin-top: 60px;
+  margin-top: 40px;
 
   display: flex;
   flex-direction: row;
@@ -13,27 +13,27 @@ const Container = styled.div`
   align-items: flex-start;
 
   img {
-    width: 40px;
+    width: 30px;
   }
 
   p {
     color: ${props => props.theme.gray};
-    font-size: 22px;
+    font-size: 14px;
+    line-height: 22px;
     font-weight: 900;
-    line-height: 30px;
   }
 
   img {
-    height: 40px;
+    height: 30px;
 
     &:first-child {
-      margin-right: 20px;
+      margin-right: 10px;
     }
   }
 
   span {
     color: ${props => props.theme.gray};
-    font-size: 22px;
+    font-size: 14px;
     font-weight: 900;
   }
 
@@ -46,7 +46,7 @@ const Container = styled.div`
 
     strong {
       color: #fff;
-      font-size: 22px;
+      font-size: 14px;
     }
   }
 `;

@@ -8,18 +8,17 @@ const Container = styled.div<{ toogled: boolean; size: 'default' | 'small'; bord
   align-items: center;
 
   strong {
-    text-align: left;
-    font-size: ${props => (props.size === 'default' ? '44px' : '35px')};
+    font-size: ${props => (props.size === 'default' ? '30px' : '25px')};
     font-weight: 900;
     color: #fff;
   }
 
   button {
     background: none;
-    margin-left: 20px;
+    margin-left: 10px;
 
     img {
-      width: 20px;
+      width: 14px;
       transition: transform 0.2s;
       transform: ${props => props.toogled && 'rotate(-90deg)'};
     }
@@ -33,8 +32,8 @@ const Container = styled.div<{ toogled: boolean; size: 'default' | 'small'; bord
 
       &::after {
         content: '';
-        width: 60px;
-        height: 7px;
+        width: 50px;
+        height: 4px;
         background: linear-gradient(90deg, #2adce8 0%, #29db95 100%);
         border-radius: 5px;
 

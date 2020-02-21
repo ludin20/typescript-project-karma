@@ -12,7 +12,7 @@ const Container = styled.div`
     flex-direction: row;
 
     p {
-      margin-left: 80px;
+      margin-left: 60px;
       color: #fff;
 
       display: flex;
@@ -20,12 +20,12 @@ const Container = styled.div`
       align-items: center;
 
       strong {
-        font-size: 39px;
+        font-size: 25px;
         font-weight: 900;
       }
 
       span {
-        font-size: 28px;
+        font-size: 18px;
       }
     }
   }

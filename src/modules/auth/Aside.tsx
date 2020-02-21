@@ -5,8 +5,11 @@ import hero from '../../assets/hero.png';
 
 const Container = styled.div`
   width: 50%;
+  height: 100vh;
   background: ${props => props.theme.dark};
   padding: 50px 70px 30px;
+
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
@@ -20,7 +23,7 @@ const Container = styled.div`
 
     strong {
       font-weight: bold;
-      font-size: 60px;
+      font-size: 40px;
     }
 
     &:first-child,

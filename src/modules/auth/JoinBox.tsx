@@ -14,7 +14,7 @@ const Container = styled.form`
   width: 400px;
   max-width: 400px;
   background: ${props => props.theme.dark};
-  padding: 50px 40px 60px;
+  padding: 50px 30px 60px;
   box-shadow: 0px 3px 20px #0000004d;
   border-radius: 25px;
 
@@ -29,7 +29,7 @@ const Container = styled.form`
 
     strong {
       color: #fff;
-      font-size: 45px;
+      font-size: 40px;
       font-weight: 900;
       text-align: center;
 
@@ -48,7 +48,7 @@ const Container = styled.form`
 
     span {
       color: #fff;
-      font-size: 24px;
+      font-size: 18px;
       margin-left: 15px;
     }
 
@@ -82,7 +82,7 @@ const Container = styled.form`
 const SubmitButton = styled(Button)`
   width: 100%;
   padding: 15px 0;
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 900;
 `;
 

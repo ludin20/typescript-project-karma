@@ -11,7 +11,7 @@ import { signOut } from '../../store/modules/auth/actions';
 import SidebarNav from './SidebarNav';
 
 const Container = styled.div<Props>`
-  width: 382px;
+  width: 280px;
   min-height: 100%;
   background: ${props => props.theme.dark};
   padding: 30px 0;
@@ -30,8 +30,8 @@ const Container = styled.div<Props>`
     align-items: center;
 
     div {
-      width: 92px;
-      height: 92px;
+      width: 90px;
+      height: 90px;
       margin: 20px 0 15px;
       border-radius: 50%;
       border: ${props => `3px solid ${props.theme.green}`};
@@ -50,16 +50,16 @@ const Container = styled.div<Props>`
 
     strong {
       color: #fff;
-      font-size: 30px;
+      font-size: 22px;
       font-weight: 900;
       font-family: Montserrat, sans-serif;
     }
 
     span {
       color: #fff;
-      margin-top: 8px;
+      margin-top: 5px;
       opacity: 0.4;
-      font-size: 22px;
+      font-size: 16px;
     }
   }
 `;
