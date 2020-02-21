@@ -20,7 +20,7 @@ export const Container = styled.div<{ open: boolean }>`
 
   form {
     width: 100%;
-    max-width: 853px;
+    max-width: 700px;
     background: ${props => props.theme.dark};
     padding: 30px 50px;
     margin: 40px 0;

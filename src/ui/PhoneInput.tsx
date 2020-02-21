@@ -57,7 +57,7 @@ const Input = styled(PhoneNumberInput)`
     height: 100%;
     background: none;
     color: ${props => props.theme.white};
-    font-size: 19px;
+    font-size: 16px;
     margin-left: 10px;
     padding: 20px 0 20px 10px;
     border: none;

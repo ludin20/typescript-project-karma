@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import recycle from '../../assets/recycle.svg';
 
 const Container = styled.div`
-  margin-top: 60px;
+  margin-top: 40px;
 
   > img {
     margin: 20px 0 0 95px;
@@ -23,17 +23,17 @@ const Container = styled.div`
 
     span {
       color: ${props => props.theme.gray};
-      font-size: 22px;
+      font-size: 14px;
       font-weight: 900;
     }
 
     img {
-      width: 40px;
+      width: 30px;
     }
 
     img:nth-child(2) {
       margin-left: 20px;
-      height: 40px;
+      height: 30px;
       border-radius: 50%;
     }
 
@@ -42,7 +42,7 @@ const Container = styled.div`
 
       strong {
         color: #fff;
-        font-size: 22px;
+        font-size: 14px;
         margin-right: 5px;
       }
     }

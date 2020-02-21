@@ -16,11 +16,11 @@ const Container = styled.div<{ size: 'default' | 'small' }>`
 
 const Text = styled.strong<{ hashtag: boolean; size: 'default' | 'small' }>`
   color: ${props => (props.hashtag ? props.theme.green : '#fff')};
-  font-size: 28px;
+  font-size: ${props => (props.size === 'small' ? '16px' : '20px')};
 `;
 
 const Img = styled.img<{ divider: number }>`
-  width: calc((780px / 3) - 20px);
+  width: calc((560px / 3) - 20px);
   height: auto;
   border-radius: 25px;
 

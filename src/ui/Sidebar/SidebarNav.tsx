@@ -53,9 +53,9 @@ const Container = styled.nav`
 const Link = styled.button<{ selected: boolean }>`
   background: none;
   color: #fff;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 900;
-  margin-top: 44px;
+  margin-top: 30px;
   padding-right: 20px;
   opacity: 0.4;
   border-radius: 3px;
@@ -73,7 +73,8 @@ const Link = styled.button<{ selected: boolean }>`
   }
 
   img {
-    height: 30px;
+    height: 22px;
+    width: 22px;
     margin-right: 20px;
   }
 

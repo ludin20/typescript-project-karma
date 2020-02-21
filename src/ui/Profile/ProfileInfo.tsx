@@ -31,13 +31,13 @@ const Container = styled.div`
       }
 
       strong {
-        font-size: 36px;
+        font-size: 24px;
         font-weight: 900;
       }
 
       span {
         margin-top: 6px;
-        font-size: 26px;
+        font-size: 16px;
         color: ${props => props.theme.lightBlue};
       }
     }
@@ -46,9 +46,9 @@ const Container = styled.div`
   > p {
     max-width: 250px;
     color: #fff;
-    font-size: 25px;
+    font-size: 15px;
     line-height: 1.4;
-    margin: 20px 0 10px;
+    margin: 12px 0 6px;
     padding-left: 16px;
     text-align: left;
 
@@ -69,7 +69,7 @@ const Container = styled.div`
 
   > a {
     color: #2996dd;
-    font-size: 24px;
+    font-size: 14px;
     margin-left: 10px;
   }
 `;

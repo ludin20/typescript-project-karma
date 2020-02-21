@@ -18,13 +18,15 @@ const Container = styled.div`
   button {
     background: none;
     color: #fff;
-    font-size: 19px;
+    font-size: 14px;
     font-weight: 900;
 
     display: flex;
     align-items: center;
 
     img {
+      height: 14px;
+      width: auto;
       margin-right: 10px;
     }
 

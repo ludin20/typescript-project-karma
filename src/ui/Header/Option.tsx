@@ -33,20 +33,20 @@ const Container = styled.div`
 
       img {
         margin-left: 4px;
-        height: 24px;
+        height: 20px;
         margin-bottom: 4px;
       }
     }
 
     strong {
       color: #fff;
-      font-size: 22px;
+      font-size: 16px;
       font-weight: 900;
     }
 
     span {
       margin-top: 0;
-      font-size: 22px;
+      font-size: 16px;
       color: #6f767e;
     }
   }
@@ -61,8 +61,8 @@ const Button = styled(FollowButton)`
 `;
 
 const Image = styled(ProfileImage)`
-  width: 66px;
-  height: 66px;
+  width: 45px;
+  height: 45px;
 `;
 
 interface Props {

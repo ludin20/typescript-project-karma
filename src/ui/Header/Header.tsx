@@ -23,7 +23,7 @@ export const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  height: 60px;
+  height: 50px;
 
   display: flex;
   flex-direction: row;

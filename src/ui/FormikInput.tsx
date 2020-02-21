@@ -1,7 +1,6 @@
-import React, { useState, useCallback, ChangeEvent, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useField, useFormikContext } from 'formik';
-import InputMask from 'react-input-mask';
 
 const Container = styled.div<Props>`
   border-radius: 4px;
@@ -21,7 +20,7 @@ const Container = styled.div<Props>`
     position: relative;
 
     span {
-      font-size: 18px;
+      font-size: 13px;
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
     }
@@ -40,7 +39,7 @@ const Container = styled.div<Props>`
     background: none;
     color: ${props => props.theme.white};
     border: none;
-    font-size: 30px;
+    font-size: 20px;
     padding: 8px 0;
 
     flex: 1;

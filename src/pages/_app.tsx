@@ -33,6 +33,10 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
+  #__next {
+    height: 100vh;
+  }
+
   html {
     font-size: 62.5%;
   }
