@@ -19,7 +19,7 @@ import ProfileThoughts from './Profile/ProfileThoughts';
 import ProfileContainer from './Profile/Profile';
 import PostCard from './PostCard';
 import CreatePostModal from './CreatePost/CreatePostModal';
-
+import FollowsModal from './FollowsModal';
 import withoutAvatar from './assets/withoutAvatar.svg';
 
 export {
@@ -45,4 +45,5 @@ export {
   PostCard,
   withoutAvatar,
   CreatePostModal,
+  FollowsModal,
 };
