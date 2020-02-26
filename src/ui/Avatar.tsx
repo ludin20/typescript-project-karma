@@ -24,8 +24,8 @@ interface Props {
   size?: 'default' | 'small' | 'big';
 }
 
-const ProfileImage: React.FC<Props> = ({ path, online, alt, size = 'default', ...props }) => {
+const Avatar: React.FC<Props> = ({ path, online, alt, size = 'default', ...props }) => {
   return <Container {...props} src={path || withoutAvatar} online={online} alt={alt} size={size} />;
 };
 
-export default ProfileImage;
+export default Avatar;

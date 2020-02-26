@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { RootState } from '../../store/modules/rootReducer';
 
-import { ProfileImage, Button, FormikInput } from '../index';
+import { Avatar, Button, FormikInput } from '../index';
 import withoutAvatar from '../assets/withoutAvatar.svg';
 
 import MediaButton from './MediaButton';
@@ -62,7 +62,7 @@ const ModalForm: React.FC<Props> = ({ formik, setFiles, files }) => {
     <FormikProvider value={formik}>
       <Container onSubmit={handleSubmit}>
         <section>
-          <ProfileImage path={(avatar as string) || withoutAvatar} online={false} alt="avatar" size="small" />
+          <Avatar path={(avatar as string) || withoutAvatar} online={false} alt="avatar" size="small" />
           <Input withMedia={files.length > 0} multiline name="content" placeholder="Post something awesome!" dark />
         </section>
 

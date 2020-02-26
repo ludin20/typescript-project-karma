@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import TitleWithTabs from './TitleWithTabs';
-import TabHeader from './TabHeader';
+import TabsHeader from './TabsHeader';
 
 const Container = styled.div`
   margin-top: 30px;
@@ -31,13 +30,10 @@ const Tabs: React.FC<Props> = ({ title, tabs, paramTab }) => {
 
   return (
     <>
-      {title ? (
-        <TitleWithTabs tabs={tabs} setActive={setActive} active={active}>
-          {title}
-        </TitleWithTabs>
-      ) : (
-        <TabHeader tabs={tabs} setActive={setActive} active={active} />
-      )}
+      <TabsHeader tabs={tabs} setActive={setActive} active={active}>
+        {title}
+      </TabsHeader>
+
       <Container>{tabs[active].render({})}</Container>
     </>
   );

@@ -5,7 +5,7 @@ import PostContent from './PostContent';
 
 import withoutAvatar from './assets/withoutAvatar.svg';
 
-import { FollowButton, ProfileImage, Actions } from './index';
+import { FollowButton, Avatar, Actions } from './index';
 
 const Container = styled.li`
   & + li {
@@ -77,7 +77,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default' }) => {
     <Container>
       <header>
         <div>
-          <ProfileImage
+          <Avatar
             online={author.online || false}
             path={author.avatar || author.avatar || withoutAvatar}
             alt={author.name}

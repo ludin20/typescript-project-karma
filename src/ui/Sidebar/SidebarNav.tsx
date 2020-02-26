@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
@@ -12,6 +12,8 @@ import wallet from '../assets/wallet.svg';
 import logout from '../assets/logout.svg';
 import arrow from '../assets/arrow.svg';
 import referAndEarn from '../assets/referAndEarn.svg';
+
+import SidebarItem from './SidebarItem';
 
 const Container = styled.nav`
   width: 100%;
@@ -50,73 +52,14 @@ const Container = styled.nav`
   }
 `;
 
-const Link = styled.button<{ selected: boolean }>`
-  background: none;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 900;
-  margin-top: 30px;
-  padding-right: 20px;
-  opacity: 0.4;
-  border-radius: 3px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  > div {
-    display: flex;
-
-    span {
-      margin-top: 5px;
-    }
-  }
-
-  img {
-    height: 22px;
-    width: 22px;
-    margin-right: 20px;
-  }
-
-  &:nth-child(6) {
-    img {
-      border-radius: 50%;
-    }
-  }
-
-  &:nth-child(8) {
-    margin-top: 0;
-  }
-
-  ${props =>
-    props.selected &&
-    css`
-      opacity: 1;
-
-      position: relative;
-
-      &::after {
-        content: '';
-        width: 3px;
-        height: 100%;
-        background: ${props.theme.green};
-        border-radius: 4px;
-
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-    `}
-`;
-
 interface Props {
-  profileImage: string | File;
+  username: string;
+  avatar: string;
   setCollapsed: (value: boolean) => void;
   collapsed: boolean;
-  signOut: any;
 }
 
-const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ...props }) => {
+const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed }) => {
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -126,62 +69,55 @@ const SidebarNav: React.FC<Props> = ({ profileImage, setCollapsed, collapsed, ..
     return router.pathname.replace('/', '');
   }, [router.pathname]);
 
-  const signOut = () => {
-    dispatch(props.signOut());
+  const logOut = () => {
+    dispatch(logOut());
     router.push('/');
   };
 
   return (
     <Container>
-      <Link onClick={() => router.push('/home')} selected={selected.includes('home')}>
-        <div>
-          <img src={home} alt="Home" />
-          <span>Home</span>
-        </div>
-      </Link>
-      <Link onClick={() => router.push('/discover/popular')} selected={selected.includes('discover')}>
-        <div>
-          <img src={discover} alt="Discover" />
-          <span>Discover</span>
-        </div>
-      </Link>
-      <Link onClick={() => router.push('/activity')} selected={selected.includes('activity')}>
-        <div>
-          <img src={activity} alt="Activity" />
-          <span>Activity</span>
-        </div>
-        <span>{notifications}</span>
-      </Link>
-      <Link onClick={() => router.push('/wallet')} selected={selected.includes('wallet')}>
-        <div>
-          <img src={wallet} alt="Wallet" />
-          <span>Wallet</span>
-        </div>
-      </Link>
-      <Link onClick={() => router.push('/referAndEarn')} selected={selected.includes('referAndEarn')}>
-        <div>
-          <img src={referAndEarn} alt="Refer and Earn" />
-          <span>Refer & Earn</span>
-        </div>
-      </Link>
-      <Link onClick={() => router.push('/profile/media')} selected={selected.includes('profile')}>
-        <div>
-          <img src={profileImage as string} alt="Profile" />
-          <span>Profile</span>
-        </div>
-      </Link>
+      <SidebarItem route="/home" selected={selected.includes('home')} icon={home}>
+        Home
+      </SidebarItem>
+
+      <SidebarItem route="/discover/popular" selected={selected.includes('discover')} icon={discover}>
+        Discover
+      </SidebarItem>
+
+      <SidebarItem
+        route="/activity"
+        selected={selected.includes('activity')}
+        icon={activity}
+        extraContent={<span>{notifications}</span>}
+      >
+        Activity
+      </SidebarItem>
+
+      <SidebarItem route="/wallet" selected={selected.includes('wallet')} icon={wallet}>
+        Wallet
+      </SidebarItem>
+
+      <SidebarItem route="/referAndEarn" selected={selected.includes('referAndEarn')} icon={referAndEarn}>
+        Refer & Earn
+      </SidebarItem>
+
+      <SidebarItem
+        route={`/profile/${username.split('@')[1]}/media`}
+        selected={selected.includes('profile')}
+        icon={avatar}
+      >
+        Profile
+      </SidebarItem>
 
       <div>
         <button onClick={() => setCollapsed(!collapsed)}>
           <img src={arrow} alt="arrow" />
         </button>
       </div>
-      <Link onClick={signOut} selected={false}>
-        <div>
-          <img src={logout} alt="Logout" />
-          <span>logout</span>
-        </div>
-      </Link>
+
+      <SidebarItem onClick={logOut} selected={false} icon={logout}>
+        Logout
+      </SidebarItem>
     </Container>
   );
 };
