@@ -2,6 +2,8 @@ import Router from 'next/router';
 
 import { takeLatest, all, put } from 'redux-saga/effects';
 
+import { defaultProfile } from '../user/reducers';
+
 import {
   signSuccess,
   signFailure,
@@ -25,7 +27,7 @@ export function* sign() {
 
 export function* authenticateCode({ payload }: ReturnType<typeof authenticateCodeRequest>) {
   try {
-    const { code, router } = payload;
+    const { code } = payload;
 
     setTimeout(() => {
       console.log('code authenticated', code); //eslint-disable-line no-console
@@ -33,7 +35,7 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
 
     if (code !== '123456') throw new Error();
 
-    yield put(authenticateCodeSuccess('123456', {}));
+    yield put(authenticateCodeSuccess('123456', defaultProfile));
 
     if (process.env.NODE_ENV !== 'test') {
       Router.push('/home');
