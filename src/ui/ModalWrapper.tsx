@@ -19,12 +19,12 @@ export const Container = styled.div<{ open: boolean }>`
   overflow-y: scroll;
 `;
 
-interface Props {
+export interface ModalProps {
   open: boolean;
   close(): void;
 }
 
-const ModalWrapper: React.FC<Props> = ({ children, ...props }) => {
+const ModalWrapper: React.FC<ModalProps> = ({ children, ...props }) => {
   return (
     <Container
       {...props}

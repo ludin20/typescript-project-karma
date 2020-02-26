@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
+import TipModal from './TipModal/TipModal';
 
 import heart from './assets/withoulike.svg';
 import comment from './assets/comment.svg';
@@ -47,37 +49,43 @@ interface Props {
 }
 
 const Actions: React.FC<Props> = ({ likes, comments, recycles, tips, power, ...props }) => {
+  const [tipModalIsOpen, setTipModalIsOpen] = useState(false);
+
   return (
-    <Container {...props}>
-      <button>
-        <img src={heart} alt="like" />
-        {likes} Likes
-      </button>
+    <>
+      <Container {...props}>
+        <button>
+          <img src={heart} alt="like" />
+          {likes} Likes
+        </button>
 
-      <button>
-        <img src={comment} alt="comment" />
-        {comments}
-      </button>
+        <button>
+          <img src={comment} alt="comment" />
+          {comments}
+        </button>
 
-      <button>
-        <img src={retweet} alt="retweet" />
-        {recycles}
-      </button>
+        <button>
+          <img src={retweet} alt="retweet" />
+          {recycles}
+        </button>
 
-      <button>
-        <img src={tip} alt="tip" />
-        {tips}
-      </button>
+        <button onClick={() => setTipModalIsOpen(true)}>
+          <img src={tip} alt="tip" />
+          {tips}
+        </button>
 
-      <button>
-        <img src={rocket} alt="rocket" />
-        {power}
-      </button>
+        <button>
+          <img src={rocket} alt="rocket" />
+          {power}
+        </button>
 
-      <button>
-        <img src={share} alt="share" />
-      </button>
-    </Container>
+        <button>
+          <img src={share} alt="share" />
+        </button>
+      </Container>
+
+      {tipModalIsOpen && <TipModal open={tipModalIsOpen} close={() => setTipModalIsOpen(false)} />}
+    </>
   );
 };
 

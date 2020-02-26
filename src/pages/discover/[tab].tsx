@@ -27,10 +27,13 @@ const Discover: NextPage<Props> = ({ tab }) => {
   ];
 
   useEffect(() => {
+    const href = '/discover/[tab]';
+    const as = '/discover/popular';
+
     const isTab = tabs.find(t => t.name.toLocaleLowerCase() === tab);
 
     if (!isTab) {
-      router.push('/discover/popular', undefined, { shallow: true });
+      router.push(href, as, { shallow: true });
     }
   }, [router, tab, tabs]);
 
