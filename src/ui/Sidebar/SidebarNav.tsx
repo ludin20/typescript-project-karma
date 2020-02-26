@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import { RootState } from '../../store/modules/rootReducer';
+import { signOut } from '../../store/modules/auth/actions';
 
 import home from '../assets/home.svg';
 import discover from '../assets/discover.svg';
@@ -69,10 +70,10 @@ const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed
     return router.pathname.replace('/', '');
   }, [router.pathname]);
 
-  const logOut = () => {
-    dispatch(logOut());
+  const logOut = useCallback(() => {
+    dispatch(signOut());
     router.push('/');
-  };
+  }, [dispatch, router]);
 
   return (
     <Container>

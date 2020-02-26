@@ -1,7 +1,10 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
+import minus from '../assets/minus.svg';
+import plus from '../assets/plus-icon.svg';
+
+const Container = styled.div<{ empty: boolean }>`
   width: 100%;
   margin: 20px 0 30px;
   text-align: center;
@@ -14,24 +17,19 @@ const Container = styled.div`
     align-items: center;
 
     strong {
-      color: rgba(255, 255, 255, 0.6);
+      color: ${props => (!props.empty ? 'rgba(255, 255, 255, 0.6)' : '#fff')};
       font-size: 60px;
       font-weight: 900;
+      transition: color 0.2s;
     }
 
     button {
-      width: 50px;
-      height: 50px;
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      font-size: 40px;
-      font-weight: bold;
-      border-radius: 50%;
-      box-shadow: 0px 3px 20px #00000081;
+      background: none;
 
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      img {
+        width: 110px;
+        height: 110px;
+      }
     }
   }
 `;
@@ -52,13 +50,17 @@ const ChangeTipValue: React.FC<Props> = ({ tipValue, changeValue }) => {
   );
 
   return (
-    <Container>
+    <Container empty={!!tipValue}>
       <span>KARMA</span>
 
       <section>
-        <button onClick={() => changeTipValue(tipValue - 1)}>-</button>
+        <button onClick={() => changeTipValue(tipValue - 1)}>
+          <img src={minus} alt="minus" />
+        </button>
         <strong>{tipValue}</strong>
-        <button onClick={() => changeTipValue(tipValue + 1)}>+</button>
+        <button onClick={() => changeTipValue(tipValue + 1)}>
+          <img src={plus} alt="plus" />
+        </button>
       </section>
 
       <span>{tipValue}.00 USD</span>

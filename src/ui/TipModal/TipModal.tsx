@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ModalWrapper, { ModalProps } from '../ModalWrapper';
 import Button from '../Button';
 
-import tip from '../assets/tip.png';
+import tip from '../assets/tip.svg';
 
 import ChangeTipValue from './ChangeTipValue';
 import Slider from './Slider';
