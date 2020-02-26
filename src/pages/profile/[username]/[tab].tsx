@@ -45,19 +45,19 @@ const ProfileWrapper: React.FC<Props> = () => {
   ];
 
   useEffect(() => {
+    const href = '/profile/[username]/[tab]';
+    const as = `/profile/${username}/media`;
+
     if (username && !tab) {
-      router.push(`/profile/${username}/media`, undefined, { shallow: true });
+      router.push(href, as, { shallow: true });
       return;
     }
 
     if (username && tab) {
       const isValidTab = tabs.find(t => t.name.toLocaleLowerCase() === tab);
 
-      if (!isValidTab) router.push(`/profile/${username}/media`, undefined, { shallow: true });
-      return;
+      if (!isValidTab) router.push(href, as, { shallow: true });
     }
-
-    return;
   }, [router, tab, tabs, username]);
 
   if (me) return <Me tabs={tabs} tab={tab as string} />;
