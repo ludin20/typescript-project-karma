@@ -39,7 +39,7 @@ const Profile: NextPage<Props> = ({ tab }) => {
     }),
     validateOnMount: true,
     onSubmit: (values: ProfileProps) => {
-      return dispatch(updateProfileRequest(values));
+      dispatch(updateProfileRequest(values));
     },
   });
 

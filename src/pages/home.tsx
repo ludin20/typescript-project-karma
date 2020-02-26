@@ -52,7 +52,7 @@ export default function Home() {
       website: Yup.string(),
     }),
     onSubmit: (values: ProfileProps) => {
-      return dispatch(createProfileRequest(values));
+      dispatch(createProfileRequest(values));
     },
   });
 

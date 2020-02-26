@@ -56,7 +56,7 @@ interface Props {
   title: string;
   seeMore?: string;
   data: any[];
-  renderItem: (item: any) => React.FC;
+  renderItem: React.FC;
 }
 
 const AsideCard: React.FC<Props> = ({ title, seeMore, data, renderItem }) => {

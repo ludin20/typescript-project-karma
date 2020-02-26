@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
 import ProfileImage from '../ProfileImage';
+import FollowsModal from '../FollowsModal';
+
+import { followers as followersArray, following as followingArray } from '../../mock';
 
 const Container = styled.div`
   display: flex;
@@ -11,9 +14,11 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
 
+    button,
     p {
-      margin-left: 60px;
+      background: none;
       color: #fff;
+      margin-left: 60px;
 
       display: flex;
       flex-direction: column;
@@ -39,6 +44,42 @@ interface Props {
 }
 
 const ProfileHeader: React.FC<Props> = ({ avatar, posts, followers, following, ...props }) => {
+  const [followersModalIsOpen, setFollowersModalIsOpen] = useState(false);
+  const [followingModalIsOpen, setFollowingModalIsOpen] = useState(false);
+
+  const handleOpenModal = useCallback((type: 'followers' | 'following') => {
+    if (type === 'followers') {
+      setFollowingModalIsOpen(false);
+      setFollowersModalIsOpen(true);
+    } else {
+      setFollowersModalIsOpen(false);
+      setFollowingModalIsOpen(true);
+    }
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setFollowersModalIsOpen(false);
+    setFollowingModalIsOpen(false);
+  }, []);
+
+  const data = useMemo(() => {
+    if (followersModalIsOpen) {
+      return followersArray;
+    } else if (followingModalIsOpen) {
+      return followingArray;
+    }
+
+    return [];
+  }, [followersModalIsOpen, followingModalIsOpen]);
+
+  const title = useMemo(() => {
+    if (followersModalIsOpen) {
+      return 'Followers';
+    } else {
+      return 'Following';
+    }
+  }, [followersModalIsOpen]);
+
   return (
     <Container {...props}>
       <ProfileImage size="big" path={avatar as string} online={false} alt="avatar" />
@@ -49,16 +90,23 @@ const ProfileHeader: React.FC<Props> = ({ avatar, posts, followers, following, .
           <span>Posts</span>
         </p>
 
-        <p>
+        <button onClick={() => handleOpenModal('followers')}>
           <strong>{followers}</strong>
           <span>Followers</span>
-        </p>
+        </button>
 
-        <p>
+        <button onClick={() => handleOpenModal('following')}>
           <strong>{following}</strong>
           <span>Following</span>
-        </p>
+        </button>
       </section>
+
+      <FollowsModal
+        data={data}
+        open={followersModalIsOpen || followingModalIsOpen}
+        close={handleCloseModal}
+        title={title}
+      />
     </Container>
   );
 };
