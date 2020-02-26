@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import FollowButton from '../FollowButton';
-import ProfileImage from '../ProfileImage';
+import Avatar from '../Avatar';
 
 const Container = styled.div`
   width: 100%;
@@ -38,11 +38,11 @@ interface Props {
   children: React.ReactChild;
 }
 
-const WhoToFollowCard: React.FC<Props> = ({ id, name, username, profileImageUrl, following, online }: any) => {
+const WhoToFollowCard: React.FC<Props> = ({ id, name, username, avatar, following, online }: any) => {
   return (
     <Container key={id}>
       <div>
-        <ProfileImage online={online} path={profileImageUrl} alt={name} size="small" />
+        <Avatar online={online} path={avatar} alt={name} size="small" />
         <section>
           <strong>{name}</strong>
           <span>{username}</span>

@@ -9,18 +9,21 @@ import Sidebar from './Sidebar/Sidebar';
 import Header from './Header/Header';
 import Aside from './Aside/Aside';
 import Title from './Title';
-import ProfileImage from './ProfileImage';
+import Avatar from './Avatar';
 import FollowButton from './FollowButton';
 import CreateProfile from './CreateProfile';
-import Tabs from './Tabs';
+import Tabs from './Tabs/Tabs';
 import Actions from './Actions';
 import ProfileMedia from './Profile/ProfileMedia';
 import ProfileThoughts from './Profile/ProfileThoughts';
-import ProfileContainer from './Profile/Profile';
 import PostCard from './PostCard';
 import CreatePostModal from './CreatePost/CreatePostModal';
 import FollowsModal from './FollowsModal';
 import withoutAvatar from './assets/withoutAvatar.svg';
+import ProfileHeader from './Profile/ProfileHeader';
+import ProfileInfo from './Profile/ProfileInfo';
+import UpdateProfile from './UpdateProfile';
+import GoBackButton from './GoBackButton';
 
 export {
   theme,
@@ -34,16 +37,19 @@ export {
   Header,
   Aside,
   Title,
-  ProfileImage,
+  Avatar,
   FollowButton,
   CreateProfile,
   Tabs,
   Actions,
-  ProfileContainer,
   ProfileMedia,
   ProfileThoughts,
   PostCard,
   withoutAvatar,
   CreatePostModal,
   FollowsModal,
+  ProfileHeader,
+  ProfileInfo,
+  UpdateProfile,
+  GoBackButton,
 };

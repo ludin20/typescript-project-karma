@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
-import ProfileImage from '../ProfileImage';
+import Avatar from '../Avatar';
 import FollowButton from '../FollowButton';
 
 import verified from '../assets/verified.png';
@@ -60,7 +60,7 @@ const Button = styled(FollowButton)`
   justify-content: center;
 `;
 
-const Image = styled(ProfileImage)`
+const Image = styled(Avatar)`
   width: 45px;
   height: 45px;
 `;

@@ -1,0 +1,103 @@
+const following = [
+  {
+    id: 1,
+    name: 'Jean',
+    username: '@jeanfoton',
+    avatar: `https://api.adorable.io/avatars/100/jean`,
+    following: true,
+    online: false,
+  },
+  {
+    id: 2,
+    name: 'Dallas',
+    username: '@dallaskarma',
+    avatar: `https://api.adorable.io/avatars/100/dallas`,
+    following: true,
+    online: true,
+  },
+  {
+    id: 3,
+    name: 'Dimitri',
+    username: '@dimitrifoton',
+    avatar: `https://api.adorable.io/avatars/100/dimitri`,
+    following: true,
+    online: false,
+  },
+  {
+    id: 4,
+    name: 'Aliyah Bernard',
+    username: '@aliyahbernard',
+    avatar: `https://api.adorable.io/avatars/100/aliyahbernard`,
+    following: true,
+    online: false,
+  },
+  {
+    id: 5,
+    name: 'Amy Zhu',
+    username: '@zhu',
+    avatar: `https://api.adorable.io/avatars/100/zhu`,
+    following: true,
+    online: false,
+  },
+  {
+    id: 6,
+    name: 'Quez Pearson',
+    username: '@quezpearson',
+    avatar: `https://api.adorable.io/avatars/100/quezpearson`,
+    following: true,
+    online: false,
+  },
+];
+
+const followers = [
+  {
+    id: 1,
+    name: 'Jean',
+    username: '@jeanfoton',
+    avatar: `https://api.adorable.io/avatars/100/jean`,
+    following: true,
+    online: false,
+  },
+  {
+    id: 2,
+    name: 'Dallas',
+    username: '@dallaskarma',
+    avatar: `https://api.adorable.io/avatars/100/dallas`,
+    following: false,
+    online: true,
+  },
+  {
+    id: 3,
+    name: 'Dimitri',
+    username: '@dimitrifoton',
+    avatar: `https://api.adorable.io/avatars/100/dimitri`,
+    following: false,
+    online: false,
+  },
+  {
+    id: 4,
+    name: 'Aliyah Bernard',
+    username: '@aliyahbernard',
+    avatar: `https://api.adorable.io/avatars/100/aliyahbernard`,
+    following: false,
+    online: false,
+  },
+  {
+    id: 5,
+    name: 'Amy Zhu',
+    username: '@zhu',
+    avatar: `https://api.adorable.io/avatars/100/zhu`,
+    following: true,
+    online: false,
+  },
+  {
+    id: 6,
+    name: 'Quez Pearson',
+    username: '@quezpearson',
+    avatar: `https://api.adorable.io/avatars/100/quezpearson`,
+    following: true,
+    online: false,
+  },
+];
+
+export { following, followers };

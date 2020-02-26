@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { TextInput, ProfileImage, withoutAvatar } from '../../ui';
+import { TextInput, Avatar, withoutAvatar } from '../../ui';
 
 const Container = styled.div`
   margin-top: 30px;
@@ -66,14 +66,14 @@ const PostComments: React.FC<Props> = ({ comments, avatar }) => {
   return (
     <Container>
       <CreateComment>
-        <ProfileImage online={false} path={avatar || withoutAvatar} alt="avatar" />
+        <Avatar online={false} path={avatar || withoutAvatar} alt="avatar" />
         <Input placeholder="Write a comment" dark font="small" />
       </CreateComment>
 
       <ul>
         {comments.map(({ author, ...comment }) => (
           <li key={author.username}>
-            <ProfileImage online={false} path={author.avatar || withoutAvatar} alt={author.username} />
+            <Avatar online={false} path={author.avatar || withoutAvatar} alt={author.username} />
             <section>
               <header>
                 <strong>{author.username}</strong>

@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import Logo from '../Logo';
-
 import withoutAvatar from '../assets/withoutAvatar.svg';
 
-import { ProfileProps } from '../../store/modules/user/actions';
-import { signOut } from '../../store/modules/auth/actions';
+import { RootState } from '../../store/modules/rootReducer';
 
 import SidebarNav from './SidebarNav';
 
-const Container = styled.div<Props>`
+const Container = styled.div<{ collapsed: boolean; withAvatar: boolean }>`
   width: 280px;
   min-height: 100%;
   background: ${props => props.theme.dark};
@@ -67,15 +66,14 @@ const Container = styled.div<Props>`
 interface Props {
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
-  profile: ProfileProps;
   withAvatar?: boolean;
 }
 
-const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed, profile }) => {
-  if (!profile) return <div />;
+const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed }) => {
+  const profile = useSelector((state: RootState) => state.user.profile);
 
   return (
-    <Container collapsed={collapsed} setCollapsed={setCollapsed} profile={profile} withAvatar={!!profile.avatar}>
+    <Container collapsed={collapsed} withAvatar={!!profile.avatar}>
       <Logo size="small" />
       <header>
         <div>
@@ -86,10 +84,10 @@ const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed, profile }) => {
       </header>
 
       <SidebarNav
-        profileImage={profile.avatar || withoutAvatar}
+        username={profile.username}
+        avatar={(profile.avatar as string) || withoutAvatar}
         setCollapsed={setCollapsed}
         collapsed={collapsed}
-        signOut={signOut}
       />
     </Container>
   );

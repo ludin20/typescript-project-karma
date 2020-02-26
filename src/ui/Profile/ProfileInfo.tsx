@@ -1,52 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Button from '../Button';
-
-import verified from '../assets/verified.png';
-import powerIcon from '../assets/power.svg';
+import ProfileInfoHeader from './ProfileInfoHeader';
 
 const Container = styled.div`
-  > header {
-    margin-top: 14px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-
-    p {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      color: #fff;
-
-      div {
-        display: flex;
-        align-items: flex-end;
-
-        img {
-          margin-left: 5px;
-          height: 26px;
-        }
-      }
-
-      strong {
-        font-size: 24px;
-        font-weight: 900;
-      }
-
-      span {
-        margin-top: 6px;
-        font-size: 16px;
-        color: ${props => props.theme.lightBlue};
-      }
-    }
-  }
-
   > p {
     max-width: 250px;
     color: #fff;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.4;
     margin: 12px 0 6px;
     padding-left: 16px;
@@ -69,84 +30,58 @@ const Container = styled.div`
 
   > a {
     color: #2996dd;
-    font-size: 14px;
+    font-size: 18px;
     margin-left: 10px;
-  }
-`;
-
-const Actions = styled.div`
-  display: flex;
-`;
-
-const ActionsButton = styled(Button)`
-  font-size: 20px;
-  font-weight: 900;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  img {
-    height: 23px;
-    margin-right: 10px;
-  }
-
-  &:first-child {
-    box-shadow: 0px 3px 50px #00000034;
-  }
-
-  & + button {
-    margin-left: 20px;
   }
 `;
 
 interface Props {
   name: string;
   username: string;
+  me?: boolean;
   isVerified: boolean;
   power: string | number;
   bio: string;
   website: string;
-  handleModal: () => void;
+  handleModal?: () => void;
+  following?: boolean;
+  followsMe?: boolean;
 }
 
-const ProfileInfo: React.FC<Props> = ({ name, username, isVerified, power, website, handleModal, ...props }) => {
+const ProfileInfo: React.FC<Props> = ({
+  name,
+  username,
+  me,
+  isVerified,
+  power,
+  website,
+  handleModal,
+  following,
+  followsMe,
+  ...props
+}) => {
   const bio = props.bio ? props.bio.split('\n') : [];
 
   return (
     <Container {...props}>
-      <header>
-        <p>
-          {!isVerified ? (
-            <strong>{name}</strong>
-          ) : (
-            <div>
-              <strong>{name}</strong>
-              <img src={verified} alt="verified" />
-            </div>
-          )}
-          <span>{username}</span>
-        </p>
-
-        <Actions>
-          <ActionsButton background="dark" radius="rounded" color={'#26CC8B'}>
-            <img src={powerIcon} alt="power" />
-            {power} Power
-          </ActionsButton>
-
-          <ActionsButton border radius="rounded" onClick={handleModal}>
-            Edit Profile
-          </ActionsButton>
-        </Actions>
-      </header>
+      <ProfileInfoHeader
+        isVerified={isVerified}
+        name={name}
+        username={username}
+        me={me}
+        power={power}
+        handleModal={handleModal}
+        following={following}
+        followsMe={followsMe}
+      />
 
       {bio.length > 0 && (
         <p>
-          {bio.map(line => (
-            <>
+          {bio.map((line, index) => (
+            <React.Fragment key={index}>
               {line}
               <br />
-            </>
+            </React.Fragment>
           ))}
         </p>
       )}

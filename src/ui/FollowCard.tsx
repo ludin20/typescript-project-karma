@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ProfileImage, FollowButton } from './index';
+import { Avatar, FollowButton } from './index';
 
 const Container = styled.div`
   width: 100%;
@@ -53,7 +53,7 @@ const FollowCard: React.FC<Props> = ({ follow }) => {
   return (
     <Container>
       <div>
-        <ProfileImage online={online} path={avatar} alt={name} />
+        <Avatar online={online} path={avatar} alt={name} />
         <section>
           <strong>{name}</strong>
           <span>{username}</span>

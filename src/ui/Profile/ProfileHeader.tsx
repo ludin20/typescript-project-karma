@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
-import ProfileImage from '../ProfileImage';
+import Avatar from '../Avatar';
 import FollowsModal from '../FollowsModal';
 
 import { followers as followersArray, following as followingArray } from '../../mock';
@@ -82,7 +82,7 @@ const ProfileHeader: React.FC<Props> = ({ avatar, posts, followers, following, .
 
   return (
     <Container {...props}>
-      <ProfileImage size="big" path={avatar as string} online={false} alt="avatar" />
+      <Avatar size="big" path={avatar as string} online={false} alt="avatar" />
 
       <section>
         <p>

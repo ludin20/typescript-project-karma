@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { useSelector } from 'react-redux';
-
 import { Sidebar, Header, Aside } from '../../ui';
-
-import { RootState } from '../../store/modules/rootReducer';
 
 const Wrapper = styled.div`
   background: ${props => props.theme.black};
@@ -36,11 +32,10 @@ const Content = styled.div`
 
 const Layout: React.FC = ({ children, ...props }) => {
   const [collapsed, setCollapsed] = useState(false);
-  const profile = useSelector((state: RootState) => state.user.profile);
 
   return (
     <Wrapper {...props}>
-      <Sidebar profile={profile} collapsed={collapsed} setCollapsed={setCollapsed} />
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
       <Container collapsed={collapsed}>
         <Header />
