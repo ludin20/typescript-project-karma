@@ -4,11 +4,9 @@ import styled from 'styled-components';
 import ModalWrapper, { ModalProps } from '../ModalWrapper';
 import Button from '../Button';
 
-import tip from '../assets/tip.svg';
-
-import ChangeTipValue from './ChangeTipValue';
+import ChangeValue from './ChangeValue';
 import Slider from './Slider';
-import TipCards from './TipCards';
+import ValueCards from './ValueCards';
 
 const Container = styled.div`
   width: 100%;
@@ -50,24 +48,32 @@ const SubmitButton = styled(Button)`
   justify-content: center;
 `;
 
-const TipModal: React.FC<ModalProps> = props => {
-  const [tipValue, setTipValue] = useState(0);
+interface WrapperProps extends ModalProps {
+  icon: string;
+  entity: string;
+  handleSubmit(value: number): void;
+  customHeader?: React.FC;
+  method?: string;
+}
+
+const Wrapper: React.FC<WrapperProps> = ({ icon, entity, customHeader: CustomHeader, method = 'KARMA', ...props }) => {
+  const [value, setTipValue] = useState(0);
 
   return (
     <ModalWrapper {...props}>
       <Container>
-        <img src={tip} alt="tip" />
+        {CustomHeader ? <CustomHeader /> : <img src={icon} alt={entity} />}
         <p>
           <span>How much do you want to </span>
-          <span>tip</span>
+          <span>{entity}</span>
           <span>?</span>
         </p>
 
-        <ChangeTipValue tipValue={tipValue} changeValue={setTipValue} />
-        <Slider tipValue={tipValue} changeValue={setTipValue} />
-        <TipCards changeValue={setTipValue} />
+        <ChangeValue value={value} onChange={setTipValue} method={method} />
+        <Slider value={value} onChange={setTipValue} />
+        <ValueCards onChange={setTipValue} />
 
-        <SubmitButton background="green" disabled={tipValue <= 0} type="button" radius="rounded">
+        <SubmitButton background="green" disabled={value <= 0} type="button" radius="rounded">
           Confirm
         </SubmitButton>
       </Container>
@@ -75,4 +81,4 @@ const TipModal: React.FC<ModalProps> = props => {
   );
 };
 
-export default TipModal;
+export default Wrapper;

@@ -35,37 +35,38 @@ const Container = styled.div<{ empty: boolean }>`
 `;
 
 interface Props {
-  tipValue: number;
-  changeValue(value: number): void;
+  value: number;
+  onChange(value: number): void;
+  method: string;
 }
 
-const ChangeTipValue: React.FC<Props> = ({ tipValue, changeValue }) => {
-  const changeTipValue = useCallback(
-    (value: number) => {
-      if (value < 0 || value > 1000) return;
+const ChangeValue: React.FC<Props> = ({ value, method, onChange }) => {
+  const handleChange = useCallback(
+    (karmas: number) => {
+      if (karmas < 0 || karmas > 1000) return;
 
-      changeValue(value);
+      onChange(karmas);
     },
-    [changeValue],
+    [onChange],
   );
 
   return (
-    <Container empty={!!tipValue}>
-      <span>KARMA</span>
+    <Container empty={!!value}>
+      <span>{method}</span>
 
       <section>
-        <button onClick={() => changeTipValue(tipValue - 1)}>
+        <button onClick={() => handleChange(value - 1)}>
           <img src={minus} alt="minus" />
         </button>
-        <strong>{tipValue}</strong>
-        <button onClick={() => changeTipValue(tipValue + 1)}>
+        <strong>{value}</strong>
+        <button onClick={() => handleChange(value + 1)}>
           <img src={plus} alt="plus" />
         </button>
       </section>
 
-      <span>{tipValue}.00 USD</span>
+      <span>{value}.00 USD</span>
     </Container>
   );
 };
 
-export default ChangeTipValue;
+export default ChangeValue;

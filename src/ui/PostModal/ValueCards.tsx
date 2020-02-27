@@ -27,18 +27,18 @@ const Container = styled.ul`
 `;
 
 interface Props {
-  changeValue(value: number): void;
+  onChange(value: number): void;
 }
 
-const TipCards: React.FC<Props> = ({ changeValue }) => {
+const ValueCards: React.FC<Props> = ({ onChange }) => {
   return (
     <Container>
-      <li onClick={() => changeValue(10)}>10</li>
-      <li onClick={() => changeValue(100)}>100</li>
-      <li onClick={() => changeValue(250)}>250</li>
-      <li onClick={() => changeValue(1000)}>1000</li>
+      <li onClick={() => onChange(10)}>10</li>
+      <li onClick={() => onChange(100)}>100</li>
+      <li onClick={() => onChange(250)}>250</li>
+      <li onClick={() => onChange(1000)}>1000</li>
     </Container>
   );
 };
 
-export default TipCards;
+export default ValueCards;
