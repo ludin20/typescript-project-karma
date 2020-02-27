@@ -33,6 +33,7 @@ const Profile: React.FC<Props> = ({ tabs, tab }) => {
       <ProfileHeader avatar={avatar} posts={PostCount} followers={followers} following={following} />
 
       <ProfileInfo
+        avatar={avatar}
         name={name}
         username={profile.username}
         isVerified={isVerified}

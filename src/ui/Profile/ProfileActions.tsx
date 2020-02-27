@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Button from '../Button';
 
 import powerIcon from '../assets/power.svg';
 import FollowButton from '../FollowButton';
+import SendMoneyModal from '../SendMoneyModal/SendMoneyModal';
+import SuccessModal from '../SendMoneyModal/SuccessModal';
 
 const Container = styled.div`
   display: flex;
@@ -22,10 +24,6 @@ const ActionButton = styled(Button)`
     height: 18px;
     margin-right: 8px;
   }
-
-  /* &:first-child {
-    box-shadow: 0px 3px 50px #00000034;
-  } */
 
   & + button {
     margin-left: 20px;
@@ -50,9 +48,26 @@ interface Props {
   power: string | number;
   handleModal?: () => void;
   following?: boolean;
+  avatar: string;
+  username: string;
+  name: string;
 }
 
-const ProfileActions: React.FC<Props> = ({ me, power, handleModal, following }) => {
+const ProfileActions: React.FC<Props> = ({ me, power, handleModal, following, avatar, username, name }) => {
+  const [sendMoneyModalIsOpen, setSendMoneyModalIsOpen] = useState(false);
+  const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
+  const [value, setValue] = useState();
+  const [to, setTo] = useState();
+
+  const handleSubmit = (amount: number, to: string) => {
+    setSendMoneyModalIsOpen(false);
+
+    setValue(amount);
+    setTo(to);
+
+    setSuccessModalIsOpen(true);
+  };
+
   if (me) {
     return (
       <Container>
@@ -75,11 +90,24 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, following }) 
         {power}
       </ActionButton>
 
-      <ActionButton background="dark" radius="rounded" color={'#26CC8B'}>
+      <ActionButton background="dark" radius="rounded" color={'#26CC8B'} onClick={() => setSendMoneyModalIsOpen(true)}>
         Send Money
       </ActionButton>
 
       <FollowingActionButton following={following} />
+
+      {sendMoneyModalIsOpen && (
+        <SendMoneyModal
+          open
+          close={() => setSendMoneyModalIsOpen(false)}
+          profile={{ username, avatar, name }}
+          handleSubmit={handleSubmit}
+        />
+      )}
+
+      {successModalIsOpen && (
+        <SuccessModal open close={() => setSuccessModalIsOpen(false)} karmaValue={value} usdValue={value} to={to} />
+      )}
     </Container>
   );
 };

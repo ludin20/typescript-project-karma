@@ -10,7 +10,7 @@ import ValueCards from './ValueCards';
 
 const Container = styled.div`
   width: 100%;
-  max-width: 400px;
+  max-width: 440px;
   background: ${props => props.theme.dark};
   border-radius: 25px;
   padding: 20px 40px;

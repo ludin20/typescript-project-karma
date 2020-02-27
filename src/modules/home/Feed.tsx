@@ -1,13 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Title } from '../../ui';
+import { Title, PostCard } from '../../ui';
 
 import Layout from '../layout/Layout';
 
-import Posts from './Posts';
-
 const Container = styled.div``;
+
+const Posts = styled.ul`
+  margin-top: 20px;
+`;
 
 const Feed: React.FC = () => {
   const data = [
@@ -63,7 +65,11 @@ const Feed: React.FC = () => {
       <Container>
         <Title withDropDown>Feed</Title>
 
-        <Posts data={data} />
+        <Posts>
+          {data.map(post => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </Posts>
       </Container>
     </Layout>
   );

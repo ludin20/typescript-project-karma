@@ -36,6 +36,7 @@ const Container = styled.div`
 `;
 
 interface Props {
+  avatar: string;
   name: string;
   username: string;
   me?: boolean;
@@ -49,6 +50,7 @@ interface Props {
 }
 
 const ProfileInfo: React.FC<Props> = ({
+  avatar,
   name,
   username,
   me,
@@ -66,6 +68,7 @@ const ProfileInfo: React.FC<Props> = ({
     <Container {...props}>
       <ProfileInfoHeader
         isVerified={isVerified}
+        avatar={avatar}
         name={name}
         username={username}
         me={me}

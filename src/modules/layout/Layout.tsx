@@ -12,22 +12,22 @@ const Wrapper = styled.div`
 const Container = styled.div<{ collapsed: boolean }>`
   width: calc(100% - 280px);
   padding-top: 30px;
-  margin: 0 30px 0 50px;
+  margin: 0 0 0 70px;
 
   position: relative;
   left: ${props => (!props.collapsed ? '0' : '-300px')};
+`;
 
-  > div:nth-child(2) {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
+const ContentWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const Content = styled.div`
   width: 100%;
-  max-width: 630px;
   padding: 30px 0 0;
+  margin-right: 70px;
 `;
 
 const Layout: React.FC = ({ children, ...props }) => {
@@ -40,10 +40,10 @@ const Layout: React.FC = ({ children, ...props }) => {
       <Container collapsed={collapsed}>
         <Header />
 
-        <div>
+        <ContentWrapper>
           <Content>{children}</Content>
           <Aside />
-        </div>
+        </ContentWrapper>
       </Container>
     </Wrapper>
   );
