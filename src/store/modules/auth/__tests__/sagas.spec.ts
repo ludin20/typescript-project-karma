@@ -3,6 +3,7 @@ import { createRouter } from 'next/router';
 
 import { types, signSuccess, authenticateCodeFailure, authenticateCodeSuccess } from '../actions';
 import { sign, authenticateCode } from '../sagas';
+import { defaultProfile } from '../../user/reducers';
 
 const router = createRouter('', {}, '', {
   subscription: null,
@@ -27,7 +28,7 @@ describe('Auth sagas', () => {
       authenticateCode({ type: types.AUTHENTICATE_CODE_REQUEST, payload: { code: '123456', router } }),
     ).toPromise();
 
-    expect(dispatch).toHaveBeenCalledWith(authenticateCodeSuccess('123456', {}));
+    expect(dispatch).toHaveBeenCalledWith(authenticateCodeSuccess('123456', defaultProfile));
   });
 
   it('should not complete sign when code validation fails', async () => {

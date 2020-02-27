@@ -100,7 +100,7 @@ const Balance: React.FC = () => {
         </button>
       </Refresh>
 
-      <strong>$3,906.15</strong>
+      <strong>$ 3,906.15</strong>
       <span>TOTAL BALANCE</span>
       <button>
         <img src={powerIcon} alt="power" />

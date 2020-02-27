@@ -19,12 +19,12 @@ const Container = styled.img<{ online: boolean; size: 'default' | 'small' | 'big
 
 interface Props {
   path: string;
-  online: boolean;
+  online?: boolean;
   alt: string;
   size?: 'default' | 'small' | 'big';
 }
 
-const Avatar: React.FC<Props> = ({ path, online, alt, size = 'default', ...props }) => {
+const Avatar: React.FC<Props> = ({ path, online = false, alt, size = 'default', ...props }) => {
   return <Container {...props} src={path || withoutAvatar} online={online} alt={alt} size={size} />;
 };
 

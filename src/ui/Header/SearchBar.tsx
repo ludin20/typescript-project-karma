@@ -11,10 +11,11 @@ import { UserProps } from './Header';
 
 const Container = styled.div<{ focused: boolean }>`
   width: 100%;
-  max-width: 630px;
   background: linear-gradient(90deg, #20252e 0%, #191a19 100%) 0% 0%;
+  margin-right: 70px;
   padding: 10px 15px;
   border-radius: 50px;
+  border: 1px solid #20252e;
 
   display: flex;
   justify-content: space-between;

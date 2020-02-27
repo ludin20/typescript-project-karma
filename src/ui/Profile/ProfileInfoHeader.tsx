@@ -12,7 +12,7 @@ const Container = styled.header`
   justify-content: space-between;
   align-items: baseline;
 
-  section {
+  > section {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -54,6 +54,7 @@ const Container = styled.header`
 `;
 
 interface Props {
+  avatar: string;
   name: string;
   username: string;
   me?: boolean;
@@ -66,6 +67,7 @@ interface Props {
 
 const ProfileInfoHeader: React.FC<Props> = ({
   isVerified,
+  avatar,
   name,
   username,
   me,
@@ -87,7 +89,15 @@ const ProfileInfoHeader: React.FC<Props> = ({
         </div>
       </section>
 
-      <ProfileActions me={me} power={power} handleModal={handleModal} following={following} />
+      <ProfileActions
+        me={me}
+        power={power}
+        handleModal={handleModal}
+        following={following}
+        name={name}
+        username={username}
+        avatar={avatar}
+      />
     </Container>
   );
 };

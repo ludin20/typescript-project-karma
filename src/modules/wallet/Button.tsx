@@ -63,6 +63,7 @@ const Container = styled.button<Props>`
 
 interface Props {
   actionType: 'Send' | 'Power' | 'Cool' | 'Claim';
+  onClick?(): void;
 }
 
 const Button: React.FC<Props> = ({ actionType, ...props }) => {
@@ -83,7 +84,7 @@ const Button: React.FC<Props> = ({ actionType, ...props }) => {
   }, [actionType]);
 
   return (
-    <Container {...props} actionType={actionType}>
+    <Container {...props} actionType={actionType} type="button">
       <img src={image} alt={actionType} />
       {actionType}
     </Container>

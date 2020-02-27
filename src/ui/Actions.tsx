@@ -13,7 +13,7 @@ import share from './assets/share.svg';
 
 const Container = styled.div`
   margin-left: 60px;
-  width: 85%;
+  width: 85% !important;
 
   display: flex;
   justify-content: space-between;
