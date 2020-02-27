@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 
-import TipModal from './TipModal/TipModal';
+import TipModal from './PostModal/TipModal';
+import BoostModal from './PostModal/BoostModal';
 
 import heart from './assets/withoulike.svg';
 import comment from './assets/comment.svg';
@@ -50,6 +51,7 @@ interface Props {
 
 const Actions: React.FC<Props> = ({ likes, comments, recycles, tips, power, ...props }) => {
   const [tipModalIsOpen, setTipModalIsOpen] = useState(false);
+  const [boostModalIsOpen, setBoostModalIsOpen] = useState(false);
 
   return (
     <>
@@ -74,7 +76,7 @@ const Actions: React.FC<Props> = ({ likes, comments, recycles, tips, power, ...p
           {tips}
         </button>
 
-        <button>
+        <button onClick={() => setBoostModalIsOpen(true)}>
           <img src={rocket} alt="rocket" />
           {power}
         </button>
@@ -85,6 +87,7 @@ const Actions: React.FC<Props> = ({ likes, comments, recycles, tips, power, ...p
       </Container>
 
       {tipModalIsOpen && <TipModal open={tipModalIsOpen} close={() => setTipModalIsOpen(false)} />}
+      {boostModalIsOpen && <BoostModal open={boostModalIsOpen} close={() => setBoostModalIsOpen(false)} />}
     </>
   );
 };
