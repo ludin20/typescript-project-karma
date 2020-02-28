@@ -16,8 +16,8 @@ const FollowButton: React.FC<Props> = ({ following, ...props }) => {
   return (
     <Container
       {...props}
-      background={following ? 'lightGreen' : undefined}
-      border={!following}
+      border
+      borderColor={following ? '#26CC8B' : '#fff'}
       radius="rounded"
       color={following ? '#26CC8B' : undefined}
     >
