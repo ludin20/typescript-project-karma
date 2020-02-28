@@ -25,13 +25,13 @@ const Container = styled.div`
 
     strong {
       color: #fff;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 900;
     }
 
     span {
       color: #6f767e;
-      font-size: 15px;
+      font-size: 16px;
       margin-top: 2px;
     }
   }
@@ -53,7 +53,7 @@ const FollowCard: React.FC<Props> = ({ follow }) => {
   return (
     <Container>
       <div>
-        <Avatar online={online} path={avatar} alt={name} />
+        <Avatar online={online} src={avatar} alt={name} />
         <section>
           <strong>{name}</strong>
           <span>{username}</span>

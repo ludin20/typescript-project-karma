@@ -16,7 +16,8 @@ const Container = styled.div<{ size: 'default' | 'small'; numberOfMedias: number
 
 const Text = styled.strong<{ hashtag: boolean; size: 'default' | 'small' }>`
   color: ${props => (props.hashtag ? props.theme.green : '#fff')};
-  font-size: ${props => (props.size === 'small' ? '16px' : '20px')};
+  font-size: ${props => (props.size === 'small' ? '20px' : '24px')};
+  font-weight: ${props => (props.size === 'small' ? '500' : 'bold')};
 `;
 
 const Img = styled.img`
@@ -32,7 +33,7 @@ interface Props {
 
 const PostContent: React.FC<Props> = ({ content, size }) => {
   return (
-    <Container size={size} numberOfMedias={content.medias.length}>
+    <Container size={size} numberOfMedias={content.medias ? content.medias.length : 1}>
       <p>
         <Text size={size} hashtag={false}>
           {content.description}

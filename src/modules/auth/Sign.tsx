@@ -9,6 +9,7 @@ import JoinBox from './JoinBox';
 
 const Bg = styled.img`
   height: 1000px;
+  width: 700px;
 
   position: absolute;
   top: 0;
@@ -25,12 +26,22 @@ const Container = styled.div`
   justify-content: center;
 
   position: relative;
+  overflow: hidden;
 `;
 
 const StyledLogo = styled(Logo)`
   position: absolute;
   top: 20px;
   right: 40px;
+
+  img {
+    width: 80px;
+    height: 80px;
+  }
+
+  strong {
+    font-size: 40px;
+  }
 `;
 
 const Sign: React.FC = () => {

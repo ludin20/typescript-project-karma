@@ -5,8 +5,7 @@ import Option from './Option';
 import { UserProps } from './Header';
 
 const Container = styled.div`
-  width: 100%;
-  max-width: 630px;
+  width: calc(100% - 460px);
   background: linear-gradient(90deg, #20252e 0%, #191a19 100%);
   border-radius: 0 0 50px 50px;
 

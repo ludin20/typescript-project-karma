@@ -25,12 +25,12 @@ const Container = styled.div`
       align-items: center;
 
       strong {
-        font-size: 25px;
+        font-size: 33px;
         font-weight: 900;
       }
 
       span {
-        font-size: 18px;
+        font-size: 24px;
       }
     }
   }
@@ -82,7 +82,7 @@ const ProfileHeader: React.FC<Props> = ({ avatar, posts, followers, following, .
 
   return (
     <Container {...props}>
-      <Avatar size="big" path={avatar as string} online={false} alt="avatar" />
+      <Avatar size="big" src={avatar as string} alt="avatar" />
 
       <section>
         <p>

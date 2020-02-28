@@ -7,7 +7,7 @@ const Container = styled.div`
   > p {
     max-width: 250px;
     color: #fff;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.4;
     margin: 12px 0 6px;
     padding-left: 16px;

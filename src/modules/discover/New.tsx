@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { discover } from '../../mock';
+import { discoverNew } from '../../mock';
 
 const Container = styled.div`
   display: grid;
@@ -17,7 +17,7 @@ const Container = styled.div`
 const New: React.FC = () => {
   return (
     <Container>
-      {discover.reverse().map(item => (
+      {discoverNew.map(item => (
         <img key={item.id} src={item.image} alt="new" />
       ))}
     </Container>

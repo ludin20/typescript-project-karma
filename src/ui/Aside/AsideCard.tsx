@@ -18,8 +18,8 @@ const Container = styled.div<{ toogled: boolean }>`
       display: flex;
 
       strong {
-        font-size: 18px;
-        font-weight: bold;
+        font-size: 20px;
+        font-weight: 900;
         color: #fff;
       }
 

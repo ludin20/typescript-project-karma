@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useSelector } from 'react-redux';
 
-import { Title, PostCard } from '../../ui';
+import { Title, PostCard, GoBackButton } from '../../ui';
 import { post as mockPost } from '../../mock';
 
 import Layout from '../../modules/layout/Layout';
@@ -13,7 +13,12 @@ import PostComments from '../../modules/post/PostComments';
 
 const TitleWrapper = styled.div`
   display: flex;
+  align-items: center;
   margin-bottom: 20px;
+
+  button {
+    margin: 0 20px 0 0;
+  }
 `;
 
 const Container = styled(Layout)`
@@ -58,6 +63,7 @@ const Post: NextPage<Props> = ({ post }) => {
   return (
     <Container>
       <TitleWrapper>
+        <GoBackButton />
         <Title bordered={false}>Post</Title>
       </TitleWrapper>
 

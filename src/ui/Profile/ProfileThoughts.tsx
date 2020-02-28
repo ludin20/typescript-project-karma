@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import PostCard from '../PostCard';
 
 const Container = styled.ul`
-  max-width: 630px;
+  width: 100%;
 `;
 
 interface Props {

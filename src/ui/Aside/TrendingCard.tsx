@@ -15,14 +15,14 @@ const Container = styled.div`
 
     strong {
       color: #fff;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: bold;
     }
 
     span {
       color: #6f767e;
-      font-size: 14px;
-      margin-top: 5px;
+      font-size: 16px;
+      margin-top: 4px;
     }
   }
 `;

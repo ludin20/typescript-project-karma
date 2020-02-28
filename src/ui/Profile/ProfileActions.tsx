@@ -73,7 +73,7 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, following, av
       <Container>
         <ActionButton background="dark" radius="rounded" color={'#26CC8B'}>
           <img src={powerIcon} alt="power" />
-          {power}
+          {power} Power
         </ActionButton>
 
         <ActionButton border radius="rounded" onClick={handleModal}>
@@ -87,7 +87,7 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, following, av
     <Container>
       <ActionButton background="dark" radius="rounded" color={'#26CC8B'}>
         <img src={powerIcon} alt="power" />
-        {power}
+        {power} Power
       </ActionButton>
 
       <ActionButton background="dark" radius="rounded" color={'#26CC8B'} onClick={() => setSendMoneyModalIsOpen(true)}>

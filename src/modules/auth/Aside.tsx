@@ -13,6 +13,7 @@ const Container = styled.div`
 
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   position: relative;
   z-index: 100;
@@ -23,7 +24,7 @@ const Container = styled.div`
 
     strong {
       font-weight: bold;
-      font-size: 40px;
+      font-size: 50px;
     }
 
     &:first-child,

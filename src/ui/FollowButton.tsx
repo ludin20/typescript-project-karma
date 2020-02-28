@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from './Button';
 
 const Container = styled(Button)`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 900;
 `;
 

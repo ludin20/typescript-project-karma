@@ -23,21 +23,21 @@ const Container = styled.div`
         flex-direction: row;
 
         strong {
-          font-size: 15px;
+          font-size: 16px;
           font-weight: 900;
           color: #fff;
         }
 
         span {
           margin-left: 8px;
-          font-size: 15px;
+          font-size: 16px;
           color: #6f767e;
         }
       }
 
       p {
         margin-top: 8px;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 900;
         color: #fff;
       }
@@ -66,14 +66,14 @@ const PostComments: React.FC<Props> = ({ comments, avatar }) => {
   return (
     <Container>
       <CreateComment>
-        <Avatar online={false} path={avatar || withoutAvatar} alt="avatar" />
+        <Avatar src={avatar || withoutAvatar} alt="avatar" />
         <Input placeholder="Write a comment" dark font="small" />
       </CreateComment>
 
       <ul>
         {comments.map(({ author, ...comment }) => (
           <li key={author.username}>
-            <Avatar online={false} path={author.avatar || withoutAvatar} alt={author.username} />
+            <Avatar src={author.avatar || withoutAvatar} alt={author.username} />
             <section>
               <header>
                 <strong>{author.username}</strong>

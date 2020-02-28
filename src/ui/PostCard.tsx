@@ -19,6 +19,7 @@ const Container = styled.li`
 
     div {
       display: flex;
+      align-items: center;
     }
 
     section {
@@ -29,14 +30,13 @@ const Container = styled.li`
 
       strong {
         color: #fff;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 900;
       }
 
       span {
         color: #6f767e;
-        font-size: 14px;
-        margin-top: 5px;
+        font-size: 16px;
       }
     }
   }
@@ -79,7 +79,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default' }) => {
         <div>
           <Avatar
             online={author.online || false}
-            path={author.avatar || author.avatar || withoutAvatar}
+            src={author.avatar || author.avatar || withoutAvatar}
             alt={author.name}
           />
           <section>

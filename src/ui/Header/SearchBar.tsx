@@ -26,7 +26,7 @@ const Container = styled.div<{ focused: boolean }>`
 
   img {
     width: auto;
-    height: 16px;
+    height: 20px;
   }
 
   input {
@@ -34,7 +34,7 @@ const Container = styled.div<{ focused: boolean }>`
     width: 100%;
     background: none;
     border: none;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 300;
     color: #fff;
     margin-left: 10px;

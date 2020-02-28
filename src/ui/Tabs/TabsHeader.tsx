@@ -44,10 +44,10 @@ const ContainerWithoutTitle = styled.div`
   grid-gap: 24px;
 `;
 
-const Button = styled.button<{ active: boolean; withTitle?: boolean }>`
+const Button = styled.button<{ active: boolean; withTitle?: boolean; size: 'default' | 'big' }>`
   background: none;
   color: ${props => (props.active ? '#fff' : 'rgba(255,255,255,0.4)')};
-  font-size: 18px;
+  font-size: ${props => (props.size === 'default' ? '18px' : '28px')};
   font-weight: 900;
   transition: color 0.2s;
 
@@ -65,9 +65,10 @@ interface Props {
   tabs?: TabInterface[];
   active: number;
   setActive: (index: number) => void;
+  size: 'default' | 'big';
 }
 
-const TabsHeader: React.FC<Props> = ({ children, tabs, active, setActive }) => {
+const TabsHeader: React.FC<Props> = ({ children, tabs, active, setActive, size }) => {
   const router = useRouter();
 
   const handleClick = (tabName: string, index: number) => {
@@ -94,6 +95,7 @@ const TabsHeader: React.FC<Props> = ({ children, tabs, active, setActive }) => {
             onClick={() => handleClick(tab.name.toLocaleLowerCase(), index)}
             active={active === index}
             withTitle
+            size={size}
           >
             {tab.name}
           </Button>
@@ -103,7 +105,12 @@ const TabsHeader: React.FC<Props> = ({ children, tabs, active, setActive }) => {
   ) : (
     <ContainerWithoutTitle>
       {tabs.map((tab, index) => (
-        <Button key={index} onClick={() => handleClick(tab.name.toLocaleLowerCase(), index)} active={active === index}>
+        <Button
+          key={index}
+          onClick={() => handleClick(tab.name.toLocaleLowerCase(), index)}
+          active={active === index}
+          size={size}
+        >
           {tab.name}
         </Button>
       ))}

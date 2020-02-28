@@ -20,7 +20,7 @@ const Container = styled.div<Props>`
     position: relative;
 
     span {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 300;
       color: rgba(255, 255, 255, 0.4);
     }
@@ -39,8 +39,7 @@ const Container = styled.div<Props>`
     background: none;
     color: ${props => props.theme.white};
     border: none;
-    font-size: 20px;
-    padding: 8px 0;
+    font-size: 24px;
 
     flex: 1;
 

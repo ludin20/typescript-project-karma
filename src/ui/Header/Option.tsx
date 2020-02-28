@@ -60,11 +60,6 @@ const Button = styled(FollowButton)`
   justify-content: center;
 `;
 
-const Image = styled(Avatar)`
-  width: 45px;
-  height: 45px;
-`;
-
 interface Props {
   value: UserProps;
   onSelect(value: UserProps): void;
@@ -78,7 +73,7 @@ const Option: React.FC<Props> = ({ value, onSelect }) => {
   return (
     <Container onClick={handleClick}>
       <div>
-        <Image online={value.online} path={value.avatar} alt={value.name} size="default" />
+        <Avatar online={value.online} src={value.avatar} alt={value.name} size="default" />
 
         <section>
           {!value.verified ? (

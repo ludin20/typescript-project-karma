@@ -3,51 +3,43 @@ import styled from 'styled-components';
 
 import commented from '../../assets/commented.svg';
 
+import { Avatar } from '../../ui';
+
+import Icon from './Icon';
+
 const Container = styled.div`
   width: 100%;
   margin-top: 40px;
 
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
 
-  img {
-    width: 30px;
+  span {
+    color: ${props => props.theme.gray};
+    font-size: 16px;
+    margin-left: 3px;
   }
 
-  p {
+  header {
+    display: flex;
+    align-items: center;
+
+    p {
+      margin-left: 5px;
+    }
+  }
+
+  > p {
+    margin-left: 93px;
     color: ${props => props.theme.gray};
-    font-size: 14px;
+    font-size: 16px;
     line-height: 22px;
     font-weight: 900;
   }
 
-  img {
-    height: 30px;
-
-    &:first-child {
-      margin-right: 10px;
-    }
-  }
-
-  span {
-    color: ${props => props.theme.gray};
-    font-size: 14px;
-    font-weight: 900;
-  }
-
-  section {
-    display: flex;
-
-    img:nth-child(1) {
-      border-radius: 50%;
-    }
-
-    strong {
-      color: #fff;
-      font-size: 14px;
-    }
+  strong {
+    color: #fff;
+    font-size: 16px;
   }
 `;
 
@@ -60,17 +52,16 @@ const CommentActivity: React.FC<Props> = ({ item: data }) => {
 
   return (
     <Container>
-      <img src={commented} alt="comment" />
-
-      <section>
-        <img src={author.imageUrl} alt={author.name} />
+      <header>
+        <Icon src={commented} alt="comment" />
+        <Avatar src={author.avatar} alt={author.name} size="small" />
         <p>
-          <strong>{`${author.name}  `}</strong>
-          commented on your post: {data.content}
+          <strong>{author.name}</strong>
+          <span> {data.date}</span>
         </p>
-      </section>
+      </header>
 
-      <span>{data.date}</span>
+      <p>commented on your post: {data.content}</p>
     </Container>
   );
 };
