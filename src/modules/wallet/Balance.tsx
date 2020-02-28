@@ -51,7 +51,7 @@ const rotate = keyframes`
   }
 `;
 
-const Refresh = styled.div<{ loading: boolean }>`
+const Refresh = styled.div<{ loading: number }>`
   width: 100%;
 
   display: flex;
@@ -94,7 +94,7 @@ const Balance: React.FC = () => {
 
   return (
     <Container>
-      <Refresh loading={loading}>
+      <Refresh loading={loading ? 1 : 0}>
         <button onClick={handleRefresh} type="button">
           <img src={refresh} alt="refresh" />
         </button>

@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import { useField, useFormikContext } from 'formik';
 
 import Button from '../Button';
 
@@ -51,31 +52,36 @@ export interface SendMoneyFormProps {
     username: string;
     avatar: string;
   };
-  handleSubmit?(value?: number, to?: string): void;
-  onChangeTo?(value: string): void;
-  to?: string;
 }
 
-const Form: React.FC<SendMoneyFormProps> = ({ profile, handleSubmit, onChangeTo, to }) => {
+const Form: React.FC<SendMoneyFormProps> = ({ profile }) => {
   const [empty, setEmpty] = useState(true);
 
-  const onChange = useCallback(e => {
-    if (e.target.value === '') {
-      setEmpty(true);
-    } else {
-      setEmpty(false);
-    }
-  }, []);
+  const [memo] = useField('memo');
+  const { setFieldValue, handleSubmit } = useFormikContext<any>();
+
+  const onChange = useCallback(
+    e => {
+      if (e.target.value === '') {
+        setEmpty(true);
+      } else {
+        setEmpty(false);
+      }
+
+      setFieldValue('memo', e.target.value);
+    },
+    [setFieldValue],
+  );
 
   return (
     <>
       <Container empty={empty}>
-        <SendTo profile={profile} onChangeTo={onChangeTo} to={to} />
+        <SendTo profile={profile} />
 
-        <textarea onChange={onChange} placeholder="What’s this for?" />
+        <textarea onChange={onChange} value={memo.value} placeholder="What’s this for?" />
       </Container>
 
-      <SubmitButton type="button" radius="rounded" onClick={() => handleSubmit()}>
+      <SubmitButton type="submit" radius="rounded" onClick={handleSubmit}>
         Confirm
       </SubmitButton>
     </>

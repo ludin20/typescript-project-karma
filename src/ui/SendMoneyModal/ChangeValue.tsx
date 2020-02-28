@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
+import { useField, useFormikContext } from 'formik';
 
 import upAndDown from '../assets/up-and-down.svg';
 
@@ -59,26 +60,24 @@ const Container = styled.div<{ empty: boolean }>`
   }
 `;
 
-interface Props {
-  value: number;
-  onChange(value?: number): void;
-}
-
-const ChangeValue: React.FC<Props> = ({ value, onChange }) => {
+const ChangeValue: React.FC = () => {
   const [currency, setCurrency] = useState<'KARMA' | 'USD'>('KARMA');
+
+  const [field] = useField('value');
+  const { setFieldValue } = useFormikContext<any>();
 
   const handleChangeValue = useCallback(
     (amount: number) => {
       if (amount < 0 || amount > 1000) return;
 
       if (amount === 0) {
-        onChange();
+        setFieldValue('value', 0);
         return;
       }
 
-      onChange(amount);
+      setFieldValue('value', amount);
     },
-    [onChange],
+    [setFieldValue],
   );
 
   const handleChangeCurrency = useCallback(() => {
@@ -90,7 +89,7 @@ const ChangeValue: React.FC<Props> = ({ value, onChange }) => {
   }, [currency]);
 
   return (
-    <Container empty={!!value}>
+    <Container empty={!!field.value}>
       <span>{currency}</span>
 
       <section>
@@ -98,7 +97,7 @@ const ChangeValue: React.FC<Props> = ({ value, onChange }) => {
         <input
           type="number"
           placeholder="0"
-          value={value}
+          value={field.value}
           onChange={e => handleChangeValue(Number(e.target.value))}
           max={1000}
         />
@@ -108,7 +107,7 @@ const ChangeValue: React.FC<Props> = ({ value, onChange }) => {
       </section>
 
       <span>
-        {value ? value.toFixed() : '0.00'} {currency === 'KARMA' ? 'USD' : 'KARMA'}
+        {field.value ? field.value.toFixed() : '0.00'} {currency === 'KARMA' ? 'USD' : 'KARMA'}
       </span>
     </Container>
   );
