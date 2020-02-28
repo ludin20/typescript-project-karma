@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ModalWrapper, { ModalProps } from '../ModalWrapper';
 import Button from '../Button';
 
-import success from '../assets/tip.png';
+import success from '../assets/success.svg';
 
 const Container = styled.div`
   width: 100%;
@@ -17,15 +17,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  position: relative;
-
-  > img {
-    position: absolute;
-    top: -100px;
-    width: 250px;
-    height: 250px;
-  }
 
   span {
     color: ${props => props.theme.green};
@@ -70,6 +61,14 @@ const Container = styled.div`
   }
 `;
 
+const SuccessIcon = styled.img`
+  position: absolute;
+  z-index: 2;
+  top: -110px;
+  width: 430px;
+  height: 430px;
+`;
+
 const SubmitButton = styled(Button)`
   width: 100%;
   max-width: 500px;
@@ -77,6 +76,7 @@ const SubmitButton = styled(Button)`
   font-size: 18px;
   font-weight: 900;
   margin-top: 20px;
+  z-index: 2;
 `;
 
 interface Props extends ModalProps {
@@ -88,9 +88,9 @@ interface Props extends ModalProps {
 const SuccessModal: React.FC<Props> = ({ to, karmaValue, usdValue, ...props }) => {
   return (
     <ModalWrapper {...props}>
-      <Container>
-        {/* <img src={success} alt="confirmation" /> */}
+      <SuccessIcon src={success} alt="confirmation" />
 
+      <Container>
         <span>Successfully sent!</span>
 
         <p>

@@ -20,7 +20,7 @@ const Feed: React.FC = () => {
 
         <Posts>
           {feed.map(post => (
-            <PostCard key={post.id} post={post} />
+            <PostCard key={post.id} post={post} withFollowButton={false} />
           ))}
         </Posts>
       </Container>
