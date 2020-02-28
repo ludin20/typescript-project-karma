@@ -8,7 +8,7 @@ import activity from '../assets/activity-white.svg';
 import plus from '../assets/plus.svg';
 
 const Container = styled.div`
-  min-width: 310px;
+  min-width: 360px;
   margin-right: 30px;
 
   display: flex;

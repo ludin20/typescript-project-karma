@@ -16,9 +16,10 @@ interface Props {
   title?: string;
   paramTab?: string;
   tabs: TabInterface[];
+  size?: 'default' | 'big';
 }
 
-const Tabs: React.FC<Props> = ({ title, tabs, paramTab }) => {
+const Tabs: React.FC<Props> = ({ title, tabs, paramTab, size = 'default' }) => {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const Tabs: React.FC<Props> = ({ title, tabs, paramTab }) => {
 
   return (
     <>
-      <TabsHeader tabs={tabs} setActive={setActive} active={active}>
+      <TabsHeader tabs={tabs} setActive={setActive} active={active} size={size}>
         {title}
       </TabsHeader>
 

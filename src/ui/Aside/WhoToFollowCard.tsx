@@ -22,14 +22,13 @@ const Container = styled.div`
 
     strong {
       color: #fff;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 900;
     }
 
     span {
       color: #6f767e;
-      font-size: 14px;
-      margin-top: 5px;
+      font-size: 16px;
     }
   }
 `;
@@ -42,7 +41,7 @@ const WhoToFollowCard: React.FC<Props> = ({ id, name, username, avatar, followin
   return (
     <Container key={id}>
       <div>
-        <Avatar online={online} path={avatar} alt={name} size="small" />
+        <Avatar online={online} src={avatar} alt={name} />
         <section>
           <strong>{name}</strong>
           <span>{username}</span>

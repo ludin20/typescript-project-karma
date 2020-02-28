@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 const Container = styled.button<{ selected: boolean }>`
   background: none;
   color: #fff;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 900;
   margin-top: 30px;
   padding-right: 20px;
@@ -25,8 +25,8 @@ const Container = styled.button<{ selected: boolean }>`
   }
 
   img {
-    height: 22px;
-    width: 22px;
+    height: 24px;
+    width: 24px;
     margin-right: 20px;
   }
 

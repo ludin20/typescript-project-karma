@@ -10,7 +10,7 @@ import RecycleActivity from './RecycleActivity';
 
 const Container = styled.div`
   > strong {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 900;
     color: #fff;
   }

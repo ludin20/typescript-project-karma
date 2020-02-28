@@ -62,7 +62,7 @@ const ModalForm: React.FC<Props> = ({ formik, setFiles, files }) => {
     <FormikProvider value={formik}>
       <Container onSubmit={handleSubmit}>
         <section>
-          <Avatar path={(avatar as string) || withoutAvatar} online={false} alt="avatar" size="small" />
+          <Avatar src={(avatar as string) || withoutAvatar} alt="avatar" size="small" />
           <Input withMedia={files.length > 0} multiline name="content" placeholder="Post something awesome!" dark />
         </section>
 

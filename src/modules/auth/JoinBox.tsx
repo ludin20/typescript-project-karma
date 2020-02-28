@@ -12,7 +12,6 @@ import { RootState } from '../../store/modules/rootReducer';
 
 const Container = styled.form`
   width: 400px;
-  max-width: 400px;
   background: ${props => props.theme.dark};
   padding: 50px 30px 60px;
   box-shadow: 0px 3px 20px #0000004d;
@@ -48,7 +47,7 @@ const Container = styled.form`
 
     span {
       color: #fff;
-      font-size: 18px;
+      font-size: 20px;
       margin-left: 15px;
     }
 

@@ -11,7 +11,7 @@ import Feed from '../modules/home/Feed';
 import { RootState } from '../store/modules/rootReducer';
 
 export default function Home() {
-  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const isNewUser = useSelector((state: RootState) => state.auth.isNewUser);
   const dispatch = useDispatch();
@@ -58,8 +58,8 @@ export default function Home() {
 
   return (
     <>
-      <CreateProfile open={modalIsOpen} close={close} formik={formik} />
       <Feed />
+      {modalIsOpen && <CreateProfile open close={close} formik={formik} />}
     </>
   );
 }

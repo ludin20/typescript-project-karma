@@ -82,7 +82,7 @@ const SendTo: React.FC<SendMoneyFormProps> = ({ profile }) => {
   if (profile) {
     return (
       <Container hasProfile>
-        <Avatar path={profile.avatar || withoutAvatar} alt={profile.username} />
+        <Avatar src={profile.avatar || withoutAvatar} alt={profile.username} />
 
         <section>
           <strong>Sending To </strong>

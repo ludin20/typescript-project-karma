@@ -9,7 +9,7 @@ const Container = styled.button`
   margin: 0 0 30px 5px;
 
   img {
-    width: 25px;
+    width: 26px;
   }
 `;
 

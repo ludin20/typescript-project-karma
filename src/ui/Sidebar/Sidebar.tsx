@@ -49,7 +49,7 @@ const Container = styled.div<{ collapsed: boolean; withAvatar: boolean }>`
 
     strong {
       color: #fff;
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 900;
       font-family: Montserrat, sans-serif;
     }
@@ -58,7 +58,7 @@ const Container = styled.div<{ collapsed: boolean; withAvatar: boolean }>`
       color: #fff;
       margin-top: 5px;
       opacity: 0.4;
-      font-size: 16px;
+      font-size: 18px;
     }
   }
 `;

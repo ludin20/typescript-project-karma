@@ -2,13 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 import like from '../../assets/like.svg';
+import { Avatar } from '../../ui';
+
+import Icon from './Icon';
 
 const Container = styled.div`
-  margin-top: 40px;
+  margin-top: 25px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
-  img {
+  img:last-child {
+    height: 30px;
     width: 30px;
   }
 
@@ -16,25 +21,18 @@ const Container = styled.div`
     display: flex;
     align-items: center;
 
-    img:nth-child(2) {
-      margin-left: 20px;
-      height: 30px;
-      border-radius: 50%;
-    }
-
     p {
-      margin-left: 15px;
+      margin-left: 5px;
 
       strong {
         color: #fff;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 900;
       }
 
       span {
-        margin-left: 10px;
         color: ${props => props.theme.gray};
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 900;
       }
     }
@@ -51,12 +49,12 @@ const LikeActivity: React.FC<Props> = ({ item }) => {
   return (
     <Container>
       <section>
-        <img src={like} alt="Like" />
-        <img src={author.imageUrl} alt={author.name} />
+        <Icon src={like} alt="Like" />
+        <Avatar src={author.avatar} alt={author.name} size="small" />
 
         <p>
           <strong>{author.name}</strong>
-          <span>liked your post: {`"${item.content}"`} </span>
+          <span>{`  liked your post: "${item.content}"`} </span>
           <span>{item.date}</span>
         </p>
       </section>

@@ -5,6 +5,14 @@ import p4 from './assets/p4.png';
 import p5 from './assets/p5.png';
 import p6 from './assets/p6.png';
 
+import quez from './assets/quez.png';
+import q1 from './assets/q1.png';
+import q2 from './assets/q2.png';
+import q3 from './assets/q3.png';
+import a1 from './assets/a1.png';
+import a2 from './assets/a2.png';
+import a3 from './assets/a3.png';
+
 const posts = [
   {
     id: 1,
@@ -75,14 +83,10 @@ const post = {
   content: {
     description: 'Be where you need to be when you need to be.',
     hashtags: ['#greece'],
-    medias: [
-      'https://api.adorable.io/avatars/300/quezpearson',
-      'https://api.adorable.io/avatars/300/quezpearson',
-      'https://api.adorable.io/avatars/300/quezpearson',
-    ],
+    medias: [q1, q2, q3],
   },
   author: {
-    avatar: `https://api.adorable.io/avatars/100/quezpearson`,
+    avatar: quez,
     name: 'Quez Pearson',
     username: '@quezpearson',
     following: false,
@@ -91,7 +95,7 @@ const post = {
     {
       id: 1,
       author: {
-        avatar: `https://api.adorable.io/avatars/100/alexrincon`,
+        avatar: a1,
         username: 'alexrincon',
       },
       time: '2h',
@@ -100,7 +104,7 @@ const post = {
     {
       id: 2,
       author: {
-        avatar: `https://api.adorable.io/avatars/100/amyzhu`,
+        avatar: a2,
         username: 'amyzhu',
       },
       time: '45m',
@@ -109,7 +113,7 @@ const post = {
     {
       id: 3,
       author: {
-        avatar: `https://api.adorable.io/avatars/100/quezpearson`,
+        avatar: a3,
         username: 'quezpearson',
       },
       time: '7s',

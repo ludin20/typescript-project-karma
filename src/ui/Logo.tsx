@@ -25,13 +25,13 @@ const Container = styled.div<Props>`
     css`
       margin: 0 auto;
       strong {
-        font-size: 25px;
+        font-size: 24px;
         margin-left: 10px;
       }
 
       > img {
-        width: 45px;
-        height: 45px;
+        width: 35px;
+        height: 35px;
       }
     `}
 `;

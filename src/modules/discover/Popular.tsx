@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { discover } from '../../mock';
+import { discoverPopular } from '../../mock';
 
 const Container = styled.div`
   display: grid;
@@ -21,7 +21,7 @@ interface Props {
 const Popular: React.FC<Props> = () => {
   return (
     <Container>
-      {discover.map(item => (
+      {discoverPopular.map(item => (
         <img key={item.id} src={item.image} alt="popular" />
       ))}
     </Container>

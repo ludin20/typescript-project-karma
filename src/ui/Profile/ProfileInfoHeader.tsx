@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import verified from '../assets/verified.png';
 
@@ -35,22 +35,27 @@ const Container = styled.header`
         font-size: 13px;
         border-radius: 5px;
       }
-
-      &:nth-child(2) {
-        margin-top: 10px;
-      }
     }
 
     strong {
-      font-size: 24px;
+      font-size: 30px;
       font-weight: 900;
     }
 
     span {
-      font-size: 16px;
+      font-size: 20px;
       color: ${props => props.theme.lightBlue};
     }
   }
+`;
+
+const Username = styled.div<{ me: boolean; followsMe: boolean }>`
+  ${props =>
+    !props.me &&
+    props.followsMe &&
+    css`
+      margin-top: 10px;
+    `}
 `;
 
 interface Props {
@@ -83,10 +88,11 @@ const ProfileInfoHeader: React.FC<Props> = ({
           <strong>{name}</strong>
           {isVerified && <img src={verified} alt="verified" />}
         </div>
-        <div>
+
+        <Username me={me} followsMe={followsMe}>
           <span>{username}</span>
           {!me && followsMe && <div>Follows You</div>}
-        </div>
+        </Username>
       </section>
 
       <ProfileActions

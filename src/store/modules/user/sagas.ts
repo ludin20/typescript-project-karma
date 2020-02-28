@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import { takeLatest, all, put } from 'redux-saga/effects';
 
 import {
@@ -28,6 +29,13 @@ export function* updateProfile({ payload }: ReturnType<typeof updateProfileReque
     if (!data) throw new Error();
 
     yield put(updateProfileSuccess(data));
+
+    const username = data.username.split('@')[1];
+
+    const href = '/profile/[username]/[tab]';
+    const as = `/profile/${username}/media`;
+
+    Router.push(href, as, { shallow: true });
   } catch (error) {
     yield put(profileFailure());
   }

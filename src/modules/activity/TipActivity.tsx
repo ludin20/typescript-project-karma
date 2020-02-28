@@ -3,6 +3,10 @@ import styled from 'styled-components';
 
 import tip from '../../assets/tip-big.png';
 
+import { Avatar } from '../../ui';
+
+import Icon from './Icon';
+
 const Container = styled.div`
   width: 100%;
   margin-top: 40px;
@@ -18,33 +22,23 @@ const Container = styled.div`
 
     span {
       color: ${props => props.theme.gray};
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 900;
     }
   }
 
-  img {
-    width: 30px;
-  }
-
-  img:nth-child(2) {
-    margin-left: 20px;
-    height: 30px;
-    border-radius: 50%;
-  }
-
   p {
-    margin-left: 15px;
+    margin-left: 5px;
 
     strong {
       color: #fff;
-      font-size: 14px;
+      font-size: 16px;
       margin-right: 5px;
     }
 
     span {
       color: ${props => props.theme.gray};
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 900;
 
       &:last-child {
@@ -63,9 +57,9 @@ const TipActivity: React.FC<Props> = ({ item }) => {
 
   return (
     <Container>
-      <img src={tip} alt="tip" />
+      <Icon src={tip} alt="tip" />
 
-      <img src={author.imageUrl} alt={author.name} />
+      <Avatar src={author.avatar} alt={author.name} size="small" />
       <section>
         <p>
           <strong>{`${author.name}  `}</strong>

@@ -44,7 +44,7 @@ const Profile: React.FC<Props> = ({ tabs, tab }) => {
         followsMe={followsMe}
       />
 
-      <Tabs tabs={tabs} paramTab={tab || ''} />
+      <Tabs tabs={tabs} paramTab={tab || ''} size="big" />
     </Layout>
   );
 };

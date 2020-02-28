@@ -1,40 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { whoToFollow } from '../../mock';
+
 import AsideCard from './AsideCard';
 import WhoToFollowCard from './WhoToFollowCard';
 
 const Container = styled.div``;
 
 const WhoToFollow: React.FC = () => {
-  const data = [
-    {
-      id: 1,
-      name: 'Jean',
-      username: '@jeanfoton',
-      avatar: `https://api.adorable.io/avatars/100/jean`,
-      following: false,
-    },
-    {
-      id: 2,
-      name: 'Dallas',
-      username: '@dallaskarma',
-      avatar: `https://api.adorable.io/avatars/100/dallas`,
-      following: true,
-      online: true,
-    },
-    {
-      id: 3,
-      name: 'Dimitri',
-      username: '@dimitrifoton',
-      avatar: `https://api.adorable.io/avatars/100/dimitri`,
-      following: false,
-    },
-  ];
-
   return (
     <Container>
-      <AsideCard title="Who to follow" seeMore="discover/whoToFollow" data={data} renderItem={WhoToFollowCard} />
+      <AsideCard title="Who to follow" seeMore="discover/whoToFollow" data={whoToFollow} renderItem={WhoToFollowCard} />
     </Container>
   );
 };

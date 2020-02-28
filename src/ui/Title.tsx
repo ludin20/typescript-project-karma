@@ -8,7 +8,7 @@ const Container = styled.div<{ toogled: boolean; size: 'default' | 'small'; bord
   align-items: center;
 
   strong {
-    font-size: ${props => (props.size === 'default' ? '30px' : '25px')};
+    font-size: ${props => (props.size === 'default' ? '34px' : '30px')};
     font-weight: 900;
     color: #fff;
   }

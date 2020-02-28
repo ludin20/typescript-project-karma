@@ -5,7 +5,7 @@ import WhoToFollow from './WhoToFollow';
 import Trending from './Trending';
 
 const Container = styled.div`
-  min-width: 310px;
+  min-width: 360px;
   margin: 30px 30px 0 0;
 `;
 

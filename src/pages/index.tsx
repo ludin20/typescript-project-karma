@@ -1,9 +1,32 @@
 import React from 'react';
 
-import AuthPage from '../modules/auth/Auth';
+import styled from 'styled-components';
 
-const Auth = () => {
-  return <AuthPage />;
+import Aside from '../modules/auth/Aside';
+import Sign from '../modules/auth/Sign';
+
+const Container = styled.div`
+  height: 100%;
+  background: ${props => props.theme.blue};
+
+  display: flex;
+  flex-direction: column;
+
+  > div {
+    display: flex;
+    flex-direction: row;
+  }
+`;
+
+const Auth: React.FC = props => {
+  return (
+    <Container {...props}>
+      <div>
+        <Aside />
+        <Sign />
+      </div>
+    </Container>
+  );
 };
 
 export default Auth;

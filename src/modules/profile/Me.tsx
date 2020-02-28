@@ -50,6 +50,7 @@ const Me: React.FC<Props> = ({ tabs, tab }) => {
       <ProfileHeader avatar={avatar} posts={PostCount} followers={followers} following={following} />
 
       <ProfileInfo
+        avatar={avatar as string}
         name={name}
         username={profile.username}
         me
@@ -60,9 +61,9 @@ const Me: React.FC<Props> = ({ tabs, tab }) => {
         handleModal={() => setModalIsOpen(true)}
       />
 
-      <UpdateProfile formik={formik} open={modalIsOpen} close={() => setModalIsOpen(false)} />
+      <Tabs tabs={tabs} paramTab={tab || ''} size="big" />
 
-      <Tabs tabs={tabs} paramTab={tab || ''} />
+      {modalIsOpen && <UpdateProfile formik={formik} open close={() => setModalIsOpen(false)} />}
     </Layout>
   );
 };

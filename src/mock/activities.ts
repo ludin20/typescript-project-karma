@@ -1,5 +1,9 @@
 import d6 from './assets/d6.png';
 import recycle from './assets/recycle.png';
+import quez from './assets/quez.png';
+import a1 from './assets/a1.png';
+import a2 from './assets/a2.png';
+import a3 from './assets/a3.png';
 
 const activities = [
   {
@@ -7,7 +11,7 @@ const activities = [
     type: 'like',
     author: {
       name: 'Quez Pearson',
-      imageUrl: `https://api.adorable.io/avatars/100/quezpearson`,
+      avatar: quez,
     },
     post: {
       image: d6,
@@ -20,7 +24,7 @@ const activities = [
     type: 'comment',
     author: {
       name: 'bennythegoat',
-      imageUrl: `https://api.adorable.io/avatars/100/bennythegoat`,
+      avatar: a1,
     },
     content:
       '@dallasrushing you should come to play 5 on 5 with us at Domenic Massari park next Friday around 7p.m. What do you think?',
@@ -37,7 +41,7 @@ const activities = [
     date: '36m',
     author: {
       name: 'Yuly Gonzalez',
-      imageUrl: `https://api.adorable.io/avatars/100/yuly`,
+      avatar: a2,
     },
     content: '75 KARMA',
   },
@@ -46,7 +50,7 @@ const activities = [
     type: 'recycle',
     author: {
       name: 'Jabur',
-      imageUrl: `https://api.adorable.io/avatars/100/jabur`,
+      avatar: a3,
     },
     content: 'I just came back from…',
     date: '7h',
