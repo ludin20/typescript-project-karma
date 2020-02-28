@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { useField, useFormikContext } from 'formik';
 
 import karma from '../assets/logo.png';
 import Avatar from '../Avatar';
@@ -67,7 +68,17 @@ const Logo = styled.div`
   }
 `;
 
-const SendTo: React.FC<SendMoneyFormProps> = ({ profile, onChangeTo, to }) => {
+const SendTo: React.FC<SendMoneyFormProps> = ({ profile }) => {
+  const [to] = useField('to');
+  const { setFieldValue } = useFormikContext<any>();
+
+  const onChange = useCallback(
+    e => {
+      setFieldValue('to', e.target.value);
+    },
+    [setFieldValue],
+  );
+
   if (profile) {
     return (
       <Container hasProfile>
@@ -90,7 +101,7 @@ const SendTo: React.FC<SendMoneyFormProps> = ({ profile, onChangeTo, to }) => {
       <section>
         <strong>Send To: </strong>
 
-        <input type="text" placeholder="WAX account name" value={to} onChange={e => onChangeTo(e.target.value)} />
+        <input type="text" placeholder="WAX account name" value={to.value} onChange={onChange} />
       </section>
 
       <Logo>
