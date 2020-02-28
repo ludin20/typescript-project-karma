@@ -68,9 +68,10 @@ interface Props {
   post: PostInterface;
   me?: boolean;
   size?: 'default' | 'small';
+  withFollowButton?: boolean;
 }
 
-const PostCard: React.FC<Props> = ({ post, me = false, size = 'default' }) => {
+const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFollowButton = true }) => {
   const { date, likes, comments, recycles, tips, power, content, author } = post;
 
   return (
@@ -90,7 +91,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default' }) => {
           </section>
         </div>
 
-        {!me && <FollowButton following={author.following} />}
+        {!me && withFollowButton && <FollowButton following={author.following} />}
       </header>
 
       <PostContent content={content} size={size} />

@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 export const Container = styled.div<{ open: boolean }>`
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   background: rgba(26, 27, 29, 0.8);
 
   display: ${props => (props.open ? 'flex' : 'none')};
   flex-direction: column;
   align-items: center;
-
   justify-content: center;
+
   position: fixed;
   left: 0;
   top: 0;
