@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Title } from '../ui';
-
-import Layout from '../modules/layout/Layout';
-import Balance from '../modules/wallet/Balance';
-import Actions from '../modules/wallet/Actions';
+import { Layout, Title, Balance, WalletActions } from '../ui';
 
 const Container = styled.div`
   width: 100%;
@@ -22,7 +18,7 @@ const Wallet: React.FC = () => {
       <Container>
         <Balance />
 
-        <Actions />
+        <WalletActions />
       </Container>
     </Layout>
   );

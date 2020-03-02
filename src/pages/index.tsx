@@ -2,8 +2,8 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import Aside from '../modules/auth/Aside';
-import Sign from '../modules/auth/Sign';
+import Aside from '../ui/auth/Aside';
+import Sign from '../ui/auth/Sign';
 
 const Container = styled.div`
   height: 100%;
