@@ -8,6 +8,7 @@ declare module 'styled-components' {
     lightGradient: string;
     dark: string;
     black: string;
+    secondblue: string;
     blue: string;
     lightBlue: string;
     gray: string;
@@ -26,6 +27,7 @@ const theme = {
   dark: '#20252E',
   black: '#191A19',
   blue: '#33375D',
+  secondblue: '#339AF2',
   lightBlue: '#C7D9FF',
   gray: '#B1B1B1;',
   pink: '#f9c6ce',

@@ -1,0 +1,71 @@
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+
+import Space from '../common/Space';
+
+const Header = styled.div`
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`;
+
+const Button = styled.button<{ active: boolean; decrease: boolean }>`
+  background: none;
+  color: ${props => (props.active ? '#fff' : 'rgba(255,255,255,0.4)')};
+  font-size: ${props => (props.active ? '28px' : '24px')};
+  font-weight: 900;
+  transition: all 0.2s;
+
+  position: relative;
+
+  ${props =>
+    props.active &&
+    css`
+      &::after {
+        content: '';
+        width: 105px;
+        height: 4px;
+        background: ${props.decrease ? '#EB6465' : props.theme.green};
+        border-radius: 5px;
+
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+      }
+    `}
+`;
+
+export interface TabInterface {
+  name: string;
+  render: React.FC;
+}
+
+interface Props {
+  tabs: TabInterface[];
+}
+
+const Tabs: React.FC<Props> = ({ tabs }) => {
+  const [active, setActive] = useState(0);
+
+  return (
+    <>
+      <Header>
+        {tabs.map((tab, index) => (
+          <React.Fragment key={index}>
+            <Button decrease={index > 0} onClick={() => setActive(index)} active={active === index}>
+              {tab.name}
+            </Button>
+            <Space width={50} />
+          </React.Fragment>
+        ))}
+      </Header>
+
+      <Space height={30} />
+      {tabs[active].render({})}
+    </>
+  );
+};
+
+export default Tabs;

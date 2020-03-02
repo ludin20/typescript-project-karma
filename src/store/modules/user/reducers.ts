@@ -19,6 +19,9 @@ export const defaultProfile: ProfileProps = {
   website: '',
   posts: 0,
   isVerified: false,
+  currentPower: 0,
+  liquidBalance: 0,
+  unstaking: 0,
 };
 
 export const INITIAL_STATE: UserState = {

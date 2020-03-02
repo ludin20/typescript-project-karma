@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="110" height="110" viewBox="0 0 110 110">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.546" y1="1" x2="0.54" y2="0.456" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#2adce8"/>
+      <stop offset="1" stop-color="#26cc8b"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_343" data-name="Group 343" transform="translate(-515 -266)">
+    <circle id="Ellipse_1045" data-name="Ellipse 1045" cx="55" cy="55" r="55" transform="translate(515 266)" fill="#191a19"/>
+    <path id="iconfinder_lightning_bolt_flash_power_5402392" d="M44.933,30.826,27.8,57.863a2.855,2.855,0,0,1-2.484,1.313,2.569,2.569,0,0,1-.8,0,2.855,2.855,0,0,1-2.056-2.855V39.191H10.531a5.71,5.71,0,0,1-4.825-8.765L22.836,3.39a2.863,2.863,0,0,1,5.339,1.542v17.13H40.108a5.71,5.71,0,0,1,4.825,8.765Z" transform="translate(545.181 290.041)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

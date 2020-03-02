@@ -6,6 +6,7 @@ import wax from '../assets/wax.png';
 
 import SendMoneyModal from './SendMoneyModal/SendMoneyModal';
 import SuccessModal from './SendMoneyModal/SuccessModal';
+import MyPowerModal from './MyPowerModal/MyPower';
 
 import Button from './WalletButton';
 import Token from './Token';
@@ -33,6 +34,7 @@ const Container = styled.div`
 const WalletActions: React.FC = () => {
   const [sendMoneyModalIsOpen, setSendMoneyModalIsOpen] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
+  const [powerModalIsOpen, setPowerModalIsOpen] = useState(true);
   const [value, setValue] = useState();
   const [to, setTo] = useState();
 
@@ -49,7 +51,7 @@ const WalletActions: React.FC = () => {
     <Container>
       <header>
         <Button actionType="Send" onClick={() => setSendMoneyModalIsOpen(true)} />
-        <Button actionType="Power" />
+        <Button actionType="Power" onClick={() => setPowerModalIsOpen(true)} />
         <Button actionType="Cool" />
         <Button actionType="Claim" />
       </header>
@@ -65,6 +67,8 @@ const WalletActions: React.FC = () => {
       {successModalIsOpen && (
         <SuccessModal open close={() => setSuccessModalIsOpen(false)} karmaValue={value} usdValue={value} to={to} />
       )}
+
+      {powerModalIsOpen && <MyPowerModal open close={() => setPowerModalIsOpen(false)} />}
     </Container>
   );
 };
