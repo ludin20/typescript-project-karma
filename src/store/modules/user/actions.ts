@@ -19,6 +19,9 @@ export interface ProfileProps {
   following?: string | number;
   posts?: string | number;
   isVerified?: boolean;
+  currentPower?: string | number;
+  liquidBalance?: string | number;
+  unstaking?: string | number;
 }
 
 export function createProfileRequest(data: ProfileProps) {

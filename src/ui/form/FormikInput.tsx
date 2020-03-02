@@ -4,7 +4,7 @@ import { useField, useFormikContext } from 'formik';
 
 const Container = styled.div<Props>`
   border-radius: 4px;
-  background: ${props => props.theme.black};
+  background: ${props => (props.background ? props.theme[props.background] : props.theme.black)};
   padding: 10px 20px;
   transition: all 0.2s;
 
@@ -100,9 +100,13 @@ export interface Props {
   empty?: boolean;
   name?: string;
   dark?: boolean;
+  background?: string;
+  formatValue?(value: string): string;
+  onFocus?(): void;
+  onBlur?(): void;
 }
 
-const FormikInput: React.FC<Props> = ({ onChange, multiline, mask, name, ...props }) => {
+const FormikInput: React.FC<Props> = ({ onChange, multiline, mask, name, formatValue, ...props }) => {
   const [empty, setEmpty] = useState(true);
   const [field] = useField(name);
   const { setFieldValue } = useFormikContext<any>();
@@ -119,7 +123,7 @@ const FormikInput: React.FC<Props> = ({ onChange, multiline, mask, name, ...prop
         setEmpty(false);
       }
 
-      if (mask) {
+      if (mask && !formatValue) {
         const [firstValue, secondValue] = e.target.value.split(mask);
 
         const valueWithOutMask = `${secondValue ? secondValue : !!firstValue && firstValue !== mask ? firstValue : ''}`;
@@ -131,16 +135,22 @@ const FormikInput: React.FC<Props> = ({ onChange, multiline, mask, name, ...prop
           onChange(value);
         }
 
-        return setFieldValue(name, value);
+        setFieldValue(name, value);
+        return;
       }
 
       if (onChange) {
         onChange(e.target.value);
       }
 
-      return setFieldValue(name, e.target.value);
+      if (formatValue) {
+        setFieldValue(name, formatValue(e.target.value));
+        return;
+      }
+
+      setFieldValue(name, e.target.value);
     },
-    [mask, name, onChange, setFieldValue],
+    [formatValue, mask, name, onChange, setFieldValue],
   );
 
   return (
