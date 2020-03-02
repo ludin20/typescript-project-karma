@@ -2,12 +2,9 @@ import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
-import { ProfileMedia, ProfileThoughts } from '../../../ui';
+import { ProfileMedia, ProfileThoughts, Me, Profile } from '../../../ui';
 
 import { posts, quezPosts } from '../../../mock';
-
-import Me from '../../../modules/profile/Me';
-import Profile from '../../../modules/profile/Profile';
 
 import { RootState } from '../../../store/modules/rootReducer';
 

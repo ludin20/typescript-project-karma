@@ -2,11 +2,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 
-import { Tabs } from '../../ui';
-
-import Layout from '../../modules/layout/Layout';
-import Popular from '../../modules/discover/Popular';
-import New from '../../modules/discover/New';
+import { Layout, Tabs, Popular, New } from '../../ui';
 
 interface Props {
   tab: string;

@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 import { useSelector } from 'react-redux';
 
-import { Title, PostCard, GoBackButton } from '../../ui';
-import { post as mockPost } from '../../mock';
+import { Layout, Title, PostCard, GoBackButton } from '../../ui';
+import PostComments from '../../ui/post/PostComments';
 
-import Layout from '../../modules/layout/Layout';
 import { RootState } from '../../store/modules/rootReducer';
-import PostComments from '../../modules/post/PostComments';
+
+import { post as mockPost } from '../../mock';
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -82,6 +82,12 @@ interface Context extends NextPageContext {
 
 Post.getInitialProps = async ({ query }: Context) => {
   const post = { ...mockPost, commentsContent: mockPost.comments, comments: mockPost.comments.length };
+
+  if (query.id === '1') {
+    return {
+      post,
+    };
+  }
 
   return {
     post,

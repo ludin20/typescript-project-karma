@@ -1,55 +1,93 @@
 import theme from './theme';
-import Button from './Button';
-import TextInput from './TextInput';
-import FormikInput from './FormikInput';
-import PhoneInput from './PhoneInput';
-import CodeInput from './CodeInput';
-import Logo from './Logo';
-import Sidebar from './Sidebar/Sidebar';
-import Header from './Header/Header';
-import Aside from './Aside/Aside';
-import Title from './Title';
-import Avatar from './Avatar';
-import FollowButton from './FollowButton';
-import CreateProfile from './CreateProfile';
-import Tabs from './Tabs/Tabs';
-import Actions from './Actions';
-import ProfileMedia from './Profile/ProfileMedia';
-import ProfileThoughts from './Profile/ProfileThoughts';
-import PostCard from './PostCard';
-import CreatePostModal from './CreatePost/CreatePostModal';
-import FollowsModal from './FollowsModal';
+
+import Layout from './layout/Layout';
+import Sidebar from './layout/sidebar/Sidebar';
+import Aside from './layout/aside/Aside';
+import Header from './layout/header/Header';
+
+import Logo from './common/Logo';
+import Row from './common/Row';
+import Space from './common/Space';
+import Title from './common/Title';
+import Button from './common/Button';
+import Avatar from './common/Avatar';
+import FollowButton from './common/FollowButton';
+import GoBackButton from './common/GoBackButton';
+import FollowsModal from './common/FollowsModal';
+
+import CodeInput from './form/CodeInput';
+import PhoneInput from './form/PhoneInput';
+import ImageInput from './form/ImageInput';
+import TextInput from './form/TextInput';
+import FormikInput from './form/FormikInput';
+
+import Tabs from './tabs/Tabs';
+
+import WalletActions from './wallet/Actions';
+import Balance from './wallet/Balance';
+import WalletButton from './wallet/WalletButton';
+import Token from './wallet/Token';
+import SendMoneyModal from './wallet/SendMoneyModal/SendMoneyModal';
+
+import ProfileHeader from './profile/ProfileHeader';
+import ProfileInfo from './profile/ProfileInfo';
+import ProfileThoughts from './profile/ProfileThoughts';
+import ProfileMedia from './profile/ProfileMedia';
+import Profile from './profile/Profile';
+import Me from './profile/Me';
+import CreateProfileModal from './profile/CreateProfileModal';
+import UpdateProfileModal from './profile/UpdateProfileModal';
+
+import PostActions from './post/PostActions';
+import PostCard from './post/PostCard';
+import CreatePostModal from './post/CreatePostModal';
+
+import AllActivities from './activity/AllActivities';
+
+import Popular from './discover/Popular';
+import New from './discover/New';
+
 import withoutAvatar from './assets/withoutAvatar.svg';
-import ProfileHeader from './Profile/ProfileHeader';
-import ProfileInfo from './Profile/ProfileInfo';
-import UpdateProfile from './UpdateProfile';
-import GoBackButton from './GoBackButton';
 
 export {
   theme,
-  Button,
-  TextInput,
-  FormikInput,
-  PhoneInput,
-  CodeInput,
-  Logo,
+  Layout,
   Sidebar,
-  Header,
   Aside,
+  Header,
+  Logo,
+  Row,
+  Space,
   Title,
+  Button,
   Avatar,
   FollowButton,
-  CreateProfile,
-  Tabs,
-  Actions,
-  ProfileMedia,
-  ProfileThoughts,
-  PostCard,
-  withoutAvatar,
-  CreatePostModal,
+  GoBackButton,
   FollowsModal,
+  CodeInput,
+  PhoneInput,
+  ImageInput,
+  TextInput,
+  FormikInput,
+  Tabs,
+  WalletActions,
+  Balance,
+  WalletButton,
+  Token,
+  SendMoneyModal,
   ProfileHeader,
   ProfileInfo,
-  UpdateProfile,
-  GoBackButton,
+  ProfileThoughts,
+  ProfileMedia,
+  Profile,
+  Me,
+  CreateProfileModal,
+  UpdateProfileModal,
+  PostActions,
+  PostCard,
+  CreatePostModal,
+  AllActivities,
+  Popular,
+  New,
+  withoutAvatar,
 };

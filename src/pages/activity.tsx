@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Tabs } from '../ui';
-
-import Layout from '../modules/layout/Layout';
-import AllActivities from '../modules/activity/AllActivities';
+import { Layout, Tabs, AllActivities } from '../ui';
 
 import { readNotificationsRequest } from '../store/modules/activity/actions';
 
