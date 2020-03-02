@@ -34,7 +34,7 @@ const Container = styled.div`
 const WalletActions: React.FC = () => {
   const [sendMoneyModalIsOpen, setSendMoneyModalIsOpen] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
-  const [powerModalIsOpen, setPowerModalIsOpen] = useState(true);
+  const [powerModalIsOpen, setPowerModalIsOpen] = useState(false);
   const [value, setValue] = useState();
   const [to, setTo] = useState();
 
