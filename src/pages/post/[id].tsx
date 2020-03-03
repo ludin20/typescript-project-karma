@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useSelector } from 'react-redux';
 
-import { Layout, Title, PostCard, GoBackButton } from '../../ui';
+import { Layout, Title, PostCard, GoBackButton, Seo } from '../../ui';
 import PostComments from '../../ui/post/PostComments';
 
 import { RootState } from '../../store/modules/rootReducer';
@@ -62,6 +62,7 @@ const Post: NextPage<Props> = ({ post }) => {
 
   return (
     <Container>
+      <Seo title={`${post.author.username} on Karma "${post.content.description}"`} />
       <TitleWrapper>
         <GoBackButton />
         <Title bordered={false}>Post</Title>

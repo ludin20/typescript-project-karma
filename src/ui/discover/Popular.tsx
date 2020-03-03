@@ -1,11 +1,16 @@
 import React from 'react';
 
-import { discoverPopular } from '../../mock';
-
 import Grid from './Grid';
 
-const Popular: React.FC = () => {
-  return <Grid data={discoverPopular} />;
+interface Props {
+  data: {
+    id: string | number;
+    image: string;
+  }[];
+}
+
+const Popular: React.FC<Props> = ({ data }) => {
+  return <Grid data={data} />;
 };
 
 export default Popular;

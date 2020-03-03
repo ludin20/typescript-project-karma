@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
-import { ProfileMedia, ProfileThoughts, Me, Profile } from '../../../ui';
+import { ProfileMedia, ProfileThoughts, Me, Profile, Seo } from '../../../ui';
 
 import { posts, quezPosts } from '../../../mock';
 
@@ -57,9 +57,20 @@ const ProfileWrapper: React.FC<Props> = () => {
     }
   }, [router, tab, tabs, username]);
 
-  if (me) return <Me tabs={tabs} tab={tab as string} />;
+  if (me)
+    return (
+      <>
+        <Seo title={`Karma/${username}`} />
+        <Me tabs={tabs} tab={tab as string} />
+      </>
+    );
 
-  return <Profile tabs={tabs} tab={tab as string} />;
+  return (
+    <>
+      <Seo title={`Karma/${username}`} />
+      <Profile tabs={tabs} tab={tab as string} />
+    </>
+  );
 };
 
 export default ProfileWrapper;

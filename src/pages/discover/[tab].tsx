@@ -2,23 +2,29 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 
-import { Layout, Tabs, Popular, New } from '../../ui';
+import { Layout, Tabs, Popular, New, Seo } from '../../ui';
+
+import { discoverPopular, discoverNew } from '../../mock';
 
 interface Props {
   tab: string;
+  data: {
+    id: string | number;
+    image: string;
+  }[];
 }
 
-const Discover: NextPage<Props> = ({ tab }) => {
+const Discover: NextPage<Props> = ({ tab, data }) => {
   const router = useRouter();
 
   const tabs = [
     {
       name: 'Popular',
-      render: Popular,
+      render: () => Popular({ data: data }),
     },
     {
       name: 'New',
-      render: New,
+      render: () => New({ data: data }),
     },
   ];
 
@@ -35,6 +41,7 @@ const Discover: NextPage<Props> = ({ tab }) => {
 
   return (
     <Layout>
+      <Seo title="Karma/Discover" />
       <Tabs title="Discover" tabs={tabs} paramTab={tab || ''} />
     </Layout>
   );
@@ -47,8 +54,25 @@ interface Context extends NextPageContext {
 }
 
 Discover.getInitialProps = async ({ query }: Context) => {
+  const tab = ['popular', 'new'].find(t => t === query.tab);
+
+  if (tab && tab === 'popular') {
+    return {
+      tab: query.tab,
+      data: discoverPopular,
+    };
+  }
+
+  if (tab && tab === 'new') {
+    return {
+      tab: query.tab,
+      data: discoverNew,
+    };
+  }
+
   return {
     tab: query.tab,
+    data: [],
   };
 };
 

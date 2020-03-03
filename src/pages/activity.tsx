@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Layout, Tabs, AllActivities } from '../ui';
+import { Layout, Tabs, AllActivities, Seo } from '../ui';
 
 import { readNotificationsRequest } from '../store/modules/activity/actions';
 
@@ -23,6 +23,7 @@ const Discover: React.FC = () => {
 
   return (
     <Layout>
+      <Seo title="Karma/Activity" />
       <Tabs title="Activity" tabs={tabs} />
     </Layout>
   );
