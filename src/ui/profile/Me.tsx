@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ProfileHeader, ProfileInfo, UpdateProfileModal, Tabs, Layout } from '../../ui';
+import { ProfileHeader, ProfileInfo, EditProfileModal, Tabs, Layout } from '../../ui';
 import { TabInterface } from '../tabs/Tabs';
 
 import { RootState } from '../../store/modules/rootReducer';
@@ -36,7 +36,7 @@ const Me: React.FC<Props> = ({ tabs, tab }) => {
 
       <Tabs tabs={tabs} paramTab={tab || ''} size="big" />
 
-      {modalIsOpen && <UpdateProfileModal open close={() => setModalIsOpen(false)} />}
+      {modalIsOpen && <EditProfileModal open close={() => setModalIsOpen(false)} />}
     </Layout>
   );
 };

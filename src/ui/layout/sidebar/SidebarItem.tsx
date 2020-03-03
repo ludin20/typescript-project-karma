@@ -7,7 +7,7 @@ const Container = styled.button<{ selected: boolean }>`
   color: #fff;
   font-size: 18px;
   font-weight: 900;
-  margin-top: 30px;
+  margin-top: 40px;
   padding-right: 20px;
   opacity: 0.4;
   border-radius: 3px;
@@ -21,22 +21,22 @@ const Container = styled.button<{ selected: boolean }>`
 
     span {
       margin-top: 5px;
+      margin-left: 20px;
     }
   }
 
   img {
     height: 24px;
     width: 24px;
-    margin-right: 20px;
   }
 
-  &:nth-child(6) {
+  &:nth-child(5) {
     img {
       border-radius: 50%;
     }
   }
 
-  &:nth-child(8) {
+  &:nth-child(7) {
     margin-top: 0px;
   }
 
@@ -44,8 +44,18 @@ const Container = styled.button<{ selected: boolean }>`
     props.selected &&
     css`
       opacity: 1;
-
       position: relative;
+
+      section {
+        width: 1px;
+        height: 1px;
+        box-shadow: 0 0 50px 10px #26cc8b;
+        border-radius: 50%;
+
+        position: absolute;
+        top: 50%;
+        left: 12px;
+      }
 
       &::after {
         content: '';
@@ -83,7 +93,9 @@ const SidebarItem: React.FC<Props> = ({ onClick, children, route, selected, icon
   return (
     <Container onClick={handleClick} selected={selected} {...props}>
       <div>
+        <section />
         <img src={icon} alt="icon" />
+
         <span>{children}</span>
       </div>
       {extraContent}

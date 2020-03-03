@@ -15,7 +15,7 @@ const Container = styled.div`
   width: 100%;
   background: ${props => props.theme.dark};
   padding: 40px 25px;
-  border-radius: 40px 40px 0 0;
+  border-radius: 40px 40px 20px 20px;
 
   header {
     margin-bottom: 30px;

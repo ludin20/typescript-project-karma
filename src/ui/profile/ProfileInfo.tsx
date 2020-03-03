@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import link from '../assets/link.svg';
+
 import ProfileInfoHeader from './ProfileInfoHeader';
 
 const Container = styled.div`
@@ -9,7 +11,7 @@ const Container = styled.div`
     color: #fff;
     font-size: 20px;
     line-height: 1.4;
-    margin: 12px 0 6px;
+    margin: 12px 0 10px;
     padding-left: 16px;
     text-align: left;
 
@@ -17,9 +19,10 @@ const Container = styled.div`
 
     &::after {
       content: '';
-      width: 5px;
+      width: 8px;
       height: 100%;
-      background: ${props => props.theme.green};
+      transform: matrix(-1, 0, 0, -1, 0, 0);
+      background: linear-gradient(180deg, #26cc8b 0%, #26cd8e 26%, #2adce8 100%);
       border-radius: 10px;
 
       position: absolute;
@@ -27,11 +30,22 @@ const Container = styled.div`
       left: 0;
     }
   }
+`;
 
-  > a {
+const WebSite = styled.div`
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 18px;
+    margin-bottom: 4px;
+  }
+
+  a {
+    margin-left: 6px;
     color: #2996dd;
     font-size: 18px;
-    margin-left: 10px;
   }
 `;
 
@@ -88,7 +102,12 @@ const ProfileInfo: React.FC<Props> = ({
           ))}
         </p>
       )}
-      {website && <a>{website}</a>}
+      {website && (
+        <WebSite>
+          <img src={link} alt="link" />
+          <a>{website}</a>
+        </WebSite>
+      )}
     </Container>
   );
 };

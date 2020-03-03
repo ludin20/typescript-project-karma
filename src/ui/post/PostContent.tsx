@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div<{ size: 'default' | 'small'; numberOfMedias: number }>`
-  margin: ${props => (props.size === 'small' ? '10px 0 15px 60px' : '20px 0 30px 60px')};
+  margin: ${props => (props.size === 'small' ? '10px 0 15px 60px' : '12px 0 40px 60px')};
 
   div {
-    margin-top: 15px;
+    margin-top: 20px;
 
     display: grid;
     grid-template-columns: ${({ numberOfMedias }) =>

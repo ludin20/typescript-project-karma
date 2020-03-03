@@ -13,12 +13,21 @@ const Container = styled.div`
 `;
 
 const ActionButton = styled(Button)`
+  width: 160px;
   font-size: 16px;
   font-weight: 900;
+  border-radius: 50px;
+  border: 2px solid #26cc8b;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   img {
     height: 18px;
@@ -26,6 +35,8 @@ const ActionButton = styled(Button)`
   }
 
   & + button {
+    background: #20252e;
+    border: 2px solid #ffffff;
     margin-left: 20px;
   }
 `;

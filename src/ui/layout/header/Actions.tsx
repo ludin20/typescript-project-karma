@@ -8,7 +8,7 @@ import activity from '../../assets/activity-white.svg';
 import plus from '../../assets/plus.svg';
 
 const Container = styled.div`
-  min-width: 360px;
+  min-width: 368px;
   margin-right: 30px;
 
   display: flex;
@@ -40,21 +40,21 @@ const Container = styled.div`
   }
 
   button:last-child {
-    width: 160px;
+    width: 180px;
     background: linear-gradient(270deg, #26cc8b 0%, #2adce8 100%) 0% 0%;
     color: #fff;
-    padding: 10px 15px;
-    font-size: 16px;
+    padding: 10px 20px;
+    font-size: 18px;
     font-weight: 900;
     box-shadow: 0px 3px 25px #26cc8b80;
     border-radius: 90px;
 
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    justify-content: center;
 
     img {
-      width: 20px;
-      height: 20px;
+      width: 26px;
       margin-right: 10px;
     }
   }
