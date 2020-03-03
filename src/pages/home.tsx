@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Title, PostCard, Layout } from '../ui';
+import { Title, PostCard, Layout, Seo } from '../ui';
 
 import { feed } from '../mock';
 
@@ -14,6 +14,7 @@ const Posts = styled.ul`
 const Home: React.FC = () => {
   return (
     <Layout>
+      <Seo title="Karma/Feed" />
       <Container>
         <Title withDropDown>Feed</Title>
 

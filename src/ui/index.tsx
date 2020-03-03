@@ -48,3 +48,8 @@ export { default as Popular } from './discover/Popular';
 export { default as New } from './discover/New';
 
 export { default as withoutAvatar } from './assets/withoutAvatar.svg';
+
+export { default as Seo } from './seo/Seo';
+
+export { default as AuthAside } from './auth/Aside';
+export { default as Sign } from './auth/Sign';

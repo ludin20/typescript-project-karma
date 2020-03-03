@@ -2,8 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import Aside from '../ui/auth/Aside';
-import Sign from '../ui/auth/Sign';
+import { Seo, AuthAside, Sign } from '../ui';
 
 const Container = styled.div`
   height: 100%;
@@ -21,8 +20,9 @@ const Container = styled.div`
 const Auth: React.FC = props => {
   return (
     <Container {...props}>
+      <Seo />
       <div>
-        <Aside />
+        <AuthAside />
         <Sign />
       </div>
     </Container>

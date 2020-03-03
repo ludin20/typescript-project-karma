@@ -1,11 +1,16 @@
 import React from 'react';
 
-import { discoverNew } from '../../mock';
-
 import Grid from './Grid';
 
-const New: React.FC = () => {
-  return <Grid data={discoverNew} />;
+interface Props {
+  data: {
+    id: string | number;
+    image: string;
+  }[];
+}
+
+const New: React.FC<Props> = ({ data }) => {
+  return <Grid data={data} />;
 };
 
 export default New;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Layout, Title, Balance, WalletActions } from '../ui';
+import { Layout, Title, Balance, WalletActions, Seo } from '../ui';
 
 const Container = styled.div`
   width: 100%;
@@ -13,6 +13,7 @@ const Container = styled.div`
 const Wallet: React.FC = () => {
   return (
     <Layout>
+      <Seo title="Karma/Wallet" />
       <Title>Wallet</Title>
 
       <Container>
