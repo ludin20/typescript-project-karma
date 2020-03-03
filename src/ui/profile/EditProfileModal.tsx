@@ -24,18 +24,18 @@ const CloseButton = styled.button`
   }
 `;
 
-const UpdateProfileModal: React.FC<ModalProps> = props => {
+const EditProfileModal: React.FC<ModalProps> = props => {
   const dispatch = useDispatch();
   const profile = useSelector((state: RootState) => state.user.profile);
 
   const formik = useFormik({
     enableReinitialize: false,
     initialValues: {
-      avatar: profile.avatar || '',
-      name: profile.name,
-      username: profile.username,
-      bio: profile.bio,
-      website: profile.website,
+      avatar: '',
+      name: '',
+      username: '',
+      bio: '',
+      website: '',
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required('Name is required'),
@@ -45,7 +45,16 @@ const UpdateProfileModal: React.FC<ModalProps> = props => {
     }),
     validateOnMount: true,
     onSubmit: (values: ProfileProps) => {
-      dispatch(updateProfileRequest(values));
+      const newProfile = {
+        avatar: profile.avatar,
+        name: profile.name,
+        username: profile.username,
+        bio: profile.bio,
+        website: profile.website,
+        ...values,
+      };
+
+      dispatch(updateProfileRequest(newProfile));
       props.close();
     },
   });
@@ -66,4 +75,4 @@ const UpdateProfileModal: React.FC<ModalProps> = props => {
   return <ProfileModal {...props} formik={formik} customHeader={CustomHeader} />;
 };
 
-export default UpdateProfileModal;
+export default EditProfileModal;

@@ -17,9 +17,9 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div<{ collapsed: boolean }>`
-  width: calc(100% - 280px);
-  padding-top: 30px;
-  margin: 0 0 0 70px;
+  min-width: ${props => (!props.collapsed ? 'calc(100% - 350px)' : '100%')};
+  padding: 30px 0 50px;
+  margin: 0 0 0 60px;
 
   position: relative;
   left: ${props => (!props.collapsed ? '0' : '-300px')};
@@ -34,7 +34,7 @@ const ContentWrapper = styled.div`
 const Content = styled.div`
   width: 100%;
   padding: 30px 0 0;
-  margin-right: 70px;
+  margin-right: 60px;
 `;
 
 const Layout: React.FC = ({ children, ...props }) => {

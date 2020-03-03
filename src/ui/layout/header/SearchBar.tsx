@@ -12,7 +12,7 @@ import { UserProps } from './Header';
 const Container = styled.div<{ focused: boolean }>`
   width: 100%;
   background: linear-gradient(90deg, #20252e 0%, #191a19 100%) 0% 0%;
-  margin-right: 70px;
+  margin-right: 60px;
   padding: 10px 15px;
   border-radius: 50px;
   border: 1px solid #20252e;

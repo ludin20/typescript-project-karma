@@ -17,19 +17,19 @@ const Container = styled.div`
     p {
       background: none;
       color: #fff;
-      margin-left: 60px;
+      margin-left: 70px;
 
       display: flex;
       flex-direction: column;
       align-items: center;
 
       strong {
-        font-size: 33px;
+        font-size: 36px;
         font-weight: 900;
       }
 
       span {
-        font-size: 24px;
+        font-size: 26px;
       }
     }
   }

@@ -6,6 +6,11 @@ import Button from './Button';
 const Container = styled(Button)`
   font-size: 16px;
   font-weight: 900;
+  padding-top: 8px;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 interface Props {

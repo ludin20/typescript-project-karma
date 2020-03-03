@@ -10,7 +10,7 @@ import { RootState } from '../../../store/modules/rootReducer';
 import SidebarNav from './SidebarNav';
 
 const Container = styled.div<{ collapsed: boolean; withAvatar: boolean }>`
-  width: 280px;
+  min-width: 280px;
   min-height: 100%;
   background: ${props => props.theme.dark};
   padding: 30px 0;
@@ -40,7 +40,21 @@ const Container = styled.div<{ collapsed: boolean; withAvatar: boolean }>`
       justify-content: center;
       align-items: center;
 
+      position: relative;
+
+      section {
+        width: 1px;
+        height: 1px;
+        box-shadow: 0 0 50px 30px #26cc8b;
+        border-radius: 50%;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+      }
+
       > img {
+        position: relative;
         width: ${props => (props.withAvatar ? '75px' : '50px')};
         height: ${props => (props.withAvatar ? '75px' : ' 50px')};
         border-radius: 50%;
@@ -77,6 +91,7 @@ const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed }) => {
       <Logo size="small" />
       <header>
         <div>
+          <section />
           <img src={(profile.avatar as string) || withoutAvatar} alt={profile.name} />
         </div>
         <strong>{profile.name}</strong>
