@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useSelector } from 'react-redux';
 
-import { Layout, Title, PostCard, GoBackButton, Seo } from '../../ui';
+import { Title, PostCard, GoBackButton } from '../../ui';
 import PostComments from '../../ui/post/PostComments';
 
 import { RootState } from '../../store/modules/rootReducer';
@@ -19,10 +19,6 @@ const TitleWrapper = styled.div`
   button {
     margin: 0 20px 0 0;
   }
-`;
-
-const Container = styled(Layout)`
-  list-style: none;
 `;
 
 interface Props {
@@ -61,8 +57,7 @@ const Post: NextPage<Props> = ({ post }) => {
   const { avatar } = useSelector((state: RootState) => state.user.profile);
 
   return (
-    <Container>
-      <Seo title={`${post.author.username} on Karma "${post.content.description}"`} />
+    <>
       <TitleWrapper>
         <GoBackButton />
         <Title bordered={false}>Post</Title>
@@ -71,7 +66,7 @@ const Post: NextPage<Props> = ({ post }) => {
       <PostCard post={post} />
 
       <PostComments comments={post.commentsContent} avatar={avatar as string} />
-    </Container>
+    </>
   );
 };
 
@@ -84,14 +79,12 @@ interface Context extends NextPageContext {
 Post.getInitialProps = async ({ query }: Context) => {
   const post = { ...mockPost, commentsContent: mockPost.comments, comments: mockPost.comments.length };
 
-  if (query.id === '1') {
-    return {
-      post,
-    };
-  }
-
   return {
     post,
+    meta: {
+      title: `${post.author.username} on Karma "${post.content.description}"`,
+      description: post.content.description,
+    },
   };
 };
 

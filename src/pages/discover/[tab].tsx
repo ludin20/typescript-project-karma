@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 
-import { Layout, Tabs, Popular, New, Seo } from '../../ui';
+import { Tabs, Popular, New } from '../../ui';
 
 import { discoverPopular, discoverNew } from '../../mock';
 
@@ -39,12 +39,7 @@ const Discover: NextPage<Props> = ({ tab, data }) => {
     }
   }, [router, tab, tabs]);
 
-  return (
-    <Layout>
-      <Seo title="Karma/Discover" />
-      <Tabs title="Discover" tabs={tabs} paramTab={tab || ''} />
-    </Layout>
-  );
+  return <Tabs title="Discover" tabs={tabs} paramTab={tab || ''} />;
 };
 
 interface Context extends NextPageContext {
@@ -56,22 +51,27 @@ interface Context extends NextPageContext {
 Discover.getInitialProps = async ({ query }: Context) => {
   const tab = ['popular', 'new'].find(t => t === query.tab);
 
+  const defaultData = {
+    tab: query.tab,
+    meta: { title: 'Karma/Discover' },
+  };
+
   if (tab && tab === 'popular') {
     return {
-      tab: query.tab,
+      ...defaultData,
       data: discoverPopular,
     };
   }
 
   if (tab && tab === 'new') {
     return {
-      tab: query.tab,
+      ...defaultData,
       data: discoverNew,
     };
   }
 
   return {
-    tab: query.tab,
+    ...defaultData,
     data: [],
   };
 };

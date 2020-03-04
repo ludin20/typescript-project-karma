@@ -1,12 +1,10 @@
 import React from 'react';
 import App from 'next/app';
-
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
-import { theme } from '../ui';
+import { theme, Layout, Seo } from '../ui';
 
 import { store, persistor } from '../store';
 
@@ -85,13 +83,21 @@ const GlobalStyle = createGlobalStyle`
 
 export default class MyApp extends App {
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, router } = this.props;
+
+    const AuthLayout: React.FC = ({ children }) => <>{children}</>;
+
+    const AppLayout = router.pathname === '/' ? AuthLayout : Layout;
+
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <GlobalStyle />
           <ThemeProvider theme={theme}>
-            <Component {...pageProps} />
+            <Seo {...pageProps.meta} />
+            <AppLayout>
+              <Component {...pageProps} />
+            </AppLayout>
           </ThemeProvider>
         </PersistGate>
       </Provider>

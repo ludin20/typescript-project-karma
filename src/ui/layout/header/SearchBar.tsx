@@ -76,9 +76,9 @@ interface Props {
 const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, search }) => {
   const abortRef = useRef<AbortController | null>();
   const [results, setResults] = useState<UserProps[]>();
-  const [isEmpty, setEmpty] = useState(() => isStringEmpty(textValue));
   const [loading, setLoading] = useState(false);
   const [textValue, setTextValue] = useState(() => '');
+  const [isEmpty, setEmpty] = useState(() => isStringEmpty(textValue));
 
   const triggerNewSearch = useDebounce(
     useCallback(

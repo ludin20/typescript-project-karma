@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NextPage } from 'next';
 
-import { Layout, Title, Balance, WalletActions, Seo } from '../ui';
+import { Title, Balance, WalletActions } from '../ui';
 
 const Container = styled.div`
   width: 100%;
@@ -10,10 +11,9 @@ const Container = styled.div`
   border-radius: 25px;
 `;
 
-const Wallet: React.FC = () => {
+const Wallet: NextPage = () => {
   return (
-    <Layout>
-      <Seo title="Karma/Wallet" />
+    <>
       <Title>Wallet</Title>
 
       <Container>
@@ -21,8 +21,16 @@ const Wallet: React.FC = () => {
 
         <WalletActions />
       </Container>
-    </Layout>
+    </>
   );
+};
+
+Wallet.getInitialProps = async () => {
+  return {
+    meta: {
+      title: 'Karma/Wallet',
+    },
+  };
 };
 
 export default Wallet;
