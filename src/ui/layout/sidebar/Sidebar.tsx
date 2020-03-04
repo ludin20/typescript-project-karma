@@ -7,10 +7,11 @@ import withoutAvatar from '../../assets/withoutAvatar.svg';
 
 import { RootState } from '../../../store/modules/rootReducer';
 
+import Header from './Header';
 import SidebarNav from './SidebarNav';
 
-const Container = styled.div<{ collapsed: boolean; withAvatar: boolean }>`
-  min-width: 280px;
+const Container = styled.div<{ collapsed: boolean; setCollapsed(value: boolean): void }>`
+  min-width: ${props => (!props.collapsed ? '280px' : '100px')};
   min-height: 100%;
   background: ${props => props.theme.dark};
   padding: 30px 0;
@@ -19,84 +20,38 @@ const Container = styled.div<{ collapsed: boolean; withAvatar: boolean }>`
   flex-direction: column;
   align-items: center;
 
-  position: relative;
+  position: fixed;
   top: 0;
-  left: ${props => (!props.collapsed ? '0' : '-280px')};
+  left: 0;
 
-  header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    div {
-      width: 90px;
-      height: 90px;
-      margin: 20px 0 15px;
-      border-radius: 50%;
-      border: ${props => `3px solid ${props.theme.green}`};
-      box-shadow: 1px 1px 3px #26cc8b;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      position: relative;
-
-      section {
-        width: 1px;
-        height: 1px;
-        box-shadow: 0 0 50px 30px #26cc8b;
-        border-radius: 50%;
-
-        position: absolute;
-        top: 50%;
-        left: 50%;
-      }
-
-      > img {
-        position: relative;
-        width: ${props => (props.withAvatar ? '75px' : '50px')};
-        height: ${props => (props.withAvatar ? '75px' : ' 50px')};
-        border-radius: 50%;
-      }
-    }
-
-    strong {
-      color: #fff;
-      font-size: 24px;
-      font-weight: 900;
-      font-family: Montserrat, sans-serif;
-    }
-
-    span {
-      color: #fff;
-      margin-top: 5px;
-      opacity: 0.4;
-      font-size: 18px;
-    }
+  @media (max-width: 1200px) {
+    min-width: 100px !important;
+    max-width: 100px !important;
   }
 `;
 
 interface Props {
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
-  withAvatar?: boolean;
 }
 
 const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed }) => {
   const profile = useSelector((state: RootState) => state.user.profile);
 
   return (
-    <Container collapsed={collapsed} withAvatar={!!profile.avatar}>
-      <Logo size="small" />
-      <header>
-        <div>
-          <section />
-          <img src={(profile.avatar as string) || withoutAvatar} alt={profile.name} />
-        </div>
-        <strong>{profile.name}</strong>
-        <span>{profile.username}</span>
-      </header>
+    <Container collapsed={collapsed} setCollapsed={setCollapsed}>
+      <Logo size="small" collapsed={collapsed} />
+
+      {!collapsed && (
+        <Header
+          profile={{
+            name: profile.name,
+            username: profile.username,
+            avatar: (profile.avatar as string) || withoutAvatar,
+          }}
+          withAvatar={!!profile.avatar}
+        />
+      )}
 
       <SidebarNav
         username={profile.username}

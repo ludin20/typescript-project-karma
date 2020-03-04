@@ -22,15 +22,22 @@ export const Wrapper = styled.div`
   overflow: auto;
 `;
 
-const Container = styled.div`
-  height: 50px;
+const Container = styled.div<{ collapsed: boolean }>`
+  width: 100%;
+  background: ${props => props.theme.black};
+  padding: ${props => (!props.collapsed ? '30px 340px 10px 0' : '30px 160px 10px 0')};
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
-  position: relative;
+  position: fixed;
   top: 0;
+  z-index: 10;
+
+  @media (max-width: 1200px) {
+    padding: 30px 160px 10px 0;
+  }
 `;
 
 export interface UserProps {
@@ -43,10 +50,14 @@ export interface UserProps {
   verified: boolean;
 }
 
+interface Props {
+  collapsed: boolean;
+}
+
 const getUserName = (value: UserProps) => value.name;
 const getId = (value: UserProps) => value.username;
 
-const Header: React.FC = () => {
+const Header: React.FC<Props> = ({ collapsed }) => {
   const [searchFocused, setSearchFocused] = useState(false);
 
   const autoCompleteSearch = useCallback(async (searchString: string, signal: AbortSignal) => {
@@ -56,7 +67,7 @@ const Header: React.FC = () => {
   return searchFocused ? (
     <>
       <Wrapper />
-      <Container>
+      <Container collapsed={collapsed}>
         <SearchBar
           focused={searchFocused}
           setFocused={setSearchFocused}
@@ -68,7 +79,7 @@ const Header: React.FC = () => {
       </Container>
     </>
   ) : (
-    <Container>
+    <Container collapsed={collapsed}>
       <SearchBar
         focused={searchFocused}
         setFocused={setSearchFocused}

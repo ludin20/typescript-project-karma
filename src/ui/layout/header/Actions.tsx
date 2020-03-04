@@ -58,6 +58,17 @@ const Container = styled.div`
       margin-right: 10px;
     }
   }
+
+  @media (max-width: 1200px) {
+    min-width: 300px;
+  }
+
+  @media (max-width: 1050px) {
+    min-width: 180px;
+    button:first-child {
+      display: none;
+    }
+  }
 `;
 
 const Actions: React.FC = () => {

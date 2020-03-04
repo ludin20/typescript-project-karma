@@ -6,7 +6,19 @@ import Trending from './Trending';
 
 const Container = styled.div`
   min-width: 368px;
-  margin: 30px 30px 0 0;
+  margin-right: 30px;
+
+  position: fixed;
+  top: 110px;
+  right: 0;
+
+  @media (max-width: 1200px) {
+    min-width: 300px;
+  }
+
+  @media (max-width: 1050px) {
+    display: none;
+  }
 `;
 
 const Aside: React.FC = () => {

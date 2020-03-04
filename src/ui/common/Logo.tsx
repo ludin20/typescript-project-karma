@@ -21,6 +21,20 @@ const Container = styled.div<Props>`
   }
 
   ${props =>
+    props.collapsed &&
+    css`
+      strong {
+        display: none;
+      }
+    `}
+
+  @media (max-width: 1200px) {
+    strong {
+      display: none;
+    }
+  }
+
+  ${props =>
     props.size === 'small' &&
     css`
       margin: 0 auto;
@@ -38,6 +52,7 @@ const Container = styled.div<Props>`
 
 interface Props {
   size?: 'small' | 'big';
+  collapsed?: boolean;
 }
 
 const Logo: React.FC<Props> = props => {

@@ -33,6 +33,28 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 860px) {
+    > section {
+      margin-left: 50px;
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+
+      button,
+      p {
+        margin-left: 0;
+
+        strong {
+          font-size: 30px;
+        }
+
+        span {
+          font-size: 20px;
+        }
+      }
+    }
+  }
 `;
 
 interface Props {

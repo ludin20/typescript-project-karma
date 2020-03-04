@@ -40,6 +40,12 @@ const Container = styled.button<{ selected: boolean }>`
     margin-top: 0px;
   }
 
+  @media (max-width: 1200px) {
+    &:nth-child(7) {
+      margin-top: 40px;
+    }
+  }
+
   ${props =>
     props.selected &&
     css`

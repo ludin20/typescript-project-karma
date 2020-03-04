@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
@@ -15,13 +15,45 @@ import logout from '../../assets/logout.svg';
 import SidebarItem from './SidebarItem';
 import Divider from './Divider';
 
-const Container = styled.nav`
+const Container = styled.nav<{ collapsed: boolean }>`
   width: 100%;
   margin-top: 5px;
   padding-left: 35px;
 
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 1200px) {
+    padding-left: 0;
+    align-items: center;
+
+    span {
+      display: none;
+    }
+
+    button {
+      padding-right: 0;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  ${props =>
+    props.collapsed &&
+    css`
+      padding-left: 0;
+      align-items: center;
+
+      span {
+        display: none;
+      }
+
+      button {
+        padding-right: 0;
+        width: 100%;
+        justify-content: center;
+      }
+    `}
 `;
 
 interface Props {
@@ -47,7 +79,7 @@ const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed
   }, [dispatch, router]);
 
   return (
-    <Container>
+    <Container collapsed={collapsed}>
       <SidebarItem route="/home" selected={selected.includes('home')} icon={home}>
         Home
       </SidebarItem>
@@ -77,7 +109,7 @@ const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed
         Profile
       </SidebarItem>
 
-      <Divider onClick={() => setCollapsed(!collapsed)} />
+      <Divider onClick={() => setCollapsed(!collapsed)} collapsed={collapsed} />
 
       <SidebarItem onClick={logOut} selected={false} icon={logout}>
         Logout
