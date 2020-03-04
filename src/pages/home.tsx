@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NextPage } from 'next';
 
-import { Title, PostCard, Layout, Seo } from '../ui';
+import { Title, PostCard } from '../ui';
 
 import { feed } from '../mock';
 
@@ -11,21 +12,26 @@ const Posts = styled.ul`
   margin-top: 20px;
 `;
 
-const Home: React.FC = () => {
+const Home: NextPage = () => {
   return (
-    <Layout>
-      <Seo title="Karma/Feed" />
-      <Container>
-        <Title withDropDown>Feed</Title>
+    <Container>
+      <Title withDropDown>Feed</Title>
 
-        <Posts>
-          {feed.map(post => (
-            <PostCard key={post.id} post={post} withFollowButton={false} />
-          ))}
-        </Posts>
-      </Container>
-    </Layout>
+      <Posts>
+        {feed.map(post => (
+          <PostCard key={post.id} post={post} withFollowButton={false} />
+        ))}
+      </Posts>
+    </Container>
   );
+};
+
+Home.getInitialProps = async () => {
+  return {
+    meta: {
+      title: 'Karma/Feed',
+    },
+  };
 };
 
 export default Home;

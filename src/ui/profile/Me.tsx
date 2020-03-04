@@ -19,7 +19,7 @@ const Me: React.FC<Props> = ({ tabs, tab }) => {
   const { avatar, posts: PostCount, followers, following, name, isVerified, power, bio, website } = profile;
 
   return (
-    <Layout>
+    <>
       <ProfileHeader avatar={avatar} posts={PostCount} followers={followers} following={following} />
 
       <ProfileInfo
@@ -37,7 +37,7 @@ const Me: React.FC<Props> = ({ tabs, tab }) => {
       <Tabs tabs={tabs} paramTab={tab || ''} size="big" />
 
       {modalIsOpen && <EditProfileModal open close={() => setModalIsOpen(false)} />}
-    </Layout>
+    </>
   );
 };
 

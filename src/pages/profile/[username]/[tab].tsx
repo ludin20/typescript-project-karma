@@ -1,18 +1,19 @@
 import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { NextPage, NextPageContext } from 'next';
 
-import { ProfileMedia, ProfileThoughts, Me, Profile, Seo } from '../../../ui';
+import { ProfileMedia, ProfileThoughts, Me, Profile } from '../../../ui';
 
 import { posts, quezPosts } from '../../../mock';
 
 import { RootState } from '../../../store/modules/rootReducer';
 
 interface Props {
-  tab: string;
+  tab?: string;
 }
 
-const ProfileWrapper: React.FC<Props> = () => {
+const ProfileWrapper: NextPage<Props> = () => {
   const profile = useSelector((state: RootState) => state.user.profile);
 
   const router = useRouter();
@@ -57,20 +58,24 @@ const ProfileWrapper: React.FC<Props> = () => {
     }
   }, [router, tab, tabs, username]);
 
-  if (me)
-    return (
-      <>
-        <Seo title={`Karma/${username}`} />
-        <Me tabs={tabs} tab={tab as string} />
-      </>
-    );
+  if (me) return <Me tabs={tabs} tab={tab as string} />;
 
-  return (
-    <>
-      <Seo title={`Karma/${username}`} />
-      <Profile tabs={tabs} tab={tab as string} />
-    </>
-  );
+  return <Profile tabs={tabs} tab={tab as string} />;
+};
+
+interface Context extends NextPageContext {
+  query: {
+    tab: string;
+    username: string;
+  };
+}
+
+ProfileWrapper.getInitialProps = async ({ query }: Context) => {
+  return {
+    meta: {
+      title: `Karma/${query.username}`,
+    },
+  };
 };
 
 export default ProfileWrapper;

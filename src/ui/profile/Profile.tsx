@@ -26,7 +26,7 @@ const Profile: React.FC<Props> = ({ tabs, tab }) => {
   } = profile;
 
   return (
-    <Layout>
+    <>
       <GoBackButton />
       <ProfileHeader avatar={avatar} posts={PostCount} followers={followers} following={following} />
 
@@ -43,7 +43,7 @@ const Profile: React.FC<Props> = ({ tabs, tab }) => {
       />
 
       <Tabs tabs={tabs} paramTab={tab || ''} size="big" />
-    </Layout>
+    </>
   );
 };
 
