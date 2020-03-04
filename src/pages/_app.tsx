@@ -92,9 +92,9 @@ export default class MyApp extends App {
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
+          <Seo {...pageProps.meta} />
           <GlobalStyle />
           <ThemeProvider theme={theme}>
-            <Seo {...pageProps.meta} />
             <AppLayout>
               <Component {...pageProps} />
             </AppLayout>

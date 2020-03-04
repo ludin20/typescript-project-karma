@@ -31,6 +31,12 @@ const Container = styled.div`
       font-size: 16px;
     }
   }
+
+  @media (max-width: 1200px) {
+    div + button {
+      display: none;
+    }
+  }
 `;
 
 interface Props {

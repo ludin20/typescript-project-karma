@@ -18,7 +18,6 @@ const Container = styled.button<Props>`
   justify-content: center;
   flex: 1;
 
-
   &:hover {
     opacity: 0.8;
   }
@@ -59,6 +58,18 @@ const Container = styled.button<Props>`
       background: #c7ffe9;
       color: #26cc8b;
     `}
+
+  @media (max-width: 1050px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 740px) {
+    font-size: 0;
+
+    img {
+      margin-right: 0;
+    }
+  }
 `;
 
 interface Props {

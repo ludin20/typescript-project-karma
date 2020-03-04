@@ -8,6 +8,8 @@ import PostActions from './PostActions';
 import PostContent from './PostContent';
 
 const Container = styled.li`
+  list-style: none;
+
   & + li {
     margin-top: 40px;
   }
