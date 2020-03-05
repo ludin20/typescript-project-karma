@@ -75,6 +75,7 @@ ProfileWrapper.getInitialProps = async ({ query }: Context) => {
     meta: {
       title: `Karma/${query.username}`,
     },
+    layoutConfig: { shouldHideHeader: true },
   };
 };
 

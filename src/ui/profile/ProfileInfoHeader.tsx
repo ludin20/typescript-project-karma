@@ -47,6 +47,16 @@ const Container = styled.header`
       color: ${props => props.theme.lightBlue};
     }
   }
+
+  @media (max-width: 550px) {
+    > section strong {
+      font-size: 24px;
+    }
+
+    > section span {
+      font-size: 17px;
+    }
+  }
 `;
 
 const Username = styled.div<{ me: boolean; followsMe: boolean }>`

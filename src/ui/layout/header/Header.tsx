@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { search as MockSearch } from '../../../mock';
 
@@ -22,7 +22,7 @@ export const Wrapper = styled.div`
   overflow: auto;
 `;
 
-const Container = styled.div<{ collapsed: boolean }>`
+const Container = styled.div<{ collapsed: boolean; shouldHideHeader: boolean }>`
   width: 100%;
   background: ${props => props.theme.black};
   padding: ${props => (!props.collapsed ? '30px 340px 10px 0' : '30px 160px 10px 0')};
@@ -38,6 +38,18 @@ const Container = styled.div<{ collapsed: boolean }>`
   @media (max-width: 1200px) {
     padding: 30px 160px 10px 0;
   }
+
+  @media (max-width: 700px) {
+    padding: 30px 15px 10px 0;
+  }
+
+  ${props =>
+    props.shouldHideHeader &&
+    css`
+      @media (max-width: 700px) {
+        display: none;
+      }
+    `}
 `;
 
 export interface UserProps {
@@ -52,12 +64,14 @@ export interface UserProps {
 
 interface Props {
   collapsed: boolean;
+  shouldHideCreatePost?: boolean;
+  shouldHideHeader?: boolean;
 }
 
 const getUserName = (value: UserProps) => value.name;
 const getId = (value: UserProps) => value.username;
 
-const Header: React.FC<Props> = ({ collapsed }) => {
+const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHeader }) => {
   const [searchFocused, setSearchFocused] = useState(false);
 
   const autoCompleteSearch = useCallback(async (searchString: string, signal: AbortSignal) => {
@@ -67,27 +81,29 @@ const Header: React.FC<Props> = ({ collapsed }) => {
   return searchFocused ? (
     <>
       <Wrapper />
-      <Container collapsed={collapsed}>
+      <Container collapsed={collapsed} shouldHideHeader={shouldHideHeader}>
         <SearchBar
           focused={searchFocused}
           setFocused={setSearchFocused}
           search={autoCompleteSearch}
           getId={getId}
           getText={getUserName}
+          shouldHideCreatePost={shouldHideCreatePost}
         />
-        <Actions />
+        <Actions shouldHideCreatePost={shouldHideCreatePost} />
       </Container>
     </>
   ) : (
-    <Container collapsed={collapsed}>
+    <Container collapsed={collapsed} shouldHideHeader={shouldHideHeader}>
       <SearchBar
         focused={searchFocused}
         setFocused={setSearchFocused}
         search={autoCompleteSearch}
         getId={getId}
         getText={getUserName}
+        shouldHideCreatePost={shouldHideCreatePost}
       />
-      <Actions />
+      <Actions shouldHideCreatePost={shouldHideCreatePost} />
     </Container>
   );
 };

@@ -55,6 +55,22 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 550px) {
+    section {
+      margin-left: 30px;
+    }
+
+    p > strong,
+    button > strong {
+      font-size: 20px !important;
+    }
+
+    p > span,
+    button > span {
+      font-size: 14px !important;
+    }
+  }
 `;
 
 interface Props {

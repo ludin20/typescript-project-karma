@@ -4,6 +4,10 @@ import styled from 'styled-components';
 const Container = styled.img`
   width: 30px;
   margin-right: 15px;
+
+  @media (max-width: 550px) {
+    width: 20px;
+  }
 `;
 
 interface Props {

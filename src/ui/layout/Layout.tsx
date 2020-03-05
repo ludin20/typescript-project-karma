@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { RootState } from '../../store/modules/rootReducer';
 
 import CreateProfileModal from '../profile/CreateProfileModal';
 
-import Sidebar from './sidebar/Sidebar';
+import Sidebar from './navbar/Sidebar';
 import Header from './header/Header';
 import Aside from './aside/Aside';
+import Bottombar from './navbar/Bottombar';
 
 const Wrapper = styled.div`
   background: ${props => props.theme.black};
@@ -16,41 +17,80 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const Container = styled.div<{ collapsed: boolean }>`
+const Container = styled.div<{ collapsed: boolean; shouldHideHeader: boolean }>`
   width: ${props => (!props.collapsed ? 'calc(100% - 350px)' : 'calc(100% - 170px)')};
   padding: 30px 0 50px;
-  margin: 0 0 0 60px;
+  margin-left: 60px;
 
   left: ${props => (!props.collapsed ? '280px' : '100px')};
 
   position: relative;
 
   @media (max-width: 1200px) {
+    min-height: 100vh;
     min-width: calc(100% - 170px) !important;
     max-width: calc(100% - 170px) !important;
 
     left: 100px;
   }
+
+  @media (max-width: 700px) {
+    min-width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0;
+    padding: 30px 15px 140px;
+
+    left: 0;
+  }
+
+  ${props =>
+    props.shouldHideHeader &&
+    css`
+      @media (max-width: 700px) {
+        padding: 0 0 140px;
+      }
+    `}
 `;
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.div<{ shouldHideHeader: boolean }>`
   display: flex;
   justify-content: space-between;
   width: 100%;
 
   margin-top: 80px;
+
+  ${props =>
+    props.shouldHideHeader &&
+    css`
+      @media (max-width: 700px) {
+        margin-top: 0;
+      }
+    `}
 `;
 
 const Content = styled.div`
-  width: 100%;
-  margin-right: calc(368px + 60px);
+  width: calc(100% - (368px + 80px));
 
-  @media (max-width: 1050px) {
+  @media (max-width: 1200px) {
+    width: calc(100% - (300px + 80px));
+  }
+
+  @media (max-width: 1100px) {
+    width: 100%;
     margin-right: 30px;
+  }
+
+  @media (max-width: 700px) {
+    margin-right: 0;
   }
 `;
 
-const Layout: React.FC = ({ children, ...props }) => {
+interface Props {
+  shouldHideCreatePost?: boolean;
+  shouldHideHeader?: boolean;
+}
+
+const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHeader, ...props }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -80,14 +120,16 @@ const Layout: React.FC = ({ children, ...props }) => {
     <Wrapper {...props}>
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
-      <Container collapsed={collapsed}>
-        <Header collapsed={collapsed} />
+      <Container collapsed={collapsed} shouldHideHeader={shouldHideHeader}>
+        <Header collapsed={collapsed} shouldHideCreatePost={shouldHideCreatePost} shouldHideHeader={shouldHideHeader} />
 
-        <ContentWrapper>
+        <ContentWrapper shouldHideHeader={shouldHideHeader}>
           <Content>{children}</Content>
           <Aside />
         </ContentWrapper>
       </Container>
+
+      <Bottombar />
 
       {modalIsOpen && <CreateProfileModal open close={close} />}
     </Wrapper>

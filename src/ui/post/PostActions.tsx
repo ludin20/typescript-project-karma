@@ -39,6 +39,22 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 550px) {
+    width: 100% !important;
+    padding-right: 15px;
+    margin-left: 0;
+
+    button {
+      font-size: 13px;
+      img {
+        height: 13px;
+      }
+    }
+    button:nth-child(6) {
+      display: none;
+    }
+  }
 `;
 
 interface Props {

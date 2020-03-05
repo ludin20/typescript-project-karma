@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
 
 import CreatePostModal from '../../post/CreatePostModal';
@@ -7,7 +7,7 @@ import CreatePostModal from '../../post/CreatePostModal';
 import activity from '../../assets/activity-white.svg';
 import plus from '../../assets/plus.svg';
 
-const Container = styled.div`
+const Container = styled.div<Props>`
   min-width: 368px;
   margin-right: 30px;
 
@@ -39,6 +39,7 @@ const Container = styled.div`
     }
   }
 
+  button:nth-child(2),
   button:last-child {
     width: 180px;
     background: linear-gradient(270deg, #26cc8b 0%, #2adce8 100%) 0% 0%;
@@ -69,15 +70,55 @@ const Container = styled.div`
       display: none;
     }
   }
+
+  @media (max-width: 700px) {
+    margin-right: 15px;
+  }
+
+  @media (max-width: 550px) {
+    min-width: unset;
+
+    button:nth-child(2) {
+      display: none;
+    }
+
+    button:last-child {
+      width: unset;
+      padding: 10px 22px;
+    }
+  }
+
+  @media (min-width: 550px) {
+    button:last-child {
+      display: none;
+    }
+  }
+
+  ${props =>
+    props.shouldHideCreatePost &&
+    css`
+      @media (max-width: 550px) {
+        min-width: unset;
+
+        button:nth-child(2),
+        button:last-child {
+          display: none;
+        }
+      }
+    `}
 `;
 
-const Actions: React.FC = () => {
+interface Props {
+  shouldHideCreatePost?: boolean;
+}
+
+const Actions: React.FC<Props> = props => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
   return (
     <>
-      <Container>
+      <Container {...props}>
         <button onClick={() => router.push('/activity')}>
           <img src={activity} alt="Activity" />
         </button>
@@ -85,6 +126,11 @@ const Actions: React.FC = () => {
         <button onClick={() => setOpen(true)}>
           <img src={plus} alt="create post" />
           Create Post
+        </button>
+
+        <button onClick={() => setOpen(true)}>
+          <img src={plus} alt="create post" />
+          Create
         </button>
       </Container>
       {open && <CreatePostModal open={open} close={() => setOpen(false)} />}

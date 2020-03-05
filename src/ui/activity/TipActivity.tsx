@@ -46,6 +46,18 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (min-width: 550px) {
+    br {
+      display: none;
+    }
+
+    p {
+      span {
+        margin-top: 5px;
+      }
+    }
+  }
 `;
 
 interface Props {
@@ -64,6 +76,7 @@ const TipActivity: React.FC<Props> = ({ item }) => {
         <p>
           <strong>{`${author.name}  `}</strong>
           <span>tipped you:</span>
+          <br />
           <span>{`  ${item.content}`}</span>
         </p>
 

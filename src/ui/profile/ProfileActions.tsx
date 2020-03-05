@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import powerIcon from '../assets/power.svg';
 import SendMoneyModal from '../wallet/SendMoneyModal/SendMoneyModal';
@@ -8,11 +8,44 @@ import SuccessModal from '../wallet/SendMoneyModal/SuccessModal';
 import Button from '../common/Button';
 import FollowButton from '../common/FollowButton';
 
-const Container = styled.div`
+const Container = styled.div<{ me: boolean }>`
   display: flex;
+
+  &:nth-child(3) {
+    display: none;
+
+    @media (max-width: 550px) {
+      button {
+        width: unset;
+        font-size: 14px;
+        padding: 8px 20px;
+      }
+    }
+  }
+
+  ${props =>
+    !props.me &&
+    css`
+      &:nth-child(3) {
+        display: flex;
+        margin-top: 14px;
+      }
+
+      @media (max-width: 920px) {
+        &:nth-child(2) {
+          display: none;
+        }
+      }
+
+      @media (min-width: 920px) {
+        &:nth-child(3) {
+          display: none;
+        }
+      }
+    `}
 `;
 
-const ActionButton = styled(Button)`
+const ActionButton = styled(Button)<{ me: boolean }>`
   width: 160px;
   font-size: 16px;
   font-weight: 900;
@@ -39,6 +72,19 @@ const ActionButton = styled(Button)`
     border: 2px solid #ffffff;
     margin-left: 20px;
   }
+
+  ${props =>
+    props.me &&
+    css`
+      @media (max-width: 550px) {
+        width: unset;
+        padding: 5px 16px;
+
+        &:nth-child(2) {
+          display: none;
+        }
+      }
+    `}
 `;
 
 const FollowingActionButton = styled(FollowButton)`
@@ -62,9 +108,10 @@ interface Props {
   avatar: string;
   username: string;
   name: string;
+  mobile?: boolean;
 }
 
-const ProfileActions: React.FC<Props> = ({ me, power, handleModal, following, avatar, username, name }) => {
+const ProfileActions: React.FC<Props> = ({ me, power, handleModal, following, avatar, username, name, mobile }) => {
   const [sendMoneyModalIsOpen, setSendMoneyModalIsOpen] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [value, setValue] = useState();
@@ -81,13 +128,13 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, following, av
 
   if (me) {
     return (
-      <Container>
-        <ActionButton background="dark" radius="rounded" color={'#26CC8B'}>
+      <Container me={me}>
+        <ActionButton me background="dark" radius="rounded" color={'#26CC8B'}>
           <img src={powerIcon} alt="power" />
           {power} Power
         </ActionButton>
 
-        <ActionButton border radius="rounded" onClick={handleModal}>
+        <ActionButton me border radius="rounded" onClick={handleModal}>
           Edit Profile
         </ActionButton>
       </Container>
@@ -95,14 +142,20 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, following, av
   }
 
   return (
-    <Container>
-      <ActionButton background="dark" radius="rounded" color={'#26CC8B'}>
+    <Container me={me}>
+      <ActionButton me={false} background="dark" radius="rounded" color={'#26CC8B'}>
         <img src={powerIcon} alt="power" />
-        {power} Power
+        {mobile ? power : `${power} Power`}
       </ActionButton>
 
-      <ActionButton background="dark" radius="rounded" color={'#26CC8B'} onClick={() => setSendMoneyModalIsOpen(true)}>
-        Send Money
+      <ActionButton
+        me={false}
+        background="dark"
+        radius="rounded"
+        color={'#26CC8B'}
+        onClick={() => setSendMoneyModalIsOpen(true)}
+      >
+        {mobile ? 'Send' : 'Send Money'}
       </ActionButton>
 
       <FollowingActionButton following={following} />

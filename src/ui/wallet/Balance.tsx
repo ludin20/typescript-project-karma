@@ -39,6 +39,24 @@ const Container = styled.div`
     &:hover {
       background: rgba(255, 255, 255, 0.4);
     }
+
+    img {
+      margin-right: 5px;
+    }
+  }
+
+  @media (max-width: 550px) {
+    strong {
+      font-size: 55px;
+    }
+
+    span {
+      font-size: 16px;
+    }
+
+    button {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -57,6 +75,15 @@ const Refresh = styled.div<{ loading: number }>`
   display: flex;
   justify-content: flex-end;
 
+  @media (max-width: 550px) {
+    button {
+      padding: 10px !important;
+      img {
+        height: 20px !important;
+      }
+    }
+  }
+
   button {
     background: rgba(255, 255, 255, 0.2);
     padding: 20px;
@@ -70,6 +97,7 @@ const Refresh = styled.div<{ loading: number }>`
 
     img {
       height: 25px;
+      margin-right: 0 !important;
     }
   }
 

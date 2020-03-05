@@ -95,7 +95,7 @@ export default class MyApp extends App {
           <Seo {...pageProps.meta} />
           <GlobalStyle />
           <ThemeProvider theme={theme}>
-            <AppLayout>
+            <AppLayout {...pageProps.layoutConfig}>
               <Component {...pageProps} />
             </AppLayout>
           </ThemeProvider>

@@ -30,7 +30,7 @@ const Container = styled.div`
   }
 
   > p {
-    margin-left: 93px;
+    margin-left: 90px;
     color: ${props => props.theme.gray};
     font-size: 16px;
     line-height: 22px;
@@ -40,6 +40,12 @@ const Container = styled.div`
   strong {
     color: #fff;
     font-size: 16px;
+  }
+
+  @media (max-width: 550px) {
+    > p {
+      margin-left: 80px;
+    }
   }
 `;
 

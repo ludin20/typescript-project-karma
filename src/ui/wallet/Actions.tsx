@@ -29,6 +29,12 @@ const Container = styled.div`
     font-size: 32px;
     font-weight: 900;
   }
+
+  @media (max-width: 550px) {
+    > strong {
+      font-size: 26px;
+    }
+  }
 `;
 
 const WalletActions: React.FC = () => {

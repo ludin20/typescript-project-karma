@@ -28,6 +28,10 @@ const Container = styled.div<{ collapsed: boolean; setCollapsed(value: boolean):
     min-width: 100px !important;
     max-width: 100px !important;
   }
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 interface Props {

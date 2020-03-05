@@ -16,7 +16,7 @@ const Container = styled.div`
     min-width: 300px;
   }
 
-  @media (max-width: 1050px) {
+  @media (max-width: 1100px) {
     display: none;
   }
 `;
