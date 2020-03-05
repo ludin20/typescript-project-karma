@@ -54,6 +54,7 @@ Discover.getInitialProps = async ({ query }: Context) => {
   const defaultData = {
     tab: query.tab,
     meta: { title: 'Karma/Discover' },
+    layoutConfig: { shouldHideCreatePost: true },
   };
 
   if (tab && tab === 'popular') {

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import link from '../assets/link.svg';
 
 import ProfileInfoHeader from './ProfileInfoHeader';
+import ProfileActions from './ProfileActions';
 
 const Container = styled.div`
   > p {
@@ -30,6 +31,12 @@ const Container = styled.div`
       left: 0;
     }
   }
+
+  @media (max-width: 550px) {
+    > p {
+      font-size: 18px;
+    }
+  }
 `;
 
 const WebSite = styled.div`
@@ -46,6 +53,12 @@ const WebSite = styled.div`
     margin-left: 6px;
     color: #2996dd;
     font-size: 18px;
+  }
+
+  @media (max-width: 550px) {
+    a {
+      font-size: 16px;
+    }
   }
 `;
 
@@ -107,6 +120,19 @@ const ProfileInfo: React.FC<Props> = ({
           <img src={link} alt="link" />
           <a>{website}</a>
         </WebSite>
+      )}
+
+      {!me && (
+        <ProfileActions
+          me={me}
+          power={power}
+          handleModal={handleModal}
+          following={following}
+          name={name}
+          username={username}
+          avatar={avatar}
+          mobile
+        />
       )}
     </Container>
   );

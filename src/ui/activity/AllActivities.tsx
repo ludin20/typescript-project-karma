@@ -14,6 +14,12 @@ const Container = styled.div`
     font-weight: 900;
     color: #fff;
   }
+
+  @media (max-width: 550px) {
+    > strong {
+      display: none;
+    }
+  }
 `;
 
 const AllActivities: React.FC = () => {

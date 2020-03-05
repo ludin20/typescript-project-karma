@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 import arrow from '../assets/arrow.svg';
 
-const Container = styled.div<{ toogled: boolean; size: 'default' | 'small'; bordered: boolean }>`
+const Container = styled.div<Props>`
   display: flex;
   align-items: center;
 
@@ -41,20 +41,29 @@ const Container = styled.div<{ toogled: boolean; size: 'default' | 'small'; bord
         bottom: 0;
       }
     `}
+
+  ${props =>
+    props.shouldHideHeader &&
+    css`
+      @media (max-width: 700px) {
+        display: none;
+      }
+    `}
 `;
 
 interface Props {
-  children: React.ReactChild;
+  toogled?: boolean;
   withDropDown?: boolean;
   bordered?: boolean;
   size?: 'default' | 'small';
+  shouldHideHeader?: boolean;
 }
 
-const Title: React.FC<Props> = ({ children, withDropDown, bordered = true, size = 'default' }) => {
+const Title: React.FC<Props> = ({ children, withDropDown, bordered = true, size = 'default', shouldHideHeader }) => {
   const [toogled, setToogled] = useState(false);
 
   return (
-    <Container toogled={toogled} bordered={bordered} size={size}>
+    <Container toogled={toogled} bordered={bordered} size={size} shouldHideHeader={shouldHideHeader}>
       <strong>{children}</strong>
       {withDropDown && (
         <button onClick={() => setToogled(!toogled)}>

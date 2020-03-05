@@ -32,6 +32,7 @@ const Container = styled.div`
   span {
     color: #7b7c83;
     font-size: 16px;
+    margin-top: 5px;
   }
 
   img {
@@ -57,6 +58,22 @@ const Container = styled.div`
 
   aside {
     align-items: flex-end;
+  }
+
+  @media (max-width: 550px) {
+    img {
+      width: 65px;
+      height: 65px;
+      margin-right: 12px;
+    }
+
+    strong {
+      font-size: 16px;
+    }
+
+    span {
+      font-size: 14px;
+    }
   }
 `;
 

@@ -38,6 +38,12 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 550px) {
+    img:last-child {
+      display: none;
+    }
+  }
 `;
 
 interface Props {

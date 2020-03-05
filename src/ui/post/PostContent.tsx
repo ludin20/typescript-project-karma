@@ -12,12 +12,24 @@ const Container = styled.div<{ size: 'default' | 'small'; numberOfMedias: number
       numberOfMedias < 3 ? `repeat(${numberOfMedias}, 1fr)` : `repeat(3, 1fr)`};
     grid-gap: 24px;
   }
+
+  @media (max-width: 550px) {
+    margin: ${props => (props.size === 'small' ? '10px 0 15px' : '12px 0 60px')};
+
+    div {
+      grid-gap: 10px;
+    }
+  }
 `;
 
 const Text = styled.strong<{ hashtag: boolean; size: 'default' | 'small' }>`
   color: ${props => (props.hashtag ? props.theme.green : '#fff')};
   font-size: ${props => (props.size === 'small' ? '20px' : '24px')};
   font-weight: ${props => (props.size === 'small' ? '500' : 'bold')};
+
+  @media (max-width: 550px) {
+    font-size: ${props => (props.size === 'small' ? '16px' : '18px')};
+  }
 `;
 
 const Img = styled.img`
@@ -43,7 +55,13 @@ const PostContent: React.FC<Props> = ({ content, size }) => {
         </Text>
       </p>
 
-      <div>{content.medias && content.medias.map((media, index) => <Img key={index} src={media} alt="image" />)}</div>
+      {content.medias && (
+        <div>
+          {content.medias.map((media, index) => (
+            <Img key={index} src={media} alt="image" />
+          ))}
+        </div>
+      )}
     </Container>
   );
 };

@@ -10,6 +10,10 @@ const Container = styled.div`
   img {
     width: 100%;
   }
+
+  @media (max-width: 550px) {
+    grid-gap: 10px;
+  }
 `;
 
 interface Props {

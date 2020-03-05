@@ -9,7 +9,7 @@ import searchIcon from '../../assets/search.svg';
 import OptionsContainer from './OptionsContainer';
 import { UserProps } from './Header';
 
-const Container = styled.div<{ focused: boolean }>`
+const Container = styled.div<{ focused: boolean; shouldHideCreatePost: boolean }>`
   width: 100%;
   background: linear-gradient(90deg, #20252e 0%, #191a19 100%) 0% 0%;
   margin-right: 60px;
@@ -44,6 +44,16 @@ const Container = styled.div<{ focused: boolean }>`
     }
   }
 
+  @media (max-width: 1200px) {
+    margin-right: 60px;
+  }
+
+  @media (max-width: 550px) {
+    background: none;
+    border: none;
+    margin-right: 0;
+  }
+
   button {
     display: none;
     background: none;
@@ -63,6 +73,14 @@ const Container = styled.div<{ focused: boolean }>`
         display: inherit;
       }
     `}
+
+  ${props =>
+    props.shouldHideCreatePost &&
+    css`
+      @media (max-width: 550px) {
+        box-shadow: 0px 3px 50px #00000066;
+      }
+    `}
 `;
 
 interface Props {
@@ -71,9 +89,10 @@ interface Props {
   getText(value: UserProps): string | null | undefined;
   getId(value: UserProps): string;
   search(searchString: string, signal: AbortSignal): Promise<UserProps[]>;
+  shouldHideCreatePost?: boolean;
 }
 
-const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, search }) => {
+const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, search, shouldHideCreatePost }) => {
   const abortRef = useRef<AbortController | null>();
   const [results, setResults] = useState<UserProps[]>();
   const [loading, setLoading] = useState(false);
@@ -132,7 +151,7 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, searc
 
   return (
     <>
-      <Container focused={focused}>
+      <Container focused={focused} shouldHideCreatePost={shouldHideCreatePost}>
         <img src={searchIcon} alt="search" />
         <input
           type="text"

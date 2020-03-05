@@ -42,12 +42,18 @@ const ContainerWithoutTitle = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 24px;
+
+  @media (max-width: 550px) {
+    button {
+      font-size: 18px;
+    }
+  }
 `;
 
 const Button = styled.button<{ active: boolean; withTitle?: boolean; size: 'default' | 'big' }>`
   background: none;
   color: ${props => (props.active ? '#fff' : 'rgba(255,255,255,0.4)')};
-  font-size: ${props => (props.size === 'default' ? '18px' : '28px')};
+  font-size: ${props => (props.size === 'default' ? '20px' : '28px')};
   font-weight: 900;
   transition: color 0.2s;
 

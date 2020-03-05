@@ -34,6 +34,7 @@ Discover.getInitialProps = async () => {
     meta: {
       title: 'Karma/Activity',
     },
+    layoutConfig: { shouldHideCreatePost: true },
   };
 };
 

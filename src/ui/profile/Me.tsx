@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import styled from 'styled-components';
 
 import { ProfileHeader, ProfileInfo, EditProfileModal, Tabs, Layout } from '../../ui';
 import { TabInterface } from '../tabs/Tabs';
 
 import { RootState } from '../../store/modules/rootReducer';
+
+const Wrapper = styled.div`
+  @media (max-width: 700px) {
+    padding: 30px 15px 0;
+
+    left: 0;
+  }
+`;
 
 interface Props {
   tabs: TabInterface[];
@@ -19,7 +28,7 @@ const Me: React.FC<Props> = ({ tabs, tab }) => {
   const { avatar, posts: PostCount, followers, following, name, isVerified, power, bio, website } = profile;
 
   return (
-    <>
+    <Wrapper>
       <ProfileHeader avatar={avatar} posts={PostCount} followers={followers} following={following} />
 
       <ProfileInfo
@@ -37,7 +46,7 @@ const Me: React.FC<Props> = ({ tabs, tab }) => {
       <Tabs tabs={tabs} paramTab={tab || ''} size="big" />
 
       {modalIsOpen && <EditProfileModal open close={() => setModalIsOpen(false)} />}
-    </>
+    </Wrapper>
   );
 };
 

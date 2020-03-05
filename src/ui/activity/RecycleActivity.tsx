@@ -41,6 +41,12 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (max-width: 550px) {
+    > img {
+      display: none;
+    }
+  }
 `;
 
 interface Props {

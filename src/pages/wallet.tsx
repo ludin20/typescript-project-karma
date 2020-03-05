@@ -9,12 +9,17 @@ const Container = styled.div`
   background: linear-gradient(90deg, #2adce8 0%, #26cc8b 100%);
   margin-top: 20px;
   border-radius: 25px;
+
+  @media (max-width: 700px) {
+    margin-top: 0;
+    border-radius: 0 0 25px 25px;
+  }
 `;
 
 const Wallet: NextPage = () => {
   return (
     <>
-      <Title>Wallet</Title>
+      <Title shouldHideHeader>Wallet</Title>
 
       <Container>
         <Balance />
@@ -30,6 +35,7 @@ Wallet.getInitialProps = async () => {
     meta: {
       title: 'Karma/Wallet',
     },
+    layoutConfig: { shouldHideHeader: true },
   };
 };
 

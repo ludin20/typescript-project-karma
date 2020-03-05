@@ -70,6 +70,18 @@ const Container = styled.button<Props>`
       margin-right: 0;
     }
   }
+
+  @media (max-width: 700px) {
+    height: 72px;
+    width: 72px;
+    padding: 0;
+    border-radius: 50%;
+    flex: unset;
+
+    & + button {
+      margin-left: 10px;
+    }
+  }
 `;
 
 interface Props {
