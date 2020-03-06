@@ -78,6 +78,12 @@ const Container = styled.form`
       color: ${props => props.theme.green};
     }
   }
+
+  @media (max-width: 650px) {
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+  }
 `;
 
 const SubmitButton = styled(Button)`
