@@ -44,8 +44,8 @@ const Container = styled.div<{ empty: boolean }>`
     }
 
     button {
-      width: 55px;
-      height: 55px;
+      width: 55px !important;
+      height: 55px !important;
       background: rgba(255, 255, 255, 0.2);
       color: #fff;
       font-size: 18px;
@@ -57,6 +57,18 @@ const Container = styled.div<{ empty: boolean }>`
       justify-content: center;
       align-items: center;
     }
+  }
+
+  @media (max-width: 800px) {
+    width: unset !important;
+
+    section > input {
+      margin: 0 10px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    width: 100% !important;
   }
 `;
 

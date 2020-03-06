@@ -22,7 +22,6 @@ const Container = styled.div<{ focused: boolean; shouldHideCreatePost: boolean }
   align-items: center;
 
   position: relative;
-  z-index: 1000;
 
   img {
     width: auto;
@@ -72,6 +71,15 @@ const Container = styled.div<{ focused: boolean; shouldHideCreatePost: boolean }
       button {
         display: inherit;
       }
+
+      @media (max-width: 800px) {
+        min-width: calc(100% - 15px);
+        width: unset;
+      }
+
+      @media (max-width: 550px) {
+        background: #1f252f;
+      }
     `}
 
   ${props =>
@@ -96,7 +104,7 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, searc
   const abortRef = useRef<AbortController | null>();
   const [results, setResults] = useState<UserProps[]>();
   const [loading, setLoading] = useState(false);
-  const [textValue, setTextValue] = useState(() => '');
+  const [textValue, setTextValue] = useState('');
   const [isEmpty, setEmpty] = useState(() => isStringEmpty(textValue));
 
   const triggerNewSearch = useDebounce(
@@ -150,27 +158,26 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, searc
   };
 
   return (
-    <>
-      <Container focused={focused} shouldHideCreatePost={shouldHideCreatePost}>
-        <img src={searchIcon} alt="search" />
-        <input
-          type="text"
-          placeholder="Search KARMA"
-          onFocus={() => setFocused(true)}
-          onBlur={onBlur}
-          onChange={handleChange}
-          value={textValue}
-        />
-        {focused && (
-          <button onClick={onBlur}>
-            <img src={close} alt="close" />
-          </button>
-        )}
-      </Container>
-      {focused && !isEmpty ? (
+    <Container focused={focused} shouldHideCreatePost={shouldHideCreatePost}>
+      <img src={searchIcon} alt="search" />
+      <input
+        type="text"
+        placeholder="Search KARMA"
+        onFocus={() => setFocused(true)}
+        onBlur={onBlur}
+        onChange={handleChange}
+        value={textValue}
+      />
+      {focused && (
+        <button onClick={onBlur}>
+          <img src={close} alt="close" />
+        </button>
+      )}
+
+      {focused && !isEmpty && (
         <OptionsContainer loading={loading} results={results} handleSelectOption={handleSelectOption} getId={getId} />
-      ) : null}
-    </>
+      )}
+    </Container>
   );
 };
 

@@ -33,6 +33,13 @@ const Content = styled.div`
       }
     }
   }
+
+  @media (max-width: 700px) {
+    max-width: unset;
+    height: 100vh;
+    border-radius: 0;
+    padding: 50px 15px;
+  }
 `;
 
 const CreatePostModal: React.FC<ModalProps> = props => {
@@ -66,7 +73,7 @@ const CreatePostModal: React.FC<ModalProps> = props => {
             Create Post
           </Title>
 
-          <button onClick={close} type="button">
+          <button onClick={() => props.close()} type="button">
             <img src={closeIcon} alt="close" />
           </button>
         </header>

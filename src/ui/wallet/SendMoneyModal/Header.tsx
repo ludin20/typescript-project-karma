@@ -5,7 +5,7 @@ import close from '../../assets/close-white.svg';
 
 const Container = styled.div`
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   display: flex;
   flex-direction: row;

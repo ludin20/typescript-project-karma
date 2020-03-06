@@ -3,20 +3,24 @@ import styled from 'styled-components';
 import { useField, useFormikContext } from 'formik';
 
 import Button from '../../common/Button';
+import Space from '../../common/Space';
 
 import SendTo from './SendTo';
 
 const Container = styled.div<{ empty: boolean }>`
-  background: rgba(255, 255, 255, 0.19);
   width: 50%;
-  box-shadow: 0px 3px 6px #0000001a;
-  border-radius: 40px 40px 50px 50px;
+
+  div:first-child {
+    background: rgba(255, 255, 255, 0.19);
+    box-shadow: 0px 3px 6px #0000001a;
+    border-radius: 40px 40px 50px 50px;
+  }
 
   textarea {
     width: 100%;
     background: none;
     color: #fff;
-    padding: 25% 20px;
+    padding: 20% 20px;
     border: none;
     font-size: 24px;
     font-weight: 900;
@@ -30,16 +34,23 @@ const Container = styled.div<{ empty: boolean }>`
       color: rgba(255, 255, 255, 0.6);
     }
   }
+
+  @media (max-width: 800px) {
+    width: unset;
+  }
+
+  @media (max-width: 400px) {
+    width: 100%;
+  }
 `;
 
 const SubmitButton = styled(Button)`
-  width: 50%;
+  width: 100% !important;
   height: 60px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 200px;
   font-size: 18px;
   font-weight: 900;
-  margin-top: 20px;
 
   display: flex;
   align-items: center;
@@ -76,14 +87,17 @@ const Form: React.FC<SendMoneyFormProps> = ({ profile }) => {
   return (
     <>
       <Container empty={empty}>
-        <SendTo profile={profile} />
+        <div>
+          <SendTo profile={profile} />
 
-        <textarea onChange={onChange} value={memo.value} placeholder="What’s this for?" />
+          <textarea onChange={onChange} value={memo.value} placeholder="What’s this for?" />
+        </div>
+        <Space height={26} />
+
+        <SubmitButton type="submit" radius="rounded" onClick={handleSubmit}>
+          Confirm
+        </SubmitButton>
       </Container>
-
-      <SubmitButton type="submit" radius="rounded" onClick={handleSubmit}>
-        Confirm
-      </SubmitButton>
     </>
   );
 };

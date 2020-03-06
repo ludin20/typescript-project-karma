@@ -6,6 +6,20 @@ import Button from '../../common/Button';
 
 import success from '../../assets/success.svg';
 
+const SuccessWrapper = styled.div`
+  margin-bottom: 20px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 550px) {
+    padding: 0 15px;
+  }
+`;
+
 const Container = styled.div`
   width: 100%;
   max-width: 500px;
@@ -64,13 +78,13 @@ const Container = styled.div`
 const SuccessIcon = styled.img`
   position: absolute;
   z-index: 2;
-  top: -110px;
+  top: 0;
   width: 430px;
   height: 430px;
 `;
 
 const SubmitButton = styled(Button)`
-  width: 100%;
+  width: 100% !important;
   max-width: 500px;
   height: 75px;
   font-size: 18px;
@@ -87,26 +101,28 @@ interface Props extends ModalProps {
 
 const SuccessModal: React.FC<Props> = ({ to, karmaValue, usdValue, ...props }) => {
   return (
-    <ModalWrapper {...props}>
-      <SuccessIcon src={success} alt="confirmation" />
+    <ModalWrapper {...props} justify="flex-end">
+      <SuccessWrapper>
+        <SuccessIcon src={success} alt="confirmation" />
 
-      <Container>
-        <span>Successfully sent!</span>
+        <Container>
+          <span>Successfully sent!</span>
 
-        <p>
-          <strong>{karmaValue} KARMA</strong>
-          <span>{usdValue} USD</span>
-        </p>
+          <p>
+            <strong>{karmaValue} KARMA</strong>
+            <span>{usdValue} USD</span>
+          </p>
 
-        <p>
-          <span>Recipients address:</span>
-          <span>{to}</span>
-        </p>
-      </Container>
+          <p>
+            <span>Recipients address:</span>
+            <span>{to}</span>
+          </p>
+        </Container>
 
-      <SubmitButton background="green" radius="rounded" onClick={props.close}>
-        Done
-      </SubmitButton>
+        <SubmitButton background="green" radius="rounded" onClick={props.close}>
+          Done
+        </SubmitButton>
+      </SuccessWrapper>
     </ModalWrapper>
   );
 };

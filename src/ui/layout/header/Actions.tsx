@@ -95,6 +95,17 @@ const Container = styled.div<Props>`
   }
 
   ${props =>
+    props.focused &&
+    css`
+      @media (max-width: 800px) {
+        button:nth-child(2),
+        button:last-child {
+          display: none;
+        }
+      }
+    `}
+
+  ${props =>
     props.shouldHideCreatePost &&
     css`
       @media (max-width: 550px) {
@@ -109,6 +120,7 @@ const Container = styled.div<Props>`
 `;
 
 interface Props {
+  focused: boolean;
   shouldHideCreatePost?: boolean;
 }
 

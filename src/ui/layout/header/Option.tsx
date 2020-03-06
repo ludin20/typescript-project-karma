@@ -50,14 +50,35 @@ const Container = styled.div`
       color: #6f767e;
     }
   }
+
+  @media (max-width: 700px) {
+    section > strong {
+    }
+  }
+`;
+
+const StyledAvatar = styled(Avatar)`
+  width: 50px !important;
+  height: 50px !important;
+
+  @media (max-width: 860px) {
+    width: 40px !important;
+    height: 40px !important;
+  }
 `;
 
 const Button = styled(FollowButton)`
   width: 115px;
 
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 860px) {
+    width: unset;
+    padding: 6px 15px;
+    font-size: 14px;
+  }
 `;
 
 interface Props {
@@ -73,7 +94,7 @@ const Option: React.FC<Props> = ({ value, onSelect }) => {
   return (
     <Container onClick={handleClick}>
       <div>
-        <Avatar online={value.online} src={value.avatar} alt={value.name} size="default" />
+        <StyledAvatar online={value.online} src={value.avatar} alt={value.name} size="default" />
 
         <section>
           {!value.verified ? (

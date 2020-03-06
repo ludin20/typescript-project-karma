@@ -78,6 +78,14 @@ const Container = styled.div<Props>`
         bottom: 0;
         left: 0;
       }
+
+      @media (max-width: 700px) {
+        border-radius: 15px;
+
+        &::after {
+          display: none;
+        }
+      }
     `}
 
   ${props =>

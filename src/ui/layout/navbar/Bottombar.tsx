@@ -27,6 +27,7 @@ const Container = styled.div`
 
   position: fixed;
   bottom: 0;
+  z-index: 4;
 
   @media (min-width: 700px) {
     display: none;

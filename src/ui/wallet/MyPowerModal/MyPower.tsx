@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -15,6 +15,7 @@ import Column from '../../common/Column';
 import ModalTabs from '../../tabs/ModalTabs';
 
 import power from '../../assets/power-gradient.svg';
+import closeIcon from '../../assets/close-white.svg';
 
 import PowerForm from './PowerForm';
 
@@ -30,11 +31,45 @@ const Container = styled.div`
     height: 100px;
     margin-right: 40px;
   }
+
+  @media (max-width: 700px) {
+    border-radius: 30px 30px 0 0;
+    padding: 26px 20px;
+    position: fixed;
+    bottom: 0;
+
+    div > img {
+      width: 52px;
+      height: 52px;
+      margin-right: 10px;
+    }
+  }
+`;
+
+const CloseButton = styled.button`
+  background: none;
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+`;
+
+const StyledText = styled(Text)`
+  @media (max-width: 700px) {
+    font-size: 14px;
+  }
 `;
 
 const StyledRow = styled(Row)`
   flex: 1;
   padding: 0 20px;
+`;
+
+const SpaceOnMobile = css`
+  @media (max-width: 700px) {
+    width: 22px;
+  }
 `;
 
 const MyPower: React.FC<ModalProps> = props => {
@@ -78,54 +113,60 @@ const MyPower: React.FC<ModalProps> = props => {
   const { currentPower, liquidBalance, unstaking } = useSelector((state: RootState) => state.user.profile);
 
   return (
-    <ModalWrapper {...props}>
+    <ModalWrapper {...props} withoutBackgroundOnMobile>
       <Container>
-        <Title size="small" bordered={false}>
-          My Power
-        </Title>
-        <Space height={30} />
+        <Row>
+          <Title size="small" bordered={false}>
+            My Power
+          </Title>
+
+          <CloseButton onClick={() => props.close()}>
+            <img src={closeIcon} alt="close" />
+          </CloseButton>
+        </Row>
+        <Space height={25} />
 
         <Row justify="flex-start" align="center">
           <img src={power} alt="my power" />
 
           <StyledRow justify="flex-start" align="center">
             <Column justify="flex-start" align="center">
-              <Text weight="900" size={18}>
+              <StyledText weight="900" size={18}>
                 Current Power
-              </Text>
+              </StyledText>
               <Space height={8} />
 
-              <Text weight="900" size={20} color="green">
+              <StyledText weight="900" size={20} color="green">
                 {currentPower} KARMA
-              </Text>
+              </StyledText>
             </Column>
-            <Space width={50} />
+            <Space width={50} css={SpaceOnMobile} />
 
             <Column justify="flex-start" align="center">
-              <Text weight="900" size={18}>
+              <StyledText weight="900" size={18}>
                 Liquid Balance
-              </Text>
+              </StyledText>
               <Space height={8} />
 
-              <Text weight="900" size={20} color="secondblue">
+              <StyledText weight="900" size={20} color="secondblue">
                 {liquidBalance} KARMA
-              </Text>
+              </StyledText>
             </Column>
-            <Space width={50} />
+            <Space width={50} css={SpaceOnMobile} />
 
             <Column justify="flex-start" align="center">
-              <Text weight="900" size={18}>
+              <StyledText weight="900" size={18}>
                 Unstaking
-              </Text>
+              </StyledText>
               <Space height={8} />
 
-              <Text weight="900" size={20} color="warning">
+              <StyledText weight="900" size={20} color="warning">
                 {unstaking} KARMA
-              </Text>
+              </StyledText>
             </Column>
           </StyledRow>
         </Row>
-        <Space height={30} />
+        <Space height={25} />
 
         <ModalTabs tabs={tabs} />
       </Container>

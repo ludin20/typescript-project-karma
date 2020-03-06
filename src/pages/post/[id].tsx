@@ -11,6 +11,12 @@ import { RootState } from '../../store/modules/rootReducer';
 
 import { post as mockPost } from '../../mock';
 
+const Wrapper = styled.div`
+  @media (max-width: 700px) {
+    padding: 30px 15px 0;
+  }
+`;
+
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -18,6 +24,12 @@ const TitleWrapper = styled.div`
 
   button {
     margin: 0 20px 0 0;
+  }
+
+  @media (max-width: 700px) {
+    button + div {
+      display: none;
+    }
   }
 `;
 
@@ -57,16 +69,16 @@ const Post: NextPage<Props> = ({ post }) => {
   const { avatar } = useSelector((state: RootState) => state.user.profile);
 
   return (
-    <>
+    <Wrapper>
       <TitleWrapper>
         <GoBackButton />
         <Title bordered={false}>Post</Title>
       </TitleWrapper>
 
-      <PostCard post={post} />
+      <PostCard post={post} shouldHideFollowOnMobile />
 
       <PostComments comments={post.commentsContent} avatar={avatar as string} />
-    </>
+    </Wrapper>
   );
 };
 
@@ -84,6 +96,9 @@ Post.getInitialProps = async ({ query }: Context) => {
     meta: {
       title: `${post.author.username} on Karma "${post.content.description}"`,
       description: post.content.description,
+    },
+    layoutConfig: {
+      shouldHideHeader: true,
     },
   };
 };

@@ -28,16 +28,17 @@ const Container = styled.div<{ me: boolean }>`
     css`
       &:nth-child(3) {
         display: flex;
+        justify-content: space-around;
         margin-top: 14px;
       }
 
-      @media (max-width: 920px) {
+      @media (max-width: 1366px) {
         &:nth-child(2) {
           display: none;
         }
       }
 
-      @media (min-width: 920px) {
+      @media (min-width: 1367px) {
         &:nth-child(3) {
           display: none;
         }
@@ -46,8 +47,7 @@ const Container = styled.div<{ me: boolean }>`
 `;
 
 const ActionButton = styled(Button)<{ me: boolean }>`
-  width: 160px;
-  font-size: 16px;
+  width: 140px;
   font-weight: 900;
   border-radius: 50px;
   border: 2px solid #26cc8b;
@@ -74,15 +74,21 @@ const ActionButton = styled(Button)<{ me: boolean }>`
   }
 
   ${props =>
+    !props.me &&
+    css`
+      @media (max-width: 1366px) {
+        flex: 1;
+        width: unset;
+        padding: 5px 16px;
+      }
+    `}
+
+  ${props =>
     props.me &&
     css`
       @media (max-width: 550px) {
         width: unset;
         padding: 5px 16px;
-
-        &:nth-child(2) {
-          display: none;
-        }
       }
     `}
 `;
@@ -97,6 +103,10 @@ const FollowingActionButton = styled(FollowButton)`
 
   & + button {
     margin-left: 20px;
+  }
+
+  @media (max-width: 1366px) {
+    flex: 1;
   }
 `;
 

@@ -14,7 +14,7 @@ const Container = styled.div<{ size: 'default' | 'small'; numberOfMedias: number
   }
 
   @media (max-width: 550px) {
-    margin: ${props => (props.size === 'small' ? '10px 0 15px' : '12px 0 60px')};
+    margin: ${props => (props.size === 'small' ? '10px 0 15px' : '12px 0 30px')};
 
     div {
       grid-gap: 10px;

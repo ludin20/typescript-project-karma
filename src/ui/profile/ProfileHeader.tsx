@@ -17,7 +17,7 @@ const Container = styled.div`
     p {
       background: none;
       color: #fff;
-      margin-left: 70px;
+      margin-left: 50px;
 
       display: flex;
       flex-direction: column;
