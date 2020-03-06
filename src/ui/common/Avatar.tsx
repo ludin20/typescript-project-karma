@@ -20,6 +20,11 @@ const Container = styled.img<{ online: boolean; size: 'default' | 'small' | 'big
         width: 140px;
         height: 140px;
 
+        @media (max-width: 1200px) {
+          width: 120px;
+          height: 120px;
+        }
+
         @media (max-width: 550px) {
           width: 80px;
           height: 80px;

@@ -19,6 +19,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 800px) {
+    height: 100%;
+    border-radius: 0;
+    position: fixed;
+
+    padding: 30px 20px;
+  }
 `;
 
 interface Props extends ModalProps, SendMoneyFormProps {

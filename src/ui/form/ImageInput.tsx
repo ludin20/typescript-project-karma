@@ -23,6 +23,18 @@ const Container = styled.div`
   img {
     width: 40px;
   }
+
+  @media (max-width: 700px) {
+    min-width: 82px;
+    width: 82px;
+    min-height: 82px;
+    height: 82px;
+    margin-right: 0;
+
+    img {
+      width: 26px;
+    }
+  }
 `;
 
 const WithPreview = styled.div`
@@ -47,6 +59,17 @@ const WithPreview = styled.div`
 
     position: absolute;
     top: 0;
+  }
+
+  @media (max-width: 700px) {
+    width: 80px;
+    height: 80px;
+
+    > img {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+    }
   }
 `;
 

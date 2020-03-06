@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { FormikProvider, FormikProps } from 'formik';
 
 import ModalWrapper, { ModalProps } from '../common/ModalWrapper';
@@ -15,11 +15,16 @@ export const Container = styled.form`
   max-width: 700px;
   background: ${props => props.theme.dark};
   padding: 30px 50px;
-  margin: 40px 0;
   border-radius: 20px;
 
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 700px) {
+    height: 100vh;
+    padding: 50px 15px;
+    border-radius: 0;
+  }
 `;
 
 const SubmitButton = styled(Button)`
@@ -32,8 +37,32 @@ const SubmitButton = styled(Button)`
   justify-content: center;
 `;
 
-const Input = styled(FormikInput)`
-  flex: 1;
+interface InputProps {
+  flex?: boolean;
+}
+const Input = styled(FormikInput)<InputProps>`
+  @media (max-width: 700px) {
+    padding: 10px 14px;
+
+    header > span {
+      font-size: 13px;
+    }
+
+    input,
+    textarea {
+      font-size: 18px;
+    }
+  }
+
+  ${props =>
+    props.flex &&
+    css`
+      width: calc(100% - (82px + 30px));
+
+      @media (max-width: 700px) {
+        width: calc(100% - (82px + 20px));
+      }
+    `}
 `;
 
 interface Props extends ModalProps {
@@ -60,7 +89,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
 
           <Row>
             <ImageInput name="avatar" />
-            <Input label="Name" name="name" placeholder="Enter Name" required bordered />
+            <Input label="Name" name="name" placeholder="Enter Name" required bordered flex />
           </Row>
 
           <Space height={25} />
@@ -68,7 +97,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
           <Input label="Username" name="username" required bordered mask="@" />
           <Space height={25} />
 
-          <FormikInput
+          <Input
             label="Bio"
             name="bio"
             placeholder={`Tell everyone why you’re awesome\nTip: use emoji’s`}

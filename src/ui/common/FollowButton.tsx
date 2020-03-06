@@ -1,9 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Button from './Button';
 
-const Container = styled(Button)`
+const Container = styled(Button)<Props>`
   font-size: 16px;
   font-weight: 900;
   padding-top: 8px;
@@ -11,10 +11,19 @@ const Container = styled(Button)`
   &:hover {
     opacity: 0.8;
   }
+
+  ${props =>
+    props.shouldHideFollowOnMobile &&
+    css`
+      @media (max-width: 550px) {
+        display: none;
+      }
+    `}
 `;
 
 interface Props {
-  following: boolean;
+  following?: boolean;
+  shouldHideFollowOnMobile?: boolean;
 }
 
 const FollowButton: React.FC<Props> = ({ following, ...props }) => {

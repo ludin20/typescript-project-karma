@@ -45,7 +45,14 @@ const Me: React.FC<Props> = ({ tabs, tab }) => {
 
       <Tabs tabs={tabs} paramTab={tab || ''} size="big" />
 
-      {modalIsOpen && <EditProfileModal open close={() => setModalIsOpen(false)} />}
+      {modalIsOpen && (
+        <EditProfileModal
+          open
+          close={() => {
+            setModalIsOpen(false);
+          }}
+        />
+      )}
     </Wrapper>
   );
 };

@@ -1,10 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { TextInput, Avatar } from '../../ui';
+import Avatar from '../common/Avatar';
+
+import CreateComment from './CreateComment';
 
 const Container = styled.div`
   margin-top: 30px;
+
+  ul > strong {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+  }
 
   li {
     margin: 20px 0;
@@ -13,7 +21,7 @@ const Container = styled.div`
     align-items: center;
 
     section {
-      margin-left: 25px;
+      margin-left: 10px;
 
       display: flex;
       flex-direction: column;
@@ -43,18 +51,41 @@ const Container = styled.div`
       }
     }
   }
+
+  @media (min-width: 550px) {
+    ul > strong {
+      display: none;
+    }
+  }
+
+  @media (max-width: 550px) {
+    li {
+      margin: 20px 0;
+
+      display: flex;
+      align-items: center;
+
+      section {
+        header > span {
+          font-size: 14px;
+        }
+
+        p {
+          font-size: 13px;
+          font-weight: 500;
+          color: #fff;
+        }
+      }
+    }
+  }
 `;
 
-const CreateComment = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Input = styled(TextInput)`
-  margin-left: 10px;
-  border-radius: 100px;
-  flex: 1;
-  padding: 10px 15px;
+const StyledAvatar = styled(Avatar)`
+  @media (max-width: 550px) {
+    width: 40px;
+    height: 40px;
+    margin-right: 0;
+  }
 `;
 
 interface Props {
@@ -65,15 +96,13 @@ interface Props {
 const PostComments: React.FC<Props> = ({ comments, avatar }) => {
   return (
     <Container>
-      <CreateComment>
-        <Avatar src={avatar} alt="avatar" />
-        <Input placeholder="Write a comment" dark font="small" />
-      </CreateComment>
+      <CreateComment avatar={avatar} />
 
       <ul>
+        <strong>All comments</strong>
         {comments.map(({ author, ...comment }) => (
           <li key={author.username}>
-            <Avatar src={author.avatar} alt={author.username} />
+            <StyledAvatar src={author.avatar} alt={author.username} />
             <section>
               <header>
                 <strong>{author.username}</strong>

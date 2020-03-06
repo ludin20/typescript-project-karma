@@ -32,6 +32,13 @@ const Container = styled.div<{ empty: boolean }>`
       }
     }
   }
+
+  @media (max-width: 550px) {
+    section > button > img {
+      width: 72px;
+      height: 72px;
+    }
+  }
 `;
 
 interface Props {

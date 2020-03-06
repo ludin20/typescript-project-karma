@@ -50,6 +50,14 @@ const Input = styled(FormikInput)<{ focused: boolean; borderColor: string }>`
     css`
       border: ${`3px solid ${props.theme[props.borderColor]}`};
     `}
+
+  @media (max-width: 700px) {
+    padding: 50px 0;
+
+    input {
+      font-size: 24px;
+    }
+  }
 `;
 
 interface Props {
@@ -64,8 +72,6 @@ const PowerForm: React.FC<Props> = ({ formik, borderColor }) => {
 
   return (
     <FormikProvider value={formik}>
-      <Space height={30} />
-
       <form onSubmit={handleSubmit}>
         <Input
           borderColor={borderColor}
@@ -77,7 +83,7 @@ const PowerForm: React.FC<Props> = ({ formik, borderColor }) => {
           background="black"
           numberOnly
         />
-        <Space height={30} />
+        <Space height={25} />
 
         <ConfirmButton type="submit" disabled={!isValid} background="green">
           Confirm

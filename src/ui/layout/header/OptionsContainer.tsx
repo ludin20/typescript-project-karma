@@ -5,17 +5,23 @@ import Option from './Option';
 import { UserProps } from './Header';
 
 const Container = styled.div`
-  width: calc(100% - 460px);
+  width: 100%;
   background: linear-gradient(90deg, #20252e 0%, #191a19 100%);
   border-radius: 0 0 50px 50px;
 
   position: absolute;
-  z-index: 200;
   left: 0;
   top: 20px;
+  z-index: -100;
 
   > section {
     padding: 70px 40px 20px;
+  }
+
+  @media (max-width: 860px) {
+    > section {
+      padding: 70px 20px 20px;
+    }
   }
 `;
 
@@ -29,13 +35,14 @@ const OptionMessage = styled.div`
 
 const SeeMore = styled.button`
   width: 100%;
-  background: #000;
+  background: #000 !important;
   color: #fff;
   font-size: 16px;
   font-weight: 900;
   padding: 15px 0;
   box-shadow: 0 3px 6px #00000029;
   border-radius: 0 0 25px 25px;
+  display: inherit !important;
 `;
 
 interface Props {

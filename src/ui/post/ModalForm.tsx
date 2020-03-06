@@ -26,6 +26,14 @@ const Container = styled.form`
     display: flex;
     flex-direction: row;
   }
+
+  @media (max-width: 700px) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0 60px;
+  }
 `;
 
 const Input = styled(FormikInput)<{ withMedia: boolean }>`
@@ -34,6 +42,12 @@ const Input = styled(FormikInput)<{ withMedia: boolean }>`
   margin: ${props => (props.withMedia ? '10px 0 0' : '10px 0 50px')};
 
   flex: 1;
+
+  @media (max-width: 550px) {
+    textarea {
+      font-size: 18px;
+    }
+  }
 `;
 
 const SubmitButton = styled(Button)`

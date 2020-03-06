@@ -35,6 +35,16 @@ const Button = styled.button<{ active: boolean; decrease: boolean }>`
         left: 0;
       }
     `}
+
+  @media(max-width: 700px) {
+    font-size: 18px;
+  }
+`;
+
+const SpaceOnMobile = css`
+  @media (max-width: 700px) {
+    width: 36px;
+  }
 `;
 
 export interface TabInterface {
@@ -57,7 +67,7 @@ const Tabs: React.FC<Props> = ({ tabs }) => {
             <Button decrease={index > 0} onClick={() => setActive(index)} active={active === index}>
               {tab.name}
             </Button>
-            <Space width={50} />
+            {tabs.length - 1 !== index && <Space width={50} css={SpaceOnMobile} />}
           </React.Fragment>
         ))}
       </Header>

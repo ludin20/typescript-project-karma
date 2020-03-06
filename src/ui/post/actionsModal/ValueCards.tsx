@@ -20,6 +20,8 @@ const Container = styled.ul`
     justify-content: center;
     align-items: center;
 
+    cursor: pointer;
+
     & + li {
       margin-left: 10px;
     }

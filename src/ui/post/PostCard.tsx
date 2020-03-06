@@ -71,9 +71,16 @@ interface Props {
   me?: boolean;
   size?: 'default' | 'small';
   withFollowButton?: boolean;
+  shouldHideFollowOnMobile?: boolean;
 }
 
-const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFollowButton = true }) => {
+const PostCard: React.FC<Props> = ({
+  post,
+  me = false,
+  size = 'default',
+  withFollowButton = true,
+  shouldHideFollowOnMobile,
+}) => {
   const { date, likes, comments, recycles, tips, power, content, author } = post;
 
   return (
@@ -89,7 +96,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
           </section>
         </div>
 
-        {!me && withFollowButton && <FollowButton following={author.following} />}
+        {!me && withFollowButton && <FollowButton following={author.following} shouldHideFollowOnMobile />}
       </header>
 
       <PostContent content={content} size={size} />

@@ -38,20 +38,19 @@ const EditProfileModal: React.FC<ModalProps> = props => {
       website: '',
     },
     validationSchema: Yup.object().shape({
-      name: Yup.string().required('Name is required'),
-      username: Yup.string().required('Username is required'),
+      name: Yup.string(),
+      username: Yup.string(),
       bio: Yup.string(),
       website: Yup.string(),
     }),
     validateOnMount: true,
     onSubmit: (values: ProfileProps) => {
       const newProfile = {
-        avatar: profile.avatar,
-        name: profile.name,
-        username: profile.username,
-        bio: profile.bio,
-        website: profile.website,
-        ...values,
+        avatar: values.avatar || profile.avatar,
+        name: values.name || profile.name,
+        username: values.username || profile.username,
+        bio: values.bio || profile.bio,
+        website: values.website || profile.website,
       };
 
       dispatch(updateProfileRequest(newProfile));
@@ -65,7 +64,7 @@ const EditProfileModal: React.FC<ModalProps> = props => {
         <Title bordered={false} size="small">
           Edit Profile
         </Title>
-        <CloseButton>
+        <CloseButton type="button" onClick={() => props.close()}>
           <img src={closeIcon} alt="close" />
         </CloseButton>
       </Row>

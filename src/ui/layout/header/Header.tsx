@@ -90,7 +90,7 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
           getText={getUserName}
           shouldHideCreatePost={shouldHideCreatePost}
         />
-        <Actions shouldHideCreatePost={shouldHideCreatePost} />
+        <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} />
       </Container>
     </>
   ) : (
@@ -103,7 +103,7 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
         getText={getUserName}
         shouldHideCreatePost={shouldHideCreatePost}
       />
-      <Actions shouldHideCreatePost={shouldHideCreatePost} />
+      <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} />
     </Container>
   );
 };
