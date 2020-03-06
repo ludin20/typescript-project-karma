@@ -14,6 +14,15 @@ const Bg = styled.img`
   position: absolute;
   top: 0;
   left: 0;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    height: auto;
+  }
+
+  @media (max-width: 650px) {
+    display: none;
+  }
 `;
 
 const Container = styled.div`
@@ -27,6 +36,15 @@ const Container = styled.div`
 
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 650px) {
+    padding: 0;
+  }
 `;
 
 const StyledLogo = styled(Logo)`
@@ -41,6 +59,10 @@ const StyledLogo = styled(Logo)`
 
   strong {
     font-size: 40px;
+  }
+
+  @media (max-width: 650px) {
+    display: none;
   }
 `;
 

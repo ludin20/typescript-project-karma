@@ -15,6 +15,17 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
   }
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    height: 100%;
+
+    > div {
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 `;
 
 const Auth: React.FC = props => {

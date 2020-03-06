@@ -53,6 +53,10 @@ const Container = styled.div`
     width: 400px;
     margin-top: 60px;
   }
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
 `;
 
 const Aside: React.FC = () => {
