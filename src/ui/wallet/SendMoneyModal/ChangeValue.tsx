@@ -51,7 +51,7 @@ const Container = styled.div<{ empty: boolean }>`
       font-size: 18px;
       font-weight: bold;
       border-radius: 50%;
-      box-shadow: 0px 3px 20px #00000081;
+      box-shadow: 0px 3px 10px #00000081;
 
       display: flex;
       justify-content: center;

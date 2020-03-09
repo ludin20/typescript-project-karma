@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div<{ collapsed: boolean; shouldHideHeader: boolean }>`
+  min-height: 100vh;
   width: ${props => (!props.collapsed ? 'calc(100% - 350px)' : 'calc(100% - 170px)')};
   padding: 30px 0 50px;
   margin-left: 60px;

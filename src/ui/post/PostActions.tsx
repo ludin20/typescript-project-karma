@@ -27,6 +27,10 @@ const Container = styled.div`
     display: flex;
     align-items: center;
 
+    span {
+      padding-top: 5px;
+    }
+
     img {
       height: 16px;
       width: auto;
@@ -49,6 +53,10 @@ const Container = styled.div`
       font-size: 13px;
       img {
         height: 13px;
+      }
+
+      span {
+        padding-top: 4px;
       }
     }
     button:nth-child(6) {
@@ -74,27 +82,27 @@ const PostActions: React.FC<Props> = ({ likes, comments, recycles, tips, power, 
       <Container {...props}>
         <button>
           <img src={heart} alt="like" />
-          {likes} Likes
+          <span>{likes} Likes</span>
         </button>
 
         <button>
           <img src={comment} alt="comment" />
-          {comments}
+          <span>{comments}</span>
         </button>
 
         <button>
           <img src={retweet} alt="retweet" />
-          {recycles}
+          <span>{recycles}</span>
         </button>
 
         <button onClick={() => setTipModalIsOpen(true)}>
           <img src={tip} alt="tip" />
-          {tips}
+          <span>{tips}</span>
         </button>
 
         <button onClick={() => setBoostModalIsOpen(true)}>
           <img src={rocket} alt="rocket" />
-          {power}
+          <span>{power}</span>
         </button>
 
         <button>

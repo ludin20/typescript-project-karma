@@ -8,7 +8,7 @@ import ProfileActions from './ProfileActions';
 
 const Container = styled.div`
   > p {
-    max-width: 250px;
+    max-width: 350px;
     color: #fff;
     font-size: 20px;
     line-height: 1.4;
