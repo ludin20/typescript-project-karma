@@ -32,8 +32,8 @@ const Container = styled.div<Props>`
 
       &::after {
         content: '';
-        width: 50px;
-        height: 4px;
+        width: 60px;
+        height: 6px;
         background: linear-gradient(90deg, #2adce8 0%, #29db95 100%);
         border-radius: 5px;
 

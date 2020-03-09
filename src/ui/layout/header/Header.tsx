@@ -83,7 +83,7 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
       <Wrapper />
       <Container collapsed={collapsed} shouldHideHeader={shouldHideHeader}>
         <SearchBar
-          focused={searchFocused}
+          focused
           setFocused={setSearchFocused}
           search={autoCompleteSearch}
           getId={getId}

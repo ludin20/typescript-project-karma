@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 
 import { useDebounce } from '../../../hooks/useDebounce';
@@ -106,6 +106,7 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, searc
   const [loading, setLoading] = useState(false);
   const [textValue, setTextValue] = useState('');
   const [isEmpty, setEmpty] = useState(() => isStringEmpty(textValue));
+  const ref = useRef<HTMLInputElement>();
 
   const triggerNewSearch = useDebounce(
     useCallback(
@@ -157,12 +158,19 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, searc
     setFocused(false);
   };
 
+  useEffect(() => {
+    if (ref.current && focused) {
+      ref.current.focus();
+    }
+  }, [focused]);
+
   return (
     <Container focused={focused} shouldHideCreatePost={shouldHideCreatePost}>
       <img src={searchIcon} alt="search" />
       <input
         type="text"
         placeholder="Search KARMA"
+        ref={ref}
         onFocus={() => setFocused(true)}
         onBlur={onBlur}
         onChange={handleChange}
