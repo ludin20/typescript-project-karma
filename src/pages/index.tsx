@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Router from 'next/router';
 
 import { Seo, AuthAside, Sign } from '../ui';
+import { KARMA_SESS } from '../common/config';
 
 const Container = styled.div`
   height: 100%;
@@ -45,7 +46,7 @@ const Auth: NextPage = props => {
 Auth.getInitialProps = async (ctx: NextPageContext) => {
   const cookies = nextCookie(ctx);
 
-  const token = cookies['sess'];
+  const token = cookies[encodeURIComponent(KARMA_SESS)];
 
   if (token) {
     if (typeof window === 'undefined') {

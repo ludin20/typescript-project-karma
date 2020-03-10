@@ -7,6 +7,7 @@ import { withAuthSync } from '../auth/WithAuthSync';
 import { Title, PostCard } from '../ui';
 
 import { feed } from '../mock';
+import { KARMA_SESS } from '../common/config';
 
 const Container = styled.div``;
 
@@ -31,7 +32,7 @@ const Home: NextPage = () => {
 Home.getInitialProps = async ctx => {
   const cookies = nextCookie(ctx);
 
-  const jwt = cookies['session'];
+  const jwt = cookies[encodeURIComponent(KARMA_SESS)];
 
   //request comes here
 

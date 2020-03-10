@@ -2,10 +2,12 @@ import Router from 'next/router';
 import nextCookie from 'next-cookies';
 import { NextPageContext } from 'next';
 
+import { KARMA_SESS } from '../common/config';
+
 const auth = (ctx: NextPageContext) => {
   const cookies = nextCookie(ctx);
 
-  const token = cookies['sess'];
+  const token = cookies[encodeURIComponent(KARMA_SESS)];
 
   if (!token) {
     if (typeof window === 'undefined') {

@@ -4,6 +4,8 @@ import cookie from 'js-cookie';
 
 import { defaultProfile } from '../user/reducers';
 
+import { KARMA_SESS } from '../../../common/config';
+
 import {
   signSuccess,
   signFailure,
@@ -32,7 +34,7 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
     yield put(authenticateCodeSuccess(jwt, defaultProfile));
 
     if (process.env.NODE_ENV !== 'test') {
-      cookie.set('sess', jwt, { expires: 1 });
+      cookie.set(KARMA_SESS, jwt, { expires: 1 });
       Router.push('/home');
     }
   } catch (error) {
@@ -41,7 +43,7 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
 }
 
 export function signOut() {
-  cookie.remove('sess');
+  cookie.remove(KARMA_SESS);
   Router.push('/');
 }
 
