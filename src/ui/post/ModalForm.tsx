@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FormikProvider, FormikProps } from 'formik';
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../../store/modules/rootReducer';
+import { RootState } from '../../store/ducks/rootReducer';
 
 import Avatar from '../common/Avatar';
 import Button from '../common/Button';

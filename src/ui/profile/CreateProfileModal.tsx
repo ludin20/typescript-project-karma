@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { ProfileProps, createProfileRequest } from '../../store/modules/user/actions';
+import { ProfileProps, createProfileRequest } from '../../store/ducks/user';
 
 import { ModalProps } from '../common/ModalWrapper';
 

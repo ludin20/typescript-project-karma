@@ -1,7 +1,7 @@
 import { runSaga } from 'redux-saga';
 
-import { readNotificationsSuccess } from '../actions';
-import { readNotifications } from '../sagas';
+import { readNotificationsSuccess } from '../../ducks/activity';
+import { readNotifications } from '../activity';
 
 describe('Activity sagas', () => {
   it('should be able to read notifications', async () => {

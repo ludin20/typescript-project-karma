@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-import auth, { AuthState } from './auth/reducers';
-import user, { UserState } from './user/reducers';
-import activity, { ActivityState } from './activity/reducers';
+import activity, { ActivityState } from './activity';
+import auth, { AuthState } from './auth';
+import user, { UserState } from './user';
 
 export interface RootState {
   auth: AuthState;

@@ -2,10 +2,6 @@ import { takeLatest, all, put } from 'redux-saga/effects';
 import Router from 'next/router';
 import cookie from 'js-cookie';
 
-import { defaultProfile } from '../user/reducers';
-
-import { KARMA_SESS } from '../../../common/config';
-
 import {
   signSuccess,
   signFailure,
@@ -13,7 +9,10 @@ import {
   authenticateCodeSuccess,
   authenticateCodeFailure,
   types,
-} from './actions';
+} from '../ducks/auth';
+import { defaultProfile } from '../ducks/user';
+
+import { KARMA_SESS } from '../../common/config';
 
 export function* sign() {
   try {

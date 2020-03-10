@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 import { withAuthSync } from '../auth/WithAuthSync';
 import { Tabs, AllActivities } from '../ui';
 
-import { readNotificationsRequest } from '../store/modules/activity/actions';
+import { readNotificationsRequest } from '../store/ducks/activity';
 
 const Activity: NextPage = () => {
   const dispatch = useDispatch();

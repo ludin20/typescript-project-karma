@@ -1,11 +1,12 @@
 import { runSaga } from 'redux-saga';
 
-import { types, createProfileSuccess, updateProfileSuccess, profileFailure } from '../actions';
-import { createProfile, updateProfile } from '../sagas';
+import { types, createProfileSuccess, updateProfileSuccess, profileFailure } from '../../ducks/user';
+import { createProfile, updateProfile } from '../user';
 
 describe('Auth sagas', () => {
   it('should be able to create profile', async () => {
     const profile = {
+      avatar: '',
       name: 'thename',
       username: '@thename',
       bio: 'a cool test',

@@ -1,18 +1,8 @@
 import { runSaga } from 'redux-saga';
-import { createRouter } from 'next/router';
 
-import { types, signSuccess, authenticateCodeFailure, authenticateCodeSuccess } from '../actions';
-import { sign, authenticateCode } from '../sagas';
-import { defaultProfile } from '../../user/reducers';
-
-const router = createRouter('', {}, '', {
-  subscription: null,
-  App: null,
-  Component: null,
-  initialProps: null,
-  pageLoader: null,
-  wrapApp: null,
-});
+import { types, signSuccess, authenticateCodeFailure, authenticateCodeSuccess } from '../../ducks/auth';
+import { sign, authenticateCode } from '../auth';
+import { defaultProfile } from '../../ducks/user';
 
 describe('Auth sagas', () => {
   it('should be able to sign and receive code', async () => {
@@ -25,7 +15,7 @@ describe('Auth sagas', () => {
   it('should be able to authenticate code', async () => {
     const dispatch = jest.fn();
     await runSaga({ dispatch }, () =>
-      authenticateCode({ type: types.AUTHENTICATE_CODE_REQUEST, payload: { code: '123456', router } }),
+      authenticateCode({ type: types.AUTHENTICATE_CODE_REQUEST, payload: { code: '123456' } }),
     ).toPromise();
 
     expect(dispatch).toHaveBeenCalledWith(authenticateCodeSuccess('123456blablablabla', defaultProfile));
@@ -34,7 +24,7 @@ describe('Auth sagas', () => {
   it('should not complete sign when code validation fails', async () => {
     const dispatch = jest.fn();
     await runSaga({ dispatch }, () =>
-      authenticateCode({ type: types.AUTHENTICATE_CODE_REQUEST, payload: { code: '124344444', router } }),
+      authenticateCode({ type: types.AUTHENTICATE_CODE_REQUEST, payload: { code: '124344444' } }),
     ).toPromise();
 
     expect(dispatch).toHaveBeenCalledWith(authenticateCodeFailure());

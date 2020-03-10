@@ -1,6 +1,10 @@
 import produce from 'immer';
 
-import { types } from './actions';
+export const types = {
+  READ_NOTIFICATIONS_REQUEST: '@activity/READ_NOTIFICATIONS_REQUEST',
+  READ_NOTIFICATIONS_SUCCESS: '@activity/READ_NOTIFICATIONS_SUCCESS',
+  READ_NOTIFICATIONS_FAILURE: '@activity/READ_NOTIFICATIONS_FAILURE',
+};
 
 export interface ActivityState {
   notifications: number;
@@ -12,7 +16,7 @@ export const INITIAL_STATE: ActivityState = {
   loading: false,
 };
 
-export default function activity(state = INITIAL_STATE, action) {
+export default function reducer(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
       case types.READ_NOTIFICATIONS_REQUEST: {
@@ -31,4 +35,22 @@ export default function activity(state = INITIAL_STATE, action) {
       default:
     }
   });
+}
+
+export function readNotificationsRequest() {
+  return {
+    type: types.READ_NOTIFICATIONS_REQUEST,
+  };
+}
+
+export function readNotificationsSuccess() {
+  return {
+    type: types.READ_NOTIFICATIONS_SUCCESS,
+  };
+}
+
+export function readNotificationsFailure() {
+  return {
+    type: types.READ_NOTIFICATIONS_FAILURE,
+  };
 }

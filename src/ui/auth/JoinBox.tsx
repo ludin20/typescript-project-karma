@@ -1,12 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
 
 import smartphone from '../assets/smartphone.svg';
 
-import { signRequest, authenticateCodeRequest } from '../../store/modules/auth/actions';
-import { RootState } from '../../store/modules/rootReducer';
+import { signRequest, authenticateCodeRequest } from '../../store/ducks/auth';
+import { RootState } from '../../store/ducks/rootReducer';
 
 import PhoneInput from '../form/PhoneInput';
 import CodeInput from '../form/CodeInput';
@@ -97,8 +96,6 @@ const JoinBox: React.FC = () => {
   const [number, setNumber] = useState('');
   const [code, setCode] = useState('');
 
-  const router = useRouter();
-
   const dispatch = useDispatch();
   const codeSent = useSelector((state: RootState) => state.auth.codeSent);
   const loading = useSelector((state: RootState) => state.auth.loading);
@@ -116,9 +113,9 @@ const JoinBox: React.FC = () => {
     e => {
       e.preventDefault();
 
-      dispatch(authenticateCodeRequest(code, router));
+      dispatch(authenticateCodeRequest(code));
     },
-    [code, dispatch, router],
+    [code, dispatch],
   );
 
   return (

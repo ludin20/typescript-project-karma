@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { RootState } from '../../../store/modules/rootReducer';
+import { RootState } from '../../../store/ducks/rootReducer';
 
 import ModalWrapper, { ModalProps } from '../../common/ModalWrapper';
 import Title from '../../common/Title';

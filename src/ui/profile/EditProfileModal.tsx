@@ -4,8 +4,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ProfileProps, updateProfileRequest } from '../../store/modules/user/actions';
-import { RootState } from '../../store/modules/rootReducer';
+import { ProfileProps, updateProfileRequest } from '../../store/ducks/user';
+import { RootState } from '../../store/ducks/rootReducer';
 
 import Title from '../common/Title';
 import Row from '../common/Row';

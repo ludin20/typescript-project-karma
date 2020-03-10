@@ -1,5 +1,5 @@
-import reducer, { INITIAL_STATE } from '../reducers';
-import * as Actions from '../actions';
+import reducer, { INITIAL_STATE } from '../activity';
+import * as Actions from '../activity';
 
 describe('Activity reducers', () => {
   it('DEFAULT', () => {
