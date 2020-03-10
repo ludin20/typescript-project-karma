@@ -1,6 +1,6 @@
-import Router from 'next/router';
-
 import { takeLatest, all, put } from 'redux-saga/effects';
+import Router from 'next/router';
+import cookie from 'js-cookie';
 
 import { defaultProfile } from '../user/reducers';
 
@@ -15,10 +15,6 @@ import {
 
 export function* sign() {
   try {
-    setTimeout(() => {
-      console.log('code sent'); //eslint-disable-line no-console
-    }, 1000);
-
     yield put(signSuccess());
   } catch (error) {
     yield put(signFailure());
@@ -29,15 +25,12 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
   try {
     const { code } = payload;
 
-    setTimeout(() => {
-      console.log('code authenticated', code); //eslint-disable-line no-console
-    }, 1000);
+    const jwt = code.concat('blablablabla');
 
-    if (code !== '123456') throw new Error();
-
-    yield put(authenticateCodeSuccess('123456', defaultProfile));
+    yield put(authenticateCodeSuccess(jwt, defaultProfile));
 
     if (process.env.NODE_ENV !== 'test') {
+      cookie.set('karma:sess', jwt, { expires: 1 });
       Router.push('/home');
     }
   } catch (error) {
@@ -45,7 +38,14 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
   }
 }
 
+export function signOut() {
+  cookie.remove('karma:sess');
+  window.localStorage.setItem('logout', String(Date.now()));
+  //Router.push('/');
+}
+
 export default all([
   takeLatest(types.SIGN_REQUEST, sign),
   takeLatest(types.AUTHENTICATE_CODE_REQUEST, authenticateCode),
+  takeLatest(types.SIGN_OUT, signOut),
 ]);

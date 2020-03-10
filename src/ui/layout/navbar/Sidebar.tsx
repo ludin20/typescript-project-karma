@@ -49,17 +49,17 @@ const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed }) => {
       {!collapsed && (
         <Header
           profile={{
-            name: profile.name,
-            username: profile.username,
-            avatar: (profile.avatar as string) || withoutAvatar,
+            name: profile ? profile.name : '',
+            username: profile ? profile.username : '',
+            avatar: profile ? (profile.avatar as string) || withoutAvatar : '',
           }}
-          withAvatar={!!profile.avatar}
+          withAvatar={profile ? !!profile.avatar : false}
         />
       )}
 
       <SidebarNav
-        username={profile.username}
-        avatar={(profile.avatar as string) || withoutAvatar}
+        username={profile ? profile.username : ''}
+        avatar={profile ? (profile.avatar as string) || withoutAvatar : ''}
         setCollapsed={setCollapsed}
         collapsed={collapsed}
       />

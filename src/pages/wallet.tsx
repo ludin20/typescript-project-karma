@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { NextPage } from 'next';
 
+import { withAuthSync } from '../auth/WithAuthSync';
 import { Title, Balance, WalletActions } from '../ui';
 
 const Container = styled.div`
@@ -39,4 +40,4 @@ Wallet.getInitialProps = async () => {
   };
 };
 
-export default Wallet;
+export default withAuthSync(Wallet);

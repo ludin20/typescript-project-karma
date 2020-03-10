@@ -1,9 +1,9 @@
 import React from 'react';
 import { NextPage, NextPageContext } from 'next';
 import styled from 'styled-components';
-
 import { useSelector } from 'react-redux';
 
+import { withAuthSync } from '../../auth/WithAuthSync';
 import { Title, PostCard, GoBackButton } from '../../ui';
 import PostComments from '../../ui/post/PostComments';
 
@@ -103,4 +103,4 @@ Post.getInitialProps = async ({ query }: Context) => {
   };
 };
 
-export default Post;
+export default withAuthSync(Post);

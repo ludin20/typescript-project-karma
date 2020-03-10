@@ -37,7 +37,7 @@ export default function user(state = INITIAL_STATE, action) {
         break;
       }
       case authTypes.SIGN_OUT: {
-        draft.profile = defaultProfile;
+        draft.profile = null;
         break;
       }
       case userTypes.CREATE_PROFILE_REQUEST: {
