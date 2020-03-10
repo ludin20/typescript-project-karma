@@ -12,9 +12,9 @@ import createApolloClient from './ApolloClient';
 
 let globalApolloClient = null;
 
-interface Context extends NextPageContext, AppContextType<Router> {
-  apolloClient: any;
-  apolloState: any;
+export interface Context extends NextPageContext, AppContextType<Router> {
+  apolloClient?: ApolloClient<NormalizedCacheObject>;
+  apolloState?: NormalizedCacheObject;
   ctx: any;
 }
 
