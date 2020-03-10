@@ -97,6 +97,7 @@ const PhoneInput: React.FC<Props> = ({ onChange, value, ...props }) => {
   return (
     <Container>
       <Input
+        flagUrl="https://flag.pk/flags/4x3/{xx}.svg"
         empty={empty}
         defaultCountry="US"
         onChange={setValue}
