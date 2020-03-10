@@ -8,13 +8,9 @@ import { ProfileMedia, ProfileThoughts, Me, Profile } from '../../../ui';
 
 import { posts, quezPosts } from '../../../mock';
 
-import { RootState } from '../../../store/modules/rootReducer';
+import { RootState } from '../../../store/ducks/rootReducer';
 
-interface Props {
-  tab?: string;
-}
-
-const ProfileWrapper: NextPage<Props> = () => {
+const ProfileWrapper: NextPage = () => {
   const profile = useSelector((state: RootState) => state.user.profile);
 
   const router = useRouter();

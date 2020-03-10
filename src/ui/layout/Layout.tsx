@@ -2,9 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 
-import { RootState } from '../../store/modules/rootReducer';
-
 import CreateProfileModal from '../profile/CreateProfileModal';
+
+import { RootState } from '../../store/ducks/rootReducer';
 
 import Sidebar from './navbar/Sidebar';
 import Header from './header/Header';

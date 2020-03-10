@@ -4,8 +4,8 @@ import createSagaMiddleware from 'redux-saga';
 import createStore from './createStore';
 import persistReducers from './persistReducers';
 
-import rootReducer from './modules/rootReducer';
-import rootSaga from './modules/rootSaga';
+import rootReducer from './ducks/rootReducer';
+import rootSaga from './sagas/rootSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 

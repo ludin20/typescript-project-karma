@@ -1,6 +1,6 @@
-import reducer, { INITIAL_STATE, defaultProfile } from '../reducers';
-import * as UserActions from '../actions';
-import * as AuthActions from '../../auth/actions';
+import reducer, { INITIAL_STATE, defaultProfile } from '../user';
+import * as UserActions from '../user';
+import * as AuthActions from '../auth';
 
 const profile = {
   name: 'thename',
@@ -34,7 +34,7 @@ describe('User reducers', () => {
     expect(state).toStrictEqual({ loading: true, profile: defaultProfile });
   });
 
-  /* it(UserActions.types.UPDATE_PROFILE_SUCCESS, () => {
+  /*  it(UserActions.types.UPDATE_PROFILE_SUCCESS, () => {
     const state = reducer(INITIAL_STATE, UserActions.updateProfileSuccess(profile));
 
     expect(state).toStrictEqual({ loading: false, profile });

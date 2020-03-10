@@ -9,7 +9,7 @@ import discover from '../../assets/discover.svg';
 import activity from '../../assets/activity.svg';
 import wallet from '../../assets/wallet.svg';
 
-import { RootState } from '../../../store/modules/rootReducer';
+import { RootState } from '../../../store/ducks/rootReducer';
 
 import BottombarItem from './BottombarItem';
 

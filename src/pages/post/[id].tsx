@@ -7,9 +7,9 @@ import { withAuthSync } from '../../auth/WithAuthSync';
 import { Title, PostCard, GoBackButton } from '../../ui';
 import PostComments from '../../ui/post/PostComments';
 
-import { RootState } from '../../store/modules/rootReducer';
-
 import { post as mockPost } from '../../mock';
+
+import { RootState } from '../../store/ducks/rootReducer';
 
 const Wrapper = styled.div`
   @media (max-width: 700px) {

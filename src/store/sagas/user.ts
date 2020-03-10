@@ -8,7 +8,7 @@ import {
   updateProfileSuccess,
   profileFailure,
   types,
-} from './actions';
+} from '../ducks/user';
 
 export function* createProfile({ payload }: ReturnType<typeof createProfileRequest>) {
   try {

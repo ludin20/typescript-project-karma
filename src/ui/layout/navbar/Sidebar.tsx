@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Logo from '../../common/Logo';
 import withoutAvatar from '../../assets/withoutAvatar.svg';
 
-import { RootState } from '../../../store/modules/rootReducer';
+import { RootState } from '../../../store/ducks/rootReducer';
 
 import Header from './Header';
 import SidebarNav from './SidebarNav';

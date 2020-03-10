@@ -3,8 +3,8 @@ import styled, { css } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
-import { RootState } from '../../../store/modules/rootReducer';
-import { signOut } from '../../../store/modules/auth/actions';
+import { RootState } from '../../../store/ducks/rootReducer';
+import { signOut } from '../../../store/ducks/auth';
 
 import home from '../../assets/home.svg';
 import discover from '../../assets/discover.svg';

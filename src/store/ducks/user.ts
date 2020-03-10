@@ -1,4 +1,8 @@
-import returnAvatarUrl from '../../util/returnAvatarUrl';
+import produce from 'immer';
+
+import returnAvatarUrl from '../util/returnAvatarUrl';
+
+import { types as authTypes } from './auth';
 
 export const types = {
   CREATE_PROFILE_REQUEST: '@user/CREATE_PROFILE_REQUEST',
@@ -22,6 +26,69 @@ export interface ProfileProps {
   currentPower?: string | number;
   liquidBalance?: string | number;
   unstaking?: string | number;
+}
+
+export interface UserState {
+  profile: ProfileProps;
+  loading: boolean;
+}
+
+export const defaultProfile: ProfileProps = {
+  name: 'Full Name',
+  username: '@username',
+  bio: '',
+  followers: 0,
+  power: 0,
+  following: 0,
+  website: '',
+  posts: 0,
+  isVerified: false,
+  currentPower: 0,
+  liquidBalance: 0,
+  unstaking: 0,
+};
+
+export const INITIAL_STATE: UserState = {
+  profile: defaultProfile,
+  loading: false,
+};
+
+export default function reducer(state = INITIAL_STATE, action) {
+  return produce(state, draft => {
+    switch (action.type) {
+      case authTypes.AUTHENTICATE_CODE_SUCCESS: {
+        draft.profile = action.payload.user;
+        break;
+      }
+      case authTypes.SIGN_OUT: {
+        draft.profile = null;
+        break;
+      }
+      case types.CREATE_PROFILE_REQUEST: {
+        draft.loading = true;
+        break;
+      }
+      case types.CREATE_PROFILE_SUCCESS: {
+        draft.profile = { ...defaultProfile, ...action.payload.user };
+        draft.loading = false;
+        break;
+      }
+      case types.UPDATE_PROFILE_REQUEST: {
+        draft.loading = true;
+        break;
+      }
+      case types.UPDATE_PROFILE_SUCCESS: {
+        draft.profile = { ...defaultProfile, ...action.payload.user };
+        draft.loading = false;
+        break;
+      }
+      case types.PROFILE_FAILURE: {
+        draft.loading = false;
+        break;
+      }
+      default:
+    }
+  });
 }
 
 export function createProfileRequest(data: ProfileProps) {

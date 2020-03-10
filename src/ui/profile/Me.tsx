@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { ProfileHeader, ProfileInfo, EditProfileModal, Tabs, Layout } from '../../ui';
+import { ProfileHeader, ProfileInfo, EditProfileModal, Tabs } from '../../ui';
 import { TabInterface } from '../tabs/Tabs';
 
-import { RootState } from '../../store/modules/rootReducer';
+import { RootState } from '../../store/ducks/rootReducer';
 
 const Wrapper = styled.div`
   @media (max-width: 700px) {

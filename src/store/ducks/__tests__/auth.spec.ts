@@ -1,16 +1,6 @@
-import { createRouter } from 'next/router';
-
-import reducer, { INITIAL_STATE } from '../reducers';
-import * as Actions from '../actions';
-
-const router = createRouter('', {}, '', {
-  subscription: null,
-  App: null,
-  Component: null,
-  initialProps: null,
-  pageLoader: null,
-  wrapApp: null,
-});
+import reducer, { INITIAL_STATE } from '../auth';
+import * as Actions from '../auth';
+import { defaultProfile } from '../user';
 
 describe('Auth reducers', () => {
   it('DEFAULT', () => {
@@ -32,13 +22,13 @@ describe('Auth reducers', () => {
   });
 
   it(Actions.types.AUTHENTICATE_CODE_REQUEST, () => {
-    const state = reducer(INITIAL_STATE, Actions.authenticateCodeRequest('123456', router));
+    const state = reducer(INITIAL_STATE, Actions.authenticateCodeRequest('123456'));
 
     expect(state).toStrictEqual({ codeSent: true, isNewUser: true, loading: true, signed: false, token: null });
   });
 
   it(Actions.types.AUTHENTICATE_CODE_SUCCESS, () => {
-    const state = reducer(INITIAL_STATE, Actions.authenticateCodeSuccess('123456', router));
+    const state = reducer(INITIAL_STATE, Actions.authenticateCodeSuccess('123456', defaultProfile));
 
     expect(state).toStrictEqual({ codeSent: false, isNewUser: true, loading: false, signed: true, token: '123456' });
   });
