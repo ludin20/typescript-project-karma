@@ -1,9 +1,11 @@
 name: Web deploy on staging
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
+
+#on:
+#  push:
+#    branches:
+#      - master
 
 jobs:
   deploy-staging:
