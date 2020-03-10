@@ -8,6 +8,7 @@ import { Title, PostCard } from '../ui';
 
 import { feed } from '../mock';
 import { KARMA_SESS } from '../common/config';
+import { withApollo } from '../apollo/Apollo';
 
 const Container = styled.div``;
 
@@ -33,6 +34,7 @@ Home.getInitialProps = async ctx => {
   const cookies = nextCookie(ctx);
 
   const jwt = cookies[encodeURIComponent(KARMA_SESS)];
+  // apolloClient is in the ctx
 
   //request comes here
 
@@ -43,4 +45,4 @@ Home.getInitialProps = async ctx => {
   };
 };
 
-export default withAuthSync(Home);
+export default withAuthSync(withApollo({ ssr: true })(Home));
