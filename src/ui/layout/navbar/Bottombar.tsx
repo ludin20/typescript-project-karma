@@ -54,9 +54,9 @@ const Bottombar: React.FC = () => {
       <BottombarItem route="/wallet" selected={selected.includes('wallet')} icon={wallet} />
 
       <BottombarItem
-        route={`/profile/${profile.username.split('@')[1]}/media`}
+        route={profile ? `/profile/${profile.username.split('@')[1]}/media` : ''}
         selected={selected.includes('profile')}
-        icon={(profile.avatar as string) || withoutAvatar}
+        icon={profile ? (profile.avatar as string) || withoutAvatar : ''}
       />
     </Container>
   );

@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NextPage } from 'next';
+import nextCookie from 'next-cookies';
 
+import { withAuthSync } from '../auth/WithAuthSync';
 import { Title, PostCard } from '../ui';
 
 import { feed } from '../mock';
+import { KARMA_SESS } from '../common/config';
 
 const Container = styled.div``;
 
@@ -26,7 +29,13 @@ const Home: NextPage = () => {
   );
 };
 
-Home.getInitialProps = async () => {
+Home.getInitialProps = async ctx => {
+  const cookies = nextCookie(ctx);
+
+  const jwt = cookies[encodeURIComponent(KARMA_SESS)];
+
+  //request comes here
+
   return {
     meta: {
       title: 'Karma/Feed',
@@ -34,4 +43,4 @@ Home.getInitialProps = async () => {
   };
 };
 
-export default Home;
+export default withAuthSync(Home);

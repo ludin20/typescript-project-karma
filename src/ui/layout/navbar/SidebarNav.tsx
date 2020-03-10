@@ -75,8 +75,7 @@ const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed
 
   const logOut = useCallback(() => {
     dispatch(signOut());
-    router.push('/');
-  }, [dispatch, router]);
+  }, [dispatch]);
 
   return (
     <Container collapsed={collapsed}>

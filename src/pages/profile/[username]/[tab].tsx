@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 
+import { withAuthSync } from '../../../auth/WithAuthSync';
 import { ProfileMedia, ProfileThoughts, Me, Profile } from '../../../ui';
 
 import { posts, quezPosts } from '../../../mock';
@@ -79,4 +80,4 @@ ProfileWrapper.getInitialProps = async ({ query }: Context) => {
   };
 };
 
-export default ProfileWrapper;
+export default withAuthSync(ProfileWrapper);

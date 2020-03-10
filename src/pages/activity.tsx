@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 
+import { withAuthSync } from '../auth/WithAuthSync';
 import { Tabs, AllActivities } from '../ui';
 
 import { readNotificationsRequest } from '../store/modules/activity/actions';
 
-const Discover: NextPage = () => {
+const Activity: NextPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const Discover: NextPage = () => {
   );
 };
 
-Discover.getInitialProps = async () => {
+Activity.getInitialProps = async () => {
   return {
     meta: {
       title: 'Karma/Activity',
@@ -38,4 +39,4 @@ Discover.getInitialProps = async () => {
   };
 };
 
-export default Discover;
+export default withAuthSync(Activity);

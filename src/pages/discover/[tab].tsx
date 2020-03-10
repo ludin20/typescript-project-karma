@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 
+import { withAuthSync } from '../../auth/WithAuthSync';
 import { Tabs, Popular, New } from '../../ui';
 
 import { discoverPopular, discoverNew } from '../../mock';
@@ -77,4 +78,4 @@ Discover.getInitialProps = async ({ query }: Context) => {
   };
 };
 
-export default Discover;
+export default withAuthSync(Discover);
