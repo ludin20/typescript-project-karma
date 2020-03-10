@@ -25,6 +25,8 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
   try {
     const { code } = payload;
 
+    if (code.length > 6) throw new Error();
+
     const jwt = code.concat('blablablabla');
 
     yield put(authenticateCodeSuccess(jwt, defaultProfile));

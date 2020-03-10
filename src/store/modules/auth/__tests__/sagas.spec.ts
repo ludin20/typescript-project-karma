@@ -28,13 +28,13 @@ describe('Auth sagas', () => {
       authenticateCode({ type: types.AUTHENTICATE_CODE_REQUEST, payload: { code: '123456', router } }),
     ).toPromise();
 
-    expect(dispatch).toHaveBeenCalledWith(authenticateCodeSuccess('123456', defaultProfile));
+    expect(dispatch).toHaveBeenCalledWith(authenticateCodeSuccess('123456blablablabla', defaultProfile));
   });
 
   it('should not complete sign when code validation fails', async () => {
     const dispatch = jest.fn();
     await runSaga({ dispatch }, () =>
-      authenticateCode({ type: types.AUTHENTICATE_CODE_REQUEST, payload: { code: '1243', router } }),
+      authenticateCode({ type: types.AUTHENTICATE_CODE_REQUEST, payload: { code: '124344444', router } }),
     ).toPromise();
 
     expect(dispatch).toHaveBeenCalledWith(authenticateCodeFailure());

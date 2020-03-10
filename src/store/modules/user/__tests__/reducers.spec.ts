@@ -55,6 +55,6 @@ describe('User reducers', () => {
   it(AuthActions.types.SIGN_OUT, () => {
     const state = reducer(INITIAL_STATE, AuthActions.signOut());
 
-    expect(state).toStrictEqual({ profile: defaultProfile, loading: false });
+    expect(state).toStrictEqual({ profile: null, loading: false });
   });
 });
