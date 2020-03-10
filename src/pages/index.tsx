@@ -1,6 +1,8 @@
 import React from 'react';
-
+import { NextPage, NextPageContext } from 'next';
+import nextCookie from 'next-cookies';
 import styled from 'styled-components';
+import Router from 'next/router';
 
 import { Seo, AuthAside, Sign } from '../ui';
 
@@ -28,7 +30,7 @@ const Container = styled.div`
   }
 `;
 
-const Auth: React.FC = props => {
+const Auth: NextPage = props => {
   return (
     <Container {...props}>
       <Seo />
@@ -38,6 +40,23 @@ const Auth: React.FC = props => {
       </div>
     </Container>
   );
+};
+
+Auth.getInitialProps = async (ctx: NextPageContext) => {
+  const cookies = nextCookie(ctx);
+
+  const token = cookies['sess'];
+
+  if (token) {
+    if (typeof window === 'undefined') {
+      ctx.res.writeHead(302, { Location: '/home' });
+      ctx.res.end();
+    } else {
+      Router.push('/home');
+    }
+  }
+
+  return {};
 };
 
 export default Auth;

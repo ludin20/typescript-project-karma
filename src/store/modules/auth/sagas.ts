@@ -32,7 +32,7 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
     yield put(authenticateCodeSuccess(jwt, defaultProfile));
 
     if (process.env.NODE_ENV !== 'test') {
-      cookie.set('karma:sess', jwt, { expires: 1 });
+      cookie.set('sess', jwt, { expires: 1 });
       Router.push('/home');
     }
   } catch (error) {
@@ -41,9 +41,8 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
 }
 
 export function signOut() {
-  cookie.remove('karma:sess');
-  window.localStorage.setItem('logout', String(Date.now()));
-  //Router.push('/');
+  cookie.remove('sess');
+  Router.push('/');
 }
 
 export default all([

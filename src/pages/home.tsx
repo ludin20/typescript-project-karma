@@ -31,7 +31,7 @@ const Home: NextPage = () => {
 Home.getInitialProps = async ctx => {
   const cookies = nextCookie(ctx);
 
-  const jwt = cookies['karma%3Asession'];
+  const jwt = cookies['session'];
 
   //request comes here
 

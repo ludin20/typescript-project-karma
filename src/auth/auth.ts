@@ -5,7 +5,7 @@ import { NextPageContext } from 'next';
 const auth = (ctx: NextPageContext) => {
   const cookies = nextCookie(ctx);
 
-  const token = cookies['karma%3Asession'];
+  const token = cookies['sess'];
 
   if (!token) {
     if (typeof window === 'undefined') {
