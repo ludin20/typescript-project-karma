@@ -4,7 +4,7 @@ import nextCookie from 'next-cookies';
 import styled from 'styled-components';
 import Router from 'next/router';
 
-import { Seo, AuthAside, Sign } from '../ui';
+import { AuthAside, Sign } from '../ui';
 import { KARMA_SESS } from '../common/config';
 
 const Container = styled.div`
@@ -34,7 +34,6 @@ const Container = styled.div`
 const Auth: NextPage = props => {
   return (
     <Container {...props}>
-      <Seo />
       <div>
         <AuthAside />
         <Sign />
@@ -57,7 +56,7 @@ Auth.getInitialProps = async (ctx: NextPageContext) => {
     }
   }
 
-  return {};
+  return { token };
 };
 
 export default Auth;

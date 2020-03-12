@@ -4,6 +4,7 @@ import { NextPage, NextPageContext } from 'next';
 
 import { withAuthSync } from '../../auth/WithAuthSync';
 import { Tabs, Popular, New } from '../../ui';
+import { labels } from '../../ui/layout';
 
 import { discoverPopular, discoverNew } from '../../mock';
 
@@ -55,7 +56,7 @@ Discover.getInitialProps = async ({ query }: Context) => {
   const defaultData = {
     tab: query.tab,
     meta: { title: 'Karma/Discover' },
-    layoutConfig: { shouldHideCreatePost: true },
+    layoutConfig: { layout: labels.DEFAULT, shouldHideCreatePost: true },
   };
 
   if (tab && tab === 'popular') {

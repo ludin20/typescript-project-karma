@@ -9,6 +9,7 @@ import { Title, PostCard } from '../ui';
 import { feed } from '../mock';
 import { KARMA_SESS } from '../common/config';
 import { withApollo } from '../apollo/Apollo';
+import { labels } from '../ui/layout';
 
 const Container = styled.div``;
 
@@ -39,6 +40,7 @@ Home.getInitialProps = async ctx => {
   //request comes here
 
   return {
+    layoutConfig: { layout: labels.DEFAULT },
     meta: {
       title: 'Karma/Feed',
     },

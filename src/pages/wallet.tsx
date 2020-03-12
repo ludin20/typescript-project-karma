@@ -4,6 +4,7 @@ import { NextPage } from 'next';
 
 import { withAuthSync } from '../auth/WithAuthSync';
 import { Title, Balance, WalletActions } from '../ui';
+import { labels } from '../ui/layout';
 
 const Container = styled.div`
   width: 100%;
@@ -36,7 +37,7 @@ Wallet.getInitialProps = async () => {
     meta: {
       title: 'Karma/Wallet',
     },
-    layoutConfig: { shouldHideHeader: true },
+    layoutConfig: { layout: labels.DEFAULT, shouldHideHeader: true },
   };
 };
 

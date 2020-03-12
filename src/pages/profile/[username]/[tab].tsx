@@ -5,6 +5,7 @@ import { NextPage, NextPageContext } from 'next';
 
 import { withAuthSync } from '../../../auth/WithAuthSync';
 import { ProfileMedia, ProfileThoughts, Me, Profile } from '../../../ui';
+import { labels } from '../../../ui/layout';
 
 import { posts, quezPosts } from '../../../mock';
 
@@ -72,7 +73,7 @@ ProfileWrapper.getInitialProps = async ({ query }: Context) => {
     meta: {
       title: `Karma/${query.username}`,
     },
-    layoutConfig: { shouldHideHeader: true },
+    layoutConfig: { layout: labels.DEFAULT, shouldHideHeader: true },
   };
 };
 

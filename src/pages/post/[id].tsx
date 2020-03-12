@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 import { withAuthSync } from '../../auth/WithAuthSync';
 import { Title, PostCard, GoBackButton } from '../../ui';
+import { labels } from '../../ui/layout';
 import PostComments from '../../ui/post/PostComments';
 
 import { post as mockPost } from '../../mock';
@@ -98,6 +99,7 @@ Post.getInitialProps = async ({ query }: Context) => {
       description: post.content.description,
     },
     layoutConfig: {
+      layout: labels.DEFAULT,
       shouldHideHeader: true,
     },
   };
