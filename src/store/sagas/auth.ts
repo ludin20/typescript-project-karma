@@ -8,6 +8,7 @@ import {
   authenticateCodeRequest,
   authenticateCodeSuccess,
   authenticateCodeFailure,
+  signOutSuccess,
   types,
 } from '../ducks/auth';
 import { defaultProfile } from '../ducks/user';
@@ -41,13 +42,14 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
   }
 }
 
-export function signOut() {
+export function* signOut() {
   cookie.remove(KARMA_SESS);
   Router.push('/');
+  yield put(signOutSuccess());
 }
 
 export default all([
   takeLatest(types.SIGN_REQUEST, sign),
   takeLatest(types.AUTHENTICATE_CODE_REQUEST, authenticateCode),
-  takeLatest(types.SIGN_OUT, signOut),
+  takeLatest(types.SIGN_OUT_REQUEST, signOut),
 ]);

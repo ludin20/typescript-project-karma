@@ -7,7 +7,8 @@ export const types = {
   SIGN_SUCCESS: '@auth/SIGN_SUCCESS',
   AUTHENTICATE_CODE_REQUEST: '@auth/AUTHENTICATE_CODE_REQUEST',
   AUTHENTICATE_CODE_SUCCESS: '@auth/AUTHENTICATE_CODE_SUCCESS',
-  SIGN_OUT: '@auth/SIGN_OUT',
+  SIGN_OUT_REQUEST: '@auth/SIGN_OUT_REQUEST',
+  SIGN_OUT_SUCCESS: '@auth/SIGN_OUT_SUCCESS',
   AUTHENTICATE_CODE_FAILURE: '@auth/AUTHENTICATE_CODE_FAILURE',
   SIGN_FAILURE: '@auth/SIGN_FAILURE',
 };
@@ -51,11 +52,16 @@ export default function reducer(state = INITIAL_STATE, action) {
         draft.token = action.payload.token;
         break;
       }
-      case types.SIGN_OUT: {
+      case types.SIGN_OUT_REQUEST: {
+        draft.loading = true;
+        break;
+      }
+      case types.SIGN_OUT_SUCCESS: {
         draft.token = null;
         draft.signed = false;
         draft.codeSent = false;
         draft.isNewUser = true;
+        draft.loading = false;
         break;
       }
       case types.SIGN_FAILURE: {
@@ -111,9 +117,15 @@ export function authenticateCodeSuccess(token: string, user: {}) {
   };
 }
 
-export function signOut() {
+export function signOutRequest() {
   return {
-    type: types.SIGN_OUT,
+    type: types.SIGN_OUT_REQUEST,
+  };
+}
+
+export function signOutSuccess() {
+  return {
+    type: types.SIGN_OUT_SUCCESS,
   };
 }
 
