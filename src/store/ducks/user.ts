@@ -60,7 +60,7 @@ export default function reducer(state = INITIAL_STATE, action) {
         draft.profile = action.payload.user;
         break;
       }
-      case authTypes.SIGN_OUT: {
+      case authTypes.SIGN_OUT_SUCCESS: {
         draft.profile = null;
         break;
       }

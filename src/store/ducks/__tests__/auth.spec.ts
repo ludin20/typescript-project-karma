@@ -33,8 +33,14 @@ describe('Auth reducers', () => {
     expect(state).toStrictEqual({ codeSent: false, isNewUser: true, loading: false, signed: true, token: '123456' });
   });
 
-  it(Actions.types.SIGN_OUT, () => {
-    const state = reducer(INITIAL_STATE, Actions.signOut());
+  it(Actions.types.SIGN_OUT_REQUEST, () => {
+    const state = reducer(INITIAL_STATE, Actions.signOutRequest());
+
+    expect(state).toStrictEqual({ ...INITIAL_STATE, loading: true });
+  });
+
+  it(Actions.types.SIGN_OUT_SUCCESS, () => {
+    const state = reducer(INITIAL_STATE, Actions.signOutSuccess());
 
     expect(state).toStrictEqual({ codeSent: false, isNewUser: true, loading: false, signed: false, token: null });
   });

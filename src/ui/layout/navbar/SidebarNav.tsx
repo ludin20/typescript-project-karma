@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import { RootState } from '../../../store/ducks/rootReducer';
-import { signOut } from '../../../store/ducks/auth';
+import { signOutRequest } from '../../../store/ducks/auth';
 
 import home from '../../assets/home.svg';
 import discover from '../../assets/discover.svg';
@@ -74,7 +74,7 @@ const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed
   }, [router.pathname]);
 
   const logOut = useCallback(() => {
-    dispatch(signOut());
+    dispatch(signOutRequest());
   }, [dispatch]);
 
   return (
