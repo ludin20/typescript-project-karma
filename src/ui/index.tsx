@@ -1,5 +1,7 @@
 export { default as theme } from './theme';
+export { default as GlobalStyle } from './GlobalStyle';
 
+export { default as getLayout } from './layout';
 export { default as Layout } from './layout/Layout';
 export { default as Sidebar } from './layout/navbar/Sidebar';
 export { default as Aside } from './layout/aside/Aside';
@@ -49,7 +51,7 @@ export { default as New } from './discover/New';
 
 export { default as withoutAvatar } from './assets/withoutAvatar.svg';
 
-export { default as Seo } from './seo/Seo';
+export { default as SEO } from './seo/SEO';
 
 export { default as AuthAside } from './auth/Aside';
 export { default as Sign } from './auth/Sign';

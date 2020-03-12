@@ -4,6 +4,7 @@ import { NextPage } from 'next';
 
 import { withAuthSync } from '../auth/WithAuthSync';
 import { Tabs, AllActivities } from '../ui';
+import { labels } from '../ui/layout';
 
 import { readNotificationsRequest } from '../store/ducks/activity';
 
@@ -35,7 +36,7 @@ Activity.getInitialProps = async () => {
     meta: {
       title: 'Karma/Activity',
     },
-    layoutConfig: { shouldHideCreatePost: true },
+    layoutConfig: { layout: labels.DEFAULT, shouldHideCreatePost: true },
   };
 };
 
