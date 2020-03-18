@@ -1,6 +1,9 @@
-import { takeLatest, all, put } from 'redux-saga/effects';
+import { takeLatest, all, put, call } from 'redux-saga/effects';
 import Router from 'next/router';
 import cookie from 'js-cookie';
+import { parsePhoneNumber } from 'react-phone-number-input';
+import jwt from 'jsonwebtoken';
+import fetch from 'isomorphic-unfetch';
 
 import {
   signSuccess,
@@ -10,15 +13,56 @@ import {
   authenticateCodeFailure,
   signOutSuccess,
   types,
+  signRequest,
 } from '../ducks/auth';
 import { defaultProfile } from '../ducks/user';
 
-import { KARMA_SESS } from '../../common/config';
+import { KARMA_SESS, REQUEST_JWT, SERVER_URL, RESPONSE_JWT } from '../../common/config';
 
-export function* sign() {
+export function* sign({ payload }: ReturnType<typeof signRequest>) {
   try {
+    const { number } = payload;
+    const phoneNumber = parsePhoneNumber(number);
+
+    const body = {
+      phone: phoneNumber.nationalNumber,
+      country_code: phoneNumber.countryCallingCode,
+      domain_id: 1,
+      device_id: 1,
+      ip_address: '127.0.0.1',
+      facebook_id: '',
+    };
+    const encodedBody = {
+      data: jwt.sign(body, REQUEST_JWT),
+    };
+
+    const request = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(encodedBody),
+    };
+
+    const fetchResponse = yield call(fetch, `${SERVER_URL}/profile/registerphone`, request);
+
+    const decodedData = jwt.decode(fetchResponse, RESPONSE_JWT);
+    const { response } = decodedData;
+    console.log(`${SERVER_URL}/profile/registerphone`, fetchResponse, decodedData); //eslint-disable-line no-console
+
+    if (!response.IsValid) {
+      yield put(signFailure());
+    }
+
+    const { UserGuid } = response;
+    const { author } = response;
+
+    console.log(UserGuid, author); //eslint-disable-line no-console
+
     yield put(signSuccess());
   } catch (error) {
+    console.log(error); //eslint-disable-line no-console
     yield put(signFailure());
   }
 }
