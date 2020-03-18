@@ -19,14 +19,18 @@ export interface AuthState {
   loading: boolean;
   codeSent: boolean;
   isNewUser: boolean;
+  UserGuid: string | null;
+  Author: string | null;
 }
 
-export const INITIAL_STATE = {
+export const INITIAL_STATE: AuthState = {
   token: null,
   signed: false,
   loading: false,
   codeSent: false,
   isNewUser: true,
+  UserGuid: null,
+  Author: null,
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
@@ -39,6 +43,8 @@ export default function reducer(state = INITIAL_STATE, action) {
       case types.SIGN_SUCCESS: {
         draft.loading = false;
         draft.codeSent = true;
+        draft.UserGuid = action.payload.UserGuid;
+        draft.Author = action.payload.Author;
         break;
       }
       case types.AUTHENTICATE_CODE_REQUEST: {
@@ -92,9 +98,13 @@ export function signRequest(number: string) {
   };
 }
 
-export function signSuccess() {
+export function signSuccess(UserGuid: string, Author: string) {
   return {
     type: types.SIGN_SUCCESS,
+    payload: {
+      UserGuid,
+      Author,
+    },
   };
 }
 

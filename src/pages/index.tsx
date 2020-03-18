@@ -1,62 +1,33 @@
 import React from 'react';
 import { NextPage, NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
-import styled from 'styled-components';
 import Router from 'next/router';
 
-import { AuthAside, Sign } from '../ui';
 import { KARMA_SESS } from '../common/config';
 
-const Container = styled.div`
-  height: 100%;
-  background: ${props => props.theme.blue};
-
-  display: flex;
-  flex-direction: column;
-
-  > div {
-    display: flex;
-    flex-direction: row;
-  }
-
-  @media (max-width: 1200px) {
-    width: 100%;
-    height: 100%;
-
-    > div {
-      height: 100%;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-`;
-
-const Auth: NextPage = props => {
-  return (
-    <Container {...props}>
-      <div>
-        <AuthAside />
-        <Sign />
-      </div>
-    </Container>
-  );
+const Index: NextPage = () => {
+  return <div></div>;
 };
 
-Auth.getInitialProps = async (ctx: NextPageContext) => {
+const redirect = (route: string, ctx: NextPageContext) => {
+  if (typeof window === 'undefined') {
+    ctx.res.writeHead(302, { Location: route });
+    ctx.res.end();
+  } else {
+    Router.push(route);
+  }
+};
+
+Index.getInitialProps = async ctx => {
   const cookies = nextCookie(ctx);
 
   const token = cookies[encodeURIComponent(KARMA_SESS)];
 
   if (token) {
-    if (typeof window === 'undefined') {
-      ctx.res.writeHead(302, { Location: '/home' });
-      ctx.res.end();
-    } else {
-      Router.push('/home');
-    }
+    redirect('/home', ctx);
+  } else {
+    redirect('/auth/sign', ctx);
   }
-
-  return { token };
 };
 
-export default Auth;
+export default Index;
