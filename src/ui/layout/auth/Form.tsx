@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import karmaBg from '../assets/karma-bg.png';
+import Logo from '../../common/Logo';
+import Column from '../../common/Column';
 
-import Logo from '../common/Logo';
+import karmaBg from '../../assets/karma-bg.png';
 
-import JoinBox from './JoinBox';
-
-const Bg = styled.img`
+const WhiteLogo = styled.img`
   height: 1000px;
   width: 700px;
 
@@ -27,15 +26,14 @@ const Bg = styled.img`
 
 const Container = styled.div`
   width: 50%;
+  height: 100%;
   padding: 0 40px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
   position: relative;
   overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (max-width: 1200px) {
     width: 100%;
@@ -66,14 +64,33 @@ const StyledLogo = styled(Logo)`
   }
 `;
 
-const Sign: React.FC = () => {
+const Content = styled.div`
+  width: 400px;
+  background: ${props => props.theme.dark};
+  padding: 50px 30px;
+  box-shadow: 0px 3px 20px #0000004d;
+  border-radius: 25px;
+
+  position: relative;
+  z-index: 200;
+
+  @media (max-width: 650px) {
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+  }
+`;
+
+const Form: React.FC = ({ children }) => {
   return (
     <Container>
-      <Bg src={karmaBg} alt="Karma" />
       <StyledLogo />
-      <JoinBox />
+      <WhiteLogo src={karmaBg} alt="Karma" />
+      <Column align="center" justify="center">
+        <Content>{children}</Content>
+      </Column>
     </Container>
   );
 };
 
-export default Sign;
+export default Form;

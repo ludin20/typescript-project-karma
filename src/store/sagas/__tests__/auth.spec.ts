@@ -1,4 +1,5 @@
 import { runSaga } from 'redux-saga';
+import mockAdapter from 'axios-mock-adapter';
 
 import { types, signSuccess, authenticateCodeFailure, authenticateCodeSuccess } from '../../ducks/auth';
 import { sign, authenticateCode } from '../auth';
@@ -7,7 +8,9 @@ import { defaultProfile } from '../../ducks/user';
 describe('Auth sagas', () => {
   it('should be able to sign and receive code', async () => {
     const dispatch = jest.fn();
-    await runSaga({ dispatch }, sign).toPromise();
+    await runSaga({ dispatch }, () =>
+      sign({ type: types.SIGN_REQUEST, payload: { number: '+5541952566326' } }),
+    ).toPromise();
 
     expect(dispatch).toHaveBeenCalledWith(signSuccess());
   });

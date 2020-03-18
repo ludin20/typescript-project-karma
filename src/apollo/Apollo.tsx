@@ -50,7 +50,7 @@ interface Props {
   apolloState?: NormalizedCacheObject;
 }
 
-export const withApollo = ({ ssr = false } = {}) => PageComponent => {
+export const withApollo = ({ ssr = false } = {}) => (PageComponent: NextPage) => {
   const WithApollo: NextPage<Props> = ({ apolloClient, apolloState, ...pageProps }) => {
     let client;
     if (apolloClient) {

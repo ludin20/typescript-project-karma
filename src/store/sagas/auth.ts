@@ -1,10 +1,12 @@
-import { takeLatest, all, put, call } from 'redux-saga/effects';
+import { takeLatest, all, put, call, select } from 'redux-saga/effects';
 import Router from 'next/router';
 import cookie from 'js-cookie';
 import { parsePhoneNumber } from 'react-phone-number-input';
 import jwt from 'jsonwebtoken';
-import fetch from 'isomorphic-unfetch';
+import axios from 'axios';
+import publicIP from 'public-ip';
 
+import { RootState } from '../ducks/rootReducer';
 import {
   signSuccess,
   signFailure,
@@ -14,55 +16,46 @@ import {
   signOutSuccess,
   types,
   signRequest,
+  AuthState,
 } from '../ducks/auth';
 import { defaultProfile } from '../ducks/user';
 
-import { KARMA_SESS, REQUEST_JWT, SERVER_URL, RESPONSE_JWT } from '../../common/config';
+import { KARMA_SESS, REQUEST_JWT, SERVER_URL, RESPONSE_JWT, KARMA_AUTHOR } from '../../common/config';
 
 export function* sign({ payload }: ReturnType<typeof signRequest>) {
   try {
     const { number } = payload;
     const phoneNumber = parsePhoneNumber(number);
+    const ip = yield call(publicIP.v4);
 
     const body = {
       phone: phoneNumber.nationalNumber,
       country_code: phoneNumber.countryCallingCode,
       domain_id: 1,
       device_id: 1,
-      ip_address: '127.0.0.1',
+      ip_address: ip,
       facebook_id: '',
     };
     const encodedBody = {
       data: jwt.sign(body, REQUEST_JWT),
     };
 
-    const request = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(encodedBody),
-    };
+    const { data } = yield call(axios.post, `${SERVER_URL}/profile/registerphone`, encodedBody);
+    const decodedData = jwt.decode(data, RESPONSE_JWT);
+    const { IsValid, UserGuid, Author } = decodedData.response;
 
-    const fetchResponse = yield call(fetch, `${SERVER_URL}/profile/registerphone`, request);
-
-    const decodedData = jwt.decode(fetchResponse, RESPONSE_JWT);
-    const { response } = decodedData;
-    console.log(`${SERVER_URL}/profile/registerphone`, fetchResponse, decodedData); //eslint-disable-line no-console
-
-    if (!response.IsValid) {
+    if (!IsValid) {
       yield put(signFailure());
     }
 
-    const { UserGuid } = response;
-    const { author } = response;
+    yield put(signSuccess(UserGuid, Author));
 
-    console.log(UserGuid, author); //eslint-disable-line no-console
-
-    yield put(signSuccess());
+    if (process.env.NODE_ENV !== 'test') {
+      const href = '/auth/[tab]';
+      const as = `/auth/validate`;
+      Router.push(href, as, { shallow: true });
+    }
   } catch (error) {
-    console.log(error); //eslint-disable-line no-console
     yield put(signFailure());
   }
 }
@@ -71,14 +64,35 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
   try {
     const { code } = payload;
 
-    if (code.length > 6) throw new Error();
+    const { UserGuid, Author: ReducerAuthor }: AuthState = yield select((state: RootState) => state.auth);
+    const ip = yield call(publicIP.v4);
 
-    const jwt = code.concat('blablablabla');
+    const body = {
+      phone_code: code,
+      userguid: UserGuid,
+      author: ReducerAuthor,
+      domain_id: 1,
+      device_id: 1,
+      ip_address: ip,
+    };
+    const encodedBody = {
+      data: jwt.sign(body, REQUEST_JWT),
+    };
 
-    yield put(authenticateCodeSuccess(jwt, defaultProfile));
+    const { data } = yield call(axios.post, `${SERVER_URL}/profile/validatephonecode`, encodedBody);
+    const decodedData = jwt.decode(data, RESPONSE_JWT);
+    const { private_key, response } = decodedData;
+    const { Author, IsValid } = response;
+
+    if (!IsValid) {
+      yield put(authenticateCodeFailure());
+    }
+
+    yield put(authenticateCodeSuccess(private_key, defaultProfile));
 
     if (process.env.NODE_ENV !== 'test') {
-      cookie.set(KARMA_SESS, jwt, { expires: 1 });
+      cookie.set(KARMA_SESS, private_key, { expires: 1 });
+      cookie.set(KARMA_AUTHOR, Author, { expires: 1 });
       Router.push('/home');
     }
   } catch (error) {
@@ -88,7 +102,7 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
 
 export function* signOut() {
   cookie.remove(KARMA_SESS);
-  Router.push('/');
+  Router.push('/auth/sign');
   yield put(signOutSuccess());
 }
 

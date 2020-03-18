@@ -52,6 +52,3 @@ export { default as New } from './discover/New';
 export { default as withoutAvatar } from './assets/withoutAvatar.svg';
 
 export { default as SEO } from './seo/SEO';
-
-export { default as AuthAside } from './auth/Aside';
-export { default as Sign } from './auth/Sign';
