@@ -1,11 +1,12 @@
 import React from 'react';
 import App from 'next/app';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
 
 import { theme, SEO, GlobalStyle, getLayout } from '../ui';
 
-import { store } from '../store';
+import { store, persistor } from '../store';
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -27,12 +28,14 @@ export default class MyApp extends App {
       <>
         <SEO {...pageProps.meta} />
         <Provider store={store}>
-          <GlobalStyle />
-          <ThemeProvider theme={theme}>
-            <AppLayout {...pageProps.layoutConfig}>
-              <Component {...pageProps} />
-            </AppLayout>
-          </ThemeProvider>
+          <PersistGate persistor={persistor}>
+            <GlobalStyle />
+            <ThemeProvider theme={theme}>
+              <AppLayout {...pageProps.layoutConfig}>
+                <Component {...pageProps} />
+              </AppLayout>
+            </ThemeProvider>
+          </PersistGate>
         </Provider>
       </>
     );

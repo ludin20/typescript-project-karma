@@ -66,14 +66,15 @@ const Container = styled.div`
 `;
 
 interface Props {
-  likes: string | number;
   comments: string | number;
   recycles: string | number;
   tips: string | number;
   power: string | number;
+  upvote_count: number;
+  downvote_count: number;
 }
 
-const PostActions: React.FC<Props> = ({ likes, comments, recycles, tips, power, ...props }) => {
+const PostActions: React.FC<Props> = ({ upvote_count, downvote_count, comments, recycles, tips, power, ...props }) => {
   const [tipModalIsOpen, setTipModalIsOpen] = useState(false);
   const [boostModalIsOpen, setBoostModalIsOpen] = useState(false);
 
@@ -82,7 +83,7 @@ const PostActions: React.FC<Props> = ({ likes, comments, recycles, tips, power, 
       <Container {...props}>
         <button>
           <img src={heart} alt="like" />
-          <span>{likes} Likes</span>
+          <span>{upvote_count - downvote_count} Likes</span>
         </button>
 
         <button>
