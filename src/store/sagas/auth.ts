@@ -3,7 +3,6 @@ import Router from 'next/router';
 import cookie from 'js-cookie';
 import { parsePhoneNumber } from 'react-phone-number-input';
 import jwt from 'jsonwebtoken';
-import axios from 'axios';
 import publicIP from 'public-ip';
 
 import { RootState } from '../ducks/rootReducer';
@@ -20,7 +19,8 @@ import {
 } from '../ducks/auth';
 import { defaultProfile } from '../ducks/user';
 
-import { KARMA_SESS, REQUEST_JWT, SERVER_URL, RESPONSE_JWT, KARMA_AUTHOR } from '../../common/config';
+import { KARMA_SESS, REQUEST_JWT, RESPONSE_JWT, KARMA_AUTHOR } from '../../common/config';
+import api from '../../services/api';
 
 export function* sign({ payload }: ReturnType<typeof signRequest>) {
   try {
@@ -40,7 +40,7 @@ export function* sign({ payload }: ReturnType<typeof signRequest>) {
       data: jwt.sign(body, REQUEST_JWT),
     };
 
-    const { data } = yield call(axios.post, `${SERVER_URL}/profile/registerphone`, encodedBody);
+    const { data } = yield call(api.post, 'profile/registerphone', encodedBody);
     const decodedData = jwt.decode(data, RESPONSE_JWT);
     const { IsValid, UserGuid, Author } = decodedData.response;
 
@@ -79,7 +79,7 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
       data: jwt.sign(body, REQUEST_JWT),
     };
 
-    const { data } = yield call(axios.post, `${SERVER_URL}/profile/validatephonecode`, encodedBody);
+    const { data } = yield call(api.post, 'profile/validatephonecode', encodedBody);
     const decodedData = jwt.decode(data, RESPONSE_JWT);
     const { private_key, response } = decodedData;
     const { Author, IsValid } = response;

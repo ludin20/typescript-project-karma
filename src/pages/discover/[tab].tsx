@@ -1,45 +1,99 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
+import { useQuery } from '@apollo/react-hooks';
+import graphql from 'graphql-tag';
+import nextCookie from 'next-cookies';
+
+import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
 import { withAuthSync } from '../../auth/WithAuthSync';
 import { Tabs, Popular, New } from '../../ui';
 import { labels } from '../../ui/layout';
 
-import { discoverPopular, discoverNew } from '../../mock';
+import { withApollo } from '../../apollo/Apollo';
+
+import { KARMA_AUTHOR, IPFS_S3 } from '../../common/config';
+import validateTab from '../../util/validateTab';
+
+const GET_POSTS = graphql`
+  query posts($accountname: String!, $page: Int, $pathBuilder: any, $postsStatus: String) {
+    posts(accountname: $accountname, page: $page, postsStatus: $postsStatus)
+      @rest(type: "Post", pathBuilder: $pathBuilder) {
+      post_id
+      imagehashes
+    }
+  }
+`;
 
 interface Props {
   tab: string;
-  data: {
-    id: string | number;
-    image: string;
-  }[];
+  author: string;
 }
 
-const Discover: NextPage<Props> = ({ tab, data }) => {
+const Discover: NextPage<Props> = ({ author, ...props }) => {
   const router = useRouter();
+  const [tab, setTab] = useState(props.tab);
 
-  const tabs = [
-    {
-      name: 'Popular',
-      render: () => Popular({ data: data }),
-    },
-    {
-      name: 'New',
-      render: () => New({ data: data }),
-    },
-  ];
+  const defaultParams = '?Page=1&Limit=10&domainId=${1}';
+  const defaultVariables = {
+    accountname: author,
+    page: 1,
+    postsStatus: 'home',
+    pathBuilder: () => (tab === 'popular' ? `posts/popularv3${defaultParams}` : `posts${defaultParams}`),
+  };
+
+  const { data, fetchMore } = useQuery(GET_POSTS, {
+    variables: defaultVariables,
+  });
 
   useEffect(() => {
     const href = '/discover/[tab]';
     const as = '/discover/popular';
 
-    const isTab = tabs.find(t => t.name.toLocaleLowerCase() === tab);
+    const isTab = ['popular', 'new'].find(t => t === router.query.tab);
 
     if (!isTab) {
       router.push(href, as, { shallow: true });
     }
-  }, [router, tab, tabs]);
+  }, [router]);
+
+  useEffect(() => {
+    const path = `/discover/${tab}`;
+
+    if (path !== router.asPath) {
+      setTab(router.query.tab as string);
+
+      fetchMore({
+        variables: {
+          ...defaultVariables,
+          pathBuilder: () =>
+            router.query.tab === 'popular' ? `posts/popularv3${defaultParams}` : `posts${defaultParams}`,
+        },
+        updateQuery: (_, { fetchMoreResult }) => fetchMoreResult,
+      });
+    }
+  }, [defaultVariables, fetchMore, router.asPath, router.query.tab, tab]);
+
+  const medias = useMemo(() => {
+    return data
+      ? data.posts.map(post => post.imagehashes.map(imagehash => `${IPFS_S3}/${imagehash}/thumbBig.jpg`)).flat()
+      : [];
+  }, [data]);
+
+  const tabs = useMemo(
+    () => [
+      {
+        name: 'Popular',
+        render: () => Popular({ medias }),
+      },
+      {
+        name: 'New',
+        render: () => New({ medias }),
+      },
+    ],
+    [medias],
+  );
 
   return <Tabs title="Discover" tabs={tabs} paramTab={tab || ''} />;
 };
@@ -50,33 +104,18 @@ interface Context extends NextPageContext {
   };
 }
 
-Discover.getInitialProps = async ({ query }: Context) => {
-  const tab = ['popular', 'new'].find(t => t === query.tab);
+Discover.getInitialProps = async (ctx: Context) => {
+  const tab = validateTab(ctx, '/discover/popular', ['popular', 'new']);
 
-  const defaultData = {
-    tab: query.tab,
-    meta: { title: 'Karma/Discover' },
-    layoutConfig: { layout: labels.DEFAULT, shouldHideCreatePost: true },
-  };
-
-  if (tab && tab === 'popular') {
-    return {
-      ...defaultData,
-      data: discoverPopular,
-    };
-  }
-
-  if (tab && tab === 'new') {
-    return {
-      ...defaultData,
-      data: discoverNew,
-    };
-  }
+  const cookies = nextCookie(ctx);
+  const author = cookies[encodeURIComponent(KARMA_AUTHOR)];
 
   return {
-    ...defaultData,
-    data: [],
+    tab,
+    meta: { title: 'Karma/Discover' },
+    layoutConfig: { layout: labels.DEFAULT, shouldHideCreatePost: true },
+    author,
   };
 };
 
-export default withAuthSync(Discover);
+export default withAuthSync(withApollo({ ssr: true })(Discover));

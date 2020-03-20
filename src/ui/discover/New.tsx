@@ -3,14 +3,11 @@ import React from 'react';
 import Grid from './Grid';
 
 interface Props {
-  data: {
-    id: string | number;
-    image: string;
-  }[];
+  medias: string[];
 }
 
-const New: React.FC<Props> = ({ data }) => {
-  return <Grid data={data} />;
+const New: React.FC<Props> = ({ medias }) => {
+  return <Grid data={medias} />;
 };
 
 export default New;

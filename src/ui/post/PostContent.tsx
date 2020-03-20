@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
+
+import { IPFS_S3 } from '../../common/config';
 
 const Container = styled.div<{ size: 'default' | 'small'; numberOfMedias: number }>`
   margin: ${props => (props.size === 'small' ? '10px 0 15px 60px' : '12px 0 40px 60px')};
@@ -39,25 +41,42 @@ const Img = styled.img`
 `;
 
 interface Props {
-  content: { description: string; hashtags: string[]; medias: string[] };
+  content: { description: string; imagehashes: []; videohashes: [] };
   size?: 'default' | 'small';
 }
 
 const PostContent: React.FC<Props> = ({ content, size }) => {
-  return (
-    <Container size={size} numberOfMedias={content.medias ? content.medias.length : 1}>
-      <p>
-        <Text size={size} hashtag={false}>
-          {content.description}
-        </Text>
-        <Text size={size} hashtag>
-          {`  ${content.hashtags}`}
-        </Text>
-      </p>
+  const medias = useMemo(() => {
+    if (content.imagehashes && content.imagehashes.length > 0) {
+      return content.imagehashes.map(imagehash => `${IPFS_S3}/${imagehash}/thumbBig.jpg`);
+    }
 
-      {content.medias && (
+    return [];
+  }, [content.imagehashes]);
+
+  const description = useMemo(() => {
+    const paragraph = content.description.split('\n').filter(text => text && text);
+    return paragraph.map(text => text.split(' ')).filter(text => text && text);
+  }, [content.description]);
+
+  return (
+    <Container size={size} numberOfMedias={medias.length}>
+      {description.map((paragraph, index) => (
+        <React.Fragment key={String(index)}>
+          <p>
+            {paragraph.map((text, index) => (
+              <Text key={String(index)} size={size} hashtag={text.startsWith('#')}>
+                {`${text} `}
+              </Text>
+            ))}
+          </p>
+          {index < description.length - 1 && <br />}
+        </React.Fragment>
+      ))}
+
+      {medias.length > 0 && (
         <div>
-          {content.medias.map((media, index) => (
+          {medias.map((media, index) => (
             <Img key={index} src={media} alt="image" />
           ))}
         </div>

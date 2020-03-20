@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+
+import Space from '../common/Space';
 
 import TabsHeader from './TabsHeader';
-
-const Container = styled.div`
-  margin-top: 30px;
-`;
 
 export interface TabInterface {
   name: string;
@@ -34,8 +31,9 @@ const Tabs: React.FC<Props> = ({ title, tabs, paramTab, size = 'default' }) => {
       <TabsHeader tabs={tabs} setActive={setActive} active={active} size={size}>
         {title}
       </TabsHeader>
+      <Space height={30} />
 
-      <Container>{tabs[active].render({})}</Container>
+      {tabs[active].render({})}
     </>
   );
 };

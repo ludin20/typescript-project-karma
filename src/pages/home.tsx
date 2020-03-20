@@ -1,24 +1,40 @@
 import React from 'react';
-import styled from 'styled-components';
 import { NextPage, NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
 import ApolloClient from 'apollo-client';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
+import graphql from 'graphql-tag';
 
 import { withAuthSync } from '../auth/WithAuthSync';
 import { withApollo } from '../apollo/Apollo';
-import { GET_PROFILE } from '../apollo/resolvers';
 import { KARMA_AUTHOR } from '../common/config';
 
-import { Title, PostCard } from '../ui';
+import { Title, PostCard, Space } from '../ui';
 import { labels } from '../ui/layout';
 
-import { feed } from '../mock';
-
-const Container = styled.div``;
-
-const Posts = styled.ul`
-  margin-top: 20px;
+const GET_POSTS = graphql`
+  query posts($accountname: String!, $page: Int, $pathBuilder: any, $postsStatus: String) {
+    posts(accountname: $accountname, page: $page, postsStatus: $postsStatus)
+      @rest(type: "Post", pathBuilder: $pathBuilder) {
+      post_id
+      author
+      author_displayname
+      author_profilehash
+      description
+      voteStatus(accountname: $accountname)
+      created_at
+      last_edited_at
+      imagehashes
+      videohashes
+      category_ids
+      upvote_count
+      downvote_count
+      comment_count
+      tip_count
+      view_count
+      username
+    }
+  }
 `;
 
 interface Props {
@@ -27,15 +43,16 @@ interface Props {
 
 const Home: NextPage<Props> = ({ data }) => {
   return (
-    <Container>
+    <div>
       <Title withDropDown>Feed</Title>
 
-      <Posts>
-        {feed.map(post => (
-          <PostCard key={post.id} post={post} withFollowButton={false} />
+      <Space height={20} />
+      <ul>
+        {data.posts.map((post, index) => (
+          <PostCard key={String(index)} post={post} withFollowButton={false} />
         ))}
-      </Posts>
-    </Container>
+      </ul>
+    </div>
   );
 };
 
@@ -55,8 +72,13 @@ Home.getInitialProps = async (ctx: Context) => {
   });
 
   const { data } = await ctx.apolloClient.query({
-    query: GET_PROFILE,
-    variables: { accountname: author, localUser: author, domainID: 1 },
+    query: GET_POSTS,
+    variables: {
+      accountname: author,
+      page: 1,
+      postsStatus: 'home',
+      pathBuilder: () => `posts/popularv3?Page=1&Limit=10&domainId=${1}`,
+    },
   });
 
   return {

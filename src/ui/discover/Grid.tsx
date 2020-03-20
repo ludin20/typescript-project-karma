@@ -21,17 +21,14 @@ const Container = styled.div`
 `;
 
 interface Props {
-  data: {
-    id: string | number;
-    image: string;
-  }[];
+  data: string[];
 }
 
 const Grid: React.FC<Props> = ({ data }) => {
   return (
     <Container>
-      {data.map(item => (
-        <img key={item.id} src={item.image} alt="new" />
+      {data.map((image, index) => (
+        <img key={String(index)} src={image} alt="discover" />
       ))}
     </Container>
   );
