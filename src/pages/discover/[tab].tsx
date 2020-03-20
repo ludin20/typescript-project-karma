@@ -5,8 +5,6 @@ import { useQuery } from '@apollo/react-hooks';
 import graphql from 'graphql-tag';
 import nextCookie from 'next-cookies';
 
-import { NormalizedCacheObject } from 'apollo-cache-inmemory';
-
 import { withAuthSync } from '../../auth/WithAuthSync';
 import { Tabs, Popular, New } from '../../ui';
 import { labels } from '../../ui/layout';
