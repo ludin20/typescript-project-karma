@@ -22,7 +22,13 @@ const Container = styled.div<{ collapsed: boolean; setCollapsed(value: boolean):
 
   position: fixed;
   top: 0;
+  bottom: 0;
   left: 0;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media (max-width: 1200px) {
     min-width: 100px !important;

@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { SkeletonTheme } from 'react-loading-skeleton';
+
+import InfinityScroll from '../common/InfinityScroll';
+import ShimmerImage from '../common/ShimmerImage';
 
 const Container = styled.div`
   display: grid;
@@ -21,16 +25,21 @@ const Container = styled.div`
 `;
 
 interface Props {
-  data: string[];
+  medias: string[];
+  loadMore(): void;
 }
 
-const Grid: React.FC<Props> = ({ data }) => {
+const Grid: React.FC<Props> = ({ medias, loadMore }) => {
   return (
-    <Container>
-      {data.map((image, index) => (
-        <img key={String(index)} src={image} alt="discover" />
-      ))}
-    </Container>
+    <InfinityScroll length={medias.length} loadMore={loadMore}>
+      <SkeletonTheme color="#191A19" highlightColor="#333">
+        <Container>
+          {medias.map((image, index) => (
+            <ShimmerImage key={String(index)} src={image} alt="discover" />
+          ))}
+        </Container>
+      </SkeletonTheme>
+    </InfinityScroll>
   );
 };
 

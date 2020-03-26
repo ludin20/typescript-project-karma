@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 import { IPFS_S3 } from '../../common/config';
+import ShimmerImage from '../common/ShimmerImage';
 
 const Container = styled.div<{ size: 'default' | 'small'; numberOfMedias: number }>`
   margin: ${props => (props.size === 'small' ? '10px 0 15px 60px' : '12px 0 40px 60px')};
@@ -34,7 +36,7 @@ const Text = styled.strong<{ hashtag: boolean; size: 'default' | 'small' }>`
   }
 `;
 
-const Img = styled.img`
+const imgCss = css`
   width: 100%;
   height: auto;
   border-radius: 25px;
@@ -74,13 +76,15 @@ const PostContent: React.FC<Props> = ({ content, size }) => {
         </React.Fragment>
       ))}
 
-      {medias.length > 0 && (
-        <div>
-          {medias.map((media, index) => (
-            <Img key={index} src={media} alt="image" />
-          ))}
-        </div>
-      )}
+      <SkeletonTheme color="#191A19" highlightColor="#333">
+        {medias.length > 0 && (
+          <div>
+            {medias.map((media, index) => (
+              <ShimmerImage key={index} src={media} alt="image" css={imgCss} height={500} />
+            ))}
+          </div>
+        )}
+      </SkeletonTheme>
     </Container>
   );
 };

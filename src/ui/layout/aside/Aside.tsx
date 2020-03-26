@@ -7,10 +7,17 @@ import Trending from './Trending';
 const Container = styled.div`
   min-width: 368px;
   margin-right: 30px;
+  padding-bottom: 20px;
 
   position: fixed;
   top: 110px;
+  bottom: 0;
   right: 0;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media (max-width: 1200px) {
     min-width: 300px;

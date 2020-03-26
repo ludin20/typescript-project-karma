@@ -1,16 +1,7 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-import logo from '../assets/loading.png';
-
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
+import Loading from './Loading';
 
 const Container = styled.button<Props>`
   background: ${props => (props.background ? props.theme[props.background] : 'none')};
@@ -21,11 +12,6 @@ const Container = styled.button<Props>`
   opacity: ${props => (!props.disabled ? '1' : '0.2')};
   cursor: ${props => (!props.disabled ? 'pointer' : 'not-allowed')};
   transition: all 0.2s;
-`;
-
-const LoadingImage = styled.img`
-  height: 16px;
-  animation: ${rotate} 1.5s infinite;
 `;
 
 interface Props extends React.ButtonHTMLAttributes<any> {
@@ -43,7 +29,7 @@ interface Props extends React.ButtonHTMLAttributes<any> {
 const Button: React.FC<Props> = ({ children, radius = 'default', borderColor = '#fff', ...props }) => {
   return (
     <Container radius={radius} borderColor={borderColor} {...props}>
-      {props.loading ? <LoadingImage src={logo} alt="loading" /> : children}
+      {props.loading ? <Loading /> : children}
     </Container>
   );
 };

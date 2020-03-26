@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { activities } from '../../mock';
-
 import LikeActivity from './LikeActivity';
 import CommentActivity from './CommentActivity';
 import TipActivity from './TipActivity';
@@ -22,12 +20,16 @@ const Container = styled.div`
   }
 `;
 
-const AllActivities: React.FC = () => {
+interface Props {
+  data: any[];
+}
+
+const AllActivities: React.FC<Props> = ({ data }) => {
   return (
     <Container>
       <strong>Recent</strong>
 
-      {activities.map((item, index) => {
+      {data.map((item, index) => {
         switch (item.type) {
           case 'like':
             return <LikeActivity key={index} item={item} />;
