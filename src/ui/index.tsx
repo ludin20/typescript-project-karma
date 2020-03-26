@@ -16,6 +16,9 @@ export { default as Avatar } from './common/Avatar';
 export { default as FollowButton } from './common/FollowButton';
 export { default as GoBackButton } from './common/GoBackButton';
 export { default as FollowsModal } from './common/FollowsModal';
+export { default as Loading } from './common/Loading';
+export { default as InfinityScroll } from './common/InfinityScroll';
+export { default as ShimmerImage } from './common/ShimmerImage';
 
 export { default as CodeInput } from './form/CodeInput';
 export { default as PhoneInput } from './form/PhoneInput';
@@ -46,8 +49,7 @@ export { default as CreatePostModal } from './post/CreatePostModal';
 
 export { default as AllActivities } from './activity/AllActivities';
 
-export { default as Popular } from './discover/Popular';
-export { default as New } from './discover/New';
+export { default as Grid } from './discover/Grid';
 
 export { default as withoutAvatar } from './assets/withoutAvatar.svg';
 

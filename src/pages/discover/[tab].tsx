@@ -1,16 +1,14 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 import { useQuery } from '@apollo/react-hooks';
 import graphql from 'graphql-tag';
 import nextCookie from 'next-cookies';
 
-import { withAuthSync } from '../../auth/WithAuthSync';
-import { Tabs, Popular, New } from '../../ui';
+import { Tabs, Grid } from '../../ui';
 import { labels } from '../../ui/layout';
-
+import { withAuthSync } from '../../auth/WithAuthSync';
 import { withApollo } from '../../apollo/Apollo';
-
 import { KARMA_AUTHOR, IPFS_S3 } from '../../common/config';
 import validateTab from '../../util/validateTab';
 
@@ -32,17 +30,16 @@ interface Props {
 const Discover: NextPage<Props> = ({ author, ...props }) => {
   const router = useRouter();
   const [tab, setTab] = useState(props.tab);
+  const [page, setPage] = useState(1);
 
-  const defaultParams = '?Page=1&Limit=10&domainId=${1}';
-  const defaultVariables = {
-    accountname: author,
-    page: 1,
-    postsStatus: 'home',
-    pathBuilder: () => (tab === 'popular' ? `posts/popularv3${defaultParams}` : `posts${defaultParams}`),
-  };
-
+  const defaultParams = '?Page=1&Limit=12&domainId=${1}';
   const { data, fetchMore } = useQuery(GET_POSTS, {
-    variables: defaultVariables,
+    variables: {
+      accountname: author,
+      page: 1,
+      postsStatus: 'home',
+      pathBuilder: () => (tab === 'popular' ? `posts/popularv3${defaultParams}` : `posts${defaultParams}`),
+    },
   });
 
   useEffect(() => {
@@ -64,14 +61,13 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
 
       fetchMore({
         variables: {
-          ...defaultVariables,
           pathBuilder: () =>
             router.query.tab === 'popular' ? `posts/popularv3${defaultParams}` : `posts${defaultParams}`,
         },
         updateQuery: (_, { fetchMoreResult }) => fetchMoreResult,
       });
     }
-  }, [defaultVariables, fetchMore, router.asPath, router.query.tab, tab]);
+  }, [fetchMore, router.asPath, router.query.tab, tab]);
 
   const medias = useMemo(() => {
     return data
@@ -79,18 +75,38 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
       : [];
   }, [data]);
 
+  const loadMorePosts = useCallback(() => {
+    const params = `?Page=${page + 1}&Limit=12&domainId=${1}`;
+
+    fetchMore({
+      variables: {
+        page: page + 1,
+        pathBuilder: () => (tab === 'popular' ? `posts/popularv3${params}` : `posts${params}`),
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) {
+          return previousResult;
+        }
+        setPage(page + 1);
+        return Object.assign({}, previousResult, {
+          posts: [...previousResult.posts, ...fetchMoreResult.posts],
+        });
+      },
+    });
+  }, [fetchMore, page, tab]);
+
   const tabs = useMemo(
     () => [
       {
         name: 'Popular',
-        render: () => Popular({ medias }),
+        render: () => Grid({ medias, loadMore: loadMorePosts }),
       },
       {
         name: 'New',
-        render: () => New({ medias }),
+        render: () => Grid({ medias, loadMore: loadMorePosts }),
       },
     ],
-    [medias],
+    [loadMorePosts, medias],
   );
 
   return <Tabs title="Discover" tabs={tabs} paramTab={tab || ''} />;

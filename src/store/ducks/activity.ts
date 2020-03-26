@@ -12,7 +12,7 @@ export interface ActivityState {
 }
 
 export const INITIAL_STATE: ActivityState = {
-  notifications: 10,
+  notifications: 0,
   loading: false,
 };
 
