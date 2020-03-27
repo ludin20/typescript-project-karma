@@ -35,6 +35,6 @@ jobs:
           yarn config set unsafe-disable-integrity-migration true -g
           yarn install --frozen-lockfile --production=false --non-interactive --cache-folder $(yarn cache dir)
 
-      - name: Test Web
-        run: |
-          yarn test --ci
+#     - name: Test Web
+#       run: |
+#         yarn test --ci
