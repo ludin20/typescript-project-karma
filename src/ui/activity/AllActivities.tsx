@@ -54,7 +54,7 @@ const AllActivities: React.FC<Props> = ({ data }) => {
 
       {data.map((item, index) => {
         switch (item.action) {
-          case 'like':
+          case 'Upvote':
             return (
               <ActivityItem
                 key={index}
@@ -64,10 +64,9 @@ const AllActivities: React.FC<Props> = ({ data }) => {
                 action="liked your post:"
                 date={item.created_at}
                 post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
-                content={`"${item.data}"`}
               />
             );
-          case 'comment':
+          case 'Createcmmt':
             return (
               <ActivityItem
                 key={index}
@@ -77,7 +76,6 @@ const AllActivities: React.FC<Props> = ({ data }) => {
                 action="commented on your post:"
                 post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
                 date={item.created_at}
-                content={item.data}
               />
             );
           case 'tip':
