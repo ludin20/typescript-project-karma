@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { formatDistance, parseISO } from 'date-fns';
 import { useRouter } from 'next/router';
 
 import Avatar from '../common/Avatar';
 import FollowButton from '../common/FollowButton';
+import Space from '../common/Space';
 
-import { IPFS_S3 } from '../../common/config';
+import { useFormatDistance, useS3Image } from '../../hooks';
 
 import PostActions from './PostActions';
 import PostContent from './PostContent';
@@ -98,21 +98,17 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
     return { description, imagehashes, videohashes };
   }, [description, imagehashes, videohashes]);
 
-  const formattedDate = useMemo(() => {
-    return formatDistance(parseISO(created_at), new Date());
-  }, [created_at]);
-
-  const avatar = useMemo(() => {
-    return `${IPFS_S3}/${author_profilehash}/thumbSmall.jpg`;
-  }, [author_profilehash]);
-
   const router = useRouter();
+
+  const formattedDate = useFormatDistance(created_at);
+  const avatar = useS3Image(author_profilehash, 'thumbSmall');
 
   return (
     <Container onClick={() => router.push(`/post/${post_id}`)}>
       <header>
         <div>
           <Avatar src={avatar} alt={author_displayname} />
+          <Space width={10} />
           <section>
             <strong>{author_displayname}</strong>
             <span>

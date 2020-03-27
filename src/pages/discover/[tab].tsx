@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 import graphql from 'graphql-tag';
 import nextCookie from 'next-cookies';
 
-import { Tabs, Grid } from '../../ui';
+import { Tabs, Template } from '../../ui';
 import { labels } from '../../ui/layout';
 import { withAuthSync } from '../../auth/WithAuthSync';
 import { withApollo } from '../../apollo/Apollo';
@@ -33,7 +33,7 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
   const [page, setPage] = useState(1);
 
   const defaultParams = '?Page=1&Limit=12&domainId=${1}';
-  const { data, fetchMore } = useQuery(GET_POSTS, {
+  const { data, fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
       accountname: author,
       page: 1,
@@ -99,17 +99,17 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
     () => [
       {
         name: 'Popular',
-        render: () => Grid({ medias, loadMore: loadMorePosts }),
+        render: () => Template({ medias, loadMore: loadMorePosts }),
       },
       {
         name: 'New',
-        render: () => Grid({ medias, loadMore: loadMorePosts }),
+        render: () => Template({ medias, loadMore: loadMorePosts }),
       },
     ],
     [loadMorePosts, medias],
   );
 
-  return <Tabs title="Discover" tabs={tabs} paramTab={tab || ''} />;
+  return <Tabs title="Discover" tabs={tabs} paramTab={tab || ''} loading={loading} />;
 };
 
 interface Context extends NextPageContext {

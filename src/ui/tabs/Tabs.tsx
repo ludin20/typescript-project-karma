@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Space from '../common/Space';
+import Loading from '../common/Loading';
 
 import TabsHeader from './TabsHeader';
 
@@ -14,9 +15,10 @@ interface Props {
   paramTab?: string;
   tabs: TabInterface[];
   size?: 'default' | 'big';
+  loading?: boolean;
 }
 
-const Tabs: React.FC<Props> = ({ title, tabs, paramTab, size = 'default' }) => {
+const Tabs: React.FC<Props> = ({ title, tabs, paramTab, size = 'default', loading }) => {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const Tabs: React.FC<Props> = ({ title, tabs, paramTab, size = 'default' }) => {
       </TabsHeader>
       <Space height={30} />
 
-      {tabs[active].render({})}
+      {loading ? <Loading withContainer size="big" /> : tabs[active].render({})}
     </>
   );
 };

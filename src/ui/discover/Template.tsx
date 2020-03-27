@@ -1,24 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
+import { css } from 'styled-components';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
 import InfinityScroll from '../common/InfinityScroll';
 import ShimmerImage from '../common/ShimmerImage';
+import Grid from '../common/Grid';
+import Space from '../common/Space';
 
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 24px;
-  margin-top: 30px;
-
-  img {
-    width: 100%;
-  }
-
+const gridCss = css`
   @media (max-width: 550px) {
     grid-gap: 20px 10px;
+  }
+`;
 
-    img:first-child {
+const imageCss = css`
+  width: 100%;
+  border-radius: 20px;
+  @media (max-width: 550px) {
+    &:first-child {
       grid-column: 1 / -1;
     }
   }
@@ -29,18 +28,19 @@ interface Props {
   loadMore(): void;
 }
 
-const Grid: React.FC<Props> = ({ medias, loadMore }) => {
+const Template: React.FC<Props> = ({ medias, loadMore }) => {
   return (
     <InfinityScroll length={medias.length} loadMore={loadMore}>
       <SkeletonTheme color="#191A19" highlightColor="#333">
-        <Container>
+        <Space height={30} />
+        <Grid columns="3" gap="24px" align css={gridCss}>
           {medias.map((image, index) => (
-            <ShimmerImage key={String(index)} src={image} alt="discover" />
+            <ShimmerImage key={String(index)} src={image} alt="discover" css={imageCss} />
           ))}
-        </Container>
+        </Grid>
       </SkeletonTheme>
     </InfinityScroll>
   );
 };
 
-export default Grid;
+export default Template;
