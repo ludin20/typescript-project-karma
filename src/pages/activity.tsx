@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { useQuery } from '@apollo/react-hooks';
@@ -6,7 +6,7 @@ import graphql from 'graphql-tag';
 import nextCookie from 'next-cookies';
 
 import { withAuthSync } from '../auth/WithAuthSync';
-import { Tabs, AllActivities } from '../ui';
+import { Tabs, AllActivities, Loading } from '../ui';
 import { labels } from '../ui/layout';
 
 import { readNotificationsRequest } from '../store/ducks/activity';
@@ -41,7 +41,7 @@ interface Props {
 const Activity: NextPage<Props> = ({ author }) => {
   const dispatch = useDispatch();
 
-  const { data } = useQuery(GET_NOTIFICATIONS, {
+  const { data, loading } = useQuery(GET_NOTIFICATIONS, {
     variables: {
       accountname: author,
       page: 1,
@@ -59,15 +59,13 @@ const Activity: NextPage<Props> = ({ author }) => {
   const tabs = [
     {
       name: 'All',
-      render: () => AllActivities({ data: data.notifications }),
+      render: () => AllActivities({ data: data ? data.notifications : [] }),
     },
   ];
 
-  return <div></div>;
-
   return (
     <>
-      <Tabs title="Activity" tabs={tabs} />
+      <Tabs title="Activity" tabs={tabs} loading={loading} />
     </>
   );
 };

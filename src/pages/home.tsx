@@ -10,7 +10,7 @@ import { withAuthSync } from '../auth/WithAuthSync';
 import { withApollo } from '../apollo/Apollo';
 import { KARMA_AUTHOR } from '../common/config';
 
-import { Title, PostCard, Space, InfinityScroll } from '../ui';
+import { Title, PostCard, Space, InfinityScroll, Loading } from '../ui';
 import { labels } from '../ui/layout';
 
 const GET_POSTS = graphql`
@@ -45,7 +45,7 @@ interface Props {
 const Home: NextPage<Props> = ({ author }) => {
   const [page, setPage] = useState(1);
 
-  const { data, fetchMore } = useQuery(GET_POSTS, {
+  const { data, fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
       accountname: author,
       page: 1,
@@ -76,15 +76,21 @@ const Home: NextPage<Props> = ({ author }) => {
     <div>
       <Title withDropDown>Feed</Title>
 
-      <Space height={20} />
-      {data ? (
-        <InfinityScroll length={data.posts.length} loadMore={loadMorePosts}>
-          {data.posts.map((post, index) => (
-            <PostCard key={String(index)} post={post} withFollowButton={false} />
-          ))}
-        </InfinityScroll>
+      {loading ? (
+        <Loading withContainer size="big" />
       ) : (
-        <div />
+        <>
+          <Space height={20} />
+          {data ? (
+            <InfinityScroll length={data.posts.length} loadMore={loadMorePosts}>
+              {data.posts.map((post, index) => (
+                <PostCard key={String(index)} post={post} withFollowButton={false} />
+              ))}
+            </InfinityScroll>
+          ) : (
+            <div />
+          )}
+        </>
       )}
     </div>
   );

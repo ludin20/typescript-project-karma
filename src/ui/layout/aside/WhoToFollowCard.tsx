@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Avatar from '../../common/Avatar';
 import FollowButton from '../../common/FollowButton';
+import Space from '../../common/Space';
 
 const Container = styled.div`
   width: 100%;
@@ -48,6 +49,7 @@ const WhoToFollowCard: React.FC<Props> = ({ id, name, username, avatar, followin
     <Container key={id}>
       <div>
         <Avatar online={online} src={avatar} alt={name} />
+        <Space width={10} />
         <section>
           <strong>{name}</strong>
           <span>{username}</span>

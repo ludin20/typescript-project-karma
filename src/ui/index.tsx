@@ -19,6 +19,7 @@ export { default as FollowsModal } from './common/FollowsModal';
 export { default as Loading } from './common/Loading';
 export { default as InfinityScroll } from './common/InfinityScroll';
 export { default as ShimmerImage } from './common/ShimmerImage';
+export { default as Grid } from './common/Grid';
 
 export { default as CodeInput } from './form/CodeInput';
 export { default as PhoneInput } from './form/PhoneInput';
@@ -49,7 +50,7 @@ export { default as CreatePostModal } from './post/CreatePostModal';
 
 export { default as AllActivities } from './activity/AllActivities';
 
-export { default as Grid } from './discover/Grid';
+export { default as Template } from './discover/Template';
 
 export { default as withoutAvatar } from './assets/withoutAvatar.svg';
 

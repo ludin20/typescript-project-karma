@@ -9,7 +9,7 @@ export interface Props {
 const Space = styled.div<Props>`
   ${p => (p.width ? `width: ${p.width.toFixed()}px;` : '')}
   ${p => (p.height ? `height: ${p.height.toFixed()}px;` : '')}
-  ${p => p.css || ''}
+  ${p => p.css}
 `;
 
 export default Space;

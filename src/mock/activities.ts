@@ -29,11 +29,9 @@ const activities = [
     content:
       '@dallasrushing you should come to play 5 on 5 with us at Domenic Massari park next Friday around 7p.m. What do you think?',
     date: '2h',
-    likes: 19,
-    comments: 36,
-    recycles: 22,
-    tips: 175,
-    power: '6,500',
+    post: {
+      image: recycle,
+    },
   },
   {
     id: 3,
@@ -42,6 +40,9 @@ const activities = [
     author: {
       name: 'Yuly Gonzalez',
       avatar: a2,
+    },
+    post: {
+      image: recycle,
     },
     content: '75 KARMA',
   },
@@ -62,6 +63,16 @@ const activities = [
     post: {
       image: recycle,
     },
+  },
+  {
+    id: 5,
+    type: 'sent',
+    date: '36m ago',
+    author: {
+      name: 'Yuly Gonzalez',
+      avatar: a2,
+    },
+    content: '4,900 KARMA',
   },
 ];
 

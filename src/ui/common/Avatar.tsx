@@ -7,7 +7,6 @@ const Container = styled.img<{ online: boolean; size: 'default' | 'small' | 'big
   width: ${props => (props.size === 'default' ? '50px' : '40px')};
   height: ${props => (props.size === 'default' ? '50px' : '40px')};
   border-radius: 50%;
-  margin-right: 8px;
 
   @media (max-width: 550px) {
     width: ${props => (props.size === 'default' ? '50px' : '30px')};
