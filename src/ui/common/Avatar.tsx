@@ -13,23 +13,22 @@ const Container = styled.img<{ online: boolean; size: 'default' | 'small' | 'big
     height: ${props => (props.size === 'default' ? '50px' : '30px')};
   }
 
-    ${props =>
-      props.size === 'big' &&
-      css`
-        width: 140px;
-        height: 140px;
+  ${props =>
+    props.size === 'big' &&
+    css`
+      width: 140px;
+      height: 140px;
 
-        @media (max-width: 1200px) {
-          width: 120px;
-          height: 120px;
-        }
+      @media (max-width: 1200px) {
+        width: 120px;
+        height: 120px;
+      }
 
-        @media (max-width: 550px) {
-          width: 80px;
-          height: 80px;
-        }
-      `}
-  }
+      @media (max-width: 550px) {
+        width: 80px;
+        height: 80px;
+      }
+    `}
 `;
 
 interface Props {
@@ -37,6 +36,7 @@ interface Props {
   online?: boolean;
   alt: string;
   size?: 'default' | 'small' | 'big';
+  onLoad?(): void;
 }
 
 const Avatar: React.FC<Props> = ({ src, online = false, alt, size = 'default', ...props }) => {

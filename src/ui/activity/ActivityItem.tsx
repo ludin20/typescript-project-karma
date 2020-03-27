@@ -9,6 +9,8 @@ import FormattedText from '../common/FormattedText';
 
 import { useFormatDistance, useS3Image } from '../../hooks';
 
+import ShimmerImage from '../common/ShimmerImage';
+
 import Icon from './Icon';
 
 const Text = styled.span<{ white?: boolean }>`
@@ -42,13 +44,14 @@ interface Props {
   action: string;
   date: string;
   post?: string;
-  content: string;
+  content?: string;
   contentCss?: FlattenInterpolation<ThemeProps<DefaultTheme>>;
 }
 
 const ActivityItem: React.FC<Props> = ({ icon, avatar, author, action, date, post, contentCss, content }) => {
   const formattedDate = useFormatDistance(date);
   const userAvatar = useS3Image(avatar, 'thumbSmall');
+  const postImage = useS3Image(post, 'thumbSmall');
 
   return (
     <>
@@ -62,7 +65,7 @@ const ActivityItem: React.FC<Props> = ({ icon, avatar, author, action, date, pos
           <Space width={20} css={mobileCss} />
 
           <Row align="flex-start">
-            <Avatar src={userAvatar} alt={author} />
+            <ShimmerImage avatar src={userAvatar} alt={author} />
             <Space width={10} />
             <Column>
               <p>
@@ -72,7 +75,7 @@ const ActivityItem: React.FC<Props> = ({ icon, avatar, author, action, date, pos
               </p>
               <Space height={10} />
 
-              <FormattedText content={content} contentCss={contentCss} maxWidth="500px" />
+              {content && <FormattedText content={content} contentCss={contentCss} maxWidth="500px" />}
               <Space height={10} />
 
               <DateText>{formattedDate}</DateText>
@@ -80,7 +83,7 @@ const ActivityItem: React.FC<Props> = ({ icon, avatar, author, action, date, pos
           </Row>
         </Row>
 
-        {post ? <Post src={post} alt="post" /> : <Space width={0} />}
+        {post ? <Post src={postImage} alt="post" /> : <Space width={0} />}
       </Row>
     </>
   );
