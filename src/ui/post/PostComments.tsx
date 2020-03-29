@@ -1,119 +1,41 @@
 import React from 'react';
-import styled from 'styled-components';
+import { css } from 'styled-components';
 
-import Avatar from '../common/Avatar';
+import Space from '../common/Space';
+import Text from '../common/Text';
 
 import CreateComment from './CreateComment';
+import Comment from './Comment';
 
-const Container = styled.div`
-  margin-top: 30px;
-
-  ul > strong {
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-  }
-
-  li {
-    margin: 20px 0;
-
-    display: flex;
-    align-items: center;
-
-    section {
-      margin-left: 10px;
-
-      display: flex;
-      flex-direction: column;
-
-      header {
-        display: flex;
-        flex-direction: row;
-
-        strong {
-          font-size: 16px;
-          font-weight: 900;
-          color: #fff;
-        }
-
-        span {
-          margin-left: 8px;
-          font-size: 16px;
-          color: #6f767e;
-        }
-      }
-
-      p {
-        margin-top: 8px;
-        font-size: 15px;
-        font-weight: 900;
-        color: #fff;
-      }
-    }
-  }
-
+const subTitleCss = css`
   @media (min-width: 550px) {
-    ul > strong {
-      display: none;
-    }
-  }
-
-  @media (max-width: 550px) {
-    li {
-      margin: 20px 0;
-
-      display: flex;
-      align-items: center;
-
-      section {
-        header > span {
-          font-size: 14px;
-        }
-
-        p {
-          font-size: 13px;
-          font-weight: 500;
-          color: #fff;
-        }
-      }
-    }
-  }
-`;
-
-const StyledAvatar = styled(Avatar)`
-  @media (max-width: 550px) {
-    width: 40px;
-    height: 40px;
-    margin-right: 0;
+    display: none;
   }
 `;
 
 interface Props {
-  comments: any[];
+  comments: { cmmt_id: string; author: string; author_profilehash: string; created_at: string; text: string }[];
   avatar: string;
 }
 
 const PostComments: React.FC<Props> = ({ comments, avatar }) => {
   return (
-    <Container>
-      <CreateComment avatar={avatar} />
-
-      <ul>
-        <strong>All comments</strong>
-        {comments.map(({ author, ...comment }) => (
-          <li key={author.username}>
-            <StyledAvatar src={author.avatar} alt={author.username} />
-            <section>
-              <header>
-                <strong>{author.username}</strong>
-                <span>{`${comment.time}`}</span>
-              </header>
-              <p>{comment.content}</p>
-            </section>
-          </li>
-        ))}
-      </ul>
-    </Container>
+    <>
+      <Space height={30} />
+      <div>
+        <CreateComment avatar={avatar} />
+      </div>
+      <Text size={16} weight="bold" color="white" css={subTitleCss}>
+        All comments
+      </Text>
+      {comments.map(comment => (
+        <>
+          <Space height={20} />
+          <Comment key={comment.cmmt_id} {...comment} />
+          <Space height={20} />
+        </>
+      ))}
+    </>
   );
 };
 

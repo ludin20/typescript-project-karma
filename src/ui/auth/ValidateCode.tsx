@@ -40,7 +40,7 @@ const ValidateCode: React.FC = () => {
   return (
     <form onSubmit={validateCode}>
       <Column>
-        <Row>
+        <Row justify="center">
           <Title>Join </Title>
           <Space width={10} />
           <Title green>KARMA</Title>

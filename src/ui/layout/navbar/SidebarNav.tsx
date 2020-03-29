@@ -79,16 +79,22 @@ const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed
 
   return (
     <Container collapsed={collapsed}>
-      <SidebarItem route="/home" selected={selected.includes('home')} icon={home}>
+      <SidebarItem href="/home" as="home" selected={selected.includes('home')} icon={home}>
         Home
       </SidebarItem>
 
-      <SidebarItem route="/discover/popular" selected={selected.includes('discover')} icon={discover}>
+      <SidebarItem
+        href="/discover/[tab]"
+        as="/discover/popular"
+        selected={selected.includes('discover')}
+        icon={discover}
+      >
         Discover
       </SidebarItem>
 
       <SidebarItem
-        route="/activity"
+        href="/activity"
+        as="/activity"
         selected={selected.includes('activity')}
         icon={activity}
         extraContent={<span>{notifications}</span>}
@@ -96,12 +102,13 @@ const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed
         Activity
       </SidebarItem>
 
-      <SidebarItem route="/wallet" selected={selected.includes('wallet')} icon={wallet}>
+      <SidebarItem href="/wallet" as="/wallet" selected={selected.includes('wallet')} icon={wallet}>
         Wallet
       </SidebarItem>
 
       <SidebarItem
-        route={`/profile/${username.split('@')[1]}/media`}
+        href="/profile/[username]/[tab]"
+        as={`/profile/${username.split('@')[1]}/media`}
         selected={selected.includes('profile')}
         icon={avatar}
       >
