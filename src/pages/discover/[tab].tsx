@@ -9,8 +9,9 @@ import { Tabs, Template } from '../../ui';
 import { labels } from '../../ui/layout';
 import { withAuthSync } from '../../auth/WithAuthSync';
 import { withApollo } from '../../apollo/Apollo';
-import { KARMA_AUTHOR, IPFS_S3 } from '../../common/config';
+import { KARMA_AUTHOR } from '../../common/config';
 import validateTab from '../../util/validateTab';
+import { useS3PostsImages } from '../../hooks';
 
 const GET_POSTS = graphql`
   query posts($accountname: String!, $page: Int, $pathBuilder: any, $postsStatus: String) {
@@ -31,8 +32,8 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
   const router = useRouter();
   const [tab, setTab] = useState(props.tab);
   const [page, setPage] = useState(1);
+  const defaultParams = useMemo(() => `?Page=${page}&Limit=12&domainId=${1}`, []);
 
-  const defaultParams = '?Page=1&Limit=12&domainId=${1}';
   const { data, fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
       accountname: author,
@@ -42,16 +43,7 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
     },
   });
 
-  useEffect(() => {
-    const href = '/discover/[tab]';
-    const as = '/discover/popular';
-
-    const isTab = ['popular', 'new'].find(t => t === router.query.tab);
-
-    if (!isTab) {
-      router.push(href, as, { shallow: true });
-    }
-  }, [router]);
+  const medias = useS3PostsImages(data ? data.posts : [], 'thumbBig');
 
   useEffect(() => {
     const path = `/discover/${tab}`;
@@ -67,13 +59,7 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
         updateQuery: (_, { fetchMoreResult }) => fetchMoreResult,
       });
     }
-  }, [fetchMore, router.asPath, router.query.tab, tab]);
-
-  const medias = useMemo(() => {
-    return data
-      ? data.posts.map(post => post.imagehashes.map(imagehash => `${IPFS_S3}/${imagehash}/thumbBig.jpg`)).flat()
-      : [];
-  }, [data]);
+  }, [defaultParams, fetchMore, router, tab]);
 
   const loadMorePosts = useCallback(() => {
     const params = `?Page=${page + 1}&Limit=12&domainId=${1}`;

@@ -46,6 +46,7 @@ export { default as EditProfileModal } from './profile/EditProfileModal';
 
 export { default as PostActions } from './post/PostActions';
 export { default as PostCard } from './post/PostCard';
+export { default as PostComments } from './post/PostComments';
 export { default as CreatePostModal } from './post/CreatePostModal';
 
 export { default as AllActivities } from './activity/AllActivities';

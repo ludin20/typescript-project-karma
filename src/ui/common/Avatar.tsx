@@ -1,9 +1,9 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 
 import withoutAvatar from '../assets/withoutAvatar.svg';
 
-const Container = styled.img<{ online: boolean; size: 'default' | 'small' | 'big' }>`
+const Container = styled.img<{ online?: boolean; size: 'default' | 'small' | 'big'; css?: FlattenSimpleInterpolation }>`
   width: ${props => (props.size === 'default' ? '50px' : '40px')};
   height: ${props => (props.size === 'default' ? '50px' : '40px')};
   border-radius: 50%;
@@ -12,6 +12,8 @@ const Container = styled.img<{ online: boolean; size: 'default' | 'small' | 'big
     width: ${props => (props.size === 'default' ? '50px' : '30px')};
     height: ${props => (props.size === 'default' ? '50px' : '30px')};
   }
+
+  ${p => p.css}
 
   ${props =>
     props.size === 'big' &&
@@ -37,6 +39,7 @@ interface Props {
   alt: string;
   size?: 'default' | 'small' | 'big';
   onLoad?(): void;
+  css?: FlattenSimpleInterpolation;
 }
 
 const Avatar: React.FC<Props> = ({ src, online = false, alt, size = 'default', ...props }) => {

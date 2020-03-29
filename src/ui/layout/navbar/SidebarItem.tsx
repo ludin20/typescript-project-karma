@@ -78,23 +78,24 @@ const Container = styled.button<{ selected: boolean }>`
 `;
 
 interface Props {
-  route?: string;
+  href?: string;
+  as?: string;
   onClick?(): void;
   selected: boolean;
   icon: string;
   extraContent?: React.ReactNode;
 }
 
-const SidebarItem: React.FC<Props> = ({ onClick, children, route, selected, icon, extraContent, ...props }) => {
+const SidebarItem: React.FC<Props> = ({ onClick, children, href, as, selected, icon, extraContent, ...props }) => {
   const router = useRouter();
 
   const handleClick = useCallback(() => {
     if (onClick) {
       onClick();
     } else {
-      router.push(route);
+      router.push(href, as, { shallow: true });
     }
-  }, [onClick, route, router]);
+  }, [onClick, href, router, as]);
 
   return (
     <Container onClick={handleClick} selected={selected} {...props}>

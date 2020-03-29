@@ -35,7 +35,7 @@ const Template: React.FC<Props> = ({ medias, loadMore }) => {
         <Space height={30} />
         <Grid columns="3" gap="24px" align css={gridCss}>
           {medias.map((image, index) => (
-            <ShimmerImage key={String(index)} src={image} alt="discover" css={imageCss} />
+            <ShimmerImage key={String(index)} src={image} alt="discover" css={imageCss} height={200} width={200} />
           ))}
         </Grid>
       </SkeletonTheme>

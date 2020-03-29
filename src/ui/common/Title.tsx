@@ -3,27 +3,13 @@ import styled, { css } from 'styled-components';
 
 import arrow from '../assets/arrow.svg';
 
-const Container = styled.div<Props>`
-  display: flex;
-  align-items: center;
+import Text from './Text';
+import Row from './Row';
+import Space from './Space';
 
-  strong {
-    font-size: ${props => (props.size === 'default' ? '34px' : '30px')};
-    font-weight: 900;
-    color: #fff;
-  }
-
-  button {
-    background: none;
-    margin-left: 10px;
-
-    img {
-      width: 14px;
-      transition: transform 0.2s;
-      transform: ${props => props.toogled && 'rotate(-90deg)'};
-    }
-  }
-
+const Container = styled(Row).attrs({
+  align: 'center',
+})<Props>`
   ${props =>
     props.bordered &&
     css`
@@ -41,18 +27,21 @@ const Container = styled.div<Props>`
         bottom: 0;
       }
     `}
+`;
 
-  ${props =>
-    props.shouldHideHeader &&
-    css`
-      @media (max-width: 700px) {
-        display: none;
-      }
-    `}
+const Image = styled.img<{ toogled?: boolean }>`
+  width: 14px;
+  transition: transform 0.2s;
+  transform: ${props => props.toogled && 'rotate(-90deg)'};
+`;
+
+const hiddenHeader = css`
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 interface Props {
-  toogled?: boolean;
   withDropDown?: boolean;
   bordered?: boolean;
   size?: 'default' | 'small';
@@ -63,12 +52,17 @@ const Title: React.FC<Props> = ({ children, withDropDown, bordered = true, size 
   const [toogled, setToogled] = useState(false);
 
   return (
-    <Container toogled={toogled} bordered={bordered} size={size} shouldHideHeader={shouldHideHeader}>
-      <strong>{children}</strong>
+    <Container bordered={bordered} size={size} css={shouldHideHeader ? hiddenHeader : undefined}>
+      <Text size={size === 'default' ? 34 : 30} weight="900" color="white">
+        {children}
+      </Text>
       {withDropDown && (
-        <button onClick={() => setToogled(!toogled)}>
-          <img src={arrow} alt="toogle" />
-        </button>
+        <>
+          <Space width={10} />
+          <Row onClick={() => setToogled(!toogled)} align="center" justify="center">
+            <Image src={arrow} alt="toogle" toogled={toogled} />
+          </Row>
+        </>
       )}
     </Container>
   );

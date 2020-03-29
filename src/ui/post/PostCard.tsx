@@ -5,6 +5,9 @@ import { useRouter } from 'next/router';
 import Avatar from '../common/Avatar';
 import FollowButton from '../common/FollowButton';
 import Space from '../common/Space';
+import Row from '../common/Row';
+import Column from '../common/Column';
+import Text from '../common/Text';
 
 import { useFormatDistance, useS3Image } from '../../hooks';
 
@@ -14,39 +17,6 @@ import PostContent from './PostContent';
 const Container = styled.li`
   list-style: none;
   cursor: pointer;
-
-  & + li {
-    margin-top: 40px;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    div {
-      display: flex;
-      align-items: center;
-    }
-
-    section {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-
-      strong {
-        color: #fff;
-        font-size: 18px;
-        font-weight: 900;
-      }
-
-      span {
-        color: #6f767e;
-        font-size: 16px;
-      }
-    }
-  }
 `;
 
 export interface PostInterface {
@@ -104,21 +74,25 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
   const avatar = useS3Image(author_profilehash, 'thumbSmall');
 
   return (
-    <Container onClick={() => router.push(`/post/${post_id}`)}>
-      <header>
-        <div>
+    <Container onClick={() => router.push('/post/[id]', `/post/${post_id}`, { shallow: true })}>
+      <Row align="center" justify="space-between">
+        <Row align="center">
           <Avatar src={avatar} alt={author_displayname} />
           <Space width={10} />
-          <section>
-            <strong>{author_displayname}</strong>
-            <span>
+
+          <Column align="flex-start" justify="center">
+            <Text color="white" size={18} weight="900">
+              {author_displayname}
+            </Text>
+            <Text color="midGray" size={16}>
               {username} - {formattedDate}
-            </span>
-          </section>
-        </div>
+            </Text>
+          </Column>
+        </Row>
 
         {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
-      </header>
+      </Row>
+
       <PostContent content={content} size={size} />
       <PostActions
         upvote_count={upvote_count}

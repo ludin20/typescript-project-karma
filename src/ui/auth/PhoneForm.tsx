@@ -40,7 +40,7 @@ const PhoneForm: React.FC = () => {
   return (
     <form onSubmit={sendCode}>
       <Column>
-        <Row>
+        <Row justify="center">
           <Title>Join </Title>
           <Space width={10} />
           <Title green>KARMA</Title>

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { NextPage } from 'next';
 import nextCookie from 'next-cookies';
 import Router, { useRouter } from 'next/router';
@@ -8,31 +8,18 @@ import PhoneForm from '../../ui/auth/PhoneForm';
 import ValidateCode from '../../ui/auth/ValidateCode';
 
 import { KARMA_SESS } from '../../common/config';
+import validateTab from '../../util/validateTab';
 
 const Auth: NextPage = () => {
   const router = useRouter();
   const { tab } = router.query;
-
-  const isValidTab = useMemo(() => {
-    return ['sign', 'validate'].find(t => t === tab);
-  }, [tab]);
-
-  useEffect(() => {
-    const href = '/auth/[tab]';
-    const as = `/auth/sign`;
-
-    if (!isValidTab) {
-      router.push(href, as, { shallow: true });
-    }
-  }, [isValidTab, router, tab]);
-
-  if (!isValidTab) return <div></div>;
 
   return tab === 'sign' ? <PhoneForm /> : <ValidateCode />;
 };
 
 Auth.getInitialProps = async ctx => {
   const cookies = nextCookie(ctx);
+  validateTab(ctx, '/auth/sign', ['sign', 'validate']);
 
   const token = cookies[encodeURIComponent(KARMA_SESS)];
 
