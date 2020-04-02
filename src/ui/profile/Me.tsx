@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { ProfileHeader, ProfileInfo, EditProfileModal, Tabs } from '../../ui';
 import { TabInterface } from '../tabs/Tabs';
-
-import { RootState } from '../../store/ducks/rootReducer';
+import { useS3Image } from '../../hooks';
 
 const Wrapper = styled.div`
   @media (max-width: 700px) {
@@ -15,30 +13,52 @@ const Wrapper = styled.div`
   }
 `;
 
+interface Follow {
+  username: string;
+  hash: string;
+  displayname: string;
+}
+
 interface Props {
   tabs: TabInterface[];
   tab: string;
+  profile: {
+    displayname: string;
+    author: string;
+    bio: string;
+    hash: string;
+    followers: Follow[];
+    following: Follow[];
+    followers_count: string;
+    following_count: string;
+    username: string;
+  };
+  postCount: string;
 }
 
-const Me: React.FC<Props> = ({ tabs, tab }) => {
+const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
+  const { displayname, bio, hash, followers, following, followers_count, following_count, username } = profile;
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const profile = useSelector((state: RootState) => state.user.profile);
-
-  const { avatar, posts: PostCount, followers, following, name, isVerified, power, bio, website } = profile;
+  const avatar = useS3Image(hash, 'thumbBig');
 
   return (
     <Wrapper>
-      <ProfileHeader avatar={avatar} posts={PostCount} followers={followers} following={following} />
+      <ProfileHeader
+        avatar={avatar}
+        posts={postCount}
+        followersCount={followers_count}
+        followingCount={following_count}
+        followers={followers}
+        following={following}
+      />
 
       <ProfileInfo
         avatar={avatar as string}
-        name={name}
-        username={profile.username}
+        name={displayname}
+        username={username}
         me
-        isVerified={isVerified}
-        power={power}
-        website={website}
+        power={0}
+        website=""
         bio={bio}
         handleModal={() => setModalIsOpen(true)}
       />

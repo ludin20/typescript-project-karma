@@ -13,6 +13,7 @@ interface Props {
   justify?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around';
   align?: 'stretch' | 'flex-start' | 'flex-end' | 'center' | 'baseline';
   css?: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  onClick?(): void;
 }
 
 const Column: React.FC<Props> = ({ children, ...props }) => {

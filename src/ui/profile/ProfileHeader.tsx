@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { followers as followersArray, following as followingArray } from '../../mock';
 import Avatar from '../common/Avatar';
 import FollowsModal from '../common/FollowsModal';
 
@@ -73,14 +72,30 @@ const Container = styled.div`
   }
 `;
 
+interface Follow {
+  username: string;
+  hash: string;
+  displayname: string;
+}
+
 interface Props {
   avatar: string | File;
   posts: string | number;
-  followers: string | number;
-  following: string | number;
+  followers: Follow[];
+  following: Follow[];
+  followersCount: string | number;
+  followingCount: string | number;
 }
 
-const ProfileHeader: React.FC<Props> = ({ avatar, posts, followers, following, ...props }) => {
+const ProfileHeader: React.FC<Props> = ({
+  avatar,
+  posts,
+  followers,
+  following,
+  followersCount,
+  followingCount,
+  ...props
+}) => {
   const [followersModalIsOpen, setFollowersModalIsOpen] = useState(false);
   const [followingModalIsOpen, setFollowingModalIsOpen] = useState(false);
 
@@ -99,23 +114,13 @@ const ProfileHeader: React.FC<Props> = ({ avatar, posts, followers, following, .
     setFollowingModalIsOpen(false);
   }, []);
 
-  const data = useMemo(() => {
-    if (followersModalIsOpen) {
-      return followersArray;
-    } else if (followingModalIsOpen) {
-      return followingArray;
-    }
+  const data = useMemo(() => (followersModalIsOpen ? followers : following), [
+    followersModalIsOpen,
+    followers,
+    following,
+  ]);
 
-    return [];
-  }, [followersModalIsOpen, followingModalIsOpen]);
-
-  const title = useMemo(() => {
-    if (followersModalIsOpen) {
-      return 'Followers';
-    } else {
-      return 'Following';
-    }
-  }, [followersModalIsOpen]);
+  const title = useMemo(() => (followersModalIsOpen ? 'Followers' : 'Following'), [followersModalIsOpen]);
 
   return (
     <Container {...props}>
@@ -128,22 +133,19 @@ const ProfileHeader: React.FC<Props> = ({ avatar, posts, followers, following, .
         </p>
 
         <button onClick={() => handleOpenModal('followers')}>
-          <strong>{followers}</strong>
+          <strong>{followersCount}</strong>
           <span>Followers</span>
         </button>
 
         <button onClick={() => handleOpenModal('following')}>
-          <strong>{following}</strong>
+          <strong>{followingCount}</strong>
           <span>Following</span>
         </button>
       </section>
 
-      <FollowsModal
-        data={data}
-        open={followersModalIsOpen || followingModalIsOpen}
-        close={handleCloseModal}
-        title={title}
-      />
+      {(followersModalIsOpen || followingModalIsOpen) && (
+        <FollowsModal data={data} open close={handleCloseModal} title={title} />
+      )}
     </Container>
   );
 };

@@ -16,8 +16,6 @@ const Container = styled.div`
   padding: 30px 40px 40px;
 
   header {
-    margin-bottom: 30px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,19 +46,17 @@ const SeeMore = styled.button`
 
 interface Props {
   data: {
-    id: number;
-    name: string;
     username: string;
-    avatar: string;
-    following: boolean;
-    online: boolean;
+    hash: string;
+    displayname: string;
   }[];
   open: boolean;
   close(): void;
   title: string;
+  loadMore(): void;
 }
 
-const FollowsModal: React.FC<Props> = ({ data, title, ...props }) => {
+const FollowsModal: React.FC<Props> = ({ data, title, loadMore, ...props }) => {
   return (
     <ModalWrapper {...props}>
       <Container>
@@ -75,10 +71,10 @@ const FollowsModal: React.FC<Props> = ({ data, title, ...props }) => {
         </header>
 
         {data.map(follow => (
-          <FollowCard key={follow.id} follow={follow} />
+          <FollowCard key={follow.username} {...follow} />
         ))}
       </Container>
-      <SeeMore>See More</SeeMore>
+      <SeeMore onClick={loadMore}>See More</SeeMore>
     </ModalWrapper>
   );
 };

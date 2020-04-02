@@ -19,6 +19,7 @@ interface Props {
   flex?: boolean;
   onClick?(): void;
   css?: FlattenSimpleInterpolation;
+  style?: React.CSSProperties;
 }
 
 const Row: React.FC<Props> = ({ children, ...props }) => {

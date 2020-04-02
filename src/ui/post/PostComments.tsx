@@ -29,11 +29,11 @@ const PostComments: React.FC<Props> = ({ comments, avatar }) => {
         All comments
       </Text>
       {comments.map(comment => (
-        <>
+        <React.Fragment key={comment.cmmt_id}>
           <Space height={20} />
           <Comment key={comment.cmmt_id} {...comment} />
           <Space height={20} />
-        </>
+        </React.Fragment>
       ))}
     </>
   );

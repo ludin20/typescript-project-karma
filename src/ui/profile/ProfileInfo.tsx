@@ -67,7 +67,7 @@ interface Props {
   name: string;
   username: string;
   me?: boolean;
-  isVerified: boolean;
+  isVerified?: boolean;
   power: string | number;
   bio: string;
   website: string;

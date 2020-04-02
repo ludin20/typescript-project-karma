@@ -20,6 +20,7 @@ interface ShimmerImageProps {
   height?: string | number;
   width?: string | number;
   avatar?: boolean;
+  onClick?(): void;
 }
 
 const ShimmerImage: React.FC<ShimmerImageProps> = ({ height, width, avatar, ...props }) => {
