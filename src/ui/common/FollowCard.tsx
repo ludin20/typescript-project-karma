@@ -1,68 +1,45 @@
 import React from 'react';
-import styled from 'styled-components';
+
+import { useS3Image } from '../../hooks';
 
 import Avatar from './Avatar';
 import FollowButton from './FollowButton';
-
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  & + div {
-    margin-top: 30px;
-  }
-
-  div {
-    display: flex;
-    align-items: center;
-  }
-
-  section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    strong {
-      color: #fff;
-      font-size: 16px;
-      font-weight: 900;
-    }
-
-    span {
-      color: #6f767e;
-      font-size: 16px;
-      margin-top: 2px;
-    }
-  }
-`;
+import Space from './Space';
+import Row from './Row';
+import Col from './Column';
+import Text from './Text';
 
 interface Props {
-  follow: {
-    id: number;
-    name: string;
-    username: string;
-    avatar: string;
-    following: boolean;
-    online: boolean;
-  };
+  username: string;
+  hash: string;
+  displayname: string;
 }
 
-const FollowCard: React.FC<Props> = ({ follow }) => {
-  const { online, avatar, name, username, following } = follow;
-  return (
-    <Container>
-      <div>
-        <Avatar online={online} src={avatar} alt={name} />
-        <section>
-          <strong>{name}</strong>
-          <span>{username}</span>
-        </section>
-      </div>
+const FollowCard: React.FC<Props> = ({ username, hash, displayname }) => {
+  const avatar = useS3Image(hash, 'thumbSmall');
 
-      <FollowButton following={following} />
-    </Container>
+  return (
+    <>
+      <Space height={30} />
+      <Row align="center" justify="space-between" style={{ width: '100%' }}>
+        <Row align="center">
+          <Avatar src={avatar} alt={name} />
+          <Space width={10} />
+          <Col align="flex-start">
+            <Text size={16} weight="900">
+              {displayname}
+            </Text>
+            <Space height={2} />
+
+            <Text size={16} color="midGray">
+              {username}
+            </Text>
+          </Col>
+        </Row>
+
+        <FollowButton following={false} />
+      </Row>
+    </>
   );
 };
 

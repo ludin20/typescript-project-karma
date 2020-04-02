@@ -13,6 +13,12 @@ const Wrapper = styled.div`
   }
 `;
 
+interface Follow {
+  username: string;
+  hash: string;
+  displayname: string;
+}
+
 interface Props {
   tabs: TabInterface[];
   tab: string;
@@ -21,6 +27,8 @@ interface Props {
     author: string;
     bio: string;
     hash: string;
+    followers: Follow[];
+    following: Follow[];
     followers_count: string;
     following_count: string;
     username: string;
@@ -29,13 +37,20 @@ interface Props {
 }
 
 const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
-  const { displayname, bio, hash, followers_count, following_count, username } = profile;
+  const { displayname, bio, hash, followers, following, followers_count, following_count, username } = profile;
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const avatar = useS3Image(hash, 'thumbBig');
 
   return (
     <Wrapper>
-      <ProfileHeader avatar={avatar} posts={postCount} followers={followers_count} following={following_count} />
+      <ProfileHeader
+        avatar={avatar}
+        posts={postCount}
+        followersCount={followers_count}
+        followingCount={following_count}
+        followers={followers}
+        following={following}
+      />
 
       <ProfileInfo
         avatar={avatar as string}

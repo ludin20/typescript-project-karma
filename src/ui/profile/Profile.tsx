@@ -14,6 +14,12 @@ const Wrapper = styled.div`
   }
 `;
 
+interface Follow {
+  username: string;
+  hash: string;
+  displayname: string;
+}
+
 interface Props {
   tabs: TabInterface[];
   tab: string;
@@ -25,24 +31,31 @@ interface Props {
     followers_count: string;
     following_count: string;
     username: string;
-    followers: string[];
-    following: string[];
+    followers: Follow[];
+    following: Follow[];
   };
   postCount: string;
   me: string;
 }
 
 const Profile: React.FC<Props> = ({ tabs, tab, profile, postCount, me }) => {
-  const { displayname, bio, hash, followers_count, following_count, followers, following, username } = profile;
+  const { displayname, bio, hash, followers, following, followers_count, following_count, username } = profile;
   const avatar = useS3Image(hash, 'thumbBig');
 
-  const isFollowing = !!followers.find(accountName => accountName === me);
-  const followsMe = !!following.find(accountName => accountName === me);
+  const isFollowing = !!followers.find(follow => follow.author === me);
+  const followsMe = !!following.find(follow => follow.author === me);
 
   return (
     <Wrapper>
       <GoBackButton />
-      <ProfileHeader avatar={avatar} posts={postCount} followers={followers_count} following={following_count} />
+      <ProfileHeader
+        avatar={avatar}
+        posts={postCount}
+        followersCount={followers_count}
+        followingCount={following_count}
+        followers={followers}
+        following={following}
+      />
 
       <ProfileInfo
         avatar={avatar}

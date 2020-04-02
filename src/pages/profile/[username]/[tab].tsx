@@ -16,7 +16,7 @@ import validateTab from '../../../util/validateTab';
 import { KARMA_AUTHOR } from '../../../common/config';
 
 const GET_PROFILE = graphql`
-  query profile($accountname: String!, $profilePath: any, $postsPath: any) {
+  query profile($accountname: String!, $me: String!, $profilePath: any, $postsPath: any, $followersPath: any) {
     profile(accountname: $accountname) @rest(type: "Profile", pathBuilder: $profilePath) {
       displayname
       author
@@ -24,8 +24,16 @@ const GET_PROFILE = graphql`
       hash
       followers_count
       following_count
-      followers
-      following
+      followers(accountname: $accountname, page: $page) @rest(type: "Followers", pathBuilder: $followersPath) {
+        username
+        hash
+        displayname
+      }
+      following(accountname: $accountname, page: $page) @rest(type: "Followers", pathBuilder: $followersPath) {
+        username
+        hash
+        displayname
+      }
       username
     }
     posts(accountname: $accountname) @rest(type: "Post", pathBuilder: $postsPath) {
@@ -53,8 +61,10 @@ const ProfileWrapper: NextPage<Props> = ({ me }) => {
   const { data, loading } = useQuery(GET_PROFILE, {
     variables: {
       accountname: username,
+      me,
       profilePath: () => `profile/${username}?domainID=${1}`,
       postsPath: () => `posts/account/${username}?domainID=${1}`,
+      followersPath: () => `profile/${username}/folllowers/`,
     },
   });
 
