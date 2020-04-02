@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import styled, { css } from 'styled-components';
+import { useQuery } from '@apollo/react-hooks';
+import graphql from 'graphql-tag';
 
-import { search as MockSearch } from '../../../mock';
+import { withApollo } from '../../../apollo/Apollo';
 
 import SearchBar from './SearchBar';
 import Actions from './Actions';
@@ -18,6 +20,7 @@ export const Wrapper = styled.div`
   position: fixed;
   left: 0;
   top: 0;
+  bottom: 0;
   z-index: 2;
   overflow: auto;
 `;
@@ -52,14 +55,23 @@ const Container = styled.div<{ collapsed: boolean; shouldHideHeader: boolean }>`
     `}
 `;
 
+const GET_PROFILES = graphql`
+  query Profiles($accountname: String!, $searchterm: String, $page: Int, $pathBuilder: any) {
+    profiles(accountname: $accountname, searchterm: $searchterm, page: $page)
+      @rest(type: "Profile", pathBuilder: $pathBuilder) {
+      accountname
+      username
+      hash
+      displayname
+    }
+  }
+`;
+
 export interface UserProps {
-  id: number;
-  name: string;
+  accountname: string;
   username: string;
-  avatar: string;
-  following: boolean;
-  online: boolean;
-  verified: boolean;
+  hash: string;
+  displayname: string;
 }
 
 interface Props {
@@ -68,15 +80,34 @@ interface Props {
   shouldHideHeader?: boolean;
 }
 
-const getUserName = (value: UserProps) => value.name;
-const getId = (value: UserProps) => value.username;
-
 const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHeader }) => {
   const [searchFocused, setSearchFocused] = useState(false);
 
-  const autoCompleteSearch = useCallback(async (searchString: string, signal: AbortSignal) => {
-    return MockSearch.filter(item => item.name.toLocaleLowerCase().includes(searchString));
-  }, []);
+  const { data, fetchMore } = useQuery(GET_PROFILES, {
+    variables: {
+      accountname: 'krmyukbcoguo',
+      searchterm: '',
+      page: 1,
+      pathBuilder: () => `profile/search?Page=${1}&Limit=5&domainId=${1}`,
+    },
+  });
+
+  const autoCompleteSearch = useCallback(
+    async (searchterm: string) => {
+      fetchMore({
+        variables: {
+          searchterm,
+          pathBuilder: () => `profile/search/${searchterm}?Page=${1}&Limit=5&domainId=${1}`,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          return fetchMoreResult;
+        },
+      });
+
+      return data ? data.profiles : null;
+    },
+    [data, fetchMore],
+  );
 
   return searchFocused ? (
     <>
@@ -86,8 +117,6 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
           focused
           setFocused={setSearchFocused}
           search={autoCompleteSearch}
-          getId={getId}
-          getText={getUserName}
           shouldHideCreatePost={shouldHideCreatePost}
         />
         <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} />
@@ -99,8 +128,6 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
         focused={searchFocused}
         setFocused={setSearchFocused}
         search={autoCompleteSearch}
-        getId={getId}
-        getText={getUserName}
         shouldHideCreatePost={shouldHideCreatePost}
       />
       <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} />
@@ -108,4 +135,4 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
   );
 };
 
-export default Header;
+export default withApollo()(Header);

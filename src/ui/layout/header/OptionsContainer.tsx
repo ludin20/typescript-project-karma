@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Space from '../../common/Space';
+
 import Option from './Option';
 import { UserProps } from './Header';
 
@@ -48,11 +50,9 @@ const SeeMore = styled.button`
 interface Props {
   loading: boolean;
   results: UserProps[];
-  getId(value: UserProps): string;
-  handleSelectOption(value: UserProps): void;
 }
 
-const OptionsContainer: React.FC<Props> = ({ loading, results, getId, handleSelectOption }) => {
+const OptionsContainer: React.FC<Props> = ({ loading, results }) => {
   return (
     <Container>
       <section>
@@ -61,8 +61,11 @@ const OptionsContainer: React.FC<Props> = ({ loading, results, getId, handleSele
         ) : results == null || results.length === 0 ? (
           <OptionMessage>Nothing found</OptionMessage>
         ) : (
-          results.map((result, index) => (
-            <Option key={getId(result) || index} value={result} onSelect={handleSelectOption} />
+          results.map((profile, index) => (
+            <React.Fragment key={profile.accountname}>
+              {index > 0 && <Space height={20} />}
+              <Option profile={profile} />
+            </React.Fragment>
           ))
         )}
       </section>

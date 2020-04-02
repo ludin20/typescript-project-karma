@@ -1,10 +1,16 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
+import { useRouter } from 'next/router';
+
 import Avatar from '../../common/Avatar';
 import FollowButton from '../../common/FollowButton';
 
 import verified from '../../assets/verified.png';
+
+import { useS3Image } from '../../../hooks';
+
+import Space from '../../common/Space';
 
 import { UserProps } from './Header';
 
@@ -82,33 +88,39 @@ const Button = styled(FollowButton)`
 `;
 
 interface Props {
-  value: UserProps;
-  onSelect(value: UserProps): void;
+  profile: UserProps;
 }
 
-const Option: React.FC<Props> = ({ value, onSelect }) => {
+const Option: React.FC<Props> = ({ profile }) => {
+  const router = useRouter();
+
   const handleClick = useCallback(() => {
-    onSelect(value);
-  }, [onSelect, value]);
+    const href = '/profile/[username]/[tab]';
+    const as = `/profile/${profile.accountname}/media`;
+    router.push(href, as, { shallow: true });
+  }, [router, profile]);
+
+  const avatar = useS3Image(profile.hash, 'thumbSmall');
 
   return (
     <Container onClick={handleClick}>
       <div>
-        <StyledAvatar online={value.online} src={value.avatar} alt={value.name} size="default" />
-
+        <StyledAvatar src={avatar} alt={profile.displayname} size="default" />
+        <Space width={10} />
         <section>
-          {!value.verified ? (
-            <strong>{value.name}</strong>
+          {/*!profile.verified ? (
+            <strong>{profile.name}</strong>
           ) : (
             <div>
-              <strong>{value.name}</strong>
+              <strong>{profile.name}</strong>
               <img src={verified} alt="verified" />
             </div>
-          )}
-          <span>{value.username}</span>
+          )*/}
+          <strong>{profile.displayname}</strong>
+          <span>{profile.username}</span>
         </section>
       </div>
-      <Button following={value.following} />
+      <Button following={false} />
     </Container>
   );
 };
