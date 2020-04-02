@@ -2,6 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import styled, { css } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import cookie from 'js-cookie';
 
 import { RootState } from '../../../store/ducks/rootReducer';
 import { signOutRequest } from '../../../store/ducks/auth';
@@ -11,6 +12,8 @@ import discover from '../../assets/discover.svg';
 import activity from '../../assets/activity.svg';
 import wallet from '../../assets/wallet.svg';
 import logout from '../../assets/logout.svg';
+
+import { KARMA_AUTHOR } from '../../../common/config';
 
 import SidebarItem from './SidebarItem';
 import Divider from './Divider';
@@ -63,7 +66,7 @@ interface Props {
   collapsed: boolean;
 }
 
-const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed }) => {
+const SidebarNav: React.FC<Props> = ({ avatar, setCollapsed, collapsed }) => {
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -76,6 +79,8 @@ const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed
   const logOut = useCallback(() => {
     dispatch(signOutRequest());
   }, [dispatch]);
+
+  const cookies = cookie.get();
 
   return (
     <Container collapsed={collapsed}>
@@ -108,7 +113,7 @@ const SidebarNav: React.FC<Props> = ({ username, avatar, setCollapsed, collapsed
 
       <SidebarItem
         href="/profile/[username]/[tab]"
-        as={`/profile/${username.split('@')[1]}/media`}
+        as={`/profile/${cookies[KARMA_AUTHOR]}/media`}
         selected={selected.includes('profile')}
         icon={avatar}
       >

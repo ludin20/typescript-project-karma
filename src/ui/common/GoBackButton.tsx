@@ -13,15 +13,10 @@ const Container = styled.button`
   }
 `;
 
-interface GoBackButtonProps {
-  href: string;
-  as: string;
-}
-
-const GoBackButton: React.FC<GoBackButtonProps> = ({ href, as }) => {
+const GoBackButton: React.FC = () => {
   const router = useRouter();
   return (
-    <Container onClick={() => router.push(href, as, { shallow: true })}>
+    <Container onClick={() => router.back()}>
       <img src={arrow} alt="go back" />
     </Container>
   );

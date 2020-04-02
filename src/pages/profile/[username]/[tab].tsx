@@ -1,64 +1,79 @@
-import React, { useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
+import nextCookie from 'next-cookies';
+import cookie from 'js-cookie';
+import { useQuery } from '@apollo/react-hooks';
+import graphql from 'graphql-tag';
 
 import { withAuthSync } from '../../../auth/WithAuthSync';
-import { ProfileMedia, ProfileThoughts, Me, Profile } from '../../../ui';
+import { withApollo } from '../../../apollo/Apollo';
+
+import { ProfileMedia, ProfileThoughts, Me, Profile, Loading } from '../../../ui';
 import { labels } from '../../../ui/layout';
 
-import { posts, quezPosts } from '../../../mock';
+import validateTab from '../../../util/validateTab';
+import { KARMA_AUTHOR } from '../../../common/config';
 
-import { RootState } from '../../../store/ducks/rootReducer';
+const GET_PROFILE = graphql`
+  query profile($accountname: String!, $profilePath: any, $postsPath: any) {
+    profile(accountname: $accountname) @rest(type: "Profile", pathBuilder: $profilePath) {
+      displayname
+      author
+      bio
+      hash
+      followers_count
+      following_count
+      followers
+      following
+      username
+    }
+    posts(accountname: $accountname) @rest(type: "Post", pathBuilder: $postsPath) {
+      post_id
+      imagehashes
+    }
+  }
+`;
 
-const ProfileWrapper: NextPage = () => {
-  const profile = useSelector((state: RootState) => state.user.profile);
+interface Props {
+  me: string;
+}
 
+const ProfileWrapper: NextPage<Props> = ({ me }) => {
   const router = useRouter();
   const { username, tab } = router.query;
 
-  const me = useMemo(() => {
-    const meUsername = profile.username.split('@')[1];
+  const cookies = cookie.get();
+
+  const isMe = useMemo(() => {
+    const meUsername = cookies[KARMA_AUTHOR];
     return username === meUsername;
-  }, [profile.username, username]);
+  }, [cookies, username]);
 
-  const mockPosts = useMemo(() => {
-    if (me) return posts;
+  const { data, loading } = useQuery(GET_PROFILE, {
+    variables: {
+      accountname: username,
+      profilePath: () => `profile/${username}?domainID=${1}`,
+      postsPath: () => `posts/account/${username}?domainID=${1}`,
+    },
+  });
 
-    return quezPosts;
-  }, [me]);
+  if (!data && loading) return <Loading withContainer size="big" />;
 
   const tabs = [
     {
       name: 'Media',
-      render: () => ProfileMedia({ posts: mockPosts.filter((post: any) => post.type === 'media' && post) }),
+      render: () => ProfileMedia({ posts: data.posts }),
     },
-    {
+    /* {
       name: 'Thoughts',
-      render: () =>
-        ProfileThoughts({ profile, posts: mockPosts.filter((post: any) => post.type === 'thought' && post) }),
-    },
+      render: () => ProfileThoughts({ profile: data.profile, posts: data.posts }),
+    }, */
   ];
 
-  useEffect(() => {
-    const href = '/profile/[username]/[tab]';
-    const as = `/profile/${username}/media`;
+  if (isMe) return <Me tabs={tabs} tab={tab as string} profile={data.profile} postCount={data.posts.length} />;
 
-    if (username && !tab) {
-      router.push(href, as, { shallow: true });
-      return;
-    }
-
-    if (username && tab) {
-      const isValidTab = tabs.find(t => t.name.toLocaleLowerCase() === tab);
-
-      if (!isValidTab) router.push(href, as, { shallow: true });
-    }
-  }, [router, tab, tabs, username]);
-
-  if (me) return <Me tabs={tabs} tab={tab as string} />;
-
-  return <Profile tabs={tabs} tab={tab as string} />;
+  return <Profile tabs={tabs} tab={tab as string} profile={data.profile} postCount={data.posts.length} me={me} />;
 };
 
 interface Context extends NextPageContext {
@@ -68,13 +83,19 @@ interface Context extends NextPageContext {
   };
 }
 
-ProfileWrapper.getInitialProps = async ({ query }: Context) => {
+ProfileWrapper.getInitialProps = async (ctx: Context) => {
+  const cookies = nextCookie(ctx);
+  const me = cookies[encodeURIComponent(KARMA_AUTHOR)];
+
+  validateTab(ctx, me ? `/profile/${me}/media` : '/home', ['media', 'thoughts']);
+
   return {
     meta: {
-      title: `Karma/${query.username}`,
+      title: `Karma/${ctx.query.username}`,
     },
+    me,
     layoutConfig: { layout: labels.DEFAULT, shouldHideHeader: true },
   };
 };
 
-export default withAuthSync(ProfileWrapper);
+export default withAuthSync(withApollo({ ssr: true })(ProfileWrapper));

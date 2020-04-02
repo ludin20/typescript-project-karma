@@ -6,3 +6,4 @@ export const IPFS_URL = process.env.IPFS_URL || 'https://mainnet-ipfs-api.karmaa
 export const IPFS_S3 = process.env.IPFS_S3 || 'https://s3.eu-central-1.amazonaws.com/karmaapp';
 export const REQUEST_JWT = process.env.REQUEST_JWT || '58fc91ba-1f17-43e9-a763-801906217cf7';
 export const RESPONSE_JWT = process.env.RESPONSE_JWT || 'GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk';
+export const NODE_ENV = process.env.NODE_ENV || 'development';

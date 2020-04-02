@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { FlattenInterpolation, ThemeProps, DefaultTheme } from 'styled-components';
+import styled, { FlattenSimpleInterpolation } from 'styled-components';
 
 const Container = styled.div<GridProps>`
   display: grid;
@@ -13,7 +13,7 @@ interface GridProps {
   columns: number | string;
   gap: number | string;
   align?: boolean;
-  css?: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  css?: FlattenSimpleInterpolation;
 }
 
 const Grid: React.FC<GridProps> = ({ children, ...props }) => {
