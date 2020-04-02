@@ -94,14 +94,11 @@ const Container = styled.div<{ focused: boolean; shouldHideCreatePost: boolean }
 interface Props {
   focused: boolean;
   setFocused: (value: boolean) => void;
-  getText(value: UserProps): string | null | undefined;
-  getId(value: UserProps): string;
-  search(searchString: string, signal: AbortSignal): Promise<UserProps[]>;
+  search(searchString: string): Promise<UserProps[]>;
   shouldHideCreatePost?: boolean;
 }
 
-const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, search, shouldHideCreatePost }) => {
-  const abortRef = useRef<AbortController | null>();
+const SearchBar: React.FC<Props> = ({ focused, setFocused, search, shouldHideCreatePost }) => {
   const [results, setResults] = useState<UserProps[]>();
   const [loading, setLoading] = useState(false);
   const [textValue, setTextValue] = useState('');
@@ -110,18 +107,13 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, searc
 
   const triggerNewSearch = useDebounce(
     useCallback(
-      (text: string) => {
-        const abortController = new AbortController();
-        abortRef.current = abortController;
+      async (text: string) => {
         setLoading(true);
         setEmpty(false);
-        search(text, abortController.signal)
-          .then(results => {
-            if (!abortController.signal.aborted) {
-              setResults(results);
-            }
-          })
-          .finally(() => setLoading(false));
+
+        const response = await search(text);
+        setResults(response);
+        setLoading(false);
       },
       [search],
     ),
@@ -133,10 +125,7 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, searc
     (evt: React.ChangeEvent<HTMLInputElement>) => {
       const text = evt.target.value;
       setTextValue(text);
-      if (abortRef.current != null) {
-        abortRef.current.abort();
-        abortRef.current = null;
-      }
+
       if (isStringEmpty(text)) {
         setEmpty(true);
         return;
@@ -144,13 +133,6 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, searc
       triggerNewSearch(text);
     },
     [triggerNewSearch],
-  );
-
-  const handleSelectOption = useCallback(
-    (value: UserProps) => {
-      setTextValue(getText(value) || '');
-    },
-    [getText],
   );
 
   const onBlur = () => {
@@ -182,9 +164,7 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, getId, getText, searc
         </button>
       )}
 
-      {focused && !isEmpty && (
-        <OptionsContainer loading={loading} results={results} handleSelectOption={handleSelectOption} getId={getId} />
-      )}
+      {focused && !isEmpty && <OptionsContainer loading={loading} results={results} />}
     </Container>
   );
 };
