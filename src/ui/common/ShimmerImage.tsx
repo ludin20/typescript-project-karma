@@ -21,19 +21,21 @@ interface ShimmerImageProps {
   width?: string | number;
   avatar?: boolean;
   onClick?(): void;
+  circle?: boolean;
+  size?: 'default' | 'small' | 'big';
 }
 
-const ShimmerImage: React.FC<ShimmerImageProps> = ({ height, width, avatar, ...props }) => {
+const ShimmerImage: React.FC<ShimmerImageProps> = ({ height, width, avatar, circle, size, ...props }) => {
   const [loaded, setLoaded] = useState(false);
 
   return (
     <>
       {avatar ? (
-        <StyledAvatar {...props} onLoad={() => setLoaded(true)} loaded={loaded} />
+        <StyledAvatar {...props} onLoad={() => setLoaded(true)} loaded={loaded} size={size} />
       ) : (
         <Image {...props} onLoad={() => setLoaded(true)} loaded={loaded} />
       )}
-      {!loaded && <Skeleton height={height || '100%'} width={width || '100%'} />}
+      {!loaded && <Skeleton height={height || '100%'} width={width || '100%'} circle={circle} />}
     </>
   );
 };

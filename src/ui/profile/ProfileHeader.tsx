@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Avatar from '../common/Avatar';
 import FollowsModal from '../common/FollowsModal';
+import ShimmerImage from '../common/ShimmerImage';
 
 const Container = styled.div`
   display: flex;
@@ -124,7 +125,7 @@ const ProfileHeader: React.FC<Props> = ({
 
   return (
     <Container {...props}>
-      <Avatar size="big" src={avatar as string} alt="avatar" />
+      <ShimmerImage width={120} height={120} avatar src={avatar as string} alt="avatar" circle size="big" />
 
       <section>
         <p>

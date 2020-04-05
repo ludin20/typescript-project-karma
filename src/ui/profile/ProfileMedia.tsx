@@ -47,9 +47,12 @@ const ProfileMedia: React.FC<Props> = ({ posts }) => {
     <InfinityScroll length={posts.length} hasMore={posts.length > 0}>
       <SkeletonTheme color="#191A19" highlightColor="#333">
         <Grid columns="3" gap="24px" align css={containerCss}>
-          {posts.map(post => (
-            <Media onClick={() => handleClick(post.post_id)} key={post.post_id} hash={post.imagehashes[0]} />
-          ))}
+          {posts.map(
+            post =>
+              post.imagehashes[0] && (
+                <Media onClick={() => handleClick(post.post_id)} key={post.post_id} hash={post.imagehashes[0]} />
+              ),
+          )}
         </Grid>
       </SkeletonTheme>
     </InfinityScroll>

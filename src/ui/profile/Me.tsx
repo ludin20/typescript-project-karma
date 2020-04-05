@@ -37,7 +37,7 @@ interface Props {
 }
 
 const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
-  const { displayname, bio, hash, followers, following, followers_count, following_count, username } = profile;
+  const { displayname, bio, hash, author, followers, following, followers_count, following_count, username } = profile;
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const avatar = useS3Image(hash, 'thumbBig');
 
@@ -71,6 +71,7 @@ const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
           close={() => {
             setModalIsOpen(false);
           }}
+          profile={{ author, bio, displayname, hash, username }}
         />
       )}
     </Wrapper>

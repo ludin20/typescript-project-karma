@@ -1,6 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 import { RootState } from '../../store/ducks/rootReducer';
 import { signRequest } from '../../store/ducks/auth';
@@ -23,22 +25,27 @@ const Title = styled.p<TitleProps>`
 `;
 
 const PhoneForm: React.FC = () => {
-  const [number, setNumber] = useState('');
-
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.auth.loading);
 
-  const sendCode = useCallback(
-    e => {
-      e.preventDefault();
-
+  const formik = useFormik({
+    enableReinitialize: false,
+    initialValues: {
+      number: '',
+    },
+    validationSchema: Yup.object().shape({
+      number: Yup.string().required(),
+    }),
+    validateOnMount: true,
+    onSubmit: ({ number }) => {
       dispatch(signRequest(number));
     },
-    [number, dispatch],
-  );
+  });
+
+  const { handleSubmit } = formik;
 
   return (
-    <form onSubmit={sendCode}>
+    <form onSubmit={handleSubmit}>
       <Column>
         <Row justify="center">
           <Title>Join </Title>
@@ -48,11 +55,11 @@ const PhoneForm: React.FC = () => {
 
         <JoinCard
           label="Login with phone number"
-          input={<PhoneInput placeholder="Enter number here" onChange={setNumber} value={number} />}
+          input={<PhoneInput placeholder="Enter number here" name="number" />}
           legend="You will confirm a 6-digit code then your account will be created for you."
           submitText="Send"
           loading={loading}
-          disabled={!number}
+          formik={formik}
         />
       </Column>
     </form>

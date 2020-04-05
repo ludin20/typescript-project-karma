@@ -1,8 +1,8 @@
 import graphql from 'graphql-tag';
 
 export const GET_PROFILE = graphql`
-  query Profile($accountname: String!, $localUser: String, $domainID: number) {
-    profile(accountname: $accountname, localUser: $localUser, domainID: $domainID)
+  query Profile($accountname: String!, $domainID: number) {
+    profile(accountname: $accountname, domainID: $domainID)
       @rest(type: "Profile", path: "profile/{args.accountname}?domainID={args.domainID}") {
       author
       bio
@@ -49,7 +49,6 @@ const resolvers = {
         query: GET_PROFILE,
         variables: {
           accountname: args.accountname,
-          localUser: args.accountname,
           domainID: 1,
         },
       });
@@ -63,7 +62,6 @@ const resolvers = {
         query: GET_PROFILE,
         variables: {
           accountname: args.accountname,
-          localUser: args.accountname,
           domainID: 1,
         },
       });
@@ -87,7 +85,6 @@ const resolvers = {
         query: GET_PROFILE,
         variables: {
           accountname: args.accountname,
-          localUser: args.accountname,
           domainID: 1,
         },
       });
@@ -107,7 +104,6 @@ const resolvers = {
         query: GET_PROFILE,
         variables: {
           accountname: args.accountname,
-          localUser: args.accountname,
           domainID: 1,
         },
       });
@@ -127,7 +123,6 @@ const resolvers = {
         query: GET_PROFILE,
         variables: {
           accountname: args.accountname,
-          localUser: args.accountname,
           domainID: 1,
         },
       });

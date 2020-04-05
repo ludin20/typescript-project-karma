@@ -154,7 +154,7 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, search, shouldHideCre
         placeholder="Search KARMA"
         ref={ref}
         onFocus={() => setFocused(true)}
-        onBlur={onBlur}
+        //onBlur={onBlur}
         onChange={handleChange}
         value={textValue}
       />
@@ -164,7 +164,7 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, search, shouldHideCre
         </button>
       )}
 
-      {focused && !isEmpty && <OptionsContainer loading={loading} results={results} />}
+      {focused && !isEmpty && <OptionsContainer onBlur={onBlur} loading={loading} results={results} />}
     </Container>
   );
 };

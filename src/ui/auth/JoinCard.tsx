@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FormikProvider, FormikProps } from 'formik';
 
 import Button from '../common/Button';
 import Space from '../common/Space';
 import Row from '../common/Row';
 
 import smartphone from '../assets/smartphone.svg';
+import Text from '../common/Text';
 
 const Label = styled(Row)`
   span {
@@ -25,17 +27,6 @@ const Legend = styled.p`
     margin: 0 0 10px;
     text-align: center;
   }
-
-  span {
-    color: #fff;
-    font-size: 13px;
-    line-height: 18px;
-  }
-
-  a {
-    font-size: 13px;
-    color: ${props => props.theme.green};
-  }
 `;
 
 const SubmitButton = styled(Button)`
@@ -51,29 +42,41 @@ interface Props {
   legend: string | React.ReactNode;
   submitText: string;
   loading: boolean;
-  disabled: boolean;
+  formik: FormikProps<any>;
 }
 
-const JoinCard: React.FC<Props> = ({ label, input, legend, submitText, loading, disabled }) => {
+const JoinCard: React.FC<Props> = ({ label, input, legend, submitText, loading, formik }) => {
+  const { isValid } = formik;
+
   return (
-    <div>
+    <FormikProvider value={formik}>
       <Space height={30} />
       <Label justify="flex-start">
         <img src={smartphone} alt="smartphone" />
         <Space width={15} />
-        <span>{label}</span>
+        <Text color="white" size={13} lineHeight="18px">
+          {label}
+        </Text>
       </Label>
       <Space height={30} />
 
       {input}
       <Space height={15} />
-      <Legend>{typeof legend === 'string' ? <span>{legend}</span> : legend}</Legend>
+      <Legend>
+        {typeof legend === 'string' ? (
+          <Text color="white" size={13} lineHeight="18px">
+            {legend}
+          </Text>
+        ) : (
+          legend
+        )}
+      </Legend>
       <Space height={30} />
 
-      <SubmitButton loading={loading} background="green" disabled={disabled || loading} type="submit">
+      <SubmitButton loading={loading} background="green" disabled={!isValid || loading} type="submit">
         {submitText}
       </SubmitButton>
-    </div>
+    </FormikProvider>
   );
 };
 

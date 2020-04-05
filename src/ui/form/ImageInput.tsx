@@ -5,6 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { useField, useFormikContext } from 'formik';
 
 import camera from '../assets/camera.svg';
+import { useUploadMedia } from '../../hooks';
 
 const Container = styled.div`
   width: 100px;
@@ -82,13 +83,15 @@ const ImageInput: React.FC<Props> = ({ name }) => {
   const [field] = useField(name);
   const { setFieldValue } = useFormikContext<any>();
 
+  const uploadImage = useUploadMedia();
+
   useEffect(() => {
     if (field.value) {
       setFile({ ...file, preview: field.value });
     }
   }, []); //eslint-disable-line
 
-  const onDrop = acceptedFiles => {
+  const onDrop = async acceptedFiles => {
     setFile(
       Object.assign(acceptedFiles[0], {
         preview: URL.createObjectURL(acceptedFiles[0]),
@@ -101,6 +104,8 @@ const ImageInput: React.FC<Props> = ({ name }) => {
         preview: URL.createObjectURL(acceptedFiles[0]),
       }),
     );
+
+    await uploadImage({ media: acceptedFiles[0] });
   };
 
   const { getRootProps, getInputProps } = useDropzone({ accept: 'image/*', onDrop });

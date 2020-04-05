@@ -84,7 +84,7 @@ const SidebarNav: React.FC<Props> = ({ avatar, setCollapsed, collapsed }) => {
 
   return (
     <Container collapsed={collapsed}>
-      <SidebarItem href="/home" as="home" selected={selected.includes('home')} icon={home}>
+      <SidebarItem href="/home" as="/home" selected={selected.includes('home')} icon={home}>
         Home
       </SidebarItem>
 
