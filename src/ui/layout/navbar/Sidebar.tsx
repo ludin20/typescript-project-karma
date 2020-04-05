@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 
 import Logo from '../../common/Logo';
 import withoutAvatar from '../../assets/withoutAvatar.svg';
 
-import { RootState } from '../../../store/ducks/rootReducer';
+import { useS3Image } from '../../../hooks';
 
 import Header from './Header';
 import SidebarNav from './SidebarNav';
@@ -43,10 +42,18 @@ const Container = styled.div<{ collapsed: boolean; setCollapsed(value: boolean):
 interface Props {
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
+  author: string;
+  profile: {
+    username: string;
+    displayname: string;
+    author: string;
+    hash: string;
+    bio: string;
+  } | null;
 }
 
-const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed }) => {
-  const profile = useSelector((state: RootState) => state.user.profile);
+const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed, profile }) => {
+  const avatar = useS3Image(profile?.hash, 'thumbSmall');
 
   return (
     <Container collapsed={collapsed} setCollapsed={setCollapsed}>
@@ -55,17 +62,17 @@ const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed }) => {
       {!collapsed && (
         <Header
           profile={{
-            name: profile ? profile.name : '',
-            username: profile ? profile.username : '',
-            avatar: profile ? (profile.avatar as string) || withoutAvatar : '',
+            name: profile?.displayname,
+            username: profile?.username,
+            avatar: avatar || withoutAvatar,
           }}
-          withAvatar={profile ? !!profile.avatar : false}
+          withAvatar={!!avatar}
         />
       )}
 
       <SidebarNav
-        username={profile ? profile.username : ''}
-        avatar={profile ? (profile.avatar as string) || withoutAvatar : ''}
+        username={profile?.username}
+        avatar={avatar || withoutAvatar}
         setCollapsed={setCollapsed}
         collapsed={collapsed}
       />

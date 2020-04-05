@@ -21,6 +21,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 
   div {
     display: flex;
@@ -89,16 +90,18 @@ const Button = styled(FollowButton)`
 
 interface Props {
   profile: UserProps;
+  onBlur(): void;
 }
 
-const Option: React.FC<Props> = ({ profile }) => {
+const Option: React.FC<Props> = ({ profile, onBlur }) => {
   const router = useRouter();
 
   const handleClick = useCallback(() => {
     const href = '/profile/[username]/[tab]';
-    const as = `/profile/${profile.accountname}/media`;
+    const as = `/profile/${profile.author}/media`;
+    onBlur();
     router.push(href, as, { shallow: true });
-  }, [router, profile]);
+  }, [router, profile, onBlur]);
 
   const avatar = useS3Image(profile.hash, 'thumbSmall');
 

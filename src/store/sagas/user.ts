@@ -1,5 +1,5 @@
-import Router from 'next/router';
-import { takeLatest, all, put } from 'redux-saga/effects';
+import { takeLatest, all, put, select, call } from 'redux-saga/effects';
+import jwt from 'jsonwebtoken';
 
 import {
   createProfileRequest,
@@ -8,34 +8,74 @@ import {
   updateProfileSuccess,
   profileFailure,
   types,
+  defaultProfile,
 } from '../ducks/user';
+import { REQUEST_JWT, RESPONSE_JWT } from '../../common/config';
+import api from '../../services/api';
+import { AuthState } from '../ducks/auth';
+import { RootState } from '../ducks/rootReducer';
 
 export function* createProfile({ payload }: ReturnType<typeof createProfileRequest>) {
+  const { Author: ReducerAuthor }: AuthState = yield select((state: RootState) => state.auth);
+
   try {
-    const { data } = payload;
+    const { bio, username, name, hash } = payload.data;
 
-    if (!data) throw new Error();
+    const body = {
+      author: ReducerAuthor,
+      usernameOrig: payload.oldData.username,
+      usernameNew: username,
+      hash,
+      bio,
+      displayname: name,
+      domain_id: 1,
+    };
 
-    yield put(createProfileSuccess(data));
+    const encodedBody = {
+      data: jwt.sign(body, REQUEST_JWT),
+    };
+    const { data } = yield call(api.post, 'profile/changeprofile', encodedBody);
+    const decodedData = jwt.decode(data, RESPONSE_JWT);
+    const { IsValid } = decodedData.response;
+
+    if (!IsValid) {
+      yield put(profileFailure());
+    }
+
+    yield put(createProfileSuccess(defaultProfile));
   } catch (error) {
     yield put(profileFailure());
   }
 }
 
 export function* updateProfile({ payload }: ReturnType<typeof updateProfileRequest>) {
+  const { Author: ReducerAuthor }: AuthState = yield select((state: RootState) => state.auth);
+
   try {
-    const { data } = payload;
+    const { bio, username, name, hash } = payload.data;
 
-    if (!data) throw new Error();
+    const body = {
+      author: ReducerAuthor,
+      usernameOrig: payload.oldData.username,
+      usernameNew: username,
+      hash,
+      bio,
+      displayname: name,
+      domain_id: 1,
+    };
 
-    yield put(updateProfileSuccess(data));
+    const encodedBody = {
+      data: jwt.sign(body, REQUEST_JWT),
+    };
+    const { data } = yield call(api.post, 'profile/changeprofile', encodedBody);
+    const decodedData = jwt.decode(data, RESPONSE_JWT);
+    const { IsValid } = decodedData.response;
 
-    const username = data.username.split('@')[1];
+    if (!IsValid) {
+      yield put(profileFailure());
+    }
 
-    const href = '/profile/[username]/[tab]';
-    const as = `/profile/${username}/media`;
-
-    Router.push(href, as, { shallow: true });
+    yield put(updateProfileSuccess(payload.data));
   } catch (error) {
     yield put(profileFailure());
   }

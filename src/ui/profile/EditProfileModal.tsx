@@ -2,10 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { ProfileProps, updateProfileRequest } from '../../store/ducks/user';
-import { RootState } from '../../store/ducks/rootReducer';
+import { updateProfileRequest } from '../../store/ducks/user';
 
 import Title from '../common/Title';
 import Row from '../common/Row';
@@ -24,43 +23,59 @@ const CloseButton = styled.button`
   }
 `;
 
-const EditProfileModal: React.FC<ModalProps> = props => {
+interface Props extends ModalProps {
+  profile: {
+    username: string;
+    displayname: string;
+    author: string;
+    hash: string;
+    bio: string;
+  } | null;
+}
+
+const EditProfileModal: React.FC<Props> = ({ profile, ...props }) => {
   const dispatch = useDispatch();
-  const profile = useSelector((state: RootState) => state.user.profile);
 
   const formik = useFormik({
     enableReinitialize: false,
     initialValues: {
-      avatar: '',
+      hash: '',
       name: '',
       username: '',
       bio: '',
-      website: '',
+      //website: '',
     },
     validationSchema: Yup.object().shape({
-      name: Yup.string(),
+      hash: Yup.string(),
       username: Yup.string(),
       bio: Yup.string(),
       website: Yup.string(),
     }),
     validateOnMount: true,
-    onSubmit: (values: ProfileProps) => {
-      const newProfile = {
-        avatar: values.avatar || profile.avatar,
-        name: values.name || profile.name,
-        username: values.username || profile.username,
-        bio: values.bio || profile.bio,
-        website: values.website || profile.website,
+    onSubmit: values => {
+      const oldProfile = {
+        name: profile.displayname,
+        username: profile.username,
+        bio: profile.bio,
+        hash: profile.hash,
       };
 
-      dispatch(updateProfileRequest(newProfile));
+      const newProfile = {
+        hash: values.hash || profile.hash,
+        name: values.name || profile.displayname,
+        username: values.username || profile.username,
+        bio: values.bio || profile.bio,
+        //website: values.website || profile.website,
+      };
+
+      dispatch(updateProfileRequest(newProfile, oldProfile));
       props.close();
     },
   });
 
   const CustomHeader: React.FC = () => {
     return (
-      <Row>
+      <Row align="center" justify="space-between">
         <Title bordered={false} size="small">
           Edit Profile
         </Title>

@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import PhoneNumberInput, { getCountryCallingCode } from 'react-phone-number-input';
+import { useFormikContext } from 'formik';
 
 import 'react-phone-number-input/style.css';
 
@@ -71,37 +72,28 @@ const Input = styled(PhoneNumberInput)`
 
 interface Props {
   placeholder: string;
-  onChange: (value: string) => void;
-  value: string;
+  name: string;
 }
 
-const PhoneInput: React.FC<Props> = ({ onChange, value, ...props }) => {
-  const [empty, setEmpty] = useState(true);
+const PhoneInput: React.FC<Props> = ({ name, ...props }) => {
   const [countryCode, setCountryCode] = useState('+1');
+  const { setFieldValue, values } = useFormikContext<any>();
 
   const setValue = useCallback(
     (value: string) => {
-      if (!value) {
-        setEmpty(true);
-      } else {
-        setEmpty(false);
-      }
-
-      if (onChange) {
-        onChange(value);
-      }
+      setFieldValue(name, value);
     },
-    [onChange],
+    [setFieldValue, name],
   );
 
   return (
     <Container>
       <Input
         flagUrl="https://flag.pk/flags/4x3/{xx}.svg"
-        empty={empty}
+        empty={values[name] === ''}
         defaultCountry="US"
         onChange={setValue}
-        value={value}
+        value={values[name]}
         countryCode={countryCode}
         {...props}
         onCountryChange={country => setCountryCode(`+${getCountryCallingCode(country)}`)}

@@ -87,7 +87,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
           )}
           <Space height={35} />
 
-          <Row>
+          <Row align="center">
             <ImageInput name="avatar" />
             <Input label="Name" name="name" placeholder="Enter Name" required bordered flex />
           </Row>
@@ -106,8 +106,8 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
           />
           <Space height={25} />
 
-          <Input label="Website" name="website" mask="https://www." bordered />
-          <Space height={25} />
+          {/* <Input label="Website" name="website" mask="https://www." bordered />
+          <Space height={25} /> */}
 
           <SubmitButton type="submit" background="green" radius="rounded" disabled={!isValid}>
             Save

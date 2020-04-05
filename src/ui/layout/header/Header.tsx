@@ -3,8 +3,6 @@ import styled, { css } from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 import graphql from 'graphql-tag';
 
-import { withApollo } from '../../../apollo/Apollo';
-
 import SearchBar from './SearchBar';
 import Actions from './Actions';
 
@@ -59,7 +57,7 @@ const GET_PROFILES = graphql`
   query Profiles($accountname: String!, $searchterm: String, $page: Int, $pathBuilder: any) {
     profiles(accountname: $accountname, searchterm: $searchterm, page: $page)
       @rest(type: "Profile", pathBuilder: $pathBuilder) {
-      accountname
+      author
       username
       hash
       displayname
@@ -68,7 +66,7 @@ const GET_PROFILES = graphql`
 `;
 
 export interface UserProps {
-  accountname: string;
+  author: string;
   username: string;
   hash: string;
   displayname: string;
@@ -78,14 +76,15 @@ interface Props {
   collapsed: boolean;
   shouldHideCreatePost?: boolean;
   shouldHideHeader?: boolean;
+  author: string;
 }
 
-const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHeader }) => {
+const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHeader, author }) => {
   const [searchFocused, setSearchFocused] = useState(false);
 
   const { data, fetchMore } = useQuery(GET_PROFILES, {
     variables: {
-      accountname: 'krmyukbcoguo',
+      accountname: author,
       searchterm: '',
       page: 1,
       pathBuilder: () => `profile/search?Page=${1}&Limit=5&domainId=${1}`,
@@ -111,7 +110,16 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
 
   return searchFocused ? (
     <>
-      <Wrapper />
+      <Wrapper
+        id="wrapper"
+        onClick={e => {
+          const container = document.getElementById('wrapper');
+
+          if (e.target === container) {
+            setSearchFocused(false);
+          }
+        }}
+      />
       <Container collapsed={collapsed} shouldHideHeader={shouldHideHeader}>
         <SearchBar
           focused
@@ -135,4 +143,4 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
   );
 };
 
-export default withApollo()(Header);
+export default Header;

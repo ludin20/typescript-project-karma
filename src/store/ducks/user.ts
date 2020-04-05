@@ -91,21 +91,23 @@ export default function reducer(state = INITIAL_STATE, action) {
   });
 }
 
-export function createProfileRequest(data: ProfileProps) {
-  const { avatar } = data;
-
+interface Profile {
+  name: string;
+  username: string;
+  bio: string;
+  hash: string;
+}
+export function createProfileRequest(data: Profile, oldData: Profile) {
   return {
     type: types.CREATE_PROFILE_REQUEST,
     payload: {
-      data: {
-        ...data,
-        avatar: returnAvatarUrl(avatar),
-      },
+      data,
+      oldData,
     },
   };
 }
 
-export function createProfileSuccess(user: ProfileProps) {
+export function createProfileSuccess(user) {
   return {
     type: types.CREATE_PROFILE_SUCCESS,
     payload: {
@@ -114,16 +116,12 @@ export function createProfileSuccess(user: ProfileProps) {
   };
 }
 
-export function updateProfileRequest(data) {
-  const { avatar } = data;
-
+export function updateProfileRequest(data: Profile, oldData: Profile) {
   return {
     type: types.UPDATE_PROFILE_REQUEST,
     payload: {
-      data: {
-        ...data,
-        avatar: returnAvatarUrl(avatar),
-      },
+      data,
+      oldData,
     },
   };
 }

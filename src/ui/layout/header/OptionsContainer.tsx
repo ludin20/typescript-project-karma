@@ -50,9 +50,10 @@ const SeeMore = styled.button`
 interface Props {
   loading: boolean;
   results: UserProps[];
+  onBlur(): void;
 }
 
-const OptionsContainer: React.FC<Props> = ({ loading, results }) => {
+const OptionsContainer: React.FC<Props> = ({ loading, results, onBlur }) => {
   return (
     <Container>
       <section>
@@ -62,9 +63,9 @@ const OptionsContainer: React.FC<Props> = ({ loading, results }) => {
           <OptionMessage>Nothing found</OptionMessage>
         ) : (
           results.map((profile, index) => (
-            <React.Fragment key={profile.accountname}>
+            <React.Fragment key={profile.author}>
               {index > 0 && <Space height={20} />}
-              <Option profile={profile} />
+              <Option profile={profile} onBlur={onBlur} />
             </React.Fragment>
           ))
         )}

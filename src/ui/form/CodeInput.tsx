@@ -1,6 +1,7 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import InputMask from 'react-input-mask';
 import styled from 'styled-components';
+import { useFormikContext } from 'formik';
 
 const Container = styled.div`
   background: ${props => props.theme.black};
@@ -29,23 +30,15 @@ const Number = styled(InputMask).attrs({
   & + input {
     margin-left: 10px;
   }
-
-  -moz-appearance: textfield;
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
 `;
 
 interface Props {
-  code: string;
-  onChange?: (value) => void;
+  name: string;
 }
 
-const CodeInput: React.FC<Props> = ({ onChange }) => {
+const CodeInput: React.FC<Props> = ({ name }) => {
   const [internalCode, setInternalCode] = useState(['', '', '', '', '', '']);
+  const { setFieldValue } = useFormikContext<any>();
 
   const inputRef0 = useRef();
   const inputRef1 = useRef();
@@ -54,45 +47,84 @@ const CodeInput: React.FC<Props> = ({ onChange }) => {
   const inputRef4 = useRef();
   const inputRef5 = useRef();
 
-  const inputRefs = useMemo(() => {
-    return [inputRef0, inputRef1, inputRef2, inputRef3, inputRef4, inputRef5];
-  }, [inputRef0, inputRef1, inputRef2, inputRef3, inputRef4, inputRef5]);
+  const inputRefs = [inputRef0, inputRef1, inputRef2, inputRef3, inputRef4, inputRef5];
 
-  const changeValue = useCallback(
+  const handleChangeInputBox = useCallback(
+    (value: string, index: number) => {
+      if (!inputRefs) return;
+
+      const targetRef = value ? inputRefs[index + 1] : inputRefs[index - 1];
+      if (!targetRef) return;
+
+      if ((!value && index > 0) || (value && index < 5)) {
+        // @ts-ignore
+        targetRef.current.focus();
+      }
+    },
+    [inputRefs],
+  );
+
+  const handleChange = useCallback(
     (value: string, index: number) => {
       const newCode = internalCode;
       newCode[index] = value.length < 2 ? value : value.charAt(0);
-
       setInternalCode(newCode);
 
       const codeString = internalCode.reduce((prev, next) => prev.concat(next), '');
-      onChange && onChange(codeString);
+      setFieldValue(name, codeString);
 
-      if (inputRefs) {
-        if (value === '') {
-          if (index > 0 && inputRefs[index - 1] && inputRefs[index - 1].current) {
-            // @ts-ignore
-            inputRefs[index - 1].current.focus();
-          }
-        } else {
-          if (index < 5 && inputRefs[index + 1] && inputRefs[index + 1].current) {
-            // @ts-ignore
-            inputRefs[index + 1].current.focus();
-          }
-        }
-      }
+      handleChangeInputBox(value, index);
     },
-    [inputRefs, internalCode, onChange],
+    [internalCode, setFieldValue, name, handleChangeInputBox],
   );
+
+  /* const handleKeyDown = useCallback(
+    (key: string, index: number) => {
+      if (key !== 'Backspace' || internalCode[index] !== '') return;
+
+      handleChange('', index);
+    },
+    [handleChange, internalCode],
+  ); */
 
   return (
     <Container>
-      <Number value={internalCode[0]} onChange={({ target }) => changeValue(target.value, 0)} ref={inputRef0} />
-      <Number value={internalCode[1]} onChange={({ target }) => changeValue(target.value, 1)} ref={inputRef1} />
-      <Number value={internalCode[2]} onChange={({ target }) => changeValue(target.value, 2)} ref={inputRef2} />
-      <Number value={internalCode[3]} onChange={({ target }) => changeValue(target.value, 3)} ref={inputRef3} />
-      <Number value={internalCode[4]} onChange={({ target }) => changeValue(target.value, 4)} ref={inputRef4} />
-      <Number value={internalCode[5]} onChange={({ target }) => changeValue(target.value, 5)} ref={inputRef5} />
+      <Number
+        value={internalCode[0]}
+        //onKeyDown={({ key }) => handleKeyDown(key, 0)}
+        onChange={({ target }) => handleChange(target.value, 0)}
+        ref={inputRef0}
+      />
+      <Number
+        value={internalCode[1]}
+        //onKeyDown={({ key }) => handleKeyDown(key, 1)}
+        onChange={({ target }) => handleChange(target.value, 1)}
+        ref={inputRef1}
+      />
+      <Number
+        value={internalCode[2]}
+        //onKeyDown={({ key }) => handleKeyDown(key, 2)}
+        onChange={({ target }) => handleChange(target.value, 2)}
+        ref={inputRef2}
+      />
+      <Number
+        value={internalCode[3]}
+        //onKeyDown={({ key }) => handleKeyDown(key, 3)}
+        onChange={({ target }) => handleChange(target.value, 3)}
+        ref={inputRef3}
+      />
+      <Number
+        value={internalCode[4]}
+        //onKeyDown={({ key }) => handleKeyDown(key, 4)}
+        onChange={({ target }) => handleChange(target.value, 4)}
+        ref={inputRef4}
+      />
+      <Number
+        value={internalCode[5]}
+        //onKeyDown={({ key }) => handleKeyDown(key, 5)}
+        onChange={({ target }) => handleChange(target.value, 5)}
+        ref={inputRef5}
+      />
     </Container>
   );
 };

@@ -1,9 +1,13 @@
+import { useMemo } from 'react';
+
 import { IPFS_S3 } from '../common/config';
 
 type Size = 'thumbBig' | 'thumbSmall';
 
 export function useS3Image(image: string, size: Size) {
-  return `${IPFS_S3}/${image}/${size}.jpg`;
+  const S3Image = useMemo(() => (image ? `${IPFS_S3}/${image}/${size}.jpg` : ''), [image, size]);
+
+  return S3Image;
 }
 
 export function useS3Images(content: { imagehashes: string[] }, size: Size) {

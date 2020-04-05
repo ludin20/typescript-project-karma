@@ -84,10 +84,10 @@ const Home: NextPage<Props> = ({ author }) => {
           {data ? (
             <InfinityScroll length={data.posts.length} loadMore={loadMorePosts}>
               {data.posts.map((post, index) => (
-                <>
+                <React.Fragment key={String(index)}>
                   {index > 0 && <Space height={40} />}
-                  <PostCard key={String(index)} post={post} withFollowButton={false} />
-                </>
+                  <PostCard post={post} withFollowButton={false} />
+                </React.Fragment>
               ))}
             </InfinityScroll>
           ) : (

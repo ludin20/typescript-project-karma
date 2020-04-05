@@ -16,6 +16,8 @@ import {
   types,
   signRequest,
   AuthState,
+  resendCodeRequest,
+  resendCodeSuccess,
 } from '../ducks/auth';
 import { defaultProfile } from '../ducks/user';
 
@@ -60,6 +62,32 @@ export function* sign({ payload }: ReturnType<typeof signRequest>) {
   }
 }
 
+export function* resendCode({ payload }: ReturnType<typeof resendCodeRequest>) {
+  try {
+    const { Author, UserGuid } = payload;
+
+    const body = {
+      userguid: UserGuid,
+      author: Author,
+    };
+    const encodedBody = {
+      data: jwt.sign(body, REQUEST_JWT),
+    };
+
+    const { data } = yield call(api.post, 'profile/resendvalidatecode', encodedBody);
+    const decodedData = jwt.decode(data, RESPONSE_JWT);
+    const { IsValid } = decodedData.response;
+
+    if (!IsValid) {
+      yield put(signFailure());
+    }
+
+    yield put(resendCodeSuccess());
+  } catch (error) {
+    yield put(signFailure());
+  }
+}
+
 export function* authenticateCode({ payload }: ReturnType<typeof authenticateCodeRequest>) {
   try {
     const { code } = payload;
@@ -79,29 +107,20 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
       data: jwt.sign(body, REQUEST_JWT),
     };
 
-    //hack to avoid auth on dev
-    if (NODE_ENV !== 'development' && code !== '123456') {
-      const { data } = yield call(api.post, 'profile/validatephonecode', encodedBody);
-      const decodedData = jwt.decode(data, RESPONSE_JWT);
-      const { private_key, response } = decodedData;
-      const { Author, IsValid } = response;
+    const { data } = yield call(api.post, 'profile/validatephonecode', encodedBody);
+    const decodedData = jwt.decode(data, RESPONSE_JWT);
+    const { private_key, response } = decodedData;
+    const { Author, IsValid } = response;
 
-      if (!IsValid) {
-        yield put(authenticateCodeFailure());
-      }
-
-      yield put(authenticateCodeSuccess(private_key, defaultProfile));
-
-      cookie.set(KARMA_SESS, private_key, { expires: 1 });
-      cookie.set(KARMA_AUTHOR, Author, { expires: 1 });
-      Router.push('/home');
-    } else {
-      yield put(authenticateCodeSuccess('123456', defaultProfile));
-
-      cookie.set(KARMA_SESS, '123456', { expires: 10 });
-      cookie.set(KARMA_AUTHOR, 'krmyukbcoguo', { expires: 10 });
-      Router.push('/home');
+    if (!IsValid) {
+      yield put(authenticateCodeFailure());
     }
+
+    yield put(authenticateCodeSuccess(private_key, defaultProfile));
+
+    cookie.set(KARMA_SESS, private_key, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+    cookie.set(KARMA_AUTHOR, Author, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+    Router.push('/home');
   } catch (error) {
     yield put(authenticateCodeFailure());
   }
@@ -115,6 +134,7 @@ export function* signOut() {
 
 export default all([
   takeLatest(types.SIGN_REQUEST, sign),
+  takeLatest(types.RESEND_CODE_REQUEST, resendCode),
   takeLatest(types.AUTHENTICATE_CODE_REQUEST, authenticateCode),
   takeLatest(types.SIGN_OUT_REQUEST, signOut),
 ]);

@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
+import graphql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
 
 import CreateProfileModal from '../profile/CreateProfileModal';
 
 import { RootState } from '../../store/ducks/rootReducer';
+
+import { withApollo } from '../../apollo/Apollo';
 
 import Sidebar from './navbar/Sidebar';
 import Header from './header/Header';
@@ -89,9 +93,22 @@ const Content = styled.div`
 interface Props {
   shouldHideCreatePost?: boolean;
   shouldHideHeader?: boolean;
+  author: string;
 }
 
-const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHeader, ...props }) => {
+const GET_PROFILE = graphql`
+  query Layout($accountname: String!, $pathBuilder: any) {
+    profile(accountname: $accountname) @rest(type: "Profile", pathBuilder: $pathBuilder) {
+      username
+      displayname
+      author
+      hash
+      bio
+    }
+  }
+`;
+
+const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHeader, author, ...props }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -117,12 +134,24 @@ const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHea
     }
   }, [isNewUser]);
 
+  const { data } = useQuery(GET_PROFILE, {
+    variables: {
+      accountname: author,
+      pathBuilder: () => `profile/${author}?domainID=${1}`,
+    },
+  });
+
   return (
     <Wrapper {...props}>
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} author={author} profile={data && data.profile} />
 
       <Container collapsed={collapsed} shouldHideHeader={shouldHideHeader}>
-        <Header collapsed={collapsed} shouldHideCreatePost={shouldHideCreatePost} shouldHideHeader={shouldHideHeader} />
+        <Header
+          author={author}
+          collapsed={collapsed}
+          shouldHideCreatePost={shouldHideCreatePost}
+          shouldHideHeader={shouldHideHeader}
+        />
 
         <ContentWrapper shouldHideHeader={shouldHideHeader}>
           <Content>{children}</Content>
@@ -132,9 +161,9 @@ const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHea
 
       <Bottombar />
 
-      {modalIsOpen && <CreateProfileModal open close={close} />}
+      {modalIsOpen && <CreateProfileModal open close={close} profile={data && data.profile} />}
     </Wrapper>
   );
 };
 
-export default Layout;
+export default withApollo({ ssr: true })(Layout);
