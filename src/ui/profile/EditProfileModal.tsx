@@ -86,7 +86,7 @@ const EditProfileModal: React.FC<Props> = ({ profile, ...props }) => {
     );
   };
 
-  return <ProfileModal {...props} formik={formik} customHeader={CustomHeader} />;
+  return <ProfileModal {...props} formik={formik} customHeader={CustomHeader} author={profile.author} />;
 };
 
 export default EditProfileModal;

@@ -8,11 +8,24 @@ import nextCookies from 'next-cookies';
 import { theme, SEO, GlobalStyle, getLayout } from '../ui';
 import { store, persistor } from '../store';
 import { KARMA_AUTHOR } from '../common/config';
+import { initOnContext } from '../apollo/Apollo';
+import { GET_PROFILE } from '../apollo/resolvers';
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     const cookies = nextCookies(ctx);
     const author = cookies[encodeURIComponent(KARMA_AUTHOR)];
+
+    if (author) {
+      initOnContext(ctx);
+      await ctx.apolloClient.query({
+        query: GET_PROFILE,
+        variables: {
+          accountname: author,
+          domainID: 1,
+        },
+      });
+    }
 
     let pageProps = {};
 

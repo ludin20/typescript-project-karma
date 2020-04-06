@@ -33,7 +33,7 @@ export const initOnContext = (ctx: Context) => {
   return ctx;
 };
 
-const initApolloClient = (initialState: NormalizedCacheObject, ctx: NextPageContext) => {
+export const initApolloClient = (initialState: NormalizedCacheObject, ctx: NextPageContext) => {
   if (typeof window === 'undefined') {
     return createApolloClient(initialState, ctx);
   }

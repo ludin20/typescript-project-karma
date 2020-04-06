@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 import graphql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 
 import CreateProfileModal from '../profile/CreateProfileModal';
-
-import { RootState } from '../../store/ducks/rootReducer';
 
 import { withApollo } from '../../apollo/Apollo';
 
@@ -112,34 +109,22 @@ const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHea
   const [collapsed, setCollapsed] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const isNewUser = useSelector((state: RootState) => state.auth.isNewUser);
-
-  useEffect(() => {
-    if (isNewUser) {
-      setModalIsOpen(true);
-    } else {
-      setModalIsOpen(false);
-    }
-
-    return () => {
-      if (!isNewUser) {
-        setModalIsOpen(false);
-      }
-    };
-  }, [isNewUser]);
-
-  const close = useCallback(() => {
-    if (!isNewUser) {
-      setModalIsOpen(false);
-    }
-  }, [isNewUser]);
-
   const { data } = useQuery(GET_PROFILE, {
     variables: {
       accountname: author,
       pathBuilder: () => `profile/${author}?domainID=${1}`,
     },
   });
+
+  useEffect(() => {
+    if (data && (!data.profile || !data.profile.hash)) setModalIsOpen(true);
+  }, [data]);
+
+  const close = useCallback(() => {
+    if (data && data.profile.hash) {
+      setModalIsOpen(false);
+    }
+  }, [data]);
 
   return (
     <Wrapper {...props}>

@@ -62,6 +62,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
     downvote_count,
     tip_count,
     post_id,
+    voteStatus,
   } = post;
 
   const content = useMemo(() => {
@@ -101,6 +102,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         recycles={0}
         tips={tip_count}
         power={0}
+        voteStatus={voteStatus}
       />
     </Container>
   );
