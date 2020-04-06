@@ -8,6 +8,7 @@ import clientFetch from 'isomorphic-unfetch';
 import serverFetch, { Headers as ServerHeaders } from 'node-fetch';
 
 import { SERVER_URL } from '../common/config';
+import EOSLink from '../eosjs/EOSLink';
 
 import { resolvers, defaults } from './resolvers';
 
@@ -49,10 +50,12 @@ const restLink = new RestLink({
   customFetch,
 });
 
+const eosLink = EOSLink();
+
 export default function createApolloClient(initialState: NormalizedCacheObject, ctx: NextPageContext) {
   return new ApolloClient({
-    ssrMode: Boolean(ctx),
-    link: ApolloLink.from([stateLink, restLink]),
+    ssrMode: true,
+    link: ApolloLink.from([stateLink, restLink, eosLink]),
     cache,
   });
 }

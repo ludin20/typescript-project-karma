@@ -42,7 +42,7 @@ const GET_POST = graphql`
     post(post_id: $post_id, accountname: $accountname) @rest(type: "Post", path: "post/{args.post_id}") {
       author
       post_id
-      voteStatus(accountname: $accountname)
+      voteStatus(accountname: $accountname) @client
       author_displayname
       author_profilehash
       imagehashes
@@ -78,7 +78,7 @@ const Post: NextPage<Props> = ({ post, comments }) => {
   return (
     <Wrapper>
       <TitleWrapper>
-        <GoBackButton href="/home" as="/home" />
+        <GoBackButton />
         <Title bordered={false}>Post</Title>
       </TitleWrapper>
       <Space height={20} />

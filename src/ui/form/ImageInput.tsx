@@ -76,13 +76,13 @@ const WithPreview = styled.div`
 
 interface Props {
   name: string;
+  author: string;
 }
 
-const ImageInput: React.FC<Props> = ({ name }) => {
+const ImageInput: React.FC<Props> = ({ name, author }) => {
   const [file, setFile] = useState(null);
   const [field] = useField(name);
   const { setFieldValue } = useFormikContext<any>();
-
   const uploadImage = useUploadMedia();
 
   useEffect(() => {
@@ -91,21 +91,16 @@ const ImageInput: React.FC<Props> = ({ name }) => {
     }
   }, []); //eslint-disable-line
 
-  const onDrop = async acceptedFiles => {
+  const onDrop = async (acceptedFiles: File[]) => {
     setFile(
       Object.assign(acceptedFiles[0], {
         preview: URL.createObjectURL(acceptedFiles[0]),
       }),
     );
 
-    setFieldValue(
-      name,
-      Object.assign(acceptedFiles[0], {
-        preview: URL.createObjectURL(acceptedFiles[0]),
-      }),
-    );
+    const hash = await uploadImage({ media: acceptedFiles[0], author });
 
-    await uploadImage({ media: acceptedFiles[0] });
+    setFieldValue(name, hash);
   };
 
   const { getRootProps, getInputProps } = useDropzone({ accept: 'image/*', onDrop });

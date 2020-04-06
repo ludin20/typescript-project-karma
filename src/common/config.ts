@@ -7,3 +7,6 @@ export const IPFS_S3 = process.env.IPFS_S3 || 'https://s3.eu-central-1.amazonaws
 export const REQUEST_JWT = process.env.REQUEST_JWT || '58fc91ba-1f17-43e9-a763-801906217cf7';
 export const RESPONSE_JWT = process.env.RESPONSE_JWT || 'GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk';
 export const NODE_ENV = process.env.NODE_ENV || 'development';
+export const EOS_URL = process.env.EOS_URL || 'https://api.waxsweden.org';
+export const PUB_KEY = process.env.PUB_KEY || 'EOS6kNEb94f669yF9woiQQr2NxAsyxKeuRFMZ3wtXuW1XuUy1Db1N';
+export const TOKEN_CONTRACT = process.env.TOKEN_CONTRACT || 'theonlykarma';

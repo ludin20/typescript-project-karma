@@ -1,13 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import graphql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
+import { useFormik, FormikProvider } from 'formik';
+import * as yup from 'yup';
+
+import { useRouter } from 'next/router';
 
 import Row from '../common/Row';
 import Avatar from '../common/Avatar';
-import TextInput from '../form/TextInput';
+import TextInput from '../form/FormikInput';
 
 import sendComment from '../assets/send-comment.svg';
 
 const Container = styled(Row)`
+  @media (min-width: 549px) {
+    position: relative;
+  }
+
   @media (max-width: 550px) {
     width: 100%;
     background: ${props => props.theme.dark};
@@ -33,8 +43,15 @@ const StyledAvatar = styled(Avatar)`
 const Input = styled(TextInput)`
   margin-left: 5px;
   border-radius: 100px;
+  display: flex;
+  justify-content: center;
   flex: 1;
-  padding: 10px 15px;
+  padding: 15px;
+
+  input,
+  textarea {
+    font-size: 15px;
+  }
 
   @media (max-width: 550px) {
     background: #000;
@@ -46,13 +63,27 @@ const Input = styled(TextInput)`
   }
 `;
 
-const SendButton = styled.button`
-  background: none;
+const sendButtonCss = css`
   position: absolute;
   right: 25px;
+  cursor: pointer;
 
   @media (min-width: 549px) {
-    display: none;
+    right: 15px;
+  }
+`;
+
+const CREATE_COMMENT = graphql`
+  mutation createComment($text: String!, $post_id: Int!) {
+    createComment(text: $text, post_id: $post_id) {
+      cmmt_id
+      text
+      post_id
+      author_profilehash
+      author
+      username
+      created_at
+    }
   }
 `;
 
@@ -61,14 +92,31 @@ interface Props {
 }
 
 const CreateComment: React.FC<Props> = ({ avatar }) => {
+  const [createComment] = useMutation(CREATE_COMMENT);
+  const router = useRouter();
+
+  const formik = useFormik({
+    initialValues: { comment: '' },
+    validationSchema: yup.object().shape({
+      comment: yup.string().required('Comment is required'),
+    }),
+    onSubmit: ({ comment }) => {
+      createComment({ variables: { text: comment, post_id: router.query.id } });
+    },
+  });
+
+  const { handleSubmit } = formik;
+
   return (
-    <Container>
-      <StyledAvatar src={avatar} alt="avatar" />
-      <Input placeholder="Write a comment" dark font="small" />
-      <SendButton>
-        <img src={sendComment} alt="Send Comment" />
-      </SendButton>
-    </Container>
+    <FormikProvider value={formik}>
+      <Container align="center">
+        <StyledAvatar src={avatar} alt="avatar" />
+        <Input placeholder="Write a comment" background="dark" name="comment" />
+        <Row align="center" justify="center" onClick={handleSubmit} css={sendButtonCss}>
+          <img src={sendComment} alt="Send Comment" />
+        </Row>
+      </Container>
+    </FormikProvider>
   );
 };
 

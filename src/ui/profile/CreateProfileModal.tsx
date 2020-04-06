@@ -2,10 +2,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import cookie from 'js-cookie';
 
 import { createProfileRequest } from '../../store/ducks/user';
 
 import { ModalProps } from '../common/ModalWrapper';
+import { KARMA_AUTHOR } from '../../common/config';
 
 import ProfileModal from './ProfileModal';
 
@@ -22,13 +24,15 @@ interface Props extends ModalProps {
 const CreateProfileModal: React.FC<Props> = ({ profile, ...props }) => {
   const dispatch = useDispatch();
 
+  const author = cookie.get(KARMA_AUTHOR);
+
   const formik = useFormik({
     enableReinitialize: false,
     initialValues: {
-      name: profile.displayname || '',
-      username: profile.username || '',
-      bio: profile.bio || '',
-      hash: profile.hash || '',
+      name: profile ? profile.displayname || '' : '',
+      username: profile ? profile.username || '' : '',
+      bio: profile ? profile.bio || '' : '',
+      hash: profile ? profile.hash || '' : '',
       //website: '',
     },
     validateOnMount: true,
@@ -41,16 +45,17 @@ const CreateProfileModal: React.FC<Props> = ({ profile, ...props }) => {
     }),
     onSubmit: input => {
       const oldProfile = {
-        name: profile.displayname,
-        username: profile.username,
-        bio: profile.bio,
-        hash: profile.hash,
+        name: profile ? profile.displayname : '',
+        username: profile ? profile.username : '',
+        bio: profile ? profile.bio : '',
+        hash: profile ? profile.hash : '',
       };
       dispatch(createProfileRequest(input, oldProfile));
+      props.close();
     },
   });
 
-  return <ProfileModal {...props} formik={formik} title="Create Profile" />;
+  return <ProfileModal {...props} formik={formik} title="Create Profile" author={author} />;
 };
 
 export default CreateProfileModal;

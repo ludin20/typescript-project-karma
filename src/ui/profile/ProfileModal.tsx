@@ -69,9 +69,10 @@ interface Props extends ModalProps {
   formik: FormikProps<any>;
   title?: string;
   customHeader?: React.FC;
+  author: string;
 }
 
-const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, formik, ...props }) => {
+const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, formik, author, ...props }) => {
   const { handleSubmit, isValid } = formik;
 
   return (
@@ -88,7 +89,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
           <Space height={35} />
 
           <Row align="center">
-            <ImageInput name="avatar" />
+            <ImageInput name="hash" author={author} />
             <Input label="Name" name="name" placeholder="Enter Name" required bordered flex />
           </Row>
 
