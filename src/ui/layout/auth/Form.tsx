@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Logo from '../../common/Logo';
 import Column from '../../common/Column';
@@ -81,12 +81,19 @@ const Content = styled.div`
   }
 `;
 
+const colCss = css`
+  @media (max-width: 650px) {
+    height: 100%;
+    width: 100%;
+  }
+`;
+
 const Form: React.FC = ({ children }) => {
   return (
     <Container>
       <StyledLogo />
       <WhiteLogo src={karmaBg} alt="Karma" />
-      <Column align="center" justify="center">
+      <Column align="center" justify="center" css={colCss}>
         <Content>{children}</Content>
       </Column>
     </Container>

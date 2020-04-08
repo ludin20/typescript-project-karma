@@ -10,10 +10,10 @@ import Grid from '../common/Grid';
 import Space from '../common/Space';
 
 const Container = styled.div`
-  margin: 12px 0 40px 60px;
+  margin: 0 0 0 60px;
 
   @media (max-width: 550px) {
-    margin: 12px 0 30px;
+    margin: 0;
   }
 `;
 
@@ -38,31 +38,35 @@ const imgCss = css`
 interface Props {
   content: { description: string; imagehashes: []; videohashes: [] };
   size?: 'default' | 'small';
+  onClick(): void;
 }
 
-const PostContent: React.FC<Props> = ({ content }) => {
+const PostContent: React.FC<Props> = ({ content, onClick }) => {
   const medias = useS3Images(content, 'thumbBig');
 
   return (
-    <Container>
-      <FormattedText
-        content={content.description}
-        font={{ color: 'white', size: '24px', weight: 'bold' }}
-        contentCss={contentCss}
-      />
-      {medias.length > 0 && (
-        <SkeletonTheme color="#191A19" highlightColor="#333">
-          <>
-            <Space height={20} />
-            <Grid columns={medias.length < 3 ? medias.length : 3} gap="24px" css={gridCss}>
-              {medias.map((media, index) => (
-                <ShimmerImage key={index} src={media} alt="image" css={imgCss} height={500} />
-              ))}
-            </Grid>
-          </>
-        </SkeletonTheme>
-      )}
-    </Container>
+    <>
+      <Container onClick={onClick}>
+        <FormattedText
+          content={content.description}
+          font={{ color: 'white', size: '23px', weight: 'normal' }}
+          contentCss={contentCss}
+        />
+        {medias.length > 0 && (
+          <SkeletonTheme color="#191A19" highlightColor="#333">
+            <>
+              <Space height={20} />
+              <Grid columns={medias.length < 3 ? medias.length : 3} gap="24px" css={gridCss}>
+                {medias.map((media, index) => (
+                  <ShimmerImage key={index} src={media} alt="image" css={imgCss} height={500} />
+                ))}
+              </Grid>
+            </>
+          </SkeletonTheme>
+        )}
+      </Container>
+      <Space height={30} />
+    </>
   );
 };
 

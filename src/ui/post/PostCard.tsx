@@ -50,6 +50,7 @@ interface Props {
 
 const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFollowButton = true }) => {
   const {
+    author,
     author_displayname,
     username,
     created_at,
@@ -75,26 +76,34 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
   const avatar = useS3Image(author_profilehash, 'thumbSmall');
 
   return (
-    <Container onClick={() => router.push('/post/[id]', `/post/${post_id}`, { shallow: true })}>
+    <Container>
       <Row align="center" justify="space-between">
         <Row align="center">
           <Avatar src={avatar} alt={author_displayname} />
           <Space width={10} />
 
-          <Column align="flex-start" justify="center">
+          <Row
+            align="center"
+            onClick={() => router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })}
+          >
             <Text color="white" size={18} weight="900">
               {author_displayname}
             </Text>
-            <Text color="midGray" size={16}>
-              {username} - {formattedDate}
+            <Space width={5} />
+            <Text color="lightBlue" size={16}>
+              @{username} - {formattedDate}
             </Text>
-          </Column>
+          </Row>
         </Row>
 
         {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
       </Row>
 
-      <PostContent content={content} size={size} />
+      <PostContent
+        content={content}
+        size={size}
+        onClick={() => router.push('/post/[id]', `/post/${post_id}`, { shallow: true })}
+      />
       <PostActions
         upvote_count={upvote_count}
         downvote_count={downvote_count}

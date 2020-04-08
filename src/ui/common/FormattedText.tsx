@@ -19,6 +19,7 @@ interface FormattedTextProps {
   contentCss?: FlattenInterpolation<ThemeProps<DefaultTheme>>;
   font?: { size: string; weight: string; color: string };
   maxWidth?: string;
+  withoutBr?: boolean;
 }
 
 const FormattedText: React.FC<FormattedTextProps> = ({
@@ -26,6 +27,7 @@ const FormattedText: React.FC<FormattedTextProps> = ({
   contentCss,
   font = { size: '18px', weight: 'bold', color: 'gray' },
   maxWidth,
+  withoutBr,
 }) => {
   const contentArray = useMemo(() => {
     const paragraph = content.split('\n').filter(text => text && text);
@@ -37,7 +39,7 @@ const FormattedText: React.FC<FormattedTextProps> = ({
       {contentArray.map((paragraph, index) => (
         <React.Fragment key={String(index)}>
           <p style={{ maxWidth }}>
-            {index > 0 && <br />}
+            {index > 0 && !withoutBr && <br />}
             {paragraph.map((text, index) => (
               <Content
                 key={String(index)}

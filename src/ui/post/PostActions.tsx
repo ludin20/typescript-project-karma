@@ -8,9 +8,9 @@ import Row from '../common/Row';
 import Space from '../common/Space';
 import Text from '../common/Text';
 
-import heart from '../assets/withoulike.svg';
+import heart from '../assets/new-heart.svg';
 import liked from '../assets/liked.svg';
-import comment from '../assets/comment.svg';
+import comment from '../assets/new-comment.svg';
 import retweet from '../assets/retweet.svg';
 import tip from '../assets/tip.png';
 import rocket from '../assets/rocket.svg';
@@ -44,6 +44,7 @@ const ButtonText = styled(Text).attrs({
   size: 15,
   weight: '900',
 })`
+  margin-top: 4px;
   @media (max-width: 550px) {
     font-size: 13px;
   }

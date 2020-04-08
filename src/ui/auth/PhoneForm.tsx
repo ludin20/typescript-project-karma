@@ -1,8 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 
 import { RootState } from '../../store/ducks/rootReducer';
 import { signRequest } from '../../store/ducks/auth';
@@ -10,19 +9,9 @@ import { signRequest } from '../../store/ducks/auth';
 import PhoneInput from '../form/PhoneInput';
 import Column from '../common/Column';
 import Row from '../common/Row';
-import Space from '../common/Space';
+import Text from '../common/Text';
 
 import JoinCard from './JoinCard';
-
-interface TitleProps {
-  green?: boolean;
-}
-const Title = styled.p<TitleProps>`
-  color: ${props => (props.green ? props.theme.green : '#fff')};
-  font-size: 40px;
-  font-weight: 900;
-  text-align: center;
-`;
 
 const PhoneForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -33,8 +22,8 @@ const PhoneForm: React.FC = () => {
     initialValues: {
       number: '',
     },
-    validationSchema: Yup.object().shape({
-      number: Yup.string().required(),
+    validationSchema: yup.object().shape({
+      number: yup.string().required(),
     }),
     validateOnMount: true,
     onSubmit: ({ number }) => {
@@ -48,9 +37,15 @@ const PhoneForm: React.FC = () => {
     <form onSubmit={handleSubmit}>
       <Column>
         <Row justify="center">
-          <Title>Join </Title>
-          <Space width={10} />
-          <Title green>KARMA</Title>
+          <p>
+            <Text color="white" size={40} weight="900">
+              Join{' '}
+            </Text>
+            <Text color="green" size={40} weight="900">
+              {' '}
+              KARMA
+            </Text>
+          </p>
         </Row>
 
         <JoinCard

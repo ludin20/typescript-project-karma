@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import link from '../assets/link.svg';
 
+import FormattedText from '../common/FormattedText';
+
 import ProfileInfoHeader from './ProfileInfoHeader';
 import ProfileActions from './ProfileActions';
 
@@ -87,10 +89,9 @@ const ProfileInfo: React.FC<Props> = ({
   handleModal,
   following,
   followsMe,
+  bio,
   ...props
 }) => {
-  const bio = props.bio ? props.bio.split('\n') : [];
-
   return (
     <Container {...props}>
       <ProfileInfoHeader
@@ -105,14 +106,9 @@ const ProfileInfo: React.FC<Props> = ({
         followsMe={followsMe}
       />
 
-      {bio.length > 0 && (
+      {bio && (
         <p>
-          {bio.map((line, index) => (
-            <React.Fragment key={index}>
-              {line}
-              <br />
-            </React.Fragment>
-          ))}
+          <FormattedText font={{ color: '#fff', size: '20px', weight: 'normal' }} content={bio} withoutBr />
         </p>
       )}
       {website && (
