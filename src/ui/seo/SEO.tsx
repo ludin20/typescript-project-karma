@@ -10,7 +10,7 @@ interface Props {
   url?: string;
 }
 
-const SEO: React.FC<Props> = ({ description = '', url, title, image = '/logo.png' }) => {
+const SEO: React.FC<Props> = ({ description = '', url, title, image }) => {
   const metaTitle = title || 'Karma';
   const metaDescription =
     description || 'KARMA is a social network designed for those who create the value, to actually earn it. ';
@@ -20,12 +20,12 @@ const SEO: React.FC<Props> = ({ description = '', url, title, image = '/logo.png
       title={metaTitle}
       meta={[
         { property: 'og:type', content: 'website' },
-        { property: 'og:url', content: `https://https://${APP_URL}${url}` },
+        { property: 'og:url', content: `https://${APP_URL}${url}` },
         { property: 'og:title', content: metaTitle },
         { property: 'og:description', content: metaDescription },
-        { property: 'og:image', content: `https://${APP_URL}${image}` },
-        { property: 'og:image:url', content: `https://${APP_URL}${image}` },
-        { property: 'og:image:secure_url', content: `https://${APP_URL}${image}` },
+        { property: 'og:image', content: image || `https://${APP_URL}/logo.png` },
+        { property: 'og:image:url', content: image || `https://${APP_URL}/logo.png` },
+        { property: 'og:image:secure_url', content: image || `https://${APP_URL}/logo.png` },
         { name: 'twitter:card', content: 'summary' },
         { name: 'twitter:domain', content: APP_URL },
       ]}

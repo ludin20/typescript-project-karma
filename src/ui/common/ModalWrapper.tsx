@@ -24,12 +24,22 @@ export const Container = styled.div<ModalProps>`
         background: none;
       }
     `}
+
+    ${props =>
+      props.withoutPaddingOnMobile &&
+      css`
+        @media (max-width: 700px) {
+          padding: 0;
+        }
+      `}
+    }
 `;
 
 export interface ModalProps {
   open: boolean;
   close(): void;
   withoutBackgroundOnMobile?: boolean;
+  withoutPaddingOnMobile?: boolean;
   justify?: string;
 }
 

@@ -37,16 +37,17 @@ const Container = styled.button<{ selected: boolean }>`
 `;
 
 interface Props {
-  route?: string;
+  href?: string;
+  as?: string;
   selected: boolean;
   icon: string;
 }
 
-const BottombarItem: React.FC<Props> = ({ route, selected, icon, ...props }) => {
+const BottombarItem: React.FC<Props> = ({ href, as, selected, icon, ...props }) => {
   const router = useRouter();
 
   return (
-    <Container onClick={() => router.push(route)} selected={selected} {...props}>
+    <Container onClick={() => router.push(href, as, { shallow: true })} selected={selected} {...props}>
       <section />
       <img src={icon} alt="icon" />
     </Container>

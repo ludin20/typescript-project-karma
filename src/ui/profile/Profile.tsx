@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 `;
 
 interface Follow {
+  author: string;
   username: string;
   hash: string;
   displayname: string;

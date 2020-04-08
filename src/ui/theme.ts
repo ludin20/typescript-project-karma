@@ -8,8 +8,8 @@ declare module 'styled-components' {
     lightGradient: string;
     dark: string;
     black: string;
-    secondblue: string;
     blue: string;
+    secondblue: string;
     lightBlue: string;
     gray: string;
     midGray: string;
