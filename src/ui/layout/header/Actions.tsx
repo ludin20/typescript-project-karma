@@ -122,6 +122,7 @@ const Container = styled.div<Props>`
 interface Props {
   focused: boolean;
   shouldHideCreatePost?: boolean;
+  hash: string;
 }
 
 const Actions: React.FC<Props> = props => {
@@ -145,7 +146,7 @@ const Actions: React.FC<Props> = props => {
           Create
         </button>
       </Container>
-      {open && <CreatePostModal open={open} close={() => setOpen(false)} />}
+      {open && <CreatePostModal open={open} close={() => setOpen(false)} hash={props.hash} />}
     </>
   );
 };

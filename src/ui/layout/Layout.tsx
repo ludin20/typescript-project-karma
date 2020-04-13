@@ -136,6 +136,7 @@ const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHea
           collapsed={collapsed}
           shouldHideCreatePost={shouldHideCreatePost}
           shouldHideHeader={shouldHideHeader}
+          hash={data && data.profile ? data.profile.hash : ''}
         />
 
         <ContentWrapper shouldHideHeader={shouldHideHeader}>

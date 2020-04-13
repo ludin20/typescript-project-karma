@@ -16,12 +16,14 @@ export const Container = styled.form`
   background: ${props => props.theme.dark};
   padding: 30px 50px;
   border-radius: 20px;
+  transform: translateY(25%);
 
   display: flex;
   flex-direction: column;
 
   @media (max-width: 700px) {
-    height: 100vh;
+    transform: unset;
+    height: 100%;
     padding: 50px 15px;
     border-radius: 0;
   }
@@ -60,7 +62,7 @@ const Input = styled(FormikInput)<InputProps>`
       width: calc(100% - (82px + 30px));
 
       @media (max-width: 700px) {
-        width: calc(100% - (82px + 20px));
+        width: 100%;
       }
     `}
 `;
@@ -76,7 +78,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
   const { handleSubmit, isValid } = formik;
 
   return (
-    <ModalWrapper {...props}>
+    <ModalWrapper {...props} withoutPaddingOnMobile>
       <FormikProvider value={formik}>
         <Container onSubmit={handleSubmit}>
           {CustomHeader ? (
@@ -90,6 +92,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
 
           <Row align="center">
             <ImageInput name="hash" author={author} />
+            <Space width={10} />
             <Input label="Name" name="name" placeholder="Enter Name" required bordered flex />
           </Row>
 

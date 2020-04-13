@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
-
+import cookie from 'js-cookie';
 import { useFormikContext } from 'formik';
 
 import media from '../assets/media.svg';
+import { useUploadMedia } from '../../hooks';
+import { KARMA_AUTHOR } from '../../common/config';
 
 const Container = styled.div`
   background: rgba(0, 0, 0, 0.4);
@@ -34,9 +36,12 @@ interface Props {
 }
 
 const MediaButton: React.FC<Props> = ({ name, children, files, setFiles }) => {
-  const { setFieldValue } = useFormikContext<any>();
+  const { setFieldValue, values } = useFormikContext<any>();
+  const uploadMedia = useUploadMedia();
 
-  const onDrop = acceptedFiles => {
+  const author = cookie.get(KARMA_AUTHOR);
+
+  const onDrop = async (acceptedFiles: File[]) => {
     setFiles([
       ...files,
       ...acceptedFiles.map(file =>
@@ -46,14 +51,9 @@ const MediaButton: React.FC<Props> = ({ name, children, files, setFiles }) => {
       ),
     ]);
 
-    setFieldValue(name, [
-      ...files,
-      ...acceptedFiles.map(file =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        }),
-      ),
-    ]);
+    const hash = await uploadMedia({ media: acceptedFiles[0], author });
+
+    setFieldValue(name, [...values[name], hash]);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
