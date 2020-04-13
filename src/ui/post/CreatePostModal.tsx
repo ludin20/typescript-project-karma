@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import graphql from 'graphql-tag';
+
+import { useMutation } from '@apollo/react-hooks';
+
+import { useRouter } from 'next/router';
 
 import closeIcon from '../assets/close.svg';
 import Title from '../common/Title';
@@ -16,6 +21,7 @@ const Content = styled.div`
   background: ${props => props.theme.dark};
   padding: 30px 50px;
   border-radius: 20px;
+  transform: translateY(50%);
 
   header {
     margin-bottom: 20px;
@@ -42,28 +48,81 @@ const Content = styled.div`
   }
 `;
 
-const CreatePostModal: React.FC<ModalProps> = props => {
+const CREATE_POST = graphql`
+  mutation createPost(
+    $post_id: Int
+    $description: String
+    $lat: String
+    $lng: String
+    $imagehashes: [String]
+    $videohashes: [String]
+    $categories: [Int]
+  ) {
+    createPost(
+      post_id: $post_id
+      description: $description
+      lat: $lat
+      lng: $lng
+      imagehashes: $imagehashes
+      videohashes: $videohashes
+      categories: $categories
+    ) {
+      author
+      author_displayname
+      author_profilehash
+      imagehashes
+      videohashes
+      post_id
+      created_at
+      description
+      upvote_count
+      downvote_count
+      comment_count
+      tip_count
+      comments
+      username
+    }
+  }
+`;
+
+interface Props extends ModalProps {
+  hash: string;
+}
+
+const CreatePostModal: React.FC<Props> = props => {
+  const router = useRouter();
+  const [createPost] = useMutation(CREATE_POST, {
+    onCompleted: () => {
+      router.push('/home');
+    },
+  });
+
   const formik = useFormik({
     enableReinitialize: false,
     initialValues: {
       content: '',
+      imagehashes: [],
     },
     validateOnMount: true,
     validationSchema: Yup.object().shape({
       content: Yup.string().required('Post text is required'),
+      imagehashes: Yup.array()
+        .of(Yup.string())
+        .min(1, 'Post media is required'),
     }),
-    onSubmit: values => {
-      console.log(values); //eslint-disable-line no-console
+    onSubmit: ({ content, imagehashes }) => {
+      createPost({
+        variables: {
+          description: content,
+          lat: '',
+          lng: '',
+          imagehashes,
+          videohashes: [],
+          categories: [1],
+        },
+      });
     },
   });
-
-  const [files, setFiles] = useState([]);
-
-  useEffect(() => {
-    return () => {
-      files.forEach(file => URL.revokeObjectURL(file.preview));
-    };
-  }, [files]);
 
   return (
     <ModalWrapper {...props}>
@@ -78,7 +137,7 @@ const CreatePostModal: React.FC<ModalProps> = props => {
           </button>
         </header>
 
-        <ModalForm formik={formik} setFiles={setFiles} files={files} />
+        <ModalForm formik={formik} hash={props.hash} />
       </Content>
     </ModalWrapper>
   );

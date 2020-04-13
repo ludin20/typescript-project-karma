@@ -1,13 +1,12 @@
-import React, { FormEvent } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FormikProvider, FormikProps } from 'formik';
-import { useSelector } from 'react-redux';
-
-import { RootState } from '../../store/ducks/rootReducer';
 
 import Avatar from '../common/Avatar';
 import Button from '../common/Button';
 import FormikInput from '../form/FormikInput';
+
+import { useS3Image } from '../../hooks';
 
 import MediaButton from './MediaButton';
 import ModalPreviewMedias from './ModalPreviewMedias';
@@ -60,18 +59,14 @@ const SubmitButton = styled(Button)`
 
 interface Props {
   formik: FormikProps<any>;
-  setFiles(data: any[]): void;
-  files: any[];
+  hash: string;
 }
 
-const ModalForm: React.FC<Props> = ({ formik, setFiles, files }) => {
-  const handleSubmit = (e: FormEvent<any>) => {
-    e.preventDefault();
+const ModalForm: React.FC<Props> = ({ formik, hash }) => {
+  const [files, setFiles] = useState([]);
+  const avatar = useS3Image(hash, 'thumbSmall');
 
-    formik.handleSubmit();
-  };
-
-  const { avatar } = useSelector((state: RootState) => state.user.profile);
+  const { handleSubmit } = formik;
 
   return (
     <FormikProvider value={formik}>
@@ -84,7 +79,7 @@ const ModalForm: React.FC<Props> = ({ formik, setFiles, files }) => {
         <ModalPreviewMedias files={files} setFiles={setFiles} />
 
         <div>
-          <MediaButton name="media" setFiles={setFiles} files={files}>
+          <MediaButton name="imagehashes" setFiles={setFiles} files={files}>
             Photo/Video
           </MediaButton>
           <SubmitButton background="green" radius="rounded" color="#fff" type="submit" disabled={!formik.isValid}>

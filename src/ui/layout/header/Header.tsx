@@ -77,9 +77,10 @@ interface Props {
   shouldHideCreatePost?: boolean;
   shouldHideHeader?: boolean;
   author: string;
+  hash: string;
 }
 
-const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHeader, author }) => {
+const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHeader, author, hash }) => {
   const [searchFocused, setSearchFocused] = useState(false);
 
   const { data, fetchMore } = useQuery(GET_PROFILES, {
@@ -127,7 +128,7 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
           search={autoCompleteSearch}
           shouldHideCreatePost={shouldHideCreatePost}
         />
-        <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} />
+        <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} hash={hash} />
       </Container>
     </>
   ) : (
@@ -138,7 +139,7 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
         search={autoCompleteSearch}
         shouldHideCreatePost={shouldHideCreatePost}
       />
-      <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} />
+      <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} hash={hash} />
     </Container>
   );
 };

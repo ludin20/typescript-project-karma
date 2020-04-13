@@ -11,7 +11,11 @@ import { KARMA_AUTHOR } from '../common/config';
 import { initOnContext } from '../apollo/Apollo';
 import { GET_PROFILE } from '../apollo/resolvers';
 
-export default class MyApp extends App {
+interface Props {
+  author: string;
+}
+
+export default class MyApp extends App<Props> {
   static async getInitialProps({ Component, ctx }) {
     const cookies = nextCookies(ctx);
     const author = cookies[encodeURIComponent(KARMA_AUTHOR)];

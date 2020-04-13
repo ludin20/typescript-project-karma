@@ -12,6 +12,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 440px;
   background: ${props => props.theme.dark};
+  transform: translateY(25%);
   border-radius: 25px;
   padding: 20px 40px;
   box-shadow: 0px 3px 20px #000000;
