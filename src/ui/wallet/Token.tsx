@@ -82,10 +82,10 @@ interface Props {
   name: string;
   unitValue: string | number;
   totalValue: string | number;
-  karmaValue: string | number;
+  value: string | number;
 }
 
-const Token: React.FC<Props> = ({ icon, name, unitValue, totalValue, karmaValue }) => {
+const Token: React.FC<Props> = ({ icon, name, unitValue, totalValue, value }) => {
   return (
     <Container>
       <section>
@@ -93,13 +93,13 @@ const Token: React.FC<Props> = ({ icon, name, unitValue, totalValue, karmaValue 
 
         <div>
           <strong>{name}</strong>
-          <span>{unitValue}</span>
+          <span>${unitValue}</span>
         </div>
       </section>
 
       <aside>
-        <strong>{totalValue}</strong>
-        <span>{karmaValue} KARMA</span>
+        <strong>${totalValue}</strong>
+        <span>{value + ' ' + name} </span>
       </aside>
     </Container>
   );
