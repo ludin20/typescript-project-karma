@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
+import React, { useMemo, useState } from 'react';
+import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
 
 import Avatar from '../common/Avatar';
@@ -8,8 +8,9 @@ import Space from '../common/Space';
 import Row from '../common/Row';
 import Column from '../common/Column';
 import Text from '../common/Text';
+import FormattedText from '../common/FormattedText';
 
-import { useFormatDistance, useS3Image } from '../../hooks';
+import { useFormatDistanceStrict, useS3Image } from '../../hooks';
 
 import PostActions from './PostActions';
 import PostContent from './PostContent';
@@ -17,6 +18,15 @@ import PostContent from './PostContent';
 const Container = styled.li`
   list-style: none;
   cursor: pointer;
+`;
+
+const headerCss = css`
+  margin-top: -30px;
+`;
+
+const Caption = styled.li`
+  margin-left: 82px;
+  margin-top: -25px;
 `;
 
 export interface PostInterface {
@@ -46,9 +56,12 @@ interface Props {
   size?: 'default' | 'small';
   withFollowButton?: boolean;
   shouldHideFollowOnMobile?: boolean;
+  usdPrice?: number;
+  eosPrice?: number;
 }
 
-const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFollowButton = true }) => {
+const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFollowButton = true, ...props }) => {
+  const [data, setData] = useState(post);
   const {
     author,
     author_displayname,
@@ -58,39 +71,53 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
     imagehashes,
     videohashes,
     author_profilehash,
-    comment_count,
-    upvote_count,
-    downvote_count,
-    tip_count,
     post_id,
-    voteStatus,
   } = post;
 
   const content = useMemo(() => {
-    return { description, imagehashes, videohashes };
-  }, [description, imagehashes, videohashes]);
+    return { imagehashes, videohashes };
+  }, [imagehashes, videohashes]);
 
   const router = useRouter();
 
-  const formattedDate = useFormatDistance(created_at);
+  const formattedDateStrings = useFormatDistanceStrict(created_at).split(' ');
+  const formattedDate = formattedDateStrings[0] + formattedDateStrings[1][0];
   const avatar = useS3Image(author_profilehash, 'thumbSmall');
+
+  const onSuccessAction = (action: string, value: number) => {
+    switch (action) {
+      case 'upVote':
+        setData({ ...data, upvote_count: data.upvote_count + value, voteStatus: 1 });
+        break;
+      case 'comment':
+        setData({ ...data, comment_count: data.comment_count + value });
+        break;
+      case 'tip':
+        setData({ ...data, tip_count: data.tip_count + value });
+        break;
+      case 'boost':
+        setData({ ...data, tip_count: data.tip_count + value });
+        break;
+    }
+  };
 
   return (
     <Container>
       <Row align="center" justify="space-between">
         <Row align="center">
           <Avatar src={avatar} alt={author_displayname} />
-          <Space width={10} />
+          <Space width={18} />
 
           <Row
+            css={headerCss}
             align="center"
             onClick={() => router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })}
           >
-            <Text color="white" size={18} weight="900">
+            <Text color="white" size={25} weight="900">
               {author_displayname}
             </Text>
-            <Space width={5} />
-            <Text color="lightBlue" size={16}>
+            <Space width={10} />
+            <Text color="lightBlue" size={20}>
               @{username} - {formattedDate}
             </Text>
           </Row>
@@ -98,6 +125,9 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
 
         {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
       </Row>
+      <Caption>
+        <FormattedText content={description} font={{ color: 'white', size: '21px', weight: 'normal' }} />
+      </Caption>
 
       <PostContent
         content={content}
@@ -105,13 +135,18 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         onClick={() => router.push('/post/[id]', `/post/${post_id}`, { shallow: true })}
       />
       <PostActions
-        upvote_count={upvote_count}
-        downvote_count={downvote_count}
-        comments={comment_count}
+        postId={post_id}
+        author={author}
+        upvote_count={data.upvote_count}
+        downvote_count={data.downvote_count}
+        comments={data.comment_count}
         recycles={0}
-        tips={tip_count}
+        tips={data.tip_count}
         power={0}
-        voteStatus={voteStatus}
+        voteStatus={data.voteStatus}
+        usdPrice={props.usdPrice}
+        eosPrice={props.eosPrice}
+        onSuccessAction={onSuccessAction}
       />
     </Container>
   );

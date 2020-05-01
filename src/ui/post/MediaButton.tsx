@@ -42,6 +42,8 @@ const MediaButton: React.FC<Props> = ({ name, children, files, setFiles }) => {
   const author = cookie.get(KARMA_AUTHOR);
 
   const onDrop = async (acceptedFiles: File[]) => {
+    const hash = await uploadMedia({ media: acceptedFiles[0], author });
+    setFieldValue(name, [...values[name], hash]);
     setFiles([
       ...files,
       ...acceptedFiles.map(file =>
@@ -50,10 +52,6 @@ const MediaButton: React.FC<Props> = ({ name, children, files, setFiles }) => {
         }),
       ),
     ]);
-
-    const hash = await uploadMedia({ media: acceptedFiles[0], author });
-
-    setFieldValue(name, [...values[name], hash]);
   };
 
   const { getRootProps, getInputProps } = useDropzone({

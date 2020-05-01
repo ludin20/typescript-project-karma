@@ -76,7 +76,7 @@ const ModalForm: React.FC<Props> = ({ formik, hash }) => {
           <Input withMedia={files.length > 0} multiline name="content" placeholder="Post something awesome!" dark />
         </section>
 
-        <ModalPreviewMedias files={files} setFiles={setFiles} />
+        <ModalPreviewMedias name="imagehashes" files={files} setFiles={setFiles} />
 
         <div>
           <MediaButton name="imagehashes" setFiles={setFiles} files={files}>

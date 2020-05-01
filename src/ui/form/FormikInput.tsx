@@ -178,7 +178,13 @@ const FormikInput: React.FC<Props> = ({ onChange, multiline, mask, name, formatV
           value={field.value}
         />
       ) : (
-        <textarea placeholder={props.placeholder || mask} onChange={e => setValue(e)} rows={3} name={name} />
+        <textarea
+          placeholder={props.placeholder || mask}
+          onChange={e => setValue(e)}
+          rows={3}
+          name={name}
+          value={field.value}
+        />
       )}
     </Container>
   );

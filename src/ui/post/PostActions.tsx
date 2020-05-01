@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import cookie from 'js-cookie';
 import styled, { css } from 'styled-components';
 import graphql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -18,6 +20,12 @@ import share from '../assets/share.svg';
 
 import BoostModal from './actionsModal/BoostModal';
 import TipModal from './actionsModal/TipModal';
+import SuccessModal from '../wallet/SendMoneyModal/SuccessModal';
+
+import { tx, logtask } from '../../services/config';
+import karmaApi from '../../services/api';
+import { KARMA_AUTHOR, TOKEN_CONTRACT } from '../../common/config';
+import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
 
 const Container = styled(Row)`
   width: 85% !important;
@@ -44,7 +52,6 @@ const ButtonText = styled(Text).attrs({
   size: 15,
   weight: '900',
 })`
-  margin-top: 4px;
   @media (max-width: 550px) {
     font-size: 13px;
   }
@@ -73,6 +80,8 @@ const CREATE_DOWNVOTE = graphql`
 `;
 
 interface Props {
+  postId: number;
+  author: string;
   comments: string | number;
   recycles: string | number;
   tips: string | number;
@@ -80,9 +89,14 @@ interface Props {
   upvote_count: number;
   downvote_count: number;
   voteStatus: number;
+  usdPrice?: number;
+  eosPrice?: number;
+  onSuccessAction(action: string, value: number): void;
 }
 
 const PostActions: React.FC<Props> = ({
+  postId,
+  author,
   upvote_count,
   downvote_count,
   comments,
@@ -90,10 +104,19 @@ const PostActions: React.FC<Props> = ({
   tips,
   power,
   voteStatus,
+  onSuccessAction,
+  usdPrice,
+  eosPrice,
   ...props
 }) => {
+  const accountName = cookie.get(KARMA_AUTHOR);
+  const dispatch = useDispatch();
   const [tipModalIsOpen, setTipModalIsOpen] = useState(false);
   const [boostModalIsOpen, setBoostModalIsOpen] = useState(false);
+  const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
+  const [value, setValue] = useState({ karma: 0, usd: 0 });
+  const [to, setTo] = useState('');
+
   const router = useRouter();
 
   const [createUpvote] = useMutation(CREATE_UPVOTE);
@@ -102,16 +125,85 @@ const PostActions: React.FC<Props> = ({
   const handleVote = useCallback(() => {
     if (voteStatus === 0) {
       createUpvote({
-        variables: { post_id: router.query.id },
-      });
+        variables: { post_id: postId },
+      }).then(res => onSuccessAction('upVote', 1));
     } else {
+      return;
       createDownvote({ variables: { post_id: router.query.id } });
     }
   }, [voteStatus, router, createDownvote, createUpvote]);
 
+  const handleTip = (value: number) => {
+    tipAccount(value, false);
+  };
+
+  const handleBoost = (value: number) => {
+    tipAccount(value, true);
+  };
+
+  const tipAccount = async (amount, isBoost) => {
+    dispatch(actionRequest());
+    const isOwn = accountName == author;
+    let to = isOwn ? 'karmapromote' : author;
+    let memo = isOwn ? 'Boost Post' : 'Tip';
+    if (isBoost) {
+      to = 'karmapromote';
+      memo = 'Boost Post';
+    }
+
+    const result = await tx(
+      'transfer',
+      {
+        to: to,
+        quantity: `${Number(amount).toFixed(4)} KARMA`,
+        memo: memo,
+      },
+      'from',
+      TOKEN_CONTRACT,
+    );
+
+    if (result) {
+      // update post tip count
+      const postTipData = {
+        author: author,
+        postId: postId,
+        tipAmount: amount,
+        trxId: result.transaction_id,
+        blockTime: result.processed.action_traces[0].block_time,
+      };
+
+      karmaApi
+        .post('/post/tip', postTipData)
+        .then(response => {
+          logtask(null, '{"tip":"post"}');
+          if (response.status === 200) {
+            onSuccessAction(tipModalIsOpen ? 'tip' : 'boost', amount);
+            dispatch(actionSuccess());
+            tipModalIsOpen ? setTipModalIsOpen(false) : setBoostModalIsOpen(false);
+            setValue({ karma: amount, usd: amount });
+            setTo(to);
+            console.log('Success Tip');
+          } else {
+            dispatch(actionFailure());
+            tipModalIsOpen ? setTipModalIsOpen(false) : setBoostModalIsOpen(false);
+            console.log('INVALID RESPONSE');
+          }
+        })
+        .catch(err => {
+          dispatch(actionFailure());
+          tipModalIsOpen ? setTipModalIsOpen(false) : setBoostModalIsOpen(false);
+          console.log('ERROR TIPPING: ', err);
+        });
+    } else {
+      dispatch(actionFailure());
+      tipModalIsOpen ? setTipModalIsOpen(false) : setBoostModalIsOpen(false);
+      console.log('TX ISSUE FOR TIPPING: ');
+    }
+  };
+
   return (
     <Row>
-      <Space width={60} css={SpaceCss} />
+      <Space width={80} css={SpaceCss} />
       <Container justify="space-between" {...props}>
         <Row align="center" justify="center">
           <Image src={voteStatus ? liked : heart} alt="like" onClick={handleVote} />
@@ -143,8 +235,13 @@ const PostActions: React.FC<Props> = ({
         </Row>
       </Container>
 
-      {tipModalIsOpen && <TipModal open={tipModalIsOpen} close={() => setTipModalIsOpen(false)} />}
-      {boostModalIsOpen && <BoostModal open={boostModalIsOpen} close={() => setBoostModalIsOpen(false)} />}
+      {tipModalIsOpen && <TipModal usdPrice={usdPrice} eosPrice={eosPrice} open={tipModalIsOpen} close={() => setTipModalIsOpen(false)} onSubmit={handleTip} />}
+      {boostModalIsOpen && (
+        <BoostModal usdPrice={usdPrice} eosPrice={eosPrice} open={boostModalIsOpen} close={() => setBoostModalIsOpen(false)} onSubmit={handleBoost} />
+      )}
+      {successModalIsOpen && (
+        <SuccessModal open close={() => setSuccessModalIsOpen(false)} value={value} to={to} action="send" />
+      )}
     </Row>
   );
 };

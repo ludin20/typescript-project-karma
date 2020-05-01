@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useFormikContext } from 'formik';
 
 import exclude from '../assets/close.svg';
 
@@ -33,12 +34,17 @@ const Media = styled.li`
 `;
 
 interface Props {
+  name: string;
   files: any[];
   setFiles(data: any[]): void;
 }
 
-const ModalPreviewMedias: React.FC<Props> = ({ files, setFiles }) => {
+const ModalPreviewMedias: React.FC<Props> = ({ name, files, setFiles }) => {
+  const { setFieldValue, values } = useFormikContext<any>();
+
   const handleDeleteFile = (toExclude: number) => {
+    const newValues = values[name].filter((value, index) => index !== toExclude);
+    setFieldValue(name, newValues);
     const newFiles = files.filter((file, index) => index !== toExclude);
     setFiles(newFiles);
   };

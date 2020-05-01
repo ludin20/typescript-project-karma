@@ -7,7 +7,7 @@ import Wrapper from './Wrapper';
 
 const TipModal: React.FC<ModalProps> = props => {
   const handleSubmit = (value: number) => {
-    console.log(value); //eslint-disable-line no-console
+    props.onSubmit(value);
   };
 
   return <Wrapper icon={tip} entity="tip" handleSubmit={handleSubmit} {...props} />;

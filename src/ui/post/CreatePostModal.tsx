@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -14,6 +15,8 @@ import Title from '../common/Title';
 import ModalWrapper, { ModalProps } from '../common/ModalWrapper';
 
 import ModalForm from './ModalForm';
+
+import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
 
 const Content = styled.div`
   width: 100%;
@@ -91,9 +94,16 @@ interface Props extends ModalProps {
 
 const CreatePostModal: React.FC<Props> = props => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [createPost] = useMutation(CREATE_POST, {
-    onCompleted: () => {
-      router.push('/home');
+    onCompleted: res => {
+      if (res && res.createPost) {
+        props.close();
+        router.push(`/post/${res.createPost.post_id}`);
+        dispatch(actionSuccess());
+      } else {
+        dispatch(actionFailure());
+      }
     },
   });
 
@@ -111,11 +121,13 @@ const CreatePostModal: React.FC<Props> = props => {
         .min(1, 'Post media is required'),
     }),
     onSubmit: ({ content, imagehashes }) => {
+      dispatch(actionRequest());
       createPost({
         variables: {
+          post_id: 0,
           description: content,
-          lat: '',
-          lng: '',
+          lat: '1',
+          lng: '2',
           imagehashes,
           videohashes: [],
           categories: [1],

@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { useField, useFormikContext } from 'formik';
 
 import camera from '../assets/camera.svg';
-import { useUploadMedia } from '../../hooks';
+import { useUploadMedia, useS3Image } from '../../hooks';
 
 const Container = styled.div`
   width: 100px;
@@ -83,24 +83,23 @@ const ImageInput: React.FC<Props> = ({ name, author }) => {
   const [file, setFile] = useState(null);
   const [field] = useField(name);
   const { setFieldValue } = useFormikContext<any>();
+  const avatar = useS3Image(field.value, 'thumbSmall');
   const uploadImage = useUploadMedia();
 
   useEffect(() => {
     if (field.value) {
-      setFile({ ...file, preview: field.value });
+      setFile({ ...file, preview: field.value, view: avatar });
     }
   }, []); //eslint-disable-line
 
   const onDrop = async (acceptedFiles: File[]) => {
+    const hash = await uploadImage({ media: acceptedFiles[0], author });
+    setFieldValue(name, hash);
     setFile(
       Object.assign(acceptedFiles[0], {
         preview: URL.createObjectURL(acceptedFiles[0]),
       }),
     );
-
-    const hash = await uploadImage({ media: acceptedFiles[0], author });
-
-    setFieldValue(name, hash);
   };
 
   const { getRootProps, getInputProps } = useDropzone({ accept: 'image/*', onDrop });
@@ -114,7 +113,7 @@ const ImageInput: React.FC<Props> = ({ name, author }) => {
         </>
       ) : (
         <WithPreview>
-          <img src={file.preview} />
+          <img src={file.view ? file.view : file.preview} />
 
           <div>
             <input {...getInputProps()} name={name} />
