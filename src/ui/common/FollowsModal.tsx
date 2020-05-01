@@ -46,6 +46,7 @@ const SeeMore = styled.button`
 
 interface Props {
   data: {
+    author: string;
     username: string;
     hash: string;
     displayname: string;
@@ -71,7 +72,7 @@ const FollowsModal: React.FC<Props> = ({ data, title, loadMore, ...props }) => {
         </header>
 
         {data.map(follow => (
-          <FollowCard key={follow.username} {...follow} />
+          <FollowCard key={follow.username} author={follow.author} {...follow} />
         ))}
       </Container>
       <SeeMore onClick={loadMore}>See More</SeeMore>

@@ -10,12 +10,13 @@ import Col from './Column';
 import Text from './Text';
 
 interface Props {
+  author: string;
   username: string;
   hash: string;
   displayname: string;
 }
 
-const FollowCard: React.FC<Props> = ({ username, hash, displayname }) => {
+const FollowCard: React.FC<Props> = ({ author, username, hash, displayname }) => {
   const avatar = useS3Image(hash, 'thumbSmall');
 
   return (
@@ -23,7 +24,7 @@ const FollowCard: React.FC<Props> = ({ username, hash, displayname }) => {
       <Space height={30} />
       <Row align="center" justify="space-between" style={{ width: '100%' }}>
         <Row align="center">
-          <Avatar src={avatar} alt={name} />
+          <Avatar src={avatar} alt={name} size="small" />
           <Space width={10} />
           <Col align="flex-start">
             <Text size={16} weight="900">
@@ -37,7 +38,7 @@ const FollowCard: React.FC<Props> = ({ username, hash, displayname }) => {
           </Col>
         </Row>
 
-        <FollowButton following={false} />
+        <FollowButton author={author} following={false} />
       </Row>
     </>
   );
