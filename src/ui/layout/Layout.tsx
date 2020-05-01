@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import styled, { css } from 'styled-components';
+import { connect, useDispatch } from 'react-redux';
+import styled, { css, keyframes } from 'styled-components';
 import graphql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 
+import { updateProfileSuccess } from '../../store/ducks/user';
 import CreateProfileModal from '../profile/CreateProfileModal';
 
 import { withApollo } from '../../apollo/Apollo';
@@ -11,11 +13,39 @@ import Sidebar from './navbar/Sidebar';
 import Header from './header/Header';
 import Aside from './aside/Aside';
 import Bottombar from './navbar/Bottombar';
+import loadingImg from '../assets/loading.png';
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 const Wrapper = styled.div`
   background: ${props => props.theme.black};
   display: flex;
   width: 100%;
+`;
+
+const Loader = styled.div`
+  position: fixed;
+  z-index: 99999999;
+  opacity: 0.4;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const Image = styled.img`
+  height: 16px;
+  animation: ${rotate} 1.5s infinite;
+  height: 28px;
 `;
 
 const Container = styled.div<{ collapsed: boolean; shouldHideHeader: boolean }>`
@@ -91,23 +121,73 @@ interface Props {
   shouldHideCreatePost?: boolean;
   shouldHideHeader?: boolean;
   author: string;
+  profile: {
+    username: string;
+    displayname: string;
+    author: string;
+    hash: string;
+    bio: string;
+  } | null;
+  authLoading: boolean;
+  userLoading: boolean;
+  activityLoading: boolean;
+  actionLoading: boolean;
 }
 
 const GET_PROFILE = graphql`
-  query Layout($accountname: String!, $pathBuilder: any) {
-    profile(accountname: $accountname) @rest(type: "Profile", pathBuilder: $pathBuilder) {
-      username
-      displayname
+  query Profile($accountname: String!, $domainID: number) {
+    profile(accountname: $accountname, domainID: $domainID)
+      @rest(type: "Profile", path: "profile/{args.accountname}?domainID={args.domainID}") {
       author
-      hash
       bio
+      hash
+      displayname
+      username
+      followers_count
+      following_count
+      upvoted
+      downvoted
+      upvoted_count
+      downvoted_count
+      followers
+      following
+      posts(accountname: $accountname, domainID: $domainID)
+        @rest(type: "Post", path: "posts/account/{args.accountname}?domainID={args.domainID}") {
+        post_id
+        author
+        author_displayname
+        author_profilehash
+        description
+        created_at
+        last_edited_at
+        imagehashes
+        videohashes
+        category_ids
+        upvote_count
+        downvote_count
+        comment_count
+      }
     }
   }
 `;
 
-const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHeader, author, ...props }) => {
+const Layout: React.FC<Props> = ({
+  children,
+  shouldHideCreatePost,
+  shouldHideHeader,
+  author,
+  profile,
+  authLoading,
+  userLoading,
+  activityLoading,
+  actionLoading,
+  ...props
+}) => {
+  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [accountProfile, setProfile] = useState(profile);
 
   const { data } = useQuery(GET_PROFILE, {
     variables: {
@@ -117,18 +197,41 @@ const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHea
   });
 
   useEffect(() => {
+    setIsLoading(authLoading || userLoading || activityLoading || actionLoading);
+  }, [authLoading, userLoading, activityLoading, actionLoading]);
+
+  useEffect(() => {
+    profile && setProfile(profile);
+    if (!profile || !profile.hash) setModalIsOpen(true);
+    else setModalIsOpen(false);
+  }, [profile]);
+
+  useEffect(() => {
+    if (data && data.profile) {
+      setProfile(data.profile);
+      console.log(data);
+      localStorage.setItem('upvoted', JSON.stringify(data.profile.upvoted));
+      dispatch(updateProfileSuccess(data.profile));
+    }
+
     if (data && (!data.profile || !data.profile.hash)) setModalIsOpen(true);
-  }, [data]);
+    else setModalIsOpen(false);
+  }, [data, dispatch]);
 
   const close = useCallback(() => {
-    if (data && data.profile.hash) {
+    if (accountProfile && accountProfile.hash) {
       setModalIsOpen(false);
     }
-  }, [data]);
+  }, [accountProfile]);
 
   return (
     <Wrapper {...props}>
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} author={author} profile={data && data.profile} />
+      {isLoading && (
+        <Loader>
+          <Image src={loadingImg} />
+        </Loader>
+      )}
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} author={author} profile={accountProfile} />
 
       <Container collapsed={collapsed} shouldHideHeader={shouldHideHeader}>
         <Header
@@ -136,7 +239,7 @@ const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHea
           collapsed={collapsed}
           shouldHideCreatePost={shouldHideCreatePost}
           shouldHideHeader={shouldHideHeader}
-          hash={data && data.profile ? data.profile.hash : ''}
+          hash={accountProfile ? accountProfile.hash : ''}
         />
 
         <ContentWrapper shouldHideHeader={shouldHideHeader}>
@@ -147,9 +250,17 @@ const Layout: React.FC<Props> = ({ children, shouldHideCreatePost, shouldHideHea
 
       <Bottombar />
 
-      {modalIsOpen && <CreateProfileModal open close={close} profile={data && data.profile} />}
+      {modalIsOpen && <CreateProfileModal open close={close} profile={accountProfile} />}
     </Wrapper>
   );
 };
 
-export default withApollo({ ssr: true })(Layout);
+const mapStateToProps = state => ({
+  profile: state.user.profile,
+  userLoading: state.user.loading,
+  authLoading: state.auth.loading,
+  activityLoading: state.activity.loading,
+  actionLoading: state.action.loading,
+});
+
+export default connect(mapStateToProps)(withApollo({ ssr: true })(Layout));

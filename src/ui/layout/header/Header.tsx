@@ -58,9 +58,17 @@ const GET_PROFILES = graphql`
     profiles(accountname: $accountname, searchterm: $searchterm, page: $page)
       @rest(type: "Profile", pathBuilder: $pathBuilder) {
       author
-      username
+      bio
       hash
       displayname
+      followers_count
+      following_count
+      upvoted
+      downvoted
+      upvoted_count
+      downvoted_count
+      followers
+      following
     }
   }
 `;
@@ -88,7 +96,7 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
       accountname: author,
       searchterm: '',
       page: 1,
-      pathBuilder: () => `profile/search?Page=${1}&Limit=5&domainId=${1}`,
+      pathBuilder: () => `profile/search/${author}?Page=${1}&Limit=5&domainId=${1}`,
     },
   });
 

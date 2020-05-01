@@ -41,7 +41,7 @@ const Container = styled.div<Props>`
 
   button:nth-child(2),
   button:last-child {
-    width: 180px;
+    width: 190px;
     background: linear-gradient(270deg, #26cc8b 0%, #2adce8 100%) 0% 0%;
     color: #fff;
     padding: 10px 20px;

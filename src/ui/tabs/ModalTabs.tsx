@@ -49,22 +49,23 @@ const SpaceOnMobile = css`
 
 export interface TabInterface {
   name: string;
+  action: string;
+  active: boolean;
   render: React.FC;
 }
 
 interface Props {
   tabs: TabInterface[];
+  onChangeTab(action: string): void;
 }
 
-const Tabs: React.FC<Props> = ({ tabs }) => {
-  const [active, setActive] = useState(0);
-
+const Tabs: React.FC<Props> = ({ tabs, onChangeTab }) => {
   return (
     <>
       <Header>
         {tabs.map((tab, index) => (
           <React.Fragment key={index}>
-            <Button decrease={index > 0} onClick={() => setActive(index)} active={active === index}>
+            <Button decrease={index > 0} onClick={() => onChangeTab(tab.action)} active={tab.active}>
               {tab.name}
             </Button>
             {tabs.length - 1 !== index && <Space width={50} css={SpaceOnMobile} />}
@@ -73,7 +74,7 @@ const Tabs: React.FC<Props> = ({ tabs }) => {
       </Header>
 
       <Space height={30} />
-      {tabs[active].render({})}
+      {tabs[tabs.findIndex(tab => tab.active)].render({})}
     </>
   );
 };
