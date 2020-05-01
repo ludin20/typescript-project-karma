@@ -33,7 +33,7 @@ const Aside: React.FC = () => {
     <Container>
       <WhoToFollow />
 
-      <Trending />
+      {/* <Trending /> */}
     </Container>
   );
 };
