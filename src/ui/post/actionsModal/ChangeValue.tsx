@@ -45,9 +45,11 @@ interface Props {
   value: number;
   onChange(value: number): void;
   method: string;
+  usdPrice?: number;
+  eosPrice?: number;
 }
 
-const ChangeValue: React.FC<Props> = ({ value, method, onChange }) => {
+const ChangeValue: React.FC<Props> = ({ value, method, onChange, usdPrice, eosPrice }) => {
   const handleChange = useCallback(
     (karmas: number) => {
       if (karmas < 0 || karmas > 1000) return;
@@ -71,7 +73,7 @@ const ChangeValue: React.FC<Props> = ({ value, method, onChange }) => {
         </button>
       </section>
 
-      <span>{value}.00 USD</span>
+      <span>{(value * usdPrice * eosPrice).toFixed(2)} USD</span>
     </Container>
   );
 };

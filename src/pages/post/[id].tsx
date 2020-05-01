@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NextPage, NextPageContext } from 'next';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import graphql from 'graphql-tag';
 import nextCookie from 'next-cookies';
 import ApolloClient from 'apollo-client';
@@ -15,6 +15,10 @@ import { RootState } from '../../store/ducks/rootReducer';
 import { withApollo } from '../../apollo/Apollo';
 import { KARMA_AUTHOR } from '../../common/config';
 import { PostInterface } from '../../ui/post/PostCard';
+
+import { actionRequest, actionSuccess } from '../../store/ducks/action';
+import { getWAXUSDPrice, getEOSPrice } from '../../services/config';
+import { useS3Image } from '../../hooks'
 
 const Wrapper = styled.div`
   @media (max-width: 700px) {
@@ -73,7 +77,24 @@ interface Props {
 }
 
 const Post: NextPage<Props> = ({ post, comments }) => {
-  const { avatar } = useSelector((state: RootState) => state.user.profile);
+  const dispatch = useDispatch();
+  const { profile } = useSelector((state: RootState) => state.user);
+  const avatar = useS3Image(profile.hash, 'thumbSmall');
+  const [usdPrice, setUsdPrice] = useState(null);
+  const [eosPrice, setEosPrice] = useState(null);
+
+  useEffect(() => {
+    loadPrices();
+  }, []);
+
+  const loadPrices = async () => {
+    dispatch(actionRequest());
+    const USDPrice = await getWAXUSDPrice();
+    const EOSPrice = await getEOSPrice();
+    setUsdPrice(USDPrice);
+    setEosPrice(EOSPrice);
+    dispatch(actionSuccess());
+  };
 
   return (
     <Wrapper>
@@ -83,7 +104,7 @@ const Post: NextPage<Props> = ({ post, comments }) => {
       </TitleWrapper>
       <Space height={20} />
 
-      <PostCard post={post} shouldHideFollowOnMobile withFollowButton={false} />
+      <PostCard post={post} usdPrice={usdPrice} eosPrice={eosPrice} shouldHideFollowOnMobile withFollowButton={false} />
 
       <PostComments comments={comments} avatar={avatar as string} />
     </Wrapper>

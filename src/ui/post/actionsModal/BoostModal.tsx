@@ -57,7 +57,7 @@ const BoostModal: React.FC<ModalProps> = props => {
   const [typeOfBoost, setTypeOfBoost] = useState<'KARMA' | 'WAX'>('KARMA');
 
   const handleSubmit = (value: number) => {
-    console.log(value); //eslint-disable-line no-console
+    props.onSubmit(value);
   };
 
   const customHeader: React.FC = () => {

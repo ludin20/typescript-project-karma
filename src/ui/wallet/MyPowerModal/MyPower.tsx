@@ -1,10 +1,14 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { useSelector } from 'react-redux';
+import graphql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { RootState } from '../../../store/ducks/rootReducer';
+import { actionRequest, actionSuccess } from '../../../store/ducks/action';
 
 import ModalWrapper, { ModalProps } from '../../common/ModalWrapper';
 import Title from '../../common/Title';
@@ -48,11 +52,17 @@ const Container = styled.div`
 
 const CloseButton = styled.button`
   background: none;
+  position: absolute;
+  right: 0;
 
   img {
     width: 30px;
     height: 30px;
   }
+`;
+
+const Header = styled(Row)`
+  position: relative;
 `;
 
 const StyledText = styled(Text)`
@@ -72,7 +82,43 @@ const SpaceOnMobile = css`
   }
 `;
 
-const MyPower: React.FC<ModalProps> = props => {
+const POWER_UP = graphql`
+  mutation powerUp($amount: String!) {
+    powerUp(amount: $amount) {
+      success
+    }
+  }
+`;
+
+const POWER_DOWN = graphql`
+  mutation powerDown($amount: String!) {
+    powerDown(amount: $amount) {
+      success
+    }
+  }
+`;
+
+export interface Props extends ModalProps {
+  action: string;
+  stakedAmount: number;
+  balanceAmount: number;
+  onChangeAction(action: string): void;
+  onRefresh: any;
+}
+
+const MyPower: React.FC<Props> = ({ action, stakedAmount, balanceAmount, onChangeAction, onRefresh, ...props }) => {
+  const dispatch = useDispatch();
+  const [powerUp] = useMutation(POWER_UP, {
+    onCompleted: e => {
+      onRefresh().then(() => props.close());
+    },
+  });
+  const [powerDown] = useMutation(POWER_DOWN, {
+    onCompleted: e => {
+      onRefresh().then(() => props.close());
+    },
+  });
+
   const commonFormik = {
     enableReinitialize: false,
     initialValues: {
@@ -87,35 +133,38 @@ const MyPower: React.FC<ModalProps> = props => {
   const increasePowerFormik = useFormik({
     ...commonFormik,
     onSubmit: values => {
-      console.log(values); //eslint-disable-line no-console
-      props.close();
+      dispatch(actionRequest());
+      powerUp({ variables: { quantity: `${parseInt(values.power).toFixed(4)} KARMA` } });
     },
   });
 
   const decreasePowerFormik = useFormik({
     ...commonFormik,
     onSubmit: values => {
-      console.log(values); //eslint-disable-line no-console
-      props.close();
+      dispatch(actionRequest());
+      powerDown({ variables: { quantity: `${parseInt(values.power).toFixed(4)} KARMA` } });
     },
   });
 
   const tabs = [
     {
       name: 'Increase Power',
+      action: 'up',
+      active: action === 'up',
       render: () => PowerForm({ formik: increasePowerFormik, borderColor: 'green' }),
     },
     {
       name: 'Decrease Power',
+      action: 'down',
+      active: action !== 'up',
       render: () => PowerForm({ formik: decreasePowerFormik, borderColor: 'warning' }),
     },
   ];
-  const { currentPower, liquidBalance, unstaking } = useSelector((state: RootState) => state.user.profile);
 
   return (
-    <ModalWrapper {...props} withoutBackgroundOnMobile>
+    <ModalWrapper {...props} justify="center" withoutBackgroundOnMobile>
       <Container>
-        <Row>
+        <Header>
           <Title size="small" bordered={false}>
             My Power
           </Title>
@@ -123,7 +172,7 @@ const MyPower: React.FC<ModalProps> = props => {
           <CloseButton onClick={() => props.close()}>
             <img src={closeIcon} alt="close" />
           </CloseButton>
-        </Row>
+        </Header>
         <Space height={25} />
 
         <Row justify="flex-start" align="center">
@@ -137,7 +186,7 @@ const MyPower: React.FC<ModalProps> = props => {
               <Space height={8} />
 
               <StyledText weight="900" size={20} color="green">
-                {currentPower} KARMA
+                {stakedAmount} KARMA
               </StyledText>
             </Column>
             <Space width={50} css={SpaceOnMobile} />
@@ -149,7 +198,7 @@ const MyPower: React.FC<ModalProps> = props => {
               <Space height={8} />
 
               <StyledText weight="900" size={20} color="secondblue">
-                {liquidBalance} KARMA
+                {balanceAmount && balanceAmount.toFixed()} KARMA
               </StyledText>
             </Column>
             <Space width={50} css={SpaceOnMobile} />
@@ -161,14 +210,14 @@ const MyPower: React.FC<ModalProps> = props => {
               <Space height={8} />
 
               <StyledText weight="900" size={20} color="warning">
-                {unstaking} KARMA
+                {stakedAmount} KARMA
               </StyledText>
             </Column>
           </StyledRow>
         </Row>
         <Space height={25} />
 
-        <ModalTabs tabs={tabs} />
+        <ModalTabs tabs={tabs} onChangeTab={onChangeAction} />
       </Container>
     </ModalWrapper>
   );

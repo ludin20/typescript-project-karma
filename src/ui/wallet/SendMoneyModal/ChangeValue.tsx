@@ -2,6 +2,8 @@ import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { useField, useFormikContext } from 'formik';
 
+import { WalletProps } from '../Actions';
+
 import upAndDown from '../../assets/up-and-down.svg';
 
 const Container = styled.div<{ empty: boolean }>`
@@ -72,24 +74,39 @@ const Container = styled.div<{ empty: boolean }>`
   }
 `;
 
-const ChangeValue: React.FC = () => {
+const ChangeValue: React.FC<WalletProps> = ({ usdPrice, eosPrice, balanceAmount, ...props }) => {
+  const usdBalanceAmount = usdPrice * eosPrice * balanceAmount;
   const [currency, setCurrency] = useState<'KARMA' | 'USD'>('KARMA');
+  const [karmaAmount, setKarmaAmount] = useState(0);
+  const [usdAmount, setUsdAmount] = useState(0);
 
   const [field] = useField('value');
   const { setFieldValue } = useFormikContext<any>();
 
   const handleChangeValue = useCallback(
-    (amount: number) => {
-      if (amount < 0 || amount > 1000) return;
+    (value: string) => {
+      const amount = Number(value);
+      if (currency == 'KARMA') {
+        if (amount < 0 || amount > balanceAmount) return;
 
-      if (amount === 0) {
-        setFieldValue('value', 0);
-        return;
+        if (value.includes('0') && !value.includes('.')) setKarmaAmount('');
+        setTimeout(() => {
+          setKarmaAmount(amount);
+        }, 1);
+        setUsdAmount(parseFloat((usdPrice * eosPrice * amount).toFixed(2)));
+        setFieldValue('value', amount);
+      } else {
+        if (amount < 0 || amount > usdBalanceAmount) return;
+
+        if (value.includes('0') && !value.includes('.')) setUsdAmount('');
+        setTimeout(() => {
+          setUsdAmount(amount);
+        }, 1);
+        setKarmaAmount(parseFloat((amount / (usdPrice * eosPrice)).toFixed()));
+        setFieldValue('value', parseFloat((amount / (usdPrice * eosPrice)).toFixed()));
       }
-
-      setFieldValue('value', amount);
     },
-    [setFieldValue],
+    [balanceAmount, currency, eosPrice, setFieldValue, usdBalanceAmount, usdPrice],
   );
 
   const handleChangeCurrency = useCallback(() => {
@@ -105,22 +122,20 @@ const ChangeValue: React.FC = () => {
       <span>{currency}</span>
 
       <section>
-        <button onClick={() => handleChangeValue(1000)}>MAX</button>
+        <button onClick={() => handleChangeValue(balanceAmount && currency === 'KARMA' ? balanceAmount.toFixed() : usdBalanceAmount.toFixed(2))}>MAX</button>
         <input
           type="number"
           placeholder="0"
-          value={field.value}
-          onChange={e => handleChangeValue(Number(e.target.value))}
-          max={1000}
+          value={currency === 'KARMA' ? karmaAmount : usdAmount}
+          onChange={e => handleChangeValue(e.target.value)}
+          max={currency === 'KARMA' ? balanceAmount : usdBalanceAmount}
         />
         <button onClick={handleChangeCurrency}>
           <img src={upAndDown} alt="up and down" />
         </button>
       </section>
 
-      <span>
-        {field.value ? field.value.toFixed() : '0.00'} {currency === 'KARMA' ? 'USD' : 'KARMA'}
-      </span>
+      <span>{currency === 'KARMA' ? usdAmount.toFixed(2) + ' USD' : karmaAmount.toFixed() + ' KARMA'}</span>
     </Container>
   );
 };

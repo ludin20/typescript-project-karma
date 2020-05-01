@@ -110,14 +110,18 @@ const Refresh = styled.div<{ loading: number }>`
     `}
 `;
 
-const Balance: React.FC = () => {
+export interface BalanceProps {
+  stakedAmount: number;
+  totalAmount: string;
+  onRefresh: any;
+}
+
+const Balance: React.FC<BalanceProps> = ({ stakedAmount, totalAmount, onRefresh }) => {
   const [loading, setLoading] = useState(false);
 
   const handleRefresh = () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    onRefresh().then(() => setLoading(false));
   };
 
   return (
@@ -128,11 +132,11 @@ const Balance: React.FC = () => {
         </button>
       </Refresh>
 
-      <strong>$ 3,906.15</strong>
+      <strong>$ {totalAmount}</strong>
       <span>TOTAL BALANCE</span>
       <button>
         <img src={powerIcon} alt="power" />
-        1.3M KARMA Power
+        {stakedAmount} KARMA Power
       </button>
     </Container>
   );

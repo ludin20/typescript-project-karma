@@ -8,6 +8,7 @@ import ModalWrapper, { ModalProps } from '../../common/ModalWrapper';
 import Header from './Header';
 import ChangeValue from './ChangeValue';
 import Form, { SendMoneyFormProps } from './Form';
+import { WalletProps } from '../Actions';
 
 const Container = styled.div`
   width: 100%;
@@ -29,11 +30,11 @@ const Container = styled.div`
   }
 `;
 
-interface Props extends ModalProps, SendMoneyFormProps {
-  handleSubmit?(value: number, to: string): void;
+interface Props extends ModalProps, SendMoneyFormProps, WalletProps {
+  handleSubmit?(value: number, to: string, memo: string): void;
 }
 
-const SendMoneyModal: React.FC<Props> = ({ profile, handleSubmit, ...props }) => {
+const SendMoneyModal: React.FC<Props> = ({ profile, handleSubmit, usdPrice, eosPrice, balanceAmount, ...props }) => {
   const formik = useFormik({
     initialValues: {
       to: '',
@@ -49,19 +50,19 @@ const SendMoneyModal: React.FC<Props> = ({ profile, handleSubmit, ...props }) =>
     }),
     validateOnMount: true,
     onSubmit: ({ memo, value, to }) => {
-      handleSubmit(value, to);
+      handleSubmit(value, to, memo);
     },
   });
 
   return (
-    <ModalWrapper {...props}>
+    <ModalWrapper {...props} justify="center">
       <FormikProvider value={formik}>
         <Container>
-          <Header handleClose={props.close} liquidBalance="1,019,847" />
+          <Header handleClose={props.close} liquidBalance={balanceAmount ? balanceAmount.toFixed() : ''} />
 
-          <ChangeValue />
+          <ChangeValue usdPrice={usdPrice} eosPrice={eosPrice} balanceAmount={balanceAmount} />
 
-          <Form profile={profile} />
+          <Form profile={profile} formik={formik} />
         </Container>
       </FormikProvider>
     </ModalWrapper>

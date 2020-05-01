@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useField, useFormikContext } from 'formik';
 
@@ -71,6 +71,9 @@ const SendTo: React.FC<SendMoneyFormProps> = ({ profile }) => {
   const [to] = useField('to');
   const { setFieldValue } = useFormikContext<any>();
 
+  useEffect(() => {
+    profile && profile.author && setFieldValue('to', profile.author);
+  }, [profile]);
   const onChange = useCallback(
     e => {
       setFieldValue('to', e.target.value);
@@ -81,7 +84,7 @@ const SendTo: React.FC<SendMoneyFormProps> = ({ profile }) => {
   if (profile) {
     return (
       <Container hasProfile>
-        <Avatar src={profile.avatar} alt={profile.username} />
+        <Avatar src={profile.avatar} alt={profile.username} size="small" />
 
         <section>
           <strong>Sending To </strong>
