@@ -2,10 +2,10 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: 'Avenir';
-    src: url('/fonts/AvenirBook.otf');
-    src: url('/fonts/AvenirMedium.otf');
-    src: url('/fonts/AvenirRoman.otf');
+    font-family: 'Montserrat';
+    src: url('/fonts/Montserrat-Bold.ttf');
+    src: url('/fonts/Montserrat-Medium.ttf');
+    src: url('/fonts/Montserrat-SemiBold.ttf');
   }
 
   * {
@@ -55,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
 
   body, input, textarea, button {
     font-size: 14px;
-    font-family: 'Avenir', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
   }
 
