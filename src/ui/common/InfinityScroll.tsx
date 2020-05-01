@@ -19,9 +19,11 @@ const InfinityScroll: React.FC<InfinityScrollProps> = ({ children, loadMore, has
       hasMore={hasMore}
       loader={<Loading withContainer />}
       endMessage={
-        <Row style={{ width: '100%' }} justify="center">
-          <Text size={20}>No data to show</Text>
-        </Row>
+        length > 0 ? null : (
+          <Row style={{ width: '100%' }} justify="center">
+            <Text size={20}>No data to show</Text>
+          </Row>
+        )
       }
     >
       {children}

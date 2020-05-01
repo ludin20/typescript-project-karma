@@ -30,7 +30,7 @@ interface Props {
 
 const Template: React.FC<Props> = ({ medias, loadMore }) => {
   return (
-    <InfinityScroll length={medias.length} loadMore={loadMore}>
+    <InfinityScroll length={medias.length} loadMore={loadMore} hasMore={medias.length > 0}>
       <SkeletonTheme color="#191A19" highlightColor="#333">
         <Space height={30} />
         <Grid columns="3" gap="24px" align css={gridCss}>

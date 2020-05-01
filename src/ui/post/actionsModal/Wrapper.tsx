@@ -52,12 +52,14 @@ const SubmitButton = styled(Button)`
 interface WrapperProps extends ModalProps {
   icon: string;
   entity: string;
+  usdPrice?: number;
+  eosPrice?: number;
   handleSubmit(value: number): void;
   customHeader?: React.FC;
   method?: string;
 }
 
-const Wrapper: React.FC<WrapperProps> = ({ icon, entity, customHeader: CustomHeader, method = 'KARMA', ...props }) => {
+const Wrapper: React.FC<WrapperProps> = ({ icon, entity, customHeader: CustomHeader, method = 'KARMA', handleSubmit, ...props }) => {
   const [value, setTipValue] = useState(0);
 
   return (
@@ -70,11 +72,11 @@ const Wrapper: React.FC<WrapperProps> = ({ icon, entity, customHeader: CustomHea
           <span>?</span>
         </p>
 
-        <ChangeValue value={value} onChange={setTipValue} method={method} />
+        <ChangeValue value={value} onChange={setTipValue} method={method} usdPrice={props.usdPrice} eosPrice={props.eosPrice} />
         <Slider value={value} onChange={setTipValue} />
         <ValueCards onChange={setTipValue} />
 
-        <SubmitButton background="green" disabled={value <= 0} type="button" radius="rounded">
+        <SubmitButton background="green" disabled={value <= 0} type="button" radius="rounded" onClick={() => handleSubmit(value)}>
           Confirm
         </SubmitButton>
       </Container>
