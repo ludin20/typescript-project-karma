@@ -7,9 +7,8 @@ import Button from '../../common/Button';
 import success from '../../assets/success.svg';
 
 const SuccessWrapper = styled.div`
-  margin-bottom: 20px;
   width: 100%;
-
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,12 +20,13 @@ const SuccessWrapper = styled.div`
 `;
 
 const Container = styled.div`
+  margin-top: 90px;
   width: 100%;
   max-width: 500px;
   background: ${props => props.theme.dark};
   box-shadow: 0px 3px 20px #000000;
   border-radius: 25px;
-  padding: 220px 0 80px;
+  padding: 285px 0 35px;
 
   display: flex;
   flex-direction: column;
@@ -61,6 +61,8 @@ const Container = styled.div`
     }
 
     &:nth-child(3) {
+      width: 80%;
+
       strong {
         color: #fff;
         font-size: 50px;
@@ -71,6 +73,12 @@ const Container = styled.div`
         margin-top: 5px;
         color: #fff;
       }
+
+      span {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
     }
   }
 `;
@@ -78,9 +86,9 @@ const Container = styled.div`
 const SuccessIcon = styled.img`
   position: absolute;
   z-index: 2;
-  top: 0;
-  width: 430px;
-  height: 430px;
+  top: 85px;
+  width: 300px;
+  height: 300px;
 `;
 
 const SubmitButton = styled(Button)`
@@ -95,26 +103,29 @@ const SubmitButton = styled(Button)`
 
 interface Props extends ModalProps {
   to: string;
-  karmaValue: string;
-  usdValue: string;
+  value: {
+    karma: number;
+    usd: number;
+  };
+  action: string;
 }
 
-const SuccessModal: React.FC<Props> = ({ to, karmaValue, usdValue, ...props }) => {
+const SuccessModal: React.FC<Props> = ({ to, value, action, ...props }) => {
   return (
-    <ModalWrapper {...props} justify="flex-end">
+    <ModalWrapper {...props} justify="center">
       <SuccessWrapper>
         <SuccessIcon src={success} alt="confirmation" />
 
         <Container>
-          <span>Successfully sent!</span>
+          <span>Successfully {action == 'send' ? 'sent' : 'claimed'}!</span>
 
           <p>
-            <strong>{karmaValue} KARMA</strong>
-            <span>{usdValue} USD</span>
+            <strong>{value.karma.toFixed()} KARMA</strong>
+            <span>{value.usd.toFixed(2)} USD</span>
           </p>
 
           <p>
-            <span>Recipients address:</span>
+            <span>{action == 'send' ? 'Recipients address:' : 'View Transaction'}</span>
             <span>{to}</span>
           </p>
         </Container>
