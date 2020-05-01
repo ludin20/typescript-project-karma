@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { useField, useFormikContext } from 'formik';
+import { useField, useFormikContext, FormikProps } from 'formik';
 
 import Button from '../../common/Button';
 import Space from '../../common/Space';
@@ -51,6 +51,7 @@ const SubmitButton = styled(Button)`
   border-radius: 200px;
   font-size: 18px;
   font-weight: 900;
+  opacity: ${props => (props.disabled ? 0.7 : 1)} !important;
 
   display: flex;
   align-items: center;
@@ -59,13 +60,15 @@ const SubmitButton = styled(Button)`
 
 export interface SendMoneyFormProps {
   profile?: {
+    author: string;
     name: string;
     username: string;
     avatar: string;
   };
+  formik?: any;
 }
 
-const Form: React.FC<SendMoneyFormProps> = ({ profile }) => {
+const Form: React.FC<SendMoneyFormProps> = ({ profile, formik }) => {
   const [empty, setEmpty] = useState(true);
 
   const [memo] = useField('memo');
@@ -94,7 +97,7 @@ const Form: React.FC<SendMoneyFormProps> = ({ profile }) => {
         </div>
         <Space height={26} />
 
-        <SubmitButton type="submit" radius="rounded" onClick={handleSubmit}>
+        <SubmitButton type="submit" radius="rounded" onClick={handleSubmit} disabled={!formik.isValid}>
           Confirm
         </SubmitButton>
       </Container>
