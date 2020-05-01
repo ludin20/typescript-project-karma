@@ -4,13 +4,13 @@ import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 import withoutAvatar from '../assets/withoutAvatar.svg';
 
 const Container = styled.img<{ online?: boolean; size: 'default' | 'small' | 'big'; css?: FlattenSimpleInterpolation }>`
-  width: ${props => (props.size === 'default' ? '50px' : '40px')};
-  height: ${props => (props.size === 'default' ? '50px' : '40px')};
+  width: ${props => (props.size === 'default' ? '65px' : '50px')};
+  height: ${props => (props.size === 'default' ? '65px' : '50px')};
   border-radius: 50%;
 
   @media (max-width: 550px) {
-    width: ${props => (props.size === 'default' ? '50px' : '30px')};
-    height: ${props => (props.size === 'default' ? '50px' : '30px')};
+    width: ${props => (props.size === 'default' ? '65px' : '30px')};
+    height: ${props => (props.size === 'default' ? '65px' : '30px')};
   }
 
   ${p => p.css}
