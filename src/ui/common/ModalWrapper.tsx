@@ -6,6 +6,7 @@ export const Container = styled.div<ModalProps>`
   min-height: 100%;
   padding: 20px 0;
   background: rgba(26, 27, 29, 0.8);
+  justify-content: ${props => (props.justify ? props.justify : 'initial')};
   display: ${props => (props.open ? 'flex' : 'none')};
   flex-direction: column;
   align-items: center;
