@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import cookie from 'js-cookie';
 
-import { createProfileRequest } from '../../store/ducks/user';
+import { updateProfileRequest } from '../../store/ducks/user';
 
 import { ModalProps } from '../common/ModalWrapper';
 import { KARMA_AUTHOR } from '../../common/config';
@@ -29,29 +29,36 @@ const CreateProfileModal: React.FC<Props> = ({ profile, ...props }) => {
   const formik = useFormik({
     enableReinitialize: false,
     initialValues: {
-      name: profile ? profile.displayname || '' : '',
-      username: profile ? profile.username || '' : '',
+      displayname: profile ? profile.displayname || '' : '',
+      username: profile ? '@' + profile.username || '' : '',
       bio: profile ? profile.bio || '' : '',
       hash: profile ? profile.hash || '' : '',
       //website: '',
     },
     validateOnMount: true,
     validationSchema: Yup.object().shape({
-      name: Yup.string().required('Name is required'),
+      displayname: Yup.string().required('Name is required'),
       username: Yup.string().required('Username is required'),
       bio: Yup.string(),
-      hash: Yup.string(),
+      hash: Yup.string().required('User Image is required'),
       //website: Yup.string(),
     }),
     onSubmit: input => {
       const oldProfile = {
-        name: profile ? profile.displayname : '',
+        displayname: profile ? profile.displayname : '',
         username: profile ? profile.username : '',
         bio: profile ? profile.bio : '',
         hash: profile ? profile.hash : '',
       };
-      dispatch(createProfileRequest(input, oldProfile));
-      props.close();
+
+      const newProfile = {
+        displayname: input.displayname || profile.displayname,
+        username: input.username ? input.username.slice(1, input.username.length) : profile.username,
+        bio: input.bio || profile.bio,
+        hash: input.hash || profile.hash,
+      };
+
+      dispatch(updateProfileRequest(newProfile, oldProfile, props.close));
     },
   });
 

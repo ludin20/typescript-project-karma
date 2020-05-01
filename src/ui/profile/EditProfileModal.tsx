@@ -39,10 +39,10 @@ const EditProfileModal: React.FC<Props> = ({ profile, ...props }) => {
   const formik = useFormik({
     enableReinitialize: false,
     initialValues: {
-      hash: '',
-      name: '',
-      username: '',
-      bio: '',
+      displayname: profile ? profile.displayname || '' : '',
+      username: profile ? '@' + profile.username || '' : '',
+      bio: profile ? profile.bio || '' : '',
+      hash: profile ? profile.hash || '' : '',
       //website: '',
     },
     validationSchema: Yup.object().shape({
@@ -54,7 +54,7 @@ const EditProfileModal: React.FC<Props> = ({ profile, ...props }) => {
     validateOnMount: true,
     onSubmit: values => {
       const oldProfile = {
-        name: profile.displayname,
+        displayname: profile.displayname,
         username: profile.username,
         bio: profile.bio,
         hash: profile.hash,
@@ -62,14 +62,13 @@ const EditProfileModal: React.FC<Props> = ({ profile, ...props }) => {
 
       const newProfile = {
         hash: values.hash || profile.hash,
-        name: values.name || profile.displayname,
-        username: values.username || profile.username,
+        displayname: values.displayname || profile.displayname,
+        username: values.username ? values.username.slice(1, values.username.length) : profile.username,
         bio: values.bio || profile.bio,
         //website: values.website || profile.website,
       };
 
-      dispatch(updateProfileRequest(newProfile, oldProfile));
-      props.close();
+      dispatch(updateProfileRequest(newProfile, oldProfile, props.close));
     },
   });
 

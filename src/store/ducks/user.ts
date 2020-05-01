@@ -14,7 +14,7 @@ export const types = {
 
 export interface ProfileProps {
   avatar?: string | File;
-  name: string;
+  displayname: string;
   username: string;
   bio: string;
   website: string;
@@ -34,7 +34,7 @@ export interface UserState {
 }
 
 export const defaultProfile: ProfileProps = {
-  name: 'Full Name',
+  displayname: 'Full Name',
   username: '@username',
   bio: '',
   followers: 0,
@@ -92,17 +92,18 @@ export default function reducer(state = INITIAL_STATE, action) {
 }
 
 interface Profile {
-  name: string;
+  displayname: string;
   username: string;
   bio: string;
   hash: string;
 }
-export function createProfileRequest(data: Profile, oldData: Profile) {
+export function createProfileRequest(data: Profile, oldData: Profile, action: any) {
   return {
     type: types.CREATE_PROFILE_REQUEST,
     payload: {
       data,
       oldData,
+      action,
     },
   };
 }
@@ -116,12 +117,13 @@ export function createProfileSuccess(user) {
   };
 }
 
-export function updateProfileRequest(data: Profile, oldData: Profile) {
+export function updateProfileRequest(data: Profile, oldData: Profile, action: any) {
   return {
     type: types.UPDATE_PROFILE_REQUEST,
     payload: {
       data,
       oldData,
+      action,
     },
   };
 }

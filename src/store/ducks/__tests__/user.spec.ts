@@ -3,7 +3,7 @@ import * as UserActions from '../user';
 import * as AuthActions from '../auth';
 
 const profile = {
-  name: 'thename',
+  displayname: 'thename',
   username: '@thename',
   bio: 'a cool test',
   website: 'www.coolwebsite.test',

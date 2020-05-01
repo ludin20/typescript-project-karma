@@ -63,7 +63,7 @@ const Sidebar: React.FC<Props> = ({ collapsed, setCollapsed, profile }) => {
         <Header
           profile={{
             name: profile?.displayname,
-            username: profile?.username,
+            username: '@' + profile?.username,
             avatar: avatar || withoutAvatar,
           }}
           withAvatar={!!avatar}

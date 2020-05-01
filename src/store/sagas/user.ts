@@ -1,5 +1,6 @@
 import { takeLatest, all, put, select, call } from 'redux-saga/effects';
 import jwt from 'jsonwebtoken';
+import cookie from 'js-cookie';
 
 import {
   createProfileRequest,
@@ -10,24 +11,21 @@ import {
   types,
   defaultProfile,
 } from '../ducks/user';
-import { REQUEST_JWT, RESPONSE_JWT } from '../../common/config';
+import { REQUEST_JWT, RESPONSE_JWT, KARMA_AUTHOR } from '../../common/config';
 import api from '../../services/api';
-import { AuthState } from '../ducks/auth';
-import { RootState } from '../ducks/rootReducer';
+const author = cookie.get(KARMA_AUTHOR);
 
 export function* createProfile({ payload }: ReturnType<typeof createProfileRequest>) {
-  const { Author: ReducerAuthor }: AuthState = yield select((state: RootState) => state.auth);
-
   try {
-    const { bio, username, name, hash } = payload.data;
+    const { bio, username, displayname, hash } = payload.data;
 
     const body = {
-      author: ReducerAuthor,
+      author: author,
       usernameOrig: payload.oldData.username,
       usernameNew: username,
       hash,
       bio,
-      displayname: name,
+      displayname: displayname,
       domain_id: 1,
     };
 
@@ -39,28 +37,27 @@ export function* createProfile({ payload }: ReturnType<typeof createProfileReque
     const { IsValid } = decodedData.response;
 
     if (!IsValid) {
+      yield put(createProfileSuccess(defaultProfile));
+      payload.action && payload.action();
+    } else {
       yield put(profileFailure());
     }
-
-    yield put(createProfileSuccess(defaultProfile));
   } catch (error) {
     yield put(profileFailure());
   }
 }
 
 export function* updateProfile({ payload }: ReturnType<typeof updateProfileRequest>) {
-  const { Author: ReducerAuthor }: AuthState = yield select((state: RootState) => state.auth);
-
   try {
-    const { bio, username, name, hash } = payload.data;
+    const { bio, username, displayname, hash } = payload.data;
 
     const body = {
-      author: ReducerAuthor,
+      author: author,
       usernameOrig: payload.oldData.username,
       usernameNew: username,
       hash,
       bio,
-      displayname: name,
+      displayname: displayname,
       domain_id: 1,
     };
 
@@ -71,11 +68,13 @@ export function* updateProfile({ payload }: ReturnType<typeof updateProfileReque
     const decodedData = jwt.decode(data, RESPONSE_JWT);
     const { IsValid } = decodedData.response;
 
-    if (!IsValid) {
+    if (IsValid) {
+      yield put(updateProfileSuccess(payload.data));
+      payload.action && payload.action();
+    } else {
       yield put(profileFailure());
+      payload.action && payload.action();
     }
-
-    yield put(updateProfileSuccess(payload.data));
   } catch (error) {
     yield put(profileFailure());
   }

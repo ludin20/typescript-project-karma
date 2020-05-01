@@ -93,7 +93,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
           <Row align="center">
             <ImageInput name="hash" author={author} />
             <Space width={10} />
-            <Input label="Name" name="name" placeholder="Enter Name" required bordered flex />
+            <Input label="Name" name="displayname" placeholder="Enter Name" required bordered flex />
           </Row>
 
           <Space height={25} />
