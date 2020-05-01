@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
@@ -16,7 +17,7 @@ import validateTab from '../../../util/validateTab';
 import { KARMA_AUTHOR } from '../../../common/config';
 
 const GET_PROFILE = graphql`
-  query profile($accountname: String!, $me: String!, $profilePath: any, $postsPath: any, $followersPath: any) {
+  query profile($accountname: String!, $me: String!, $profilePath: any, $postsPath: any, $followersPath: any, $followingPath: any) {
     profile(accountname: $accountname) @rest(type: "Profile", pathBuilder: $profilePath) {
       displayname
       author
@@ -28,11 +29,13 @@ const GET_PROFILE = graphql`
         username
         hash
         displayname
+        author
       }
-      following(accountname: $accountname, page: $page) @rest(type: "Followers", pathBuilder: $followersPath) {
+      following(accountname: $accountname, page: $page) @rest(type: "Followers", pathBuilder: $followingPath) {
         username
         hash
         displayname
+        author
       }
       username
     }
@@ -45,9 +48,10 @@ const GET_PROFILE = graphql`
 
 interface Props {
   me: string;
+  profile: any;
 }
 
-const ProfileWrapper: NextPage<Props> = ({ me }) => {
+const ProfileWrapper: NextPage<Props> = ({ me, profile }) => {
   const router = useRouter();
   const { username, tab } = router.query;
 
@@ -64,7 +68,8 @@ const ProfileWrapper: NextPage<Props> = ({ me }) => {
       me,
       profilePath: () => `profile/${username}?domainID=${1}`,
       postsPath: () => `posts/account/${username}?domainID=${1}`,
-      followersPath: () => `profile/${username}/folllowers/`,
+      followersPath: () => `profile/${username}/followers/`,
+      followingPath: () => `profile/${username}/following/`,
     },
   });
 
@@ -81,7 +86,21 @@ const ProfileWrapper: NextPage<Props> = ({ me }) => {
     }, */
   ];
 
-  if (isMe) return <Me tabs={tabs} tab={tab as string} profile={data.profile} postCount={data.posts.length} />;
+  if (isMe)
+    return (
+      <Me
+        tabs={tabs}
+        tab={tab as string}
+        profile={{
+          ...profile,
+          followers: data.profile.followers,
+          following: data.profile.following,
+          followers_count: data.profile.followers_count,
+          following_count: data.profile.following_count,
+        }}
+        postCount={data.posts.length}
+      />
+    );
 
   return <Profile tabs={tabs} tab={tab as string} profile={data.profile} postCount={data.posts.length} me={me} />;
 };
@@ -108,4 +127,8 @@ ProfileWrapper.getInitialProps = async (ctx: Context) => {
   };
 };
 
-export default withAuthSync(withApollo({ ssr: true })(ProfileWrapper));
+const mapStateToProps = state => ({
+  profile: state.user.profile,
+});
+
+export default connect(mapStateToProps)(withAuthSync(withApollo({ ssr: true })(ProfileWrapper)));

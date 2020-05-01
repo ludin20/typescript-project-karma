@@ -68,12 +68,14 @@ interface Props {
   avatar: string;
   name: string;
   username: string;
+  author?: string;
   me?: boolean;
   isVerified?: boolean;
   power: string | number;
   bio: string;
   website: string;
   handleModal?: () => void;
+  onFollowSuccess?: (boolean) => void;
   following?: boolean;
   followsMe?: boolean;
 }
@@ -82,11 +84,13 @@ const ProfileInfo: React.FC<Props> = ({
   avatar,
   name,
   username,
+  author,
   me,
   isVerified,
   power,
   website,
   handleModal,
+  onFollowSuccess,
   following,
   followsMe,
   bio,
@@ -98,10 +102,12 @@ const ProfileInfo: React.FC<Props> = ({
         isVerified={isVerified}
         avatar={avatar}
         name={name}
-        username={username}
+        username={'@' + username}
         me={me}
+        author={author}
         power={power}
         handleModal={handleModal}
+        onFollowSuccess={onFollowSuccess}
         following={following}
         followsMe={followsMe}
       />
@@ -124,6 +130,8 @@ const ProfileInfo: React.FC<Props> = ({
           power={power}
           handleModal={handleModal}
           following={following}
+          author={author}
+          onFollowSuccess={onFollowSuccess}
           name={name}
           username={username}
           avatar={avatar}

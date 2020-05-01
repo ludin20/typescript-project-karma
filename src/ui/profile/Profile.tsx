@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 
 import { ProfileHeader, ProfileInfo, Tabs, GoBackButton } from '../../ui';
 import { TabInterface } from '../tabs/Tabs';
 import { useS3Image } from '../../hooks';
+import karmaApi from '../../services/api';
 
 const Wrapper = styled.div`
   @media (max-width: 700px) {
@@ -40,11 +41,27 @@ interface Props {
 }
 
 const Profile: React.FC<Props> = ({ tabs, tab, profile, postCount, me }) => {
-  const { displayname, bio, hash, followers, following, followers_count, following_count, username } = profile;
+  const { displayname, bio, hash, followers, following, followers_count, following_count, username, author } = profile;
   const avatar = useS3Image(hash, 'thumbBig');
+  const [followersCount, setFollowersCount] = useState(parseInt(followers_count));
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followsMe, setFollowsMe] = useState(false);
 
-  const isFollowing = !!followers.find(follow => follow.author === me);
-  const followsMe = !!following.find(follow => follow.author === me);
+  useEffect(() => {
+    async function fetchData() {
+      const response = await karmaApi.get(`profile/${author}?domainID=1`);
+      if (response && response.data) {
+        setIsFollowing(!!response.data.followers.find(follow => follow === me));
+        setFollowsMe(!!response.data.following.find(follow => follow === me));
+      }
+    }
+
+    fetchData();
+  }, [author, me]);
+
+  const onSuccessFollow = (following: boolean) => {
+    following ? setFollowersCount(followersCount + 1) : setFollowersCount(followersCount - 1);
+  };
 
   return (
     <Wrapper>
@@ -52,7 +69,7 @@ const Profile: React.FC<Props> = ({ tabs, tab, profile, postCount, me }) => {
       <ProfileHeader
         avatar={avatar}
         posts={postCount}
-        followersCount={followers_count}
+        followersCount={followersCount}
         followingCount={following_count}
         followers={followers}
         following={following}
@@ -62,11 +79,13 @@ const Profile: React.FC<Props> = ({ tabs, tab, profile, postCount, me }) => {
         avatar={avatar}
         name={displayname}
         username={username}
+        author={author}
         power="0"
         website=""
         bio={bio}
         following={isFollowing}
         followsMe={followsMe}
+        onFollowSuccess={onSuccessFollow}
       />
 
       <Tabs tabs={tabs} paramTab={tab || ''} size="big" />
