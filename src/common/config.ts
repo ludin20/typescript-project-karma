@@ -10,3 +10,4 @@ export const NODE_ENV = process.env.NODE_ENV || 'development';
 export const EOS_URL = process.env.EOS_URL || 'https://api.waxsweden.org';
 export const PUB_KEY = process.env.PUB_KEY || 'EOS6kNEb94f669yF9woiQQr2NxAsyxKeuRFMZ3wtXuW1XuUy1Db1N';
 export const TOKEN_CONTRACT = process.env.TOKEN_CONTRACT || 'theonlykarma';
+export const TOKEN_NEWDEX = process.env.TOKEN_NEWDEX || 'theonlykarma-karma-wax';
