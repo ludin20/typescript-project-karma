@@ -66,6 +66,7 @@ const Header = styled(Row)`
 `;
 
 const StyledText = styled(Text)`
+  white-space: nowrap;
   @media (max-width: 700px) {
     font-size: 14px;
   }
@@ -73,12 +74,11 @@ const StyledText = styled(Text)`
 
 const StyledRow = styled(Row)`
   flex: 1;
-  padding: 0 20px;
 `;
 
 const SpaceOnMobile = css`
   @media (max-width: 700px) {
-    width: 22px;
+    width: 10%;
   }
 `;
 
@@ -186,7 +186,7 @@ const MyPower: React.FC<Props> = ({ action, stakedAmount, balanceAmount, onChang
               <Space height={8} />
 
               <StyledText weight="900" size={20} color="green">
-                {stakedAmount} KARMA
+                {stakedAmount && stakedAmount.toFixed()}
               </StyledText>
             </Column>
             <Space width={50} css={SpaceOnMobile} />
@@ -198,7 +198,7 @@ const MyPower: React.FC<Props> = ({ action, stakedAmount, balanceAmount, onChang
               <Space height={8} />
 
               <StyledText weight="900" size={20} color="secondblue">
-                {balanceAmount && balanceAmount.toFixed()} KARMA
+                {balanceAmount && balanceAmount.toFixed()}
               </StyledText>
             </Column>
             <Space width={50} css={SpaceOnMobile} />
@@ -210,7 +210,7 @@ const MyPower: React.FC<Props> = ({ action, stakedAmount, balanceAmount, onChang
               <Space height={8} />
 
               <StyledText weight="900" size={20} color="warning">
-                {stakedAmount} KARMA
+                {0}
               </StyledText>
             </Column>
           </StyledRow>
