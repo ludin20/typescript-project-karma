@@ -56,6 +56,7 @@ const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
         avatar={avatar as string}
         name={displayname}
         username={username}
+        author={author}
         me
         power={0}
         website=""

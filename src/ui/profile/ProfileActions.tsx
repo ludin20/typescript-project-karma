@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import cookie from 'js-cookie';
 import styled, { css } from 'styled-components';
 
 import powerIcon from '../assets/power.svg';
@@ -11,10 +10,11 @@ import Button from '../common/Button';
 import FollowButton from '../common/FollowButton';
 
 import { tx, logtask } from '../../services/config';
-import { KARMA_AUTHOR, TOKEN_CONTRACT } from '../../common/config';
-import { fetchBalance } from "../../services/Auth";
+import { TOKEN_CONTRACT } from '../../common/config';
+import { fetchBalance, fetchStakedBalance } from "../../services/Auth";
 import { getWAXUSDPrice, getEOSPrice } from "../../services/config";
 import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
+import { useInt2roundKMG } from '../../hooks';
 
 const Container = styled.div<{ me: boolean }>`
   display: flex;
@@ -131,14 +131,14 @@ interface Props {
 
 const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSuccess, following, avatar, username, name, mobile, author }) => {
   const dispatch = useDispatch();
-  const accountName = cookie.get(KARMA_AUTHOR);
   const [sendMoneyModalIsOpen, setSendMoneyModalIsOpen] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [value, setValue] = useState({ karma: 0, usd: 0 });
   const [to, setTo] = useState('');
-  const [usdPrice, setUsdPrice] = useState(null);
-  const [eosPrice, setEosPrice] = useState(null);
-  const [balanceAmount, setBalanceAmount] = useState(null);
+  const [usdPrice, setUsdPrice] = useState(0);
+  const [eosPrice, setEosPrice] = useState(0);
+  const [balanceAmount, setBalanceAmount] = useState(0);
+  const [stakedAmount, setStakedAmount] = useState(0);
 
   useEffect(() => {
     _fetchBalance();
@@ -147,13 +147,14 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSucce
   const _fetchBalance = async () => {
     try {
       dispatch(actionRequest());
-      const [balance] = await Promise.all([fetchBalance(accountName)]);
+      const [balance, staked] = await Promise.all([fetchBalance(author), fetchStakedBalance(author)]);
 
       const USDPrice = await getWAXUSDPrice();
       const EOSPrice = await getEOSPrice();
       setUsdPrice(USDPrice);
       setEosPrice(EOSPrice);
       setBalanceAmount(balance);
+      setStakedAmount(staked);
       dispatch(actionSuccess());
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -201,7 +202,7 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSucce
       <Container me={me}>
         <ActionButton me border background="dark" radius="rounded" color={'#26CC8B'} borderColor={'#26CC8B'}>
           <img src={powerIcon} alt="power" />
-          {power} Power
+          {useInt2roundKMG(stakedAmount)}
         </ActionButton>
 
         <ActionButton me border radius="rounded" onClick={handleModal}>
@@ -215,7 +216,7 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSucce
     <Container me={me}>
       <ActionButton me={false} border background="dark" radius="rounded" color={'#26CC8B'} borderColor={'#26CC8B'}>
         <img src={powerIcon} alt="power" />
-        {mobile ? power : `${power} Power`}
+        {useInt2roundKMG(stakedAmount)}
       </ActionButton>
 
       <ActionButton
