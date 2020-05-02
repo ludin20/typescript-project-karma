@@ -122,17 +122,21 @@ const PostActions: React.FC<Props> = ({
   const [createUpvote] = useMutation(CREATE_UPVOTE);
   const [createDownvote] = useMutation(CREATE_DOWNVOTE);
 
-  const handleVote = useCallback(() => {
+  const handleVote = () => {
     if (voteStatus === 0) {
       onSuccessAction('upVote', 1);
-      createUpvote({
-        variables: { post_id: postId },
-      }).catch(err => onSuccessAction('upVote', -1));
+      createUpvote({ variables: { post_id: postId } })
+        .then(res => {
+          const upvoted = JSON.parse(localStorage.getItem('upvoted'));
+          upvoted.push(postId);
+          localStorage.setItem('upvoted', JSON.stringify(upvoted));
+        })
+        .catch(err => onSuccessAction('upVote', -1));
     } else {
       return;
       createDownvote({ variables: { post_id: router.query.id } });
     }
-  }, [voteStatus, router, createDownvote, createUpvote]);
+  };
 
   const handleTip = (value: number) => {
     tipAccount(value, false);
