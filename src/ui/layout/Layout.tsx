@@ -209,7 +209,6 @@ const Layout: React.FC<Props> = ({
   useEffect(() => {
     if (data && data.profile) {
       setProfile(data.profile);
-      console.log(data);
       localStorage.setItem('upvoted', JSON.stringify(data.profile.upvoted));
       dispatch(updateProfileSuccess(data.profile));
     }

@@ -124,9 +124,10 @@ const PostActions: React.FC<Props> = ({
 
   const handleVote = useCallback(() => {
     if (voteStatus === 0) {
+      onSuccessAction('upVote', 1);
       createUpvote({
         variables: { post_id: postId },
-      }).then(res => onSuccessAction('upVote', 1));
+      }).catch(err => onSuccessAction('upVote', -1));
     } else {
       return;
       createDownvote({ variables: { post_id: router.query.id } });

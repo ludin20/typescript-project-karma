@@ -87,7 +87,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
   const onSuccessAction = (action: string, value: number) => {
     switch (action) {
       case 'upVote':
-        setData({ ...data, upvote_count: data.upvote_count + value, voteStatus: 1 });
+        setData({ ...data, upvote_count: data.upvote_count + value, voteStatus: data.voteStatus + value });
         break;
       case 'comment':
         setData({ ...data, comment_count: data.comment_count + value });
