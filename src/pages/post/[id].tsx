@@ -84,6 +84,7 @@ const Post: NextPage<Props> = ({ post, comments }) => {
   const [eosPrice, setEosPrice] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     loadPrices();
   }, []);
 
