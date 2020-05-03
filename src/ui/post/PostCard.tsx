@@ -58,6 +58,7 @@ interface Props {
   shouldHideFollowOnMobile?: boolean;
   usdPrice?: number;
   eosPrice?: number;
+  balanceAmount?: number;
 }
 
 const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFollowButton = true, ...props }) => {
@@ -146,6 +147,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         voteStatus={data.voteStatus}
         usdPrice={props.usdPrice}
         eosPrice={props.eosPrice}
+        balanceAmount={props.balanceAmount}
         onSuccessAction={onSuccessAction}
       />
     </Container>

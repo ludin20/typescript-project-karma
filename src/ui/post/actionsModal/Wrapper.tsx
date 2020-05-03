@@ -54,6 +54,7 @@ interface WrapperProps extends ModalProps {
   entity: string;
   usdPrice?: number;
   eosPrice?: number;
+  balanceAmount?: number;
   handleSubmit(value: number): void;
   customHeader?: React.FC;
   method?: string;
@@ -72,11 +73,11 @@ const Wrapper: React.FC<WrapperProps> = ({ icon, entity, customHeader: CustomHea
           <span>?</span>
         </p>
 
-        <ChangeValue value={value} onChange={setTipValue} method={method} usdPrice={props.usdPrice} eosPrice={props.eosPrice} />
-        <Slider value={value} onChange={setTipValue} />
+        <ChangeValue value={value} onChange={setTipValue} method={method} usdPrice={props.usdPrice} eosPrice={props.eosPrice} balanceAmount={props.balanceAmount} />
+        <Slider value={value} max={parseInt(props.balanceAmount)} onChange={setTipValue} />
         <ValueCards onChange={setTipValue} />
 
-        <SubmitButton background="green" disabled={value <= 0} type="button" radius="rounded" onClick={() => handleSubmit(value)}>
+        <SubmitButton background="green" disabled={!value || value < 1} type="button" radius="rounded" onClick={() => handleSubmit(value)}>
           Confirm
         </SubmitButton>
       </Container>

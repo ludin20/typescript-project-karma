@@ -16,6 +16,7 @@ import { labels } from '../ui/layout';
 
 import { actionRequest, actionSuccess } from '../store/ducks/action';
 import { getWAXUSDPrice, getEOSPrice } from '../services/config';
+import { fetchBalance } from '../services/Auth';
 
 const GET_POSTS = graphql`
   query posts($accountname: String!, $page: Int, $pathBuilder: any, $postsStatus: String) {
@@ -49,8 +50,9 @@ interface Props {
 const Home: NextPage<Props> = ({ author }) => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
-  const [usdPrice, setUsdPrice] = useState(null);
-  const [eosPrice, setEosPrice] = useState(null);
+  const [usdPrice, setUsdPrice] = useState(0);
+  const [eosPrice, setEosPrice] = useState(0);
+  const [balanceAmount, setBalanceAmount] = useState(0);
 
   useEffect(() => {
     loadPrices();
@@ -89,8 +91,10 @@ const Home: NextPage<Props> = ({ author }) => {
     dispatch(actionRequest());
     const USDPrice = await getWAXUSDPrice();
     const EOSPrice = await getEOSPrice();
+    const BalanceAmount = await fetchBalance(author);
     setUsdPrice(USDPrice);
     setEosPrice(EOSPrice);
+    setBalanceAmount(BalanceAmount);
     dispatch(actionSuccess());
   };
 
@@ -108,7 +112,7 @@ const Home: NextPage<Props> = ({ author }) => {
               {data.posts.map((post, index) => (
                 <React.Fragment key={String(index)}>
                   {index > 0 && <Space height={40} />}
-                  <PostCard post={post} usdPrice={usdPrice} eosPrice={eosPrice} withFollowButton={false} />
+                  <PostCard post={post} usdPrice={usdPrice} eosPrice={eosPrice} balanceAmount={balanceAmount} withFollowButton={false} />
                 </React.Fragment>
               ))}
             </InfinityScroll>

@@ -91,6 +91,7 @@ interface Props {
   voteStatus: number;
   usdPrice?: number;
   eosPrice?: number;
+  balanceAmount?: number;
   onSuccessAction(action: string, value: number): void;
 }
 
@@ -107,6 +108,7 @@ const PostActions: React.FC<Props> = ({
   onSuccessAction,
   usdPrice,
   eosPrice,
+  balanceAmount,
   ...props
 }) => {
   const accountName = cookie.get(KARMA_AUTHOR);
@@ -240,9 +242,9 @@ const PostActions: React.FC<Props> = ({
         </Row>
       </Container>
 
-      {tipModalIsOpen && <TipModal usdPrice={usdPrice} eosPrice={eosPrice} open={tipModalIsOpen} close={() => setTipModalIsOpen(false)} onSubmit={handleTip} />}
+      {tipModalIsOpen && <TipModal usdPrice={usdPrice} eosPrice={eosPrice} balanceAmount={balanceAmount} open={tipModalIsOpen} close={() => setTipModalIsOpen(false)} onSubmit={handleTip} />}
       {boostModalIsOpen && (
-        <BoostModal usdPrice={usdPrice} eosPrice={eosPrice} open={boostModalIsOpen} close={() => setBoostModalIsOpen(false)} onSubmit={handleBoost} />
+        <BoostModal usdPrice={usdPrice} eosPrice={eosPrice} open={boostModalIsOpen} balanceAmount={balanceAmount} close={() => setBoostModalIsOpen(false)} onSubmit={handleBoost} />
       )}
       {successModalIsOpen && (
         <SuccessModal open close={() => setSuccessModalIsOpen(false)} value={value} to={to} action="send" />

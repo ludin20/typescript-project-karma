@@ -16,11 +16,21 @@ const Container = styled.div<{ empty: boolean }>`
     justify-content: space-between;
     align-items: center;
 
-    strong {
+    input {
+      width: 100%;
+      margin-top: -10px;
+      background: none;
+      border: none;
       color: ${props => (!props.empty ? 'rgba(255, 255, 255, 0.6)' : '#fff')};
       font-size: 60px;
       font-weight: 900;
       transition: color 0.2s;
+      text-align: center;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
     }
 
     button {
@@ -47,12 +57,13 @@ interface Props {
   method: string;
   usdPrice?: number;
   eosPrice?: number;
+  balanceAmount?: number;
 }
 
-const ChangeValue: React.FC<Props> = ({ value, method, onChange, usdPrice, eosPrice }) => {
+const ChangeValue: React.FC<Props> = ({ value, method, onChange, usdPrice, eosPrice, balanceAmount }) => {
   const handleChange = useCallback(
     (karmas: number) => {
-      if (karmas < 0 || karmas > 1000) return;
+      if (karmas < 1 || karmas > balanceAmount) return;
 
       onChange(karmas);
     },
@@ -67,13 +78,20 @@ const ChangeValue: React.FC<Props> = ({ value, method, onChange, usdPrice, eosPr
         <button onClick={() => handleChange(value - 1)}>
           <img src={minus} alt="minus" />
         </button>
-        <strong>{value}</strong>
+        <input
+          type="number"
+          placeholder={0}
+          value={value > 0 ? value : null}
+          onChange={e => handleChange(parseInt(e.target.value))}
+          min={1}
+          max={balanceAmount}
+        />
         <button onClick={() => handleChange(value + 1)}>
           <img src={plus} alt="plus" />
         </button>
       </section>
 
-      <span>{(value * usdPrice * eosPrice).toFixed(2)} USD</span>
+      <span>{value ? (value * usdPrice * eosPrice).toFixed(2) : 0} USD</span>
     </Container>
   );
 };

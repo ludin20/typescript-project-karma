@@ -18,7 +18,8 @@ import { PostInterface } from '../../ui/post/PostCard';
 
 import { actionRequest, actionSuccess } from '../../store/ducks/action';
 import { getWAXUSDPrice, getEOSPrice } from '../../services/config';
-import { useS3Image } from '../../hooks'
+import { fetchBalance } from '../../services/Auth';
+import { useS3Image } from '../../hooks';
 
 const Wrapper = styled.div`
   @media (max-width: 700px) {
@@ -80,8 +81,9 @@ const Post: NextPage<Props> = ({ post, comments }) => {
   const dispatch = useDispatch();
   const { profile } = useSelector((state: RootState) => state.user);
   const avatar = useS3Image(profile.hash, 'thumbSmall');
-  const [usdPrice, setUsdPrice] = useState(null);
-  const [eosPrice, setEosPrice] = useState(null);
+  const [usdPrice, setUsdPrice] = useState(0);
+  const [eosPrice, setEosPrice] = useState(0);
+  const [balanceAmount, setBalanceAmount] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -92,8 +94,10 @@ const Post: NextPage<Props> = ({ post, comments }) => {
     dispatch(actionRequest());
     const USDPrice = await getWAXUSDPrice();
     const EOSPrice = await getEOSPrice();
+    const BalanceAmount = await fetchBalance(profile.author);
     setUsdPrice(USDPrice);
     setEosPrice(EOSPrice);
+    setBalanceAmount(BalanceAmount);
     dispatch(actionSuccess());
   };
 
@@ -105,7 +109,7 @@ const Post: NextPage<Props> = ({ post, comments }) => {
       </TitleWrapper>
       <Space height={20} />
 
-      <PostCard post={post} usdPrice={usdPrice} eosPrice={eosPrice} shouldHideFollowOnMobile withFollowButton={false} />
+      <PostCard post={post} usdPrice={usdPrice} eosPrice={eosPrice} balanceAmount={balanceAmount} shouldHideFollowOnMobile withFollowButton={false} />
 
       <PostComments comments={comments} avatar={avatar as string} />
     </Wrapper>

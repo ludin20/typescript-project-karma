@@ -51,11 +51,12 @@ const Container = styled(RCSlider)`
 
 interface Props {
   value: number;
+  max: number;
   onChange(value: number): void;
 }
 
-const Slider: React.FC<Props> = ({ value, onChange }) => {
-  return <Container min={5} max={1000} step={5} onChange={onChange} value={value} />;
+const Slider: React.FC<Props> = ({ value, max, onChange }) => {
+  return <Container min={0} max={max} onChange={onChange} value={value} />;
 };
 
 export default Slider;
