@@ -110,7 +110,7 @@ const CreateComment: React.FC<Props> = ({ avatar }) => {
   return (
     <FormikProvider value={formik}>
       <Container align="center">
-        <StyledAvatar src={avatar} alt="avatar" />
+        <StyledAvatar src={avatar} alt="avatar" size="small" />
         <Input placeholder="Write a comment" background="dark" name="comment" />
         <Row align="center" justify="center" onClick={handleSubmit} css={sendButtonCss}>
           <img src={sendComment} alt="Send Comment" />

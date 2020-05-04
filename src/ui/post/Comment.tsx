@@ -42,7 +42,7 @@ const Comment: React.FC<Props> = ({ author_profilehash, author, created_at, text
 
   return (
     <Row align="center">
-      <Avatar css={avatarCss} src={avatar} alt={author} />
+      <Avatar css={avatarCss} src={avatar} alt={author} size="small" />
       <Space width={15} style={{ minWidth: 15 }} />
 
       <Column>

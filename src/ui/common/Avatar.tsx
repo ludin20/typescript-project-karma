@@ -9,8 +9,8 @@ const Container = styled.img<{ online?: boolean; size: 'default' | 'small' | 'bi
   border-radius: 50%;
 
   @media (max-width: 550px) {
-    width: ${props => (props.size === 'default' ? '65px' : '30px')};
-    height: ${props => (props.size === 'default' ? '65px' : '30px')};
+    width: ${props => (props.size === 'default' ? '65px' : '40px')};
+    height: ${props => (props.size === 'default' ? '65px' : '40px')};
   }
 
   ${p => p.css}
