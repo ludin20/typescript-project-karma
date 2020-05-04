@@ -19,5 +19,9 @@ export function useS3Images(content: { imagehashes: string[] }, size: Size) {
 }
 
 export function useS3PostsImages(posts: any[], size: Size) {
-  return posts.map(post => post.imagehashes.map(imagehash => `${IPFS_S3}/${imagehash}/${size}.jpg`)).flat();
+  return posts
+    .map(post =>
+      post.imagehashes.map(imagehash => ({ post_id: post.post_id, content: `${IPFS_S3}/${imagehash}/${size}.jpg` })),
+    )
+    .flat();
 }

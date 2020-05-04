@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from 'styled-components';
 import { SkeletonTheme } from 'react-loading-skeleton';
+import { useRouter } from 'next/router';
 
 import InfinityScroll from '../common/InfinityScroll';
 import ShimmerImage from '../common/ShimmerImage';
@@ -14,6 +15,7 @@ const gridCss = css`
 `;
 
 const imageCss = css`
+  cursor: pointer;
   width: 100%;
   border-radius: 20px;
   @media (max-width: 550px) {
@@ -24,18 +26,28 @@ const imageCss = css`
 `;
 
 interface Props {
-  medias: string[];
+  medias: Array<{ post_id: string; content: string }>;
   loadMore(): void;
 }
 
 const Template: React.FC<Props> = ({ medias, loadMore }) => {
+  const router = useRouter();
+
   return (
     <InfinityScroll length={medias.length} loadMore={loadMore} hasMore={medias.length > 0}>
       <SkeletonTheme color="#191A19" highlightColor="#333">
         <Space height={30} />
         <Grid columns="3" gap="24px" align css={gridCss}>
-          {medias.map((image, index) => (
-            <ShimmerImage key={String(index)} src={image} alt="discover" css={imageCss} height={200} width={200} />
+          {medias.map((media, index) => (
+            <ShimmerImage
+              key={String(index)}
+              src={media.content}
+              alt="discover"
+              css={imageCss}
+              height={200}
+              width={200}
+              onClick={() => router.push('/post/[id]', `/post/${media.post_id}`, { shallow: true })}
+            />
           ))}
         </Grid>
       </SkeletonTheme>
