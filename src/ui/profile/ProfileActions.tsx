@@ -26,7 +26,7 @@ const Container = styled.div<{ me: boolean }>`
       button {
         width: unset;
         font-size: 14px;
-        padding: 8px 20px;
+        padding: 5px 0px;
       }
     }
   }
@@ -40,13 +40,13 @@ const Container = styled.div<{ me: boolean }>`
         margin-top: 14px;
       }
 
-      @media (max-width: 1366px) {
+      @media (max-width: 1459px) {
         &:nth-child(2) {
           display: none;
         }
       }
 
-      @media (min-width: 1367px) {
+      @media (min-width: 1460px) {
         &:nth-child(3) {
           display: none;
         }
@@ -55,7 +55,6 @@ const Container = styled.div<{ me: boolean }>`
 `;
 
 const ActionButton = styled(Button)<{ me: boolean }>`
-  width: 140px;
   font-weight: 900;
   border-radius: 50px;
 
@@ -82,27 +81,38 @@ const ActionButton = styled(Button)<{ me: boolean }>`
   ${props =>
     !props.me &&
     css`
-      @media (max-width: 1366px) {
+      @media (max-width: 1460px) {
+        flex: 1;
+        width: unset;
+        padding: 5px 20px;
+        & + button {
+          margin-left: 20px;
+        }
+      }
+      @media (max-width: 550px) {
         flex: 1;
         width: unset;
         padding: 5px 16px;
+        & + button {
+          margin-left: 10px;
+        }
       }
     `}
 
   ${props =>
     props.me &&
     css`
-      @media (max-width: 550px) {
+      @media (max-width: 1460px) {
         width: unset;
         padding: 5px 16px;
+      }
+      & + button {
+        margin-left: 10px;
       }
     `}
 `;
 
 const FollowingActionButton = styled(FollowButton)`
-  font-size: 16px;
-  font-weight: 900;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,7 +121,7 @@ const FollowingActionButton = styled(FollowButton)`
     margin-left: 20px;
   }
 
-  @media (max-width: 1366px) {
+  @media (max-width: 1460px) {
     flex: 1;
   }
 `;

@@ -8,9 +8,7 @@ import { KARMA_AUTHOR, REQUEST_JWT } from '../../common/config';
 import { follow } from '../../services/config';
 
 const Container = styled(Button)<Props>`
-  font-size: 16px;
   font-weight: 900;
-  padding-top: 8px;
 
   &:hover {
     opacity: 0.8;
