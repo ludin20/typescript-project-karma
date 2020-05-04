@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import cookie from 'js-cookie';
 import styled, { css } from 'styled-components';
 
 import powerIcon from '../assets/power.svg';
@@ -10,7 +11,7 @@ import Button from '../common/Button';
 import FollowButton from '../common/FollowButton';
 
 import { tx, logtask } from '../../services/config';
-import { TOKEN_CONTRACT } from '../../common/config';
+import { KARMA_AUTHOR, TOKEN_CONTRACT } from '../../common/config';
 import { fetchBalance, fetchStakedBalance } from "../../services/Auth";
 import { getWAXUSDPrice, getEOSPrice } from "../../services/config";
 import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
@@ -141,6 +142,7 @@ interface Props {
 
 const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSuccess, following, avatar, username, name, mobile, author }) => {
   const dispatch = useDispatch();
+  const accountName = cookie.get(KARMA_AUTHOR);
   const [sendMoneyModalIsOpen, setSendMoneyModalIsOpen] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [value, setValue] = useState({ karma: 0, usd: 0 });
@@ -157,7 +159,7 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSucce
   const _fetchBalance = async () => {
     try {
       dispatch(actionRequest());
-      const [balance, staked] = await Promise.all([fetchBalance(author), fetchStakedBalance(author)]);
+      const [balance, staked] = await Promise.all([fetchBalance(accountName), fetchStakedBalance(author)]);
 
       const USDPrice = await getWAXUSDPrice();
       const EOSPrice = await getEOSPrice();
