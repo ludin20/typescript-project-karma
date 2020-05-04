@@ -27,6 +27,7 @@ const headerCss = css`
 const Caption = styled.li`
   margin-left: 82px;
   margin-top: -25px;
+  overflow: hidden;
 `;
 
 export interface PostInterface {

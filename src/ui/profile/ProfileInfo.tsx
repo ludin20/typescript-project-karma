@@ -11,6 +11,7 @@ import ProfileActions from './ProfileActions';
 const Container = styled.div`
   > p {
     max-width: 350px;
+    overflow: hidden;
     color: #fff;
     font-size: 20px;
     line-height: 1.4;

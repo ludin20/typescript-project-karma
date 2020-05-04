@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 import { useQuery } from '@apollo/react-hooks';
@@ -30,6 +30,8 @@ interface Props {
 
 const Discover: NextPage<Props> = ({ author, ...props }) => {
   const router = useRouter();
+  const imgRef = useRef();
+
   const [tab, setTab] = useState(props.tab);
   const [page, setPage] = useState(1);
   const defaultParams = useMemo(() => `?Page=${page}&Limit=12&domainId=${1}`, []);
@@ -85,11 +87,11 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
     () => [
       {
         name: 'Popular',
-        render: () => Template({ medias, loadMore: loadMorePosts }),
+        render: () => Template({ medias, loadMore: loadMorePosts, renderedRef: imgRef }),
       },
       {
         name: 'New',
-        render: () => Template({ medias, loadMore: loadMorePosts }),
+        render: () => Template({ medias, loadMore: loadMorePosts, renderedRef: imgRef }),
       },
     ],
     [loadMorePosts, medias],

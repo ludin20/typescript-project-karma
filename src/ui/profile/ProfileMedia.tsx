@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { css } from 'styled-components';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { useRouter } from 'next/router';
@@ -18,6 +18,7 @@ const imageCss = css`
   width: 100%;
   border-radius: 20px;
   cursor: pointer;
+  object-fit: cover;
 `;
 
 interface Props {
@@ -26,6 +27,7 @@ interface Props {
 
 const ProfileMedia: React.FC<Props> = ({ posts }) => {
   const router = useRouter();
+  const imgRef = useRef();
 
   const handleClick = useCallback(
     post_id => {
@@ -37,10 +39,21 @@ const ProfileMedia: React.FC<Props> = ({ posts }) => {
     [router],
   );
 
-  const Media = ({ hash, onClick }) => {
+  const Media = ({ hash, onClick, renderedRef }) => {
     const media = useS3Image(hash, 'thumbBig');
 
-    return <ShimmerImage onClick={onClick} src={media} alt="post" css={imageCss} height={200} width={200} />;
+    return (
+      <div ref={renderedRef}>
+        <ShimmerImage
+          onClick={onClick}
+          src={media}
+          alt="post"
+          css={imageCss}
+          height={imgRef && imgRef.current ? imgRef.current.clientWidth : 0}
+          width={imgRef && imgRef.current ? imgRef.current.clientWidth : 0}
+        />
+      </div>
+    );
   };
 
   return (
@@ -48,9 +61,14 @@ const ProfileMedia: React.FC<Props> = ({ posts }) => {
       <SkeletonTheme color="#191A19" highlightColor="#333">
         <Grid columns="3" gap="24px" align css={containerCss}>
           {posts.map(
-            post =>
+            (post, idx) =>
               post.imagehashes[0] && (
-                <Media onClick={() => handleClick(post.post_id)} key={post.post_id} hash={post.imagehashes[0]} />
+                <Media
+                  onClick={() => handleClick(post.post_id)}
+                  key={post.post_id}
+                  hash={post.imagehashes[0]}
+                  renderedRef={idx == 0 ? imgRef : null}
+                />
               ),
           )}
         </Grid>

@@ -33,7 +33,7 @@ const ShimmerImage: React.FC<ShimmerImageProps> = ({ height, width, avatar, circ
       {avatar ? (
         <StyledAvatar {...props} onLoad={() => setLoaded(true)} loaded={loaded} size={size} />
       ) : (
-        <Image {...props} onLoad={() => setLoaded(true)} loaded={loaded} />
+        <Image {...props} height={height && height } width={width} onLoad={() => setLoaded(true)} loaded={loaded} />
       )}
       {!loaded && <Skeleton height={height || '100%'} width={width || '100%'} circle={circle} />}
     </>

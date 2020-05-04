@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { css } from 'styled-components';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { useRouter } from 'next/router';
@@ -15,6 +15,7 @@ const gridCss = css`
 `;
 
 const imageCss = css`
+  object-fit: cover;
   cursor: pointer;
   width: 100%;
   border-radius: 20px;
@@ -26,11 +27,12 @@ const imageCss = css`
 `;
 
 interface Props {
+  renderedRef?: any;
   medias: Array<{ post_id: string; content: string }>;
   loadMore(): void;
 }
 
-const Template: React.FC<Props> = ({ medias, loadMore }) => {
+const Template: React.FC<Props> = ({ renderedRef, medias, loadMore }) => {
   const router = useRouter();
 
   return (
@@ -39,15 +41,16 @@ const Template: React.FC<Props> = ({ medias, loadMore }) => {
         <Space height={30} />
         <Grid columns="3" gap="24px" align css={gridCss}>
           {medias.map((media, index) => (
-            <ShimmerImage
-              key={String(index)}
-              src={media.content}
-              alt="discover"
-              css={imageCss}
-              height={200}
-              width={200}
-              onClick={() => router.push('/post/[id]', `/post/${media.post_id}`, { shallow: true })}
-            />
+            <div ref={index == 0 ? renderedRef : null} key={String(index)}>
+              <ShimmerImage
+                src={media.content}
+                alt="discover"
+                css={imageCss}
+                height={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : 0}
+                width={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : 0}
+                onClick={() => router.push('/post/[id]', `/post/${media.post_id}`, { shallow: true })}
+              />
+            </div>
           ))}
         </Grid>
       </SkeletonTheme>
