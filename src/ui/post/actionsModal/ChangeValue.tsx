@@ -22,7 +22,7 @@ const Container = styled.div<{ empty: boolean }>`
       background: none;
       border: none;
       color: ${props => (!props.empty ? 'rgba(255, 255, 255, 0.6)' : '#fff')};
-      font-size: 60px;
+      font-size: 50px;
       font-weight: 900;
       transition: color 0.2s;
       text-align: center;
