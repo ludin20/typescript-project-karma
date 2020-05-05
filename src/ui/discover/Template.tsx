@@ -38,7 +38,6 @@ const Template: React.FC<Props> = ({ renderedRef, medias, loadMore }) => {
   return (
     <InfinityScroll length={medias.length} loadMore={loadMore} hasMore={medias.length > 0}>
       <SkeletonTheme color="#191A19" highlightColor="#333">
-        <Space height={30} />
         <Grid columns="3" gap="24px" align css={gridCss}>
           {medias.map((media, index) => (
             <div ref={index == 0 ? renderedRef : null} key={String(index)}>
@@ -46,8 +45,8 @@ const Template: React.FC<Props> = ({ renderedRef, medias, loadMore }) => {
                 src={media.content}
                 alt="discover"
                 css={imageCss}
-                height={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : 0}
-                width={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : 0}
+                height={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : null}
+                width={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : null}
                 onClick={() => router.push('/post/[id]', `/post/${media.post_id}`, { shallow: true })}
               />
             </div>

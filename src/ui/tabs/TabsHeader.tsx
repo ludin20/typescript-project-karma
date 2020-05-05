@@ -37,7 +37,7 @@ const Container = styled.div`
 
 const ContainerWithoutTitle = styled.div`
   width: 100%;
-  margin: 30px 0;
+  margin: 30px 0 0 0;
 
   display: grid;
   grid-template-columns: repeat(3, 1fr);
