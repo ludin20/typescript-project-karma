@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { useQuery } from '@apollo/react-hooks';
@@ -40,13 +40,14 @@ interface Props {
 
 const Activity: NextPage<Props> = ({ author }) => {
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
 
-  const { data, loading } = useQuery(GET_NOTIFICATIONS, {
+  const { data, fetchMore, loading } = useQuery(GET_NOTIFICATIONS, {
     variables: {
       accountname: author,
       page: 1,
       postsStatus: 'activity',
-      pathBuilder: () => `profile/history2/${author}?domainId=${1}`,
+      pathBuilder: () => `profile/history2/${author}?Page=1&Limit=12&domainId=${1}`,
     },
   });
 
@@ -56,10 +57,34 @@ const Activity: NextPage<Props> = ({ author }) => {
     }, 4000);
   }, [dispatch]);
 
+  const loadMoreNotifications = useCallback(() => {
+    fetchMore({
+      variables: {
+        page: page + 1,
+        pathBuilder: () => `profile/history2/${author}?Page=${page + 1}&Limit=12&domainId=${1}`,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult || fetchMoreResult.notifications.length == 0) {
+          return Object.assign({}, previousResult, {
+            notifications: [
+              ...previousResult.notifications,
+              { ...previousResult.notifications[previousResult.notifications.length - 1], action: 'end' },
+            ],
+          });
+        }
+
+        setPage(page + 1);
+        return Object.assign({}, previousResult, {
+          notifications: [...previousResult.notifications, ...fetchMoreResult.notifications],
+        });
+      },
+    });
+  }, [author, fetchMore, page]);
+
   const tabs = [
     {
       name: 'All',
-      render: () => AllActivities({ data: data ? data.notifications : [] }),
+      render: () => AllActivities({ data: data ? data.notifications : [], loadMore: loadMoreNotifications }),
     },
   ];
 
