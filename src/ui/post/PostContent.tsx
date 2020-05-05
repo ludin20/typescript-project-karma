@@ -26,6 +26,7 @@ const imgCss = css`
   width: 100%;
   height: auto;
   border-radius: 25px;
+  align-self: stretch;
 `;
 
 interface Props {

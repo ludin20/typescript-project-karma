@@ -63,7 +63,7 @@ const Home: NextPage<Props> = ({ author }) => {
       accountname: author,
       page: 1,
       postsStatus: 'home',
-      pathBuilder: () => `posts/popularv3?Page=1&Limit=10&domainId=${1}`,
+      pathBuilder: () => `posts/home/${author}?Page=${page}&Limit=12&domainId=${1}`,
     },
   });
 
@@ -73,7 +73,7 @@ const Home: NextPage<Props> = ({ author }) => {
     fetchMore({
       variables: {
         page: page + 1,
-        pathBuilder: () => `posts/popularv3?Page=${page + 1}&Limit=10&domainId=${1}`,
+        pathBuilder: () => `posts/home/${author}?Page=${page + 1}&Limit=12&domainId=${1}`,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) {
