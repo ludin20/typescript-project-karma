@@ -24,7 +24,7 @@ const Content = styled.div`
   background: ${props => props.theme.dark};
   padding: 30px 50px;
   border-radius: 20px;
-  transform: translateY(50%);
+  margin-top: 13%;
 
   header {
     margin-bottom: 20px;
@@ -48,6 +48,7 @@ const Content = styled.div`
     height: 100vh;
     border-radius: 0;
     padding: 50px 15px;
+    margin-top: 0;
   }
 `;
 

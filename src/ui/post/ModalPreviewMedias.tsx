@@ -5,15 +5,15 @@ import { useFormikContext } from 'formik';
 import exclude from '../assets/close.svg';
 
 const Container = styled.ul<{ total: string }>`
-  display: grid;
-  grid-template-columns: ${props => `repeat(${props.total}, 1fr)`};
-  grid-gap: 20px;
-  margin: 20px 0 40px 55px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px 0 20px 55px;
 `;
 
 const Media = styled.li`
   max-width: 200px;
   position: relative;
+  margin: 0 20px 20px 0;
 
   > img {
     max-width: 200px;
