@@ -1,17 +1,20 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useCallback, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
 import cookie from 'js-cookie';
+import ApolloClient from 'apollo-client';
+import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { useQuery } from '@apollo/react-hooks';
 import graphql from 'graphql-tag';
 
 import { withAuthSync } from '../../../auth/WithAuthSync';
 import { withApollo } from '../../../apollo/Apollo';
 
-import { ProfileMedia, ProfileThoughts, Me, Profile, Loading } from '../../../ui';
+import { Template, ProfileThoughts, Me, Profile, Loading } from '../../../ui';
 import { labels } from '../../../ui/layout';
+import { useS3PostsImages } from '../../../hooks';
 
 import validateTab from '../../../util/validateTab';
 import { KARMA_AUTHOR } from '../../../common/config';
@@ -46,13 +49,24 @@ const GET_PROFILE = graphql`
   }
 `;
 
+const GET_POSTS = graphql`
+  query posts($accountname: String!, $pathBuilder: any) {
+    posts(accountname: $accountname) @rest(type: "Post", pathBuilder: $pathBuilder) {
+      post_id
+      imagehashes
+    }
+  }
+`;
+
 interface Props {
   me: string;
-  profile: any;
+  userData: any;
+  myProfile?: any;
 }
 
-const ProfileWrapper: NextPage<Props> = ({ me, profile }) => {
+const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
   const router = useRouter();
+  const imgRef = useRef();
   const { username, tab } = router.query;
 
   const cookies = cookie.get();
@@ -62,23 +76,46 @@ const ProfileWrapper: NextPage<Props> = ({ me, profile }) => {
     return username === meUsername;
   }, [cookies, username]);
 
-  const { data, loading } = useQuery(GET_PROFILE, {
+  const [page, setPage] = useState(1);
+
+  const { data, fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
       accountname: username,
-      me,
-      profilePath: () => `profile/${username}?domainID=${1}`,
-      postsPath: () => `posts/account/${username}?domainID=${1}`,
-      followersPath: () => `profile/${username}/followers/`,
-      followingPath: () => `profile/${username}/following/`,
+      pathBuilder: () => `posts/account/${username}?Page=1&Limit=12&domainID=${1}`,
     },
   });
 
+  const loadMorePosts = useCallback(() => {
+    fetchMore({
+      variables: {
+        pathBuilder: () => `posts/account/${username}?Page=${page + 1}&Limit=12&domainId=${1}`,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult || fetchMoreResult.posts.length == 0) {
+          return Object.assign({}, previousResult, {
+            posts: [
+              ...previousResult.posts,
+              { ...previousResult.posts[previousResult.posts.length - 1], post_id: '', imagehashes: [] },
+            ],
+          });
+        }
+
+        setPage(page + 1);
+        return Object.assign({}, previousResult, {
+          posts: [...previousResult.posts, ...fetchMoreResult.posts],
+        });
+      },
+    });
+  }, [username, fetchMore, page]);
+
   if (!data && loading) return <Loading withContainer size="big" />;
+
+  const medias = useS3PostsImages(data ? data.posts : [], 'thumbBig');
 
   const tabs = [
     {
       name: 'Media',
-      render: () => ProfileMedia({ posts: data.posts }),
+      render: () => Template({ medias: medias, loadMore: loadMorePosts, renderedRef: imgRef }),
     },
     /* {
       name: 'Thoughts',
@@ -92,17 +129,25 @@ const ProfileWrapper: NextPage<Props> = ({ me, profile }) => {
         tabs={tabs}
         tab={tab as string}
         profile={{
-          ...profile,
-          followers: data.profile.followers,
-          following: data.profile.following,
-          followers_count: data.profile.followers_count,
-          following_count: data.profile.following_count,
+          ...myProfile,
+          followers: userData.profile.followers,
+          following: userData.profile.following,
+          followers_count: userData.profile.followers_count,
+          following_count: userData.profile.following_count,
         }}
-        postCount={data.posts.length}
+        postCount={myProfile.posts.length}
       />
     );
 
-  return <Profile tabs={tabs} tab={tab as string} profile={data.profile} postCount={data.posts.length} me={me} />;
+  return (
+    <Profile
+      tabs={tabs}
+      tab={tab as string}
+      profile={userData && userData.profile}
+      postCount={userData.posts.length}
+      me={me}
+    />
+  );
 };
 
 interface Context extends NextPageContext {
@@ -110,6 +155,7 @@ interface Context extends NextPageContext {
     tab: string;
     username: string;
   };
+  apolloClient: ApolloClient<NormalizedCacheObject>;
 }
 
 ProfileWrapper.getInitialProps = async (ctx: Context) => {
@@ -118,17 +164,31 @@ ProfileWrapper.getInitialProps = async (ctx: Context) => {
 
   validateTab(ctx, me ? `/profile/${me}/media` : '/home', ['media', 'thoughts']);
 
+  const username = ctx.query.username;
+  const { data } = await ctx.apolloClient.query({
+    query: GET_PROFILE,
+    variables: {
+      accountname: ctx.query.username,
+      me,
+      profilePath: () => `profile/${username}?domainID=${1}`,
+      postsPath: () => `posts/account/${username}?domainID=${1}`,
+      followersPath: () => `profile/${username}/followers/`,
+      followingPath: () => `profile/${username}/following/`,
+    },
+  });
+
   return {
     meta: {
       title: `Karma/${ctx.query.username}`,
     },
     me,
     layoutConfig: { layout: labels.DEFAULT, shouldHideHeader: true },
+    userData: data,
   };
 };
 
 const mapStateToProps = state => ({
-  profile: state.user.profile,
+  myProfile: state.user.profile,
 });
 
 export default connect(mapStateToProps)(withAuthSync(withApollo({ ssr: true })(ProfileWrapper)));
