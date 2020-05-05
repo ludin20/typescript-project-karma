@@ -29,6 +29,18 @@ const imgCss = css`
   align-self: stretch;
 `;
 
+const topSpaceCss = css`
+  @media (max-width: 550px) {
+    height: 25px;
+  }
+`;
+
+const bottomSpaceCss = css`
+  @media (max-width: 550px) {
+    height: 15px;
+  }
+`;
+
 interface Props {
   content: { imagehashes: []; videohashes: [] };
   size?: 'default' | 'small';
@@ -44,7 +56,7 @@ const PostContent: React.FC<Props> = ({ content, onClick }) => {
         {medias.length > 0 && (
           <SkeletonTheme color="#191A19" highlightColor="#333">
             <>
-              <Space height={50} />
+              <Space height={50} css={topSpaceCss} />
               <Grid columns={medias.length < 3 ? medias.length : 3} gap="24px" css={gridCss}>
                 {medias.map((media, index) => (
                   <ShimmerImage key={index} src={media} alt="image" css={imgCss} height={500} />
@@ -54,7 +66,7 @@ const PostContent: React.FC<Props> = ({ content, onClick }) => {
           </SkeletonTheme>
         )}
       </Container>
-      <Space height={30} />
+      <Space height={30} css={bottomSpaceCss} />
     </>
   );
 };

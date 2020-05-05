@@ -22,12 +22,35 @@ const Container = styled.li`
 
 const headerCss = css`
   margin-top: -30px;
+  @media (max-width: 550px) {
+    margin-top: -20px;
+    span:nth-child(1) {
+      font-size: 16px;
+    }
+    span {
+      font-size: 12px;
+    }
+  }
 `;
 
 const Caption = styled.li`
   margin-left: 82px;
   margin-top: -25px;
   overflow: hidden;
+  @media (max-width: 550px) {
+    margin-left: 69px;
+    margin-top: -20px;
+    span {
+      font-size: 13px;
+    }
+  }
+`;
+
+const avatarCss = css`
+  @media (max-width: 550px) {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 export interface PostInterface {
@@ -107,7 +130,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
     <Container>
       <Row align="center" justify="space-between">
         <Row align="center">
-          <Avatar src={avatar} alt={author_displayname} />
+          <Avatar src={avatar} alt={author_displayname} css={avatarCss} />
           <Space width={18} />
 
           <Row
@@ -128,7 +151,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
       </Row>
       <Caption>
-        <FormattedText content={description} font={{ color: 'white', size: '21px', weight: 'normal' }} />
+        <FormattedText content={description} font={{ color: 'white', size: '19px', weight: 'normal' }} />
       </Caption>
 
       <PostContent
