@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { useSelector } from 'react-redux';
 import graphql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { RootState } from '../../../store/ducks/rootReducer';
 import { actionRequest, actionSuccess } from '../../../store/ducks/action';
+import { updateProfileSuccess } from '../../../store/ducks/user';
 
 import ModalWrapper, { ModalProps } from '../../common/ModalWrapper';
 import Title from '../../common/Title';
@@ -100,22 +99,34 @@ const POWER_DOWN = graphql`
 
 export interface Props extends ModalProps {
   action: string;
-  stakedAmount: number;
-  balanceAmount: number;
+  currentPower: number;
+  liquidBalance: number;
   onChangeAction(action: string): void;
-  onRefresh: any;
 }
 
-const MyPower: React.FC<Props> = ({ action, stakedAmount, balanceAmount, onChangeAction, onRefresh, ...props }) => {
+const MyPower: React.FC<Props> = ({ action, currentPower, liquidBalance, onChangeAction, ...props }) => {
   const dispatch = useDispatch();
+  const [value, setValue] = useState(0);
   const [powerUp] = useMutation(POWER_UP, {
     onCompleted: e => {
-      onRefresh().then(() => props.close());
+      const walledData = {
+        liquidBalance: liquidBalance - value,
+        currentPower: currentPower + value,
+      };
+      dispatch(updateProfileSuccess(walledData));
+      dispatch(actionSuccess());
+      props.close();
     },
   });
   const [powerDown] = useMutation(POWER_DOWN, {
     onCompleted: e => {
-      onRefresh().then(() => props.close());
+      const walledData = {
+        liquidBalance: liquidBalance + value,
+        currentPower: currentPower - value,
+      };
+      dispatch(updateProfileSuccess(walledData));
+      dispatch(actionSuccess());
+      props.close();
     },
   });
 
@@ -133,16 +144,24 @@ const MyPower: React.FC<Props> = ({ action, stakedAmount, balanceAmount, onChang
   const increasePowerFormik = useFormik({
     ...commonFormik,
     onSubmit: values => {
+      const powerValue = parseInt(values.power);
+      if (powerValue > liquidBalance) return;
+
+      setValue(powerValue);
       dispatch(actionRequest());
-      powerUp({ variables: { quantity: `${parseInt(values.power).toFixed(4)} KARMA` } });
+      powerUp({ variables: { quantity: `${powerValue.toFixed(4)} KARMA` } });
     },
   });
 
   const decreasePowerFormik = useFormik({
     ...commonFormik,
     onSubmit: values => {
+      const coolValue = parseInt(values.power);
+      if (coolValue > currentPower) return;
+
+      setValue(coolValue);
       dispatch(actionRequest());
-      powerDown({ variables: { quantity: `${parseInt(values.power).toFixed(4)} KARMA` } });
+      powerDown({ variables: { quantity: `${coolValue.toFixed(4)} KARMA` } });
     },
   });
 
@@ -186,7 +205,7 @@ const MyPower: React.FC<Props> = ({ action, stakedAmount, balanceAmount, onChang
               <Space height={8} />
 
               <StyledText weight="900" size={20} color="green">
-                {stakedAmount && stakedAmount.toFixed()}
+                {currentPower && currentPower.toFixed()}
               </StyledText>
             </Column>
             <Space width={50} css={SpaceOnMobile} />
@@ -198,7 +217,7 @@ const MyPower: React.FC<Props> = ({ action, stakedAmount, balanceAmount, onChang
               <Space height={8} />
 
               <StyledText weight="900" size={20} color="secondblue">
-                {balanceAmount && balanceAmount.toFixed()}
+                {liquidBalance && liquidBalance.toFixed()}
               </StyledText>
             </Column>
             <Space width={50} css={SpaceOnMobile} />

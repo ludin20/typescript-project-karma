@@ -34,7 +34,7 @@ interface Props extends ModalProps, SendMoneyFormProps, WalletProps {
   handleSubmit?(value: number, to: string, memo: string): void;
 }
 
-const SendMoneyModal: React.FC<Props> = ({ profile, handleSubmit, usdPrice, eosPrice, balanceAmount, ...props }) => {
+const SendMoneyModal: React.FC<Props> = ({ profile, handleSubmit, wax, eos, liquidBalance, ...props }) => {
   const formik = useFormik({
     initialValues: {
       to: '',
@@ -58,9 +58,9 @@ const SendMoneyModal: React.FC<Props> = ({ profile, handleSubmit, usdPrice, eosP
     <ModalWrapper {...props} justify="center">
       <FormikProvider value={formik}>
         <Container>
-          <Header handleClose={props.close} liquidBalance={balanceAmount ? balanceAmount.toFixed() : ''} />
+          <Header handleClose={props.close} liquidBalance={liquidBalance ? liquidBalance.toFixed() : ''} />
 
-          <ChangeValue usdPrice={usdPrice} eosPrice={eosPrice} balanceAmount={balanceAmount} />
+          <ChangeValue wax={wax} eos={eos} liquidBalance={liquidBalance} />
 
           <Form profile={profile} formik={formik} />
         </Container>

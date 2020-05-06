@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { NextPage, NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
-import cookie from 'js-cookie';
 import ApolloClient from 'apollo-client';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
@@ -13,9 +12,7 @@ import { labels } from '../ui/layout';
 
 import { withApollo } from '../apollo/Apollo';
 import { KARMA_AUTHOR } from '../common/config';
-import { fetchStakedBalance, fetchBalance, fetchAccountInfo } from "../services/Auth";
-import { getWAXUSDPrice, getEOSPrice } from "../services/config";
-import { actionRequest, actionSuccess, actionFailure } from '../store/ducks/action';
+import { getWalletRequest } from '../store/ducks/user';
 
 const Container = styled.div`
   width: 100%;
@@ -29,41 +26,22 @@ const Container = styled.div`
   }
 `;
 
-const Wallet: NextPage = () => {
+interface Props {
+  profile: any;
+}
+
+const Wallet: NextPage<Props> = ({ profile }) => {
   const dispatch = useDispatch();
-  const accountName = cookie.get(KARMA_AUTHOR);
-  const [usdPrice, setUsdPrice] = useState(0);
-  const [eosPrice, setEosPrice] = useState(0);
-  const [balanceAmount, setBalanceAmount] = useState(0);
-  const [stakedAmount, setStakedAmount] = useState(0);
-  const [waxAmount, setWaxAmount] = useState(0);
-  const [totalAmount, setTotalAmount] = useState(null);
+  const { wax, eos, liquidBalance, currentPower, waxBalance } = profile;
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
-    _fetchBalance();
-  }, []);
+    const TotalAmount = wax * eos * (liquidBalance + currentPower) + wax * waxBalance;
+    setTotalAmount(TotalAmount);
+  }, [currentPower, eos, liquidBalance, wax, waxBalance]);
 
-  const _fetchBalance = async () => {
-    try {
-      dispatch(actionRequest());
-      const [balance, staked, accountInfo] = await Promise.all([fetchBalance(accountName), fetchStakedBalance(accountName),fetchAccountInfo(accountName)]);
-
-      const USDPrice = await getWAXUSDPrice();
-      const EOSPrice = await getEOSPrice();
-      const WAXAmount = parseFloat(accountInfo.core_liquid_balance && accountInfo.core_liquid_balance.includes(' ') ? accountInfo.core_liquid_balance.split(' ')[0] : 0);
-      const TotalAmount = (USDPrice * EOSPrice * (balance + staked) + USDPrice * WAXAmount).toFixed(2);
-      setUsdPrice(USDPrice);
-      setEosPrice(EOSPrice);
-      setBalanceAmount(balance);
-      setStakedAmount(staked);
-      setWaxAmount(WAXAmount);
-      setTotalAmount(TotalAmount);
-      dispatch(actionSuccess());
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log('xqq', e, 'qqqq');
-      dispatch(actionFailure());
-    }
+  const _fetchBalance = () => {
+    dispatch(getWalletRequest());
   };
 
   return (
@@ -72,18 +50,17 @@ const Wallet: NextPage = () => {
 
       <Container>
         <Balance
-          stakedAmount={stakedAmount}
-          totalAmount={totalAmount ? totalAmount : '0.00'}
+          currentPower={currentPower ? currentPower : 0}
+          totalAmount={totalAmount ? totalAmount.toFixed(2) : '0.00'}
           onRefresh={_fetchBalance}
         />
 
         <WalletActions
-          usdPrice={usdPrice}
-          eosPrice={eosPrice}
-          stakedAmount={stakedAmount}
-          balanceAmount={balanceAmount}
-          waxAmount={waxAmount}
-          onRefresh={_fetchBalance}
+          wax={wax ? wax : 0}
+          eos={eos ? eos : 0}
+          currentPower={currentPower ? currentPower : 0}
+          liquidBalance={liquidBalance ? Math.floor(liquidBalance) : 0}
+          waxBalance={waxBalance ? waxBalance : 0}
         />
       </Container>
     </>
@@ -114,4 +91,8 @@ Wallet.getInitialProps = async (ctx: Context) => {
   };
 };
 
-export default withAuthSync(withApollo({ ssr: true })(Wallet));
+const mapStateToProps = state => ({
+  profile: state.user.profile,
+});
+
+export default connect(mapStateToProps)(withAuthSync(withApollo({ ssr: true })(Wallet)));

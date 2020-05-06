@@ -55,15 +55,15 @@ interface Props {
   value: number;
   onChange(value: number): void;
   method: string;
-  usdPrice?: number;
-  eosPrice?: number;
-  balanceAmount?: number;
+  wax?: number;
+  eos?: number;
+  liquidBalance?: number;
 }
 
-const ChangeValue: React.FC<Props> = ({ value, method, onChange, usdPrice, eosPrice, balanceAmount }) => {
+const ChangeValue: React.FC<Props> = ({ value, method, onChange, wax, eos, liquidBalance }) => {
   const handleChange = useCallback(
     (karmas: number) => {
-      if (karmas < 1 || karmas > balanceAmount) return;
+      if (karmas < 1 || karmas > liquidBalance) return;
 
       onChange(karmas);
     },
@@ -81,17 +81,17 @@ const ChangeValue: React.FC<Props> = ({ value, method, onChange, usdPrice, eosPr
         <input
           type="number"
           placeholder={0}
-          value={value > 0 ? value : null}
+          value={value > 0 ? value : ''}
           onChange={e => handleChange(parseInt(e.target.value))}
           min={1}
-          max={balanceAmount}
+          max={liquidBalance}
         />
         <button onClick={() => handleChange(value + 1)}>
           <img src={plus} alt="plus" />
         </button>
       </section>
 
-      <span>{value ? (value * usdPrice * eosPrice).toFixed(2) : 0} USD</span>
+      <span>{value ? (value * wax * eos).toFixed(2) : 0} USD</span>
     </Container>
   );
 };

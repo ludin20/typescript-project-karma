@@ -32,12 +32,30 @@ interface Props {
     followers_count: string;
     following_count: string;
     username: string;
+    wax: number;
+    eos: number;
+    liquidBalance: number;
+    currentPower: number;
   };
   postCount: string;
 }
 
 const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
-  const { displayname, bio, hash, author, followers, following, followers_count, following_count, username } = profile;
+  const {
+    displayname,
+    bio,
+    hash,
+    author,
+    followers,
+    following,
+    followers_count,
+    following_count,
+    username,
+    wax,
+    eos,
+    liquidBalance,
+    currentPower,
+  } = profile;
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const avatar = useS3Image(hash, 'thumbBig');
 
@@ -58,7 +76,10 @@ const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
         username={username}
         author={author}
         me
-        power={0}
+        wax={wax}
+        eos={eos}
+        liquidBalance={Math.floor(liquidBalance)}
+        currentPower={currentPower}
         website=""
         bio={bio}
         handleModal={() => setModalIsOpen(true)}

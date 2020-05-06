@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { NextPage, NextPageContext } from 'next';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import graphql from 'graphql-tag';
 import nextCookie from 'next-cookies';
 import ApolloClient from 'apollo-client';
@@ -16,9 +16,6 @@ import { withApollo } from '../../apollo/Apollo';
 import { KARMA_AUTHOR } from '../../common/config';
 import { PostInterface } from '../../ui/post/PostCard';
 
-import { actionRequest, actionSuccess } from '../../store/ducks/action';
-import { getWAXUSDPrice, getEOSPrice } from '../../services/config';
-import { fetchBalance } from '../../services/Auth';
 import { useS3Image } from '../../hooks';
 
 const Wrapper = styled.div`
@@ -78,28 +75,12 @@ interface Props {
 }
 
 const Post: NextPage<Props> = ({ post, comments }) => {
-  const dispatch = useDispatch();
-  const { profile } = useSelector((state: RootState) => state.user);
-  const avatar = useS3Image(profile.hash, 'thumbSmall');
-  const [usdPrice, setUsdPrice] = useState(0);
-  const [eosPrice, setEosPrice] = useState(0);
-  const [balanceAmount, setBalanceAmount] = useState(0);
+  const { wax, eos, liquidBalance, upvoted, hash } = useSelector((state: RootState) => state.user.profile);
+  const avatar = useS3Image(hash, 'thumbSmall');
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    loadPrices();
   }, []);
-
-  const loadPrices = async () => {
-    dispatch(actionRequest());
-    const USDPrice = await getWAXUSDPrice();
-    const EOSPrice = await getEOSPrice();
-    const BalanceAmount = await fetchBalance(profile.author);
-    setUsdPrice(USDPrice);
-    setEosPrice(EOSPrice);
-    setBalanceAmount(BalanceAmount);
-    dispatch(actionSuccess());
-  };
 
   return (
     <Wrapper>
@@ -109,7 +90,15 @@ const Post: NextPage<Props> = ({ post, comments }) => {
       </TitleWrapper>
       <Space height={20} />
 
-      <PostCard post={post} usdPrice={usdPrice} eosPrice={eosPrice} balanceAmount={balanceAmount} shouldHideFollowOnMobile withFollowButton={false} />
+      <PostCard
+        post={post}
+        wax={wax}
+        eos={eos}
+        liquidBalance={Math.floor(liquidBalance)}
+        upvoted={upvoted}
+        shouldHideFollowOnMobile
+        withFollowButton={false}
+      />
 
       <PostComments comments={comments} avatar={avatar as string} />
     </Wrapper>

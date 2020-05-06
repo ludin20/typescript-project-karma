@@ -45,43 +45,46 @@ const GET_ACCOUNT_NAME = graphql`
 const resolvers = {
   Post: {
     voteStatus: async ({ post_id }, args, { cache }, info) => {
-      if (cache.watches.size == 3) {
-        const upvoted = JSON.parse(localStorage.getItem('upvoted'));
-        if (upvoted) {
-          if (upvoted.find((id: number) => id == post_id)) return 1;
-          else return 0;
-        } else return 0;
-      }
+      if (args.upvoted) {
+        const { upvoted } = args;
 
-      const { profile } = cache.readQuery({
-        query: GET_PROFILE,
-        variables: {
-          accountname: args.accountname,
-          domainID: 1,
-        },
-      });
-
-      if (!profile) {
-        return 0;
-      }
-      const {
-        profile: { upvoted, downvoted },
-      } = cache.readQuery({
-        query: GET_PROFILE,
-        variables: {
-          accountname: args.accountname,
-          domainID: 1,
-        },
-      });
-
-      if (upvoted === null || downvoted === null) {
-        return 0;
-      } else if (upvoted.find((id: number) => id == post_id)) {
-        return 1;
-      } else if (downvoted.find((id: number) => id == post_id)) {
-        return -1;
+        if (upvoted === null) {
+          return 0;
+        } else if (upvoted.find((id: number) => id == post_id)) {
+          return 1;
+        } else {
+          return 0;
+        }
       } else {
-        return 0;
+        const { profile } = cache.readQuery({
+          query: GET_PROFILE,
+          variables: {
+            accountname: args.accountname,
+            domainID: 1,
+          },
+        });
+
+        if (!profile) return 0;
+
+        const {
+          profile: { upvoted, downvoted },
+        } = cache.readQuery({
+          query: GET_PROFILE,
+          variables: {
+            accountname: args.accountname,
+            domainID: 1,
+          },
+        });
+
+        if (upvoted === null || downvoted === null) {
+          return 0;
+        } else if (upvoted.find((id: number) => id == post_id)) {
+          return 1;
+        } else if (downvoted.find((id: number) => id == post_id)) {
+          return -1;
+        } else {
+          return 0;
+        }
       }
     },
   },

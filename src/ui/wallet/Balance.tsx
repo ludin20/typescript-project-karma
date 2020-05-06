@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import styled, { keyframes, css } from 'styled-components';
 
 import powerIcon from '../assets/power-count.svg';
@@ -111,17 +112,22 @@ const Refresh = styled.div<{ loading: number }>`
 `;
 
 export interface BalanceProps {
-  stakedAmount: number;
+  currentPower: number;
   totalAmount: string;
   onRefresh: any;
+  userloading: boolean;
 }
 
-const Balance: React.FC<BalanceProps> = ({ stakedAmount, totalAmount, onRefresh }) => {
+const Balance: React.FC<BalanceProps> = ({ currentPower, totalAmount, onRefresh, userloading }) => {
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(userloading);
+  }, [userloading]);
 
   const handleRefresh = () => {
     setLoading(true);
-    onRefresh().then(() => setLoading(false));
+    onRefresh();
   };
 
   return (
@@ -136,10 +142,14 @@ const Balance: React.FC<BalanceProps> = ({ stakedAmount, totalAmount, onRefresh 
       <span>TOTAL BALANCE</span>
       <button>
         <img src={powerIcon} alt="power" />
-        {stakedAmount} KARMA Power
+        {currentPower} KARMA Power
       </button>
     </Container>
   );
 };
 
-export default Balance;
+const mapStateToProps = state => ({
+  userloading: state.user.loading,
+});
+
+export default connect(mapStateToProps)(Balance);

@@ -77,9 +77,10 @@ interface Props {
   size?: 'default' | 'small';
   withFollowButton?: boolean;
   shouldHideFollowOnMobile?: boolean;
-  usdPrice?: number;
-  eosPrice?: number;
-  balanceAmount?: number;
+  wax?: number;
+  eos?: number;
+  liquidBalance?: number;
+  upvoted?: Array<string>;
 }
 
 const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFollowButton = true, ...props }) => {
@@ -166,9 +167,10 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         tips={data.tip_count}
         power={0}
         voteStatus={data.voteStatus}
-        usdPrice={props.usdPrice}
-        eosPrice={props.eosPrice}
-        balanceAmount={props.balanceAmount}
+        wax={props.wax}
+        eos={props.eos}
+        liquidBalance={props.liquidBalance}
+        upvoted={props.upvoted}
         onSuccessAction={onSuccessAction}
       />
     </Container>

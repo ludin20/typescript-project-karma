@@ -74,8 +74,8 @@ const Container = styled.div<{ empty: boolean }>`
   }
 `;
 
-const ChangeValue: React.FC<WalletProps> = ({ usdPrice, eosPrice, balanceAmount, ...props }) => {
-  const usdBalanceAmount = usdPrice * eosPrice * balanceAmount;
+const ChangeValue: React.FC<WalletProps> = ({ wax, eos, liquidBalance, ...props }) => {
+  const usdBalanceAmount = wax * eos * liquidBalance;
   const [currency, setCurrency] = useState<'KARMA' | 'USD'>('KARMA');
   const [karmaAmount, setKarmaAmount] = useState(0);
   const [usdAmount, setUsdAmount] = useState(0);
@@ -87,13 +87,13 @@ const ChangeValue: React.FC<WalletProps> = ({ usdPrice, eosPrice, balanceAmount,
     (value: string) => {
       const amount = Number(value);
       if (currency == 'KARMA') {
-        if (amount < 0 || amount > balanceAmount) return;
+        if (amount < 0 || amount > liquidBalance) return;
 
         if (value.includes('0') && !value.includes('.')) setKarmaAmount('');
         setTimeout(() => {
           setKarmaAmount(amount);
         }, 1);
-        setUsdAmount(parseFloat((usdPrice * eosPrice * amount).toFixed(2)));
+        setUsdAmount(parseFloat((wax * eos * amount).toFixed(2)));
         setFieldValue('value', amount);
       } else {
         if (amount < 0 || amount > usdBalanceAmount) return;
@@ -102,11 +102,11 @@ const ChangeValue: React.FC<WalletProps> = ({ usdPrice, eosPrice, balanceAmount,
         setTimeout(() => {
           setUsdAmount(amount);
         }, 1);
-        setKarmaAmount(parseFloat((amount / (usdPrice * eosPrice)).toFixed()));
-        setFieldValue('value', parseFloat((amount / (usdPrice * eosPrice)).toFixed()));
+        setKarmaAmount(parseFloat((amount / (wax * eos)).toFixed()));
+        setFieldValue('value', parseFloat((amount / (wax * eos)).toFixed()));
       }
     },
-    [balanceAmount, currency, eosPrice, setFieldValue, usdBalanceAmount, usdPrice],
+    [liquidBalance, currency, eos, setFieldValue, usdBalanceAmount, wax],
   );
 
   const handleChangeCurrency = useCallback(() => {
@@ -122,13 +122,21 @@ const ChangeValue: React.FC<WalletProps> = ({ usdPrice, eosPrice, balanceAmount,
       <span>{currency}</span>
 
       <section>
-        <button onClick={() => handleChangeValue(balanceAmount && currency === 'KARMA' ? balanceAmount.toFixed() : usdBalanceAmount.toFixed(2))}>MAX</button>
+        <button
+          onClick={() =>
+            handleChangeValue(
+              liquidBalance && currency === 'KARMA' ? liquidBalance.toFixed() : usdBalanceAmount.toFixed(2),
+            )
+          }
+        >
+          MAX
+        </button>
         <input
           type="number"
           placeholder="0"
           value={currency === 'KARMA' ? karmaAmount : usdAmount}
           onChange={e => handleChangeValue(e.target.value)}
-          max={currency === 'KARMA' ? balanceAmount : usdBalanceAmount}
+          max={currency === 'KARMA' ? liquidBalance : usdBalanceAmount}
         />
         <button onClick={handleChangeCurrency}>
           <img src={upAndDown} alt="up and down" />

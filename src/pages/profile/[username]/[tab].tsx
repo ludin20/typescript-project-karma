@@ -135,7 +135,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
           followers_count: userData.profile.followers_count,
           following_count: userData.profile.following_count,
         }}
-        postCount={myProfile.posts.length}
+        postCount={userData.posts.length}
       />
     );
 
@@ -145,6 +145,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
       tab={tab as string}
       profile={userData && userData.profile}
       postCount={userData.posts.length}
+      myProfile={myProfile}
       me={me}
     />
   );

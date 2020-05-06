@@ -4,10 +4,11 @@ import styled from 'styled-components';
 
 import { tx, logtask } from '../../services/config';
 import { TOKEN_CONTRACT } from '../../common/config';
+import { updateProfileSuccess } from '../../store/ducks/user';
 import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
 
-import karma from '../assets/logo.png';
-import wax from '../assets/wax.png';
+import karmaIcon from '../assets/logo.png';
+import waxIcon from '../assets/wax.png';
 
 import SendMoneyModal from './SendMoneyModal/SendMoneyModal';
 import SuccessModal from './SendMoneyModal/SuccessModal';
@@ -43,15 +44,14 @@ const Container = styled.div`
 `;
 
 export interface WalletProps {
-  usdPrice: number;
-  eosPrice: number;
-  stakedAmount?: number;
-  balanceAmount?: number;
-  waxAmount?: number;
-  onRefresh?: any;
+  wax: number;
+  eos: number;
+  currentPower?: number;
+  liquidBalance?: number;
+  waxBalance?: number;
 }
 
-const WalletActions: React.FC<WalletProps> = ({ usdPrice, eosPrice, stakedAmount, balanceAmount, waxAmount, onRefresh }) => {
+const WalletActions: React.FC<WalletProps> = ({ wax, eos, currentPower, liquidBalance, waxBalance }) => {
   const dispatch = useDispatch();
   const [sendMoneyModalIsOpen, setSendMoneyModalIsOpen] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
@@ -83,13 +83,16 @@ const WalletActions: React.FC<WalletProps> = ({ usdPrice, eosPrice, stakedAmount
 
       if (result) {
         logtask(null, '{"action":"transfer"}');
-        setValue({ karma: amount, usd: usdPrice * eosPrice * amount });
+        setValue({ karma: amount, usd: wax * eos * amount });
         setTo(to);
         setAction('send');
-        onRefresh().then(() => {
-          setSendMoneyModalIsOpen(false);
-          setSuccessModalIsOpen(true);
-        });
+        const walledData = {
+          liquidBalance: liquidBalance - amount,
+        };
+        dispatch(updateProfileSuccess(walledData));
+        dispatch(actionSuccess());
+        setSendMoneyModalIsOpen(false);
+        setSuccessModalIsOpen(true);
       } else {
         // eslint-disable-next-line no-console
         console.log('transfer error');
@@ -128,8 +131,13 @@ const WalletActions: React.FC<WalletProps> = ({ usdPrice, eosPrice, stakedAmount
           setClaimed(true);
           setAction('claim');
           setTo(result.transaction_id);
-          setValue({ karma: reward, usd: usdPrice * eosPrice * reward });
-          onRefresh().then(() => setSuccessModalIsOpen(true));
+          setValue({ karma: reward, usd: wax * eos * reward });
+          const walledData = {
+            liquidBalance: liquidBalance + reward,
+          };
+          dispatch(updateProfileSuccess(walledData));
+          dispatch(actionSuccess());
+          setSuccessModalIsOpen(true);
           const dayNow = new Date().getUTCDate();
           localStorage.setItem('claimedDate', dayNow.toString());
         } catch (error) {
@@ -166,18 +174,18 @@ const WalletActions: React.FC<WalletProps> = ({ usdPrice, eosPrice, stakedAmount
 
       <strong>Tokens</strong>
       <Token
-        icon={karma}
+        icon={karmaIcon}
         name="KARMA"
-        unitValue={(usdPrice * eosPrice).toFixed(5)}
-        totalValue={(usdPrice * eosPrice * balanceAmount).toFixed(2)}
-        value={balanceAmount ? balanceAmount.toFixed() : 0}
+        unitValue={(wax * eos).toFixed(5)}
+        totalValue={(wax * eos * liquidBalance).toFixed(2)}
+        value={liquidBalance ? liquidBalance.toFixed() : 0}
       />
       <Token
-        icon={wax}
+        icon={waxIcon}
         name="WAX"
-        unitValue={usdPrice.toFixed(5)}
-        totalValue={(usdPrice * waxAmount).toFixed(2)}
-        value={waxAmount ? waxAmount.toFixed() : 0}
+        unitValue={wax.toFixed(5)}
+        totalValue={(wax * waxBalance).toFixed(2)}
+        value={waxBalance ? waxBalance.toFixed() : 0}
       />
 
       {sendMoneyModalIsOpen && (
@@ -185,9 +193,9 @@ const WalletActions: React.FC<WalletProps> = ({ usdPrice, eosPrice, stakedAmount
           open
           close={() => setSendMoneyModalIsOpen(false)}
           handleSubmit={handleSubmit}
-          usdPrice={usdPrice}
-          eosPrice={eosPrice}
-          balanceAmount={balanceAmount}
+          wax={wax}
+          eos={eos}
+          liquidBalance={liquidBalance}
         />
       )}
 
@@ -198,12 +206,11 @@ const WalletActions: React.FC<WalletProps> = ({ usdPrice, eosPrice, stakedAmount
       {powerModalIsOpen && (
         <MyPowerModal
           open
-          stakedAmount={stakedAmount}
-          balanceAmount={balanceAmount}
+          currentPower={currentPower}
+          liquidBalance={liquidBalance}
           action={action}
           close={() => setPowerModalIsOpen(false)}
           onChangeAction={setAction}
-          onRefresh={onRefresh}
         />
       )}
     </Container>

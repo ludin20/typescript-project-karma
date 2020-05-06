@@ -26,6 +26,7 @@ import { tx, logtask } from '../../services/config';
 import karmaApi from '../../services/api';
 import { KARMA_AUTHOR, TOKEN_CONTRACT } from '../../common/config';
 import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
+import { updateProfileSuccess } from '../../store/ducks/user';
 
 const Container = styled(Row)`
   width: 85% !important;
@@ -89,9 +90,10 @@ interface Props {
   upvote_count: number;
   downvote_count: number;
   voteStatus: number;
-  usdPrice?: number;
-  eosPrice?: number;
-  balanceAmount?: number;
+  wax?: number;
+  eos?: number;
+  liquidBalance?: number;
+  upvoted?: Array<string>;
   onSuccessAction(action: string, value: number): void;
 }
 
@@ -101,14 +103,14 @@ const PostActions: React.FC<Props> = ({
   upvote_count,
   downvote_count,
   comments,
-  recycles,
   tips,
   power,
   voteStatus,
   onSuccessAction,
-  usdPrice,
-  eosPrice,
-  balanceAmount,
+  wax,
+  eos,
+  liquidBalance,
+  upvoted,
   ...props
 }) => {
   const accountName = cookie.get(KARMA_AUTHOR);
@@ -129,9 +131,10 @@ const PostActions: React.FC<Props> = ({
       onSuccessAction('upVote', 1);
       createUpvote({ variables: { post_id: postId } })
         .then(res => {
-          const upvoted = JSON.parse(localStorage.getItem('upvoted'));
-          upvoted.push(postId);
-          localStorage.setItem('upvoted', JSON.stringify(upvoted));
+          const data = {
+            upvoted: [...upvoted, postId],
+          };
+          dispatch(updateProfileSuccess(data));
         })
         .catch(err => onSuccessAction('upVote', -1));
     } else {
@@ -185,26 +188,26 @@ const PostActions: React.FC<Props> = ({
           logtask(null, '{"tip":"post"}');
           if (response.status === 200) {
             onSuccessAction(tipModalIsOpen ? 'tip' : 'boost', amount);
+            const walledData = {
+              liquidBalance: liquidBalance - amount,
+            };
+            dispatch(updateProfileSuccess(walledData));
             dispatch(actionSuccess());
             tipModalIsOpen ? setTipModalIsOpen(false) : setBoostModalIsOpen(false);
             setValue({ karma: amount, usd: amount });
             setTo(to);
-            console.log('Success Tip');
           } else {
             dispatch(actionFailure());
             tipModalIsOpen ? setTipModalIsOpen(false) : setBoostModalIsOpen(false);
-            console.log('INVALID RESPONSE');
           }
         })
         .catch(err => {
           dispatch(actionFailure());
           tipModalIsOpen ? setTipModalIsOpen(false) : setBoostModalIsOpen(false);
-          console.log('ERROR TIPPING: ', err);
         });
     } else {
       dispatch(actionFailure());
       tipModalIsOpen ? setTipModalIsOpen(false) : setBoostModalIsOpen(false);
-      console.log('TX ISSUE FOR TIPPING: ');
     }
   };
 
@@ -242,9 +245,25 @@ const PostActions: React.FC<Props> = ({
         </Row>
       </Container>
 
-      {tipModalIsOpen && <TipModal usdPrice={usdPrice} eosPrice={eosPrice} balanceAmount={balanceAmount} open={tipModalIsOpen} close={() => setTipModalIsOpen(false)} onSubmit={handleTip} />}
+      {tipModalIsOpen && (
+        <TipModal
+          wax={wax}
+          eos={eos}
+          liquidBalance={liquidBalance}
+          open={tipModalIsOpen}
+          close={() => setTipModalIsOpen(false)}
+          onSubmit={handleTip}
+        />
+      )}
       {boostModalIsOpen && (
-        <BoostModal usdPrice={usdPrice} eosPrice={eosPrice} open={boostModalIsOpen} balanceAmount={balanceAmount} close={() => setBoostModalIsOpen(false)} onSubmit={handleBoost} />
+        <BoostModal
+          wax={wax}
+          eos={eos}
+          liquidBalance={liquidBalance}
+          open={boostModalIsOpen}
+          close={() => setBoostModalIsOpen(false)}
+          onSubmit={handleBoost}
+        />
       )}
       {successModalIsOpen && (
         <SuccessModal open close={() => setSuccessModalIsOpen(false)} value={value} to={to} action="send" />

@@ -72,13 +72,16 @@ interface Props {
   author?: string;
   me?: boolean;
   isVerified?: boolean;
-  power: string | number;
   bio: string;
   website: string;
   handleModal?: () => void;
   onFollowSuccess?: (boolean) => void;
   following?: boolean;
   followsMe?: boolean;
+  wax: number;
+  eos: number;
+  liquidBalance: number;
+  currentPower: number;
 }
 
 const ProfileInfo: React.FC<Props> = ({
@@ -88,13 +91,16 @@ const ProfileInfo: React.FC<Props> = ({
   author,
   me,
   isVerified,
-  power,
   website,
   handleModal,
   onFollowSuccess,
   following,
   followsMe,
   bio,
+  wax,
+  eos,
+  liquidBalance,
+  currentPower,
   ...props
 }) => {
   return (
@@ -106,18 +112,17 @@ const ProfileInfo: React.FC<Props> = ({
         username={'@' + username}
         me={me}
         author={author}
-        power={power}
+        wax={wax}
+        eos={eos}
+        liquidBalance={liquidBalance}
+        currentPower={currentPower}
         handleModal={handleModal}
         onFollowSuccess={onFollowSuccess}
         following={following}
         followsMe={followsMe}
       />
 
-      {bio && (
-        <p>
-          <FormattedText font={{ color: '#fff', size: '20px', weight: 'normal' }} content={bio} withoutBr />
-        </p>
-      )}
+      {bio && <FormattedText font={{ color: '#fff', size: '20px', weight: 'normal' }} content={bio} withoutBr />}
       {website && (
         <WebSite>
           <img src={link} alt="link" />
@@ -128,7 +133,10 @@ const ProfileInfo: React.FC<Props> = ({
       {!me && (
         <ProfileActions
           me={me}
-          power={power}
+          wax={wax}
+          eos={eos}
+          liquidBalance={liquidBalance}
+          currentPower={currentPower}
           handleModal={handleModal}
           following={following}
           author={author}

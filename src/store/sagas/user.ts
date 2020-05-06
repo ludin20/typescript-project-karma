@@ -13,6 +13,9 @@ import {
 } from '../ducks/user';
 import { REQUEST_JWT, RESPONSE_JWT, KARMA_AUTHOR } from '../../common/config';
 import api from '../../services/api';
+import { getWAXUSDPrice, getEOSPrice } from '../../services/config';
+import { fetchBalance, fetchStakedBalance, fetchAccountInfo } from '../../services/Auth';
+
 const author = cookie.get(KARMA_AUTHOR);
 
 export function* createProfile({ payload }: ReturnType<typeof createProfileRequest>) {
@@ -80,7 +83,38 @@ export function* updateProfile({ payload }: ReturnType<typeof updateProfileReque
   }
 }
 
+export function* getWallet() {
+  try {
+    const [balance, staked, accountInfo] = yield Promise.all([
+      fetchBalance(author),
+      fetchStakedBalance(author),
+      fetchAccountInfo(author),
+    ]);
+
+    const WAXPrice = yield getWAXUSDPrice();
+    const EOSPrice = yield getEOSPrice();
+    const WAXAmount = parseFloat(
+      accountInfo.core_liquid_balance && accountInfo.core_liquid_balance.includes(' ')
+        ? accountInfo.core_liquid_balance.split(' ')[0]
+        : 0,
+    );
+
+    const walletData = {
+      wax: WAXPrice,
+      eos: EOSPrice,
+      waxBalance: WAXAmount,
+      liquidBalance: balance,
+      currentPower: staked,
+    };
+
+    yield put(updateProfileSuccess(walletData));
+  } catch (error) {
+    yield put(profileFailure());
+  }
+}
+
 export default all([
   takeLatest(types.UPDATE_PROFILE_REQUEST, updateProfile),
   takeLatest(types.CREATE_PROFILE_REQUEST, createProfile),
+  takeLatest(types.GET_WALLET_REQUEST, getWallet),
 ]);

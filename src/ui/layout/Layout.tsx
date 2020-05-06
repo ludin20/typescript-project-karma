@@ -4,7 +4,7 @@ import styled, { css, keyframes } from 'styled-components';
 import graphql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 
-import { updateProfileSuccess } from '../../store/ducks/user';
+import { getWalletRequest, updateProfileSuccess } from '../../store/ducks/user';
 import CreateProfileModal from '../profile/CreateProfileModal';
 
 import { withApollo } from '../../apollo/Apollo';
@@ -197,6 +197,10 @@ const Layout: React.FC<Props> = ({
   });
 
   useEffect(() => {
+    dispatch(getWalletRequest());
+  }, []);
+
+  useEffect(() => {
     setIsLoading(authLoading || userLoading || activityLoading || actionLoading);
   }, [authLoading, userLoading, activityLoading, actionLoading]);
 
@@ -209,7 +213,6 @@ const Layout: React.FC<Props> = ({
   useEffect(() => {
     if (data && data.profile) {
       setProfile(data.profile);
-      localStorage.setItem('upvoted', JSON.stringify(data.profile.upvoted));
       dispatch(updateProfileSuccess(data.profile));
     }
 

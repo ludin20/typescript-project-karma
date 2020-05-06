@@ -53,7 +53,14 @@ const TypeOfBoost = styled.button<{ active: boolean }>`
   }
 `;
 
-const BoostModal: React.FC<ModalProps> = props => {
+interface Props extends ModalProps {
+  wax?: number;
+  eos?: number;
+  liquidBalance?: number;
+  onSubmit(value: number): void;
+}
+
+const BoostModal: React.FC<Props> = props => {
   const [typeOfBoost, setTypeOfBoost] = useState<'KARMA' | 'WAX'>('KARMA');
 
   const handleSubmit = (value: number) => {

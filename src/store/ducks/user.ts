@@ -9,6 +9,7 @@ export const types = {
   CREATE_PROFILE_SUCCESS: '@user/CREATE_PROFILE_SUCCESS',
   UPDATE_PROFILE_REQUEST: '@user/UPDATE_PROFILE_REQUEST',
   UPDATE_PROFILE_SUCCESS: '@user/UPDATE_PROFILE_SUCCESS',
+  GET_WALLET_REQUEST: '@user/GET_WALLET_REQUEST',
   PROFILE_FAILURE: '@user/PROFILE_FAILURE',
 };
 
@@ -16,6 +17,7 @@ export interface ProfileProps {
   avatar?: string | File;
   displayname: string;
   username: string;
+  hash?: string;
   bio: string;
   website: string;
   followers?: string | number;
@@ -23,9 +25,12 @@ export interface ProfileProps {
   following?: string | number;
   posts?: string | number;
   isVerified?: boolean;
-  currentPower?: string | number;
-  liquidBalance?: string | number;
+  wax?: number;
+  eos?: number;
+  currentPower?: number;
+  liquidBalance?: number;
   unstaking?: string | number;
+  upvoted: Array<string>;
 }
 
 export interface UserState {
@@ -36,6 +41,7 @@ export interface UserState {
 export const defaultProfile: ProfileProps = {
   displayname: 'Full Name',
   username: '@username',
+  hash: '',
   bio: '',
   followers: 0,
   power: 0,
@@ -43,9 +49,12 @@ export const defaultProfile: ProfileProps = {
   website: '',
   posts: 0,
   isVerified: false,
+  wax: 0,
+  eos: 0,
   currentPower: 0,
   liquidBalance: 0,
   unstaking: 0,
+  upvoted: [],
 };
 
 export const INITIAL_STATE: UserState = {
@@ -78,8 +87,12 @@ export default function reducer(state = INITIAL_STATE, action) {
         break;
       }
       case types.UPDATE_PROFILE_SUCCESS: {
-        draft.profile = { ...defaultProfile, ...action.payload.user };
+        draft.profile = { ...draft.profile, ...action.payload.user };
         draft.loading = false;
+        break;
+      }
+      case types.GET_WALLET_REQUEST: {
+        draft.loading = true;
         break;
       }
       case types.PROFILE_FAILURE: {
@@ -134,6 +147,12 @@ export function updateProfileSuccess(user) {
     payload: {
       user,
     },
+  };
+}
+
+export function getWalletRequest() {
+  return {
+    type: types.GET_WALLET_REQUEST,
   };
 }
 

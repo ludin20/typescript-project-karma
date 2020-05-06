@@ -75,11 +75,14 @@ interface Props {
   author?: string;
   me?: boolean;
   isVerified: boolean;
-  power: string | number;
   handleModal?: () => void;
   onFollowSuccess?: (boolean) => void;
   following?: boolean;
   followsMe?: boolean;
+  wax: number;
+  eos: number;
+  currentPower: number;
+  liquidBalance: number;
 }
 
 const ProfileInfoHeader: React.FC<Props> = ({
@@ -89,11 +92,14 @@ const ProfileInfoHeader: React.FC<Props> = ({
   name,
   username,
   me,
-  power,
   handleModal,
   onFollowSuccess,
   following,
   followsMe,
+  wax,
+  eos,
+  currentPower,
+  liquidBalance,
 }) => {
   return (
     <Container>
@@ -111,7 +117,10 @@ const ProfileInfoHeader: React.FC<Props> = ({
 
       <ProfileActions
         me={me}
-        power={power}
+        wax={wax}
+        eos={eos}
+        liquidBalance={liquidBalance}
+        currentPower={currentPower}
         handleModal={handleModal}
         onFollowSuccess={onFollowSuccess}
         following={following}

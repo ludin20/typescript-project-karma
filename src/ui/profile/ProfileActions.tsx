@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import cookie from 'js-cookie';
 import styled, { css } from 'styled-components';
 
 import powerIcon from '../assets/power.svg';
@@ -11,10 +10,9 @@ import Button from '../common/Button';
 import FollowButton from '../common/FollowButton';
 
 import { tx, logtask } from '../../services/config';
-import { KARMA_AUTHOR, TOKEN_CONTRACT } from '../../common/config';
-import { fetchBalance, fetchStakedBalance } from "../../services/Auth";
-import { getWAXUSDPrice, getEOSPrice } from "../../services/config";
+import { TOKEN_CONTRACT } from '../../common/config';
 import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
+import { updateProfileSuccess } from '../../store/ducks/user';
 import { useInt2roundKMG } from '../../hooks';
 
 const Container = styled.div<{ me: boolean }>`
@@ -129,7 +127,10 @@ const FollowingActionButton = styled(FollowButton)`
 
 interface Props {
   me?: boolean;
-  power: string | number;
+  wax: number;
+  eos: number;
+  currentPower: number;
+  liquidBalance: number;
   handleModal?: () => void;
   onFollowSuccess?: (boolean) => void;
   following?: boolean;
@@ -140,40 +141,26 @@ interface Props {
   mobile?: boolean;
 }
 
-const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSuccess, following, avatar, username, name, mobile, author }) => {
+const ProfileActions: React.FC<Props> = ({
+  me,
+  wax,
+  eos,
+  currentPower,
+  liquidBalance,
+  handleModal,
+  onFollowSuccess,
+  following,
+  avatar,
+  username,
+  name,
+  mobile,
+  author,
+}) => {
   const dispatch = useDispatch();
-  const accountName = cookie.get(KARMA_AUTHOR);
   const [sendMoneyModalIsOpen, setSendMoneyModalIsOpen] = useState(false);
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [value, setValue] = useState({ karma: 0, usd: 0 });
   const [to, setTo] = useState('');
-  const [usdPrice, setUsdPrice] = useState(0);
-  const [eosPrice, setEosPrice] = useState(0);
-  const [balanceAmount, setBalanceAmount] = useState(0);
-  const [stakedAmount, setStakedAmount] = useState(0);
-
-  useEffect(() => {
-    _fetchBalance();
-  }, []);
-
-  const _fetchBalance = async () => {
-    try {
-      dispatch(actionRequest());
-      const [balance, staked] = await Promise.all([fetchBalance(accountName), fetchStakedBalance(author)]);
-
-      const USDPrice = await getWAXUSDPrice();
-      const EOSPrice = await getEOSPrice();
-      setUsdPrice(USDPrice);
-      setEosPrice(EOSPrice);
-      setBalanceAmount(balance);
-      setStakedAmount(staked);
-      dispatch(actionSuccess());
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log('xqq', e, 'qqqq');
-      dispatch(actionFailure());
-    }
-  };
 
   const handleSubmit = async (amount: number, to: string, memo: string) => {
     try {
@@ -191,12 +178,15 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSucce
 
       if (result) {
         logtask(null, '{"action":"transfer"}');
-        setValue({ karma: amount, usd: usdPrice * eosPrice * amount });
+        setValue({ karma: amount, usd: wax * eos * amount });
         setTo(to);
-        _fetchBalance().then(() => {
-          setSendMoneyModalIsOpen(false);
-          setSuccessModalIsOpen(true);
-        });
+        const walledData = {
+          liquidBalance: liquidBalance - amount,
+        };
+        dispatch(updateProfileSuccess(walledData));
+        dispatch(actionSuccess());
+        setSendMoneyModalIsOpen(false);
+        setSuccessModalIsOpen(true);
       } else {
         // eslint-disable-next-line no-console
         console.log('transfer error');
@@ -214,7 +204,7 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSucce
       <Container me={me}>
         <ActionButton me border background="dark" radius="rounded" color={'#26CC8B'} borderColor={'#26CC8B'}>
           <img src={powerIcon} alt="power" />
-          {useInt2roundKMG(stakedAmount)}
+          {useInt2roundKMG(currentPower)}
         </ActionButton>
 
         <ActionButton me border radius="rounded" onClick={handleModal}>
@@ -228,7 +218,7 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSucce
     <Container me={me}>
       <ActionButton me={false} border background="dark" radius="rounded" color={'#26CC8B'} borderColor={'#26CC8B'}>
         <img src={powerIcon} alt="power" />
-        {useInt2roundKMG(stakedAmount)}
+        {useInt2roundKMG(currentPower)}
       </ActionButton>
 
       <ActionButton
@@ -251,9 +241,9 @@ const ProfileActions: React.FC<Props> = ({ me, power, handleModal, onFollowSucce
           close={() => setSendMoneyModalIsOpen(false)}
           profile={{ author, username, avatar, name }}
           handleSubmit={handleSubmit}
-          usdPrice={usdPrice}
-          eosPrice={eosPrice}
-          balanceAmount={balanceAmount}
+          wax={wax}
+          eos={eos}
+          liquidBalance={liquidBalance}
         />
       )}
 

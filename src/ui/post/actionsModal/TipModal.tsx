@@ -5,7 +5,14 @@ import tip from '../../assets/tip.svg';
 
 import Wrapper from './Wrapper';
 
-const TipModal: React.FC<ModalProps> = props => {
+interface Props extends ModalProps {
+  wax?: number;
+  eos?: number;
+  liquidBalance?: number;
+  onSubmit(value: number): void;
+}
+
+const TipModal: React.FC<Props> = props => {
   const handleSubmit = (value: number) => {
     props.onSubmit(value);
   };
