@@ -8,6 +8,7 @@ import { useS3Image } from '../../hooks';
 import karmaApi from '../../services/api';
 import { fetchBalance } from '../../services/Auth';
 import { actionRequest, actionSuccess } from '../../store/ducks/action';
+import { updateProfileSuccess } from '../../store/ducks/user';
 
 const Wrapper = styled.div`
   @media (max-width: 700px) {
@@ -42,6 +43,8 @@ interface Props {
     wax: number;
     eos: number;
     liquidBalance: number;
+    following: [];
+    following_count: number;
   };
   postCount: string;
   me: string;
@@ -78,6 +81,22 @@ const Profile: React.FC<Props> = ({ tabs, tab, profile, myProfile, postCount, me
     following ? setFollowersCount(followersCount + 1) : setFollowersCount(followersCount - 1);
   };
 
+  const handleFollow = (author: string, follow: boolean) => {
+    if (follow) {
+      const data = {
+        following: [...myProfile.following, author],
+        following_count: myProfile.following_count + 1,
+      };
+      dispatch(updateProfileSuccess(data));
+    } else {
+      const data = {
+        following: myProfile.following.filter(item => item != author),
+        following_count: myProfile.following_count - 1,
+      };
+      dispatch(updateProfileSuccess(data));
+    }
+  };
+
   return (
     <Wrapper>
       <GoBackButton />
@@ -88,6 +107,7 @@ const Profile: React.FC<Props> = ({ tabs, tab, profile, myProfile, postCount, me
         followingCount={following_count}
         followers={followers}
         following={following}
+        onFollow={handleFollow}
       />
 
       <ProfileInfo

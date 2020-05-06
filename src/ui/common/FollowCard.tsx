@@ -11,12 +11,14 @@ import Text from './Text';
 
 interface Props {
   author: string;
-  username: string;
-  hash: string;
-  displayname: string;
+  username?: string;
+  hash?: string;
+  displayname?: string;
+  isFollowing?: boolean;
+  onFollow?(author: string, follow: boolean): void;
 }
 
-const FollowCard: React.FC<Props> = ({ author, username, hash, displayname }) => {
+const FollowCard: React.FC<Props> = ({ author, username, hash, displayname, isFollowing, onFollow }) => {
   const avatar = useS3Image(hash, 'thumbSmall');
 
   return (
@@ -38,7 +40,7 @@ const FollowCard: React.FC<Props> = ({ author, username, hash, displayname }) =>
           </Col>
         </Row>
 
-        <FollowButton author={author} following={false} />
+        <FollowButton author={author} following={isFollowing} onSuccess={following => onFollow(author, following)} />
       </Row>
     </>
   );

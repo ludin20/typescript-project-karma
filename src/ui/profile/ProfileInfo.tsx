@@ -9,7 +9,7 @@ import ProfileInfoHeader from './ProfileInfoHeader';
 import ProfileActions from './ProfileActions';
 
 const Container = styled.div`
-  > p {
+  > div:nth-child(2) {
     max-width: 350px;
     overflow: hidden;
     color: #fff;
@@ -122,7 +122,11 @@ const ProfileInfo: React.FC<Props> = ({
         followsMe={followsMe}
       />
 
-      {bio && <FormattedText font={{ color: '#fff', size: '20px', weight: 'normal' }} content={bio} withoutBr />}
+      {bio && (
+        <div>
+          <FormattedText font={{ color: '#fff', size: '20px', weight: 'normal' }} content={bio} withoutBr />
+        </div>
+      )}
       {website && (
         <WebSite>
           <img src={link} alt="link" />

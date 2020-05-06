@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { ProfileHeader, ProfileInfo, EditProfileModal, Tabs } from '../../ui';
 import { TabInterface } from '../tabs/Tabs';
 import { useS3Image } from '../../hooks';
+
+import { updateProfileSuccess } from '../../store/ducks/user';
 
 const Wrapper = styled.div`
   @media (max-width: 700px) {
@@ -14,6 +17,7 @@ const Wrapper = styled.div`
 `;
 
 interface Follow {
+  author: string;
   username: string;
   hash: string;
   displayname: string;
@@ -27,26 +31,27 @@ interface Props {
     author: string;
     bio: string;
     hash: string;
-    followers: Follow[];
-    following: Follow[];
-    followers_count: string;
-    following_count: string;
+    followers: [];
+    following: [];
+    followers_count: number;
+    following_count: number;
     username: string;
     wax: number;
     eos: number;
     liquidBalance: number;
     currentPower: number;
   };
+  followersData: Follow[];
+  followingData: Follow[];
   postCount: string;
 }
 
-const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
+const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData, postCount }) => {
   const {
     displayname,
     bio,
     hash,
     author,
-    followers,
     following,
     followers_count,
     following_count,
@@ -56,8 +61,26 @@ const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
     liquidBalance,
     currentPower,
   } = profile;
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const avatar = useS3Image(hash, 'thumbBig');
+  const dispatch = useDispatch();
+
+  const handleFollow = (author: string, follow: boolean) => {
+    if (follow) {
+      const data = {
+        following: [...following, author],
+        following_count: following_count + 1,
+      };
+      dispatch(updateProfileSuccess(data));
+    } else {
+      const data = {
+        following: following.filter(item => item != author),
+        following_count: following_count - 1,
+      };
+      dispatch(updateProfileSuccess(data));
+    }
+  };
 
   return (
     <Wrapper>
@@ -66,8 +89,9 @@ const Me: React.FC<Props> = ({ tabs, tab, profile, postCount }) => {
         posts={postCount}
         followersCount={followers_count}
         followingCount={following_count}
-        followers={followers}
-        following={following}
+        followers={followersData}
+        following={followingData}
+        onFollow={handleFollow}
       />
 
       <ProfileInfo

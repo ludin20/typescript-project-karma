@@ -86,6 +86,7 @@ interface Props {
   following: Follow[];
   followersCount: string | number;
   followingCount: string | number;
+  onFollow?(author: string, follow: boolean): void;
 }
 
 const ProfileHeader: React.FC<Props> = ({
@@ -95,6 +96,7 @@ const ProfileHeader: React.FC<Props> = ({
   following,
   followersCount,
   followingCount,
+  onFollow,
   ...props
 }) => {
   const [followersModalIsOpen, setFollowersModalIsOpen] = useState(false);
@@ -145,7 +147,7 @@ const ProfileHeader: React.FC<Props> = ({
       </section>
 
       {(followersModalIsOpen || followingModalIsOpen) && (
-        <FollowsModal data={data} open close={handleCloseModal} title={title} />
+        <FollowsModal data={data} open close={handleCloseModal} title={title} onFollow={onFollow} />
       )}
     </Container>
   );

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
@@ -70,13 +70,30 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
   const { username, tab } = router.query;
 
   const cookies = cookie.get();
+  const meUsername = cookies[KARMA_AUTHOR];
 
   const isMe = useMemo(() => {
-    const meUsername = cookies[KARMA_AUTHOR];
     return username === meUsername;
-  }, [cookies, username]);
+  }, [meUsername, username]);
 
   const [page, setPage] = useState(1);
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
+
+  useEffect(() => {
+    setFollowers(
+      userData.profile.followers.map((data: { author: string }) => ({
+        ...data,
+        isFollowing: !!myProfile.following.find(item => item == data.author),
+      })),
+    );
+    setFollowing(
+      userData.profile.following.map((data: { author: string }) => ({
+        ...data,
+        isFollowing: !!myProfile.following.find(item => item == data.author),
+      })),
+    );
+  }, [userData, myProfile, meUsername]);
 
   const { data, fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
@@ -128,13 +145,9 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
       <Me
         tabs={tabs}
         tab={tab as string}
-        profile={{
-          ...myProfile,
-          followers: userData.profile.followers,
-          following: userData.profile.following,
-          followers_count: userData.profile.followers_count,
-          following_count: userData.profile.following_count,
-        }}
+        followersData={followers}
+        followingData={following}
+        profile={myProfile}
         postCount={userData.posts.length}
       />
     );
@@ -143,7 +156,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
     <Profile
       tabs={tabs}
       tab={tab as string}
-      profile={userData && userData.profile}
+      profile={{ ...userData.profile, followers: followers, following: following }}
       postCount={userData.posts.length}
       myProfile={myProfile}
       me={me}

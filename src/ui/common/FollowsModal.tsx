@@ -55,9 +55,10 @@ interface Props {
   close(): void;
   title: string;
   loadMore(): void;
+  onFollow?(author: string, follow: boolean): void;
 }
 
-const FollowsModal: React.FC<Props> = ({ data, title, loadMore, ...props }) => {
+const FollowsModal: React.FC<Props> = ({ data, title, loadMore, onFollow, ...props }) => {
   return (
     <ModalWrapper {...props}>
       <Container>
@@ -71,8 +72,8 @@ const FollowsModal: React.FC<Props> = ({ data, title, loadMore, ...props }) => {
           </button>
         </header>
 
-        {data.map(follow => (
-          <FollowCard key={follow.username} author={follow.author} {...follow} />
+        {data.map((follow, idx) => (
+          <FollowCard key={idx} {...follow} onFollow={onFollow} />
         ))}
       </Container>
       <SeeMore onClick={loadMore}>See More</SeeMore>
