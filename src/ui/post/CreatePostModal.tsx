@@ -24,7 +24,7 @@ const Content = styled.div`
   background: ${props => props.theme.dark};
   padding: 30px 50px;
   border-radius: 20px;
-  margin-top: 13%;
+  margin-top: 140px;
 
   header {
     margin-bottom: 20px;

@@ -31,13 +31,7 @@ const imgCss = css`
 
 const topSpaceCss = css`
   @media (max-width: 550px) {
-    height: 25px;
-  }
-`;
-
-const bottomSpaceCss = css`
-  @media (max-width: 550px) {
-    height: 15px;
+    height: 20px;
   }
 `;
 
@@ -66,7 +60,7 @@ const PostContent: React.FC<Props> = ({ content, onClick }) => {
           </SkeletonTheme>
         )}
       </Container>
-      <Space height={30} css={bottomSpaceCss} />
+      <Space height={30} />
     </>
   );
 };

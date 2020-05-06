@@ -23,12 +23,16 @@ const Container = styled.li`
 const headerCss = css`
   margin-top: -30px;
   @media (max-width: 550px) {
-    margin-top: -20px;
+    display: initial;
+    margin-top: -4px;
     span:nth-child(1) {
-      font-size: 16px;
+      font-size: 23px;
     }
     span {
-      font-size: 12px;
+      font-size: 17px;
+    }
+    div:nth-child(2) {
+      height: 4px;
     }
   }
 `;
@@ -38,18 +42,11 @@ const Caption = styled.li`
   margin-top: -25px;
   overflow: hidden;
   @media (max-width: 550px) {
-    margin-left: 69px;
-    margin-top: -20px;
+    margin-left: 0;
+    margin-top: 8px;
     span {
-      font-size: 13px;
+      font-size: 18px;
     }
-  }
-`;
-
-const avatarCss = css`
-  @media (max-width: 550px) {
-    width: 50px;
-    height: 50px;
   }
 `;
 
@@ -130,7 +127,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
     <Container>
       <Row align="center" justify="space-between">
         <Row align="center">
-          <Avatar src={avatar} alt={author_displayname} css={avatarCss} />
+          <Avatar src={avatar} alt={author_displayname} />
           <Space width={18} />
 
           <Row
