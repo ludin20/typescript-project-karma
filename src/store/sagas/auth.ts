@@ -48,14 +48,14 @@ export function* sign({ payload }: ReturnType<typeof signRequest>) {
 
     if (!IsValid) {
       yield put(signFailure());
-    }
+    } else {
+      yield put(signSuccess(UserGuid, Author));
 
-    yield put(signSuccess(UserGuid, Author));
-
-    if (process.env.NODE_ENV !== 'test') {
-      const href = '/auth/[tab]';
-      const as = `/auth/validate`;
-      Router.push(href, as, { shallow: true });
+      if (process.env.NODE_ENV !== 'test') {
+        const href = '/auth/[tab]';
+        const as = `/auth/validate`;
+        Router.push(href, as, { shallow: true });
+      }
     }
   } catch (error) {
     yield put(signFailure());
@@ -80,9 +80,9 @@ export function* resendCode({ payload }: ReturnType<typeof resendCodeRequest>) {
 
     if (!IsValid) {
       yield put(signFailure());
+    } else {
+      yield put(resendCodeSuccess());
     }
-
-    yield put(resendCodeSuccess());
   } catch (error) {
     yield put(signFailure());
   }
@@ -114,21 +114,22 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
 
     if (!IsValid) {
       yield put(authenticateCodeFailure());
+    } else {
+      yield put(authenticateCodeSuccess(private_key, defaultProfile));
+
+      cookie.set(KARMA_SESS, private_key, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+      cookie.set(KARMA_AUTHOR, Author, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+      Router.push('/home');
     }
-
-    yield put(authenticateCodeSuccess(private_key, defaultProfile));
-
-    cookie.set(KARMA_SESS, private_key, { expires: NODE_ENV !== 'development' ? 1 : 10 });
-    cookie.set(KARMA_AUTHOR, Author, { expires: NODE_ENV !== 'development' ? 1 : 10 });
-    Router.push('/home');
   } catch (error) {
     yield put(authenticateCodeFailure());
   }
 }
 
 export function* signOut() {
-  cookie.remove(KARMA_SESS);
   Router.push('/auth/sign');
+  cookie.remove(KARMA_SESS);
+  cookie.remove(KARMA_AUTHOR);
   yield put(signOutSuccess());
 }
 
