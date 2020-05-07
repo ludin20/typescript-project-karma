@@ -26,7 +26,7 @@ const Container = styled(Button)<Props>`
 interface Props {
   author?: string;
   following?: boolean;
-  onSuccess?: (boolean) => void;
+  onSuccess?: (author: string, follow: boolean) => void;
   shouldHideFollowOnMobile?: boolean;
 }
 
@@ -37,8 +37,8 @@ const FollowButton: React.FC<Props> = ({ author, following, onSuccess, ...props 
   const handleFollow = (accountName, following) => {
     follow(accountName, following)
       .then(res => {
-        setIsFollowing(!isFollowing);
-        onSuccess && onSuccess(!isFollowing);
+        setIsFollowing(following);
+        onSuccess && onSuccess(author, following);
       })
       .catch(err => {
         console.log('following action error', err); // eslint-disable-line no-console

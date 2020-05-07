@@ -92,28 +92,34 @@ const Container = styled.div<{ focused: boolean; shouldHideCreatePost: boolean }
 `;
 
 interface Props {
+  data: UserProps[];
   focused: boolean;
   setFocused: (value: boolean) => void;
-  search(searchString: string): Promise<UserProps[]>;
+  search(searchString: string, page?: number): void;
   shouldHideCreatePost?: boolean;
+  sectionRef?: any;
+  onFollow?(author: string, follow: boolean): void;
 }
 
-const SearchBar: React.FC<Props> = ({ focused, setFocused, search, shouldHideCreatePost }) => {
-  const [results, setResults] = useState<UserProps[]>();
-  const [loading, setLoading] = useState(false);
+const SearchBar: React.FC<Props> = ({
+  focused,
+  setFocused,
+  search,
+  data,
+  shouldHideCreatePost,
+  sectionRef,
+  onFollow,
+}) => {
   const [textValue, setTextValue] = useState('');
   const [isEmpty, setEmpty] = useState(() => isStringEmpty(textValue));
   const ref = useRef<HTMLInputElement>();
 
   const triggerNewSearch = useDebounce(
     useCallback(
-      async (text: string) => {
-        setLoading(true);
+      (text: string, page?: number) => {
         setEmpty(false);
 
-        const response = await search(text);
-        setResults(response);
-        setLoading(false);
+        page ? search(text, page) : search(text);
       },
       [search],
     ),
@@ -154,7 +160,7 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, search, shouldHideCre
         placeholder="Search KARMA"
         ref={ref}
         onFocus={() => setFocused(true)}
-        //onBlur={onBlur}
+        // onBlur={onBlur}
         onChange={handleChange}
         value={textValue}
       />
@@ -164,7 +170,16 @@ const SearchBar: React.FC<Props> = ({ focused, setFocused, search, shouldHideCre
         </button>
       )}
 
-      {focused && !isEmpty && <OptionsContainer onBlur={onBlur} loading={loading} results={results} />}
+      {focused && !isEmpty && (
+        <OptionsContainer
+          sectionRef={sectionRef}
+          onBlur={onBlur}
+          loadMore={() => triggerNewSearch(textValue, Math.ceil(data.length / 5) + 1)}
+          loading={false}
+          results={data}
+          onFollow={onFollow}
+        />
+      )}
     </Container>
   );
 };

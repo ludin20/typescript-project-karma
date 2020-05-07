@@ -52,7 +52,7 @@ export function* createProfile({ payload }: ReturnType<typeof createProfileReque
 
 export function* updateProfile({ payload }: ReturnType<typeof updateProfileRequest>) {
   try {
-    const { bio, username, displayname, hash } = payload.data;
+    const { bio, username, displayname, hash, url } = payload.data;
 
     const body = {
       author: author,
@@ -61,6 +61,7 @@ export function* updateProfile({ payload }: ReturnType<typeof updateProfileReque
       hash,
       bio,
       displayname: displayname,
+      url,
       domain_id: 1,
     };
 

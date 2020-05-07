@@ -35,12 +35,12 @@ const FollowCard: React.FC<Props> = ({ author, username, hash, displayname, isFo
             <Space height={2} />
 
             <Text size={16} color="midGray">
-              {username}
+              {'@' + username}
             </Text>
           </Col>
         </Row>
 
-        <FollowButton author={author} following={isFollowing} onSuccess={following => onFollow(author, following)} />
+        <FollowButton author={author} following={isFollowing} onSuccess={onFollow} />
       </Row>
     </>
   );

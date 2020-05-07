@@ -141,6 +141,7 @@ const GET_PROFILE = graphql`
       author
       bio
       hash
+      url
       displayname
       username
       followers_count
@@ -189,10 +190,20 @@ const Layout: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [accountProfile, setProfile] = useState(profile);
 
-  const { data } = useQuery(GET_PROFILE, {
+  useQuery(GET_PROFILE, {
     variables: {
       accountname: author,
+      domainID: 1,
       pathBuilder: () => `profile/${author}?domainID=${1}`,
+    },
+    onCompleted: data => {
+      if (data && data.profile) {
+        setProfile(data.profile);
+        dispatch(updateProfileSuccess(data.profile));
+      }
+
+      if (data && (!data.profile || !data.profile.hash)) setModalIsOpen(true);
+      else setModalIsOpen(false);
     },
   });
 
@@ -209,16 +220,6 @@ const Layout: React.FC<Props> = ({
     if (!profile || !profile.hash) setModalIsOpen(true);
     else setModalIsOpen(false);
   }, [profile]);
-
-  useEffect(() => {
-    if (data && data.profile) {
-      setProfile(data.profile);
-      dispatch(updateProfileSuccess(data.profile));
-    }
-
-    if (data && (!data.profile || !data.profile.hash)) setModalIsOpen(true);
-    else setModalIsOpen(false);
-  }, [data, dispatch]);
 
   const close = useCallback(() => {
     if (accountProfile && accountProfile.hash) {
@@ -238,6 +239,7 @@ const Layout: React.FC<Props> = ({
       <Container collapsed={collapsed} shouldHideHeader={shouldHideHeader}>
         <Header
           author={author}
+          profile={accountProfile}
           collapsed={collapsed}
           shouldHideCreatePost={shouldHideCreatePost}
           shouldHideHeader={shouldHideHeader}

@@ -27,6 +27,11 @@ const Container = styled.div`
   }
 `;
 
+const Section = styled.section`
+  overflow-y: auto;
+  max-height: 470px;
+`;
+
 const OptionMessage = styled.div`
   padding: 20px;
   flex: 1;
@@ -51,27 +56,30 @@ interface Props {
   loading: boolean;
   results: UserProps[];
   onBlur(): void;
+  loadMore(): void;
+  sectionRef?: any;
+  onFollow?(author: string, follow: boolean): void;
 }
 
-const OptionsContainer: React.FC<Props> = ({ loading, results, onBlur }) => {
+const OptionsContainer: React.FC<Props> = ({ loading, results, onBlur, loadMore, sectionRef, onFollow }) => {
   return (
     <Container>
-      <section>
+      <Section ref={sectionRef}>
         {loading ? (
           <OptionMessage>Loading</OptionMessage>
         ) : results == null || results.length === 0 ? (
           <OptionMessage>Nothing found</OptionMessage>
         ) : (
           results.map((profile, index) => (
-            <React.Fragment key={profile.author}>
+            <React.Fragment key={index}>
               {index > 0 && <Space height={20} />}
-              <Option profile={profile} onBlur={onBlur} />
+              <Option profile={profile} onBlur={onBlur} onFollow={onFollow} />
             </React.Fragment>
           ))
         )}
-      </section>
+      </Section>
 
-      <SeeMore>See More</SeeMore>
+      <SeeMore onClick={() => loadMore()}>See More</SeeMore>
     </Container>
   );
 };

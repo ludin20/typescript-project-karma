@@ -91,9 +91,10 @@ const Button = styled(FollowButton)`
 interface Props {
   profile: UserProps;
   onBlur(): void;
+  onFollow?(author: string, follow: boolean): void;
 }
 
-const Option: React.FC<Props> = ({ profile, onBlur }) => {
+const Option: React.FC<Props> = ({ profile, onBlur, onFollow }) => {
   const router = useRouter();
 
   const handleClick = useCallback(() => {
@@ -106,11 +107,11 @@ const Option: React.FC<Props> = ({ profile, onBlur }) => {
   const avatar = useS3Image(profile.hash, 'thumbSmall');
 
   return (
-    <Container onClick={handleClick}>
+    <Container>
       <div>
         <StyledAvatar src={avatar} alt={profile.displayname} size="default" />
         <Space width={10} />
-        <section>
+        <section onClick={handleClick}>
           {/*!profile.verified ? (
             <strong>{profile.name}</strong>
           ) : (
@@ -120,10 +121,10 @@ const Option: React.FC<Props> = ({ profile, onBlur }) => {
             </div>
           )*/}
           <strong>{profile.displayname}</strong>
-          <span>{profile.username}</span>
+          <span>{'@' + profile.username}</span>
         </section>
       </div>
-      <Button following={false} />
+      <Button author={profile.author} following={profile.isFollowing} onSuccess={onFollow} />
     </Container>
   );
 };

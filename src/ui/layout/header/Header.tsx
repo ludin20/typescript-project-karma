@@ -1,10 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 import graphql from 'graphql-tag';
 
 import SearchBar from './SearchBar';
 import Actions from './Actions';
+
+import { updateProfileSuccess } from '../../../store/ducks/user';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -61,6 +64,7 @@ const GET_PROFILES = graphql`
       bio
       hash
       displayname
+      username
       followers_count
       following_count
       upvoted
@@ -78,6 +82,7 @@ export interface UserProps {
   username: string;
   hash: string;
   displayname: string;
+  isFollowing: boolean;
 }
 
 interface Props {
@@ -86,36 +91,75 @@ interface Props {
   shouldHideHeader?: boolean;
   author: string;
   hash: string;
+  profile: any;
 }
 
-const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHeader, author, hash }) => {
+const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHeader, author, hash, profile }) => {
+  const dispatch = useDispatch();
   const [searchFocused, setSearchFocused] = useState(false);
+  const [users, setUsers] = useState([]);
+  const sectionRef = useRef<HTMLElement>();
 
-  const { data, fetchMore } = useQuery(GET_PROFILES, {
+  const { fetchMore } = useQuery(GET_PROFILES, {
     variables: {
       accountname: author,
       searchterm: '',
       page: 1,
       pathBuilder: () => `profile/search/${author}?Page=${1}&Limit=5&domainId=${1}`,
     },
+    onCompleted: data => {
+      const profiles = data.profiles.map((data: { author: string }) => ({
+        ...data,
+        isFollowing: !!profile.following.find(item => item == data.author),
+      }));
+      if (searchFocused) setUsers(profiles);
+
+      // Scroll to the bottom
+      setTimeout(() => {
+        if (sectionRef.current) sectionRef.current.scrollTo(0, sectionRef.current.scrollHeight);
+      }, 100);
+    },
   });
 
   const autoCompleteSearch = useCallback(
-    async (searchterm: string) => {
+    async (searchterm: string, page?: number) => {
+      const pageVal = page ? page : 1;
+
       fetchMore({
         variables: {
           searchterm,
-          pathBuilder: () => `profile/search/${searchterm}?Page=${1}&Limit=5&domainId=${1}`,
+          page: pageVal,
+          pathBuilder: () => `profile/search/${searchterm}?Page=${pageVal}&Limit=5&domainId=${1}`,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
-          return fetchMoreResult;
+          if (!fetchMoreResult) return previousResult;
+
+          return pageVal > 1
+            ? Object.assign({}, previousResult, {
+                profiles: [...previousResult.profiles, ...fetchMoreResult.profiles],
+              })
+            : fetchMoreResult;
         },
       });
-
-      return data ? data.profiles : null;
     },
-    [data, fetchMore],
+    [fetchMore],
   );
+
+  const handleFollow = (author: string, follow: boolean) => {
+    if (follow) {
+      const data = {
+        following: [...profile.following, author],
+        following_count: profile.following_count + 1,
+      };
+      dispatch(updateProfileSuccess(data));
+    } else {
+      const data = {
+        following: profile.following.filter(item => item != author),
+        following_count: profile.following_count - 1,
+      };
+      dispatch(updateProfileSuccess(data));
+    }
+  };
 
   return searchFocused ? (
     <>
@@ -125,6 +169,7 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
           const container = document.getElementById('wrapper');
 
           if (e.target === container) {
+            setUsers([]);
             setSearchFocused(false);
           }
         }}
@@ -134,7 +179,10 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
           focused
           setFocused={setSearchFocused}
           search={autoCompleteSearch}
+          data={users}
           shouldHideCreatePost={shouldHideCreatePost}
+          sectionRef={sectionRef}
+          onFollow={handleFollow}
         />
         <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} hash={hash} />
       </Container>
@@ -145,7 +193,10 @@ const Header: React.FC<Props> = ({ collapsed, shouldHideCreatePost, shouldHideHe
         focused={searchFocused}
         setFocused={setSearchFocused}
         search={autoCompleteSearch}
+        data={users}
         shouldHideCreatePost={shouldHideCreatePost}
+        sectionRef={sectionRef}
+        onFollow={handleFollow}
       />
       <Actions focused={searchFocused} shouldHideCreatePost={shouldHideCreatePost} hash={hash} />
     </Container>
