@@ -15,7 +15,7 @@ import { useFormatDistanceStrict, useS3Image } from '../../hooks';
 import PostActions from './PostActions';
 import PostContent from './PostContent';
 
-const Container = styled.li`
+const Container = styled.ul`
   list-style: none;
   cursor: pointer;
 `;

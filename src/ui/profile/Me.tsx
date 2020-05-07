@@ -33,29 +33,29 @@ interface Props {
     hash: string;
     followers: [];
     following: [];
-    followers_count: number;
-    following_count: number;
     username: string;
+    url: string;
     wax: number;
     eos: number;
     liquidBalance: number;
     currentPower: number;
   };
+  followers_count: number;
+  following_count: number;
   followersData: Follow[];
   followingData: Follow[];
-  postCount: string;
+  postCount: string | number;
 }
 
-const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData, postCount }) => {
+const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData, followers_count, following_count, postCount }) => {
   const {
     displayname,
     bio,
     hash,
     author,
     following,
-    followers_count,
-    following_count,
     username,
+    url,
     wax,
     eos,
     liquidBalance,
@@ -104,7 +104,7 @@ const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData,
         eos={eos}
         liquidBalance={Math.floor(liquidBalance)}
         currentPower={currentPower}
-        website=""
+        url={url}
         bio={bio}
         handleModal={() => setModalIsOpen(true)}
       />
@@ -117,7 +117,7 @@ const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData,
           close={() => {
             setModalIsOpen(false);
           }}
-          profile={{ author, bio, displayname, hash, username }}
+          profile={{ author, bio, displayname, hash, username, url }}
         />
       )}
     </Wrapper>

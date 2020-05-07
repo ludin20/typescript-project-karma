@@ -38,6 +38,7 @@ interface Props {
     username: string;
     followers: Follow[];
     following: Follow[];
+    url: string;
   };
   myProfile: {
     wax: number;
@@ -46,12 +47,23 @@ interface Props {
     following: [];
     following_count: number;
   };
-  postCount: string;
+  postCount: string | number;
   me: string;
 }
 
 const Profile: React.FC<Props> = ({ tabs, tab, profile, myProfile, postCount, me }) => {
-  const { displayname, bio, hash, followers, following, followers_count, following_count, username, author } = profile;
+  const {
+    displayname,
+    bio,
+    hash,
+    followers,
+    following,
+    followers_count,
+    following_count,
+    username,
+    author,
+    url,
+  } = profile;
   const { wax, eos, liquidBalance } = myProfile;
   const avatar = useS3Image(hash, 'thumbBig');
   const [followersCount, setFollowersCount] = useState(parseInt(followers_count));
@@ -119,7 +131,7 @@ const Profile: React.FC<Props> = ({ tabs, tab, profile, myProfile, postCount, me
         eos={eos}
         liquidBalance={Math.floor(liquidBalance)}
         currentPower={currentPower}
-        website=""
+        url={url}
         bio={bio}
         following={isFollowing}
         followsMe={followsMe}

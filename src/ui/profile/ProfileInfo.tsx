@@ -73,7 +73,7 @@ interface Props {
   me?: boolean;
   isVerified?: boolean;
   bio: string;
-  website: string;
+  url: string;
   handleModal?: () => void;
   onFollowSuccess?: (boolean) => void;
   following?: boolean;
@@ -91,7 +91,7 @@ const ProfileInfo: React.FC<Props> = ({
   author,
   me,
   isVerified,
-  website,
+  url,
   handleModal,
   onFollowSuccess,
   following,
@@ -127,10 +127,10 @@ const ProfileInfo: React.FC<Props> = ({
           <FormattedText font={{ color: '#fff', size: '20px', weight: 'normal' }} content={bio} withoutBr />
         </div>
       )}
-      {website && (
+      {url && (
         <WebSite>
           <img src={link} alt="link" />
-          <a>{website}</a>
+          <a>{url}</a>
         </WebSite>
       )}
 

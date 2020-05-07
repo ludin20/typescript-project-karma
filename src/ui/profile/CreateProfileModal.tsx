@@ -18,6 +18,7 @@ interface Props extends ModalProps {
     author: string;
     hash: string;
     bio: string;
+    url: string;
   } | null;
 }
 
@@ -33,7 +34,7 @@ const CreateProfileModal: React.FC<Props> = ({ profile, ...props }) => {
       username: profile ? '@' + profile.username || '' : '',
       bio: profile ? profile.bio || '' : '',
       hash: profile ? profile.hash || '' : '',
-      //website: '',
+      url: profile ? profile.url || '' : '',
     },
     validateOnMount: true,
     validationSchema: Yup.object().shape({
@@ -41,7 +42,7 @@ const CreateProfileModal: React.FC<Props> = ({ profile, ...props }) => {
       username: Yup.string().required('Username is required'),
       bio: Yup.string(),
       hash: Yup.string().required('User Image is required'),
-      //website: Yup.string(),
+      url: Yup.string(),
     }),
     onSubmit: input => {
       const oldProfile = {
@@ -49,6 +50,7 @@ const CreateProfileModal: React.FC<Props> = ({ profile, ...props }) => {
         username: profile ? profile.username : '',
         bio: profile ? profile.bio : '',
         hash: profile ? profile.hash : '',
+        url: profile ? profile.url : '',
       };
 
       const newProfile = {
@@ -56,6 +58,7 @@ const CreateProfileModal: React.FC<Props> = ({ profile, ...props }) => {
         username: input.username ? input.username.slice(1, input.username.length) : profile.username,
         bio: input.bio || profile.bio,
         hash: input.hash || profile.hash,
+        url: input.url || profile.url,
       };
 
       dispatch(updateProfileRequest(newProfile, oldProfile, props.close));

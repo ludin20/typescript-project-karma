@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
@@ -18,6 +18,7 @@ import { useS3PostsImages } from '../../../hooks';
 
 import validateTab from '../../../util/validateTab';
 import { KARMA_AUTHOR } from '../../../common/config';
+import { RootState } from '../../../store/ducks/rootReducer';
 
 const GET_PROFILE = graphql`
   query profile($accountname: String!, $me: String!, $profilePath: any, $postsPath: any, $followersPath: any, $followingPath: any) {
@@ -26,6 +27,7 @@ const GET_PROFILE = graphql`
       author
       bio
       hash
+      url
       followers_count
       following_count
       followers(accountname: $accountname, page: $page) @rest(type: "Followers", pathBuilder: $followersPath) {
@@ -61,16 +63,17 @@ const GET_POSTS = graphql`
 interface Props {
   me: string;
   userData: any;
-  myProfile?: any;
 }
 
-const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
+const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
   const router = useRouter();
   const imgRef = useRef();
   const { username, tab } = router.query;
 
   const cookies = cookie.get();
   const meUsername = cookies[KARMA_AUTHOR];
+
+  const { profile } = useSelector((state: RootState) => state.user);
 
   const isMe = useMemo(() => {
     return username === meUsername;
@@ -84,16 +87,16 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
     setFollowers(
       userData.profile.followers.map((data: { author: string }) => ({
         ...data,
-        isFollowing: !!myProfile.following.find(item => item == data.author),
+        isFollowing: !!profile.following.find(item => item == data.author),
       })),
     );
     setFollowing(
       userData.profile.following.map((data: { author: string }) => ({
         ...data,
-        isFollowing: !!myProfile.following.find(item => item == data.author),
+        isFollowing: !!profile.following.find(item => item == data.author),
       })),
     );
-  }, [userData, myProfile, meUsername]);
+  }, [userData, profile]);
 
   const { data, fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
@@ -147,7 +150,9 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
         tab={tab as string}
         followersData={followers}
         followingData={following}
-        profile={myProfile}
+        followers_count={followers.length}
+        following_count={following.length}
+        profile={profile}
         postCount={userData.posts.length}
       />
     );
@@ -158,7 +163,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData, myProfile }) => {
       tab={tab as string}
       profile={{ ...userData.profile, followers: followers, following: following }}
       postCount={userData.posts.length}
-      myProfile={myProfile}
+      myProfile={profile}
       me={me}
     />
   );
@@ -201,8 +206,4 @@ ProfileWrapper.getInitialProps = async (ctx: Context) => {
   };
 };
 
-const mapStateToProps = state => ({
-  myProfile: state.user.profile,
-});
-
-export default connect(mapStateToProps)(withAuthSync(withApollo({ ssr: true })(ProfileWrapper)));
+export default withAuthSync(withApollo({ ssr: true })(ProfileWrapper));

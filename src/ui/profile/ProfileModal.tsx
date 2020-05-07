@@ -110,8 +110,8 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
           />
           <Space height={25} />
 
-          {/* <Input label="Website" name="website" mask="https://www." bordered />
-          <Space height={25} /> */}
+          <Input label="Website" name="url" mask="https://www." bordered />
+          <Space height={25} />
 
           <SubmitButton type="submit" background="green" radius="rounded" disabled={!isValid}>
             Save

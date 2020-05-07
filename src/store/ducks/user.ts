@@ -19,10 +19,10 @@ export interface ProfileProps {
   username: string;
   hash?: string;
   bio: string;
-  website: string;
-  followers?: string | number;
+  url: string;
+  followers?: Array<string>;
   power?: string | number;
-  following?: string | number;
+  following?: Array<string>;
   posts?: string | number;
   isVerified?: boolean;
   wax?: number;
@@ -43,10 +43,10 @@ export const defaultProfile: ProfileProps = {
   username: '@username',
   hash: '',
   bio: '',
-  followers: 0,
+  followers: [],
   power: 0,
-  following: 0,
-  website: '',
+  following: [],
+  url: '',
   posts: 0,
   isVerified: false,
   wax: 0,
@@ -109,6 +109,7 @@ interface Profile {
   username: string;
   bio: string;
   hash: string;
+  url: string;
 }
 export function createProfileRequest(data: Profile, oldData: Profile, action: any) {
   return {

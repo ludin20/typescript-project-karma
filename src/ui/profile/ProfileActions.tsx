@@ -233,7 +233,11 @@ const ProfileActions: React.FC<Props> = ({
         {mobile ? 'Send Money' : 'Send Money'}
       </ActionButton>
 
-      <FollowingActionButton author={author} following={following} onSuccess={onFollowSuccess} />
+      <FollowingActionButton
+        author={author}
+        following={following}
+        onSuccess={(author, follow) => onFollowSuccess(follow)}
+      />
 
       {sendMoneyModalIsOpen && (
         <SendMoneyModal

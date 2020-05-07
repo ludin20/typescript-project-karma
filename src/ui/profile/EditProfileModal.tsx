@@ -30,6 +30,7 @@ interface Props extends ModalProps {
     author: string;
     hash: string;
     bio: string;
+    url: string;
   } | null;
 }
 
@@ -43,13 +44,13 @@ const EditProfileModal: React.FC<Props> = ({ profile, ...props }) => {
       username: profile ? '@' + profile.username || '' : '',
       bio: profile ? profile.bio || '' : '',
       hash: profile ? profile.hash || '' : '',
-      //website: '',
+      url: profile ? profile.url || '' : '',
     },
     validationSchema: Yup.object().shape({
       hash: Yup.string(),
       username: Yup.string(),
       bio: Yup.string(),
-      website: Yup.string(),
+      url: Yup.string(),
     }),
     validateOnMount: true,
     onSubmit: values => {
@@ -58,6 +59,7 @@ const EditProfileModal: React.FC<Props> = ({ profile, ...props }) => {
         username: profile.username,
         bio: profile.bio,
         hash: profile.hash,
+        url: profile.url,
       };
 
       const newProfile = {
@@ -65,7 +67,7 @@ const EditProfileModal: React.FC<Props> = ({ profile, ...props }) => {
         displayname: values.displayname || profile.displayname,
         username: values.username ? values.username.slice(1, values.username.length) : profile.username,
         bio: values.bio || profile.bio,
-        //website: values.website || profile.website,
+        url: values.url ? values.url : profile.url,
       };
 
       dispatch(updateProfileRequest(newProfile, oldProfile, props.close));
