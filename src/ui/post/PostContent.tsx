@@ -8,7 +8,7 @@ import ShimmerImage from '../common/ShimmerImage';
 import Grid from '../common/Grid';
 import Space from '../common/Space';
 
-import playIcon from '../assets/play.png';
+import playIcon from '../assets/play.svg';
 
 const Container = styled.div`
   margin: -27px 0 0 80px;
@@ -53,9 +53,13 @@ const PlayButton = styled.img`
   bottom: 20px;
   right: 20px;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 1;
   &:hover {
-    opacity: 1;
+    opacity: 0.8;
+  }
+  @media (max-width: 550px) {
+    width: 40px;
+    height: 40px;
   }
 `;
 

@@ -7,7 +7,7 @@ import InfinityScroll from '../common/InfinityScroll';
 import ShimmerImage from '../common/ShimmerImage';
 import Grid from '../common/Grid';
 
-import playIcon from '../assets/play.png';
+import playIcon from '../assets/play.svg';
 
 const Section = styled.div`
   position: relative;
@@ -19,14 +19,14 @@ const PlayButton = styled.img`
   height: 10%;
   bottom: 5%;
   right: 5%;
-  min-width: 40px;
-  min-height: 40px;
-  max-width: 100px;
-  max-height: 100px;
+  min-width: 30px;
+  min-height: 30px;
+  max-width: 50px;
+  max-height: 50px;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 1;
   &:hover {
-    opacity: 1;
+    opacity: 0.8;
   }
 `;
 
