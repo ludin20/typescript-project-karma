@@ -47,20 +47,17 @@ interface Props {
   postCount: string | number;
 }
 
-const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData, followers_count, following_count, postCount }) => {
-  const {
-    displayname,
-    bio,
-    hash,
-    author,
-    following,
-    username,
-    url,
-    wax,
-    eos,
-    liquidBalance,
-    currentPower,
-  } = profile;
+const Me: React.FC<Props> = ({
+  tabs,
+  tab,
+  profile,
+  followersData,
+  followingData,
+  followers_count,
+  following_count,
+  postCount,
+}) => {
+  const { displayname, bio, hash, author, following, username, url, wax, eos, liquidBalance, currentPower } = profile;
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const avatar = useS3Image(hash, 'thumbBig');

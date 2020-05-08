@@ -33,19 +33,24 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
   const imgRef = useRef();
 
   const [tab, setTab] = useState(props.tab);
+  const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const defaultParams = useMemo(() => `?Page=${page}&Limit=15&domainId=${1}`, []);
 
-  const { data, fetchMore, loading } = useQuery(GET_POSTS, {
+  const { fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
       accountname: author,
       page: 1,
       postsStatus: 'home',
       pathBuilder: () => (tab === 'popular' ? `posts/popularv3${defaultParams}` : `posts${defaultParams}`),
     },
+    onCompleted: data => {
+      const results = data.posts.filter((post, idx) => data.posts.indexOf(post) == idx);
+      setPosts(results);
+    },
   });
 
-  const medias = useS3PostsImages(data ? data.posts : [], 'thumbBig');
+  const medias = useS3PostsImages(posts, 'thumbBig');
 
   useEffect(() => {
     const path = `/discover/${tab}`;
@@ -104,6 +109,7 @@ interface Context extends NextPageContext {
   query: {
     tab?: string | null;
   };
+  apolloClient: ApolloClient<NormalizedCacheObject>;
 }
 
 Discover.getInitialProps = async (ctx: Context) => {

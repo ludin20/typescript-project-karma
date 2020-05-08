@@ -73,7 +73,7 @@ const FollowsModal: React.FC<Props> = ({ data, title, loadMore, onFollow, ...pro
         </header>
 
         {data.map((follow, idx) => (
-          <FollowCard key={idx} {...follow} onFollow={onFollow} />
+          <FollowCard key={idx} {...follow} onFollow={onFollow} onBlur={props.close} />
         ))}
       </Container>
       <SeeMore onClick={loadMore}>See More</SeeMore>

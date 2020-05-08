@@ -21,7 +21,6 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
 
   div {
     display: flex;
@@ -64,6 +63,10 @@ const Container = styled.div`
   }
 `;
 
+const Section = styled.section`
+  cursor: pointer;
+`;
+
 const StyledAvatar = styled(Avatar)`
   width: 50px !important;
   height: 50px !important;
@@ -100,8 +103,8 @@ const Option: React.FC<Props> = ({ profile, onBlur, onFollow }) => {
   const handleClick = useCallback(() => {
     const href = '/profile/[username]/[tab]';
     const as = `/profile/${profile.author}/media`;
+    router.push(href, as, { shallow: false });
     onBlur();
-    router.push(href, as, { shallow: true });
   }, [router, profile, onBlur]);
 
   const avatar = useS3Image(profile.hash, 'thumbSmall');
@@ -111,7 +114,7 @@ const Option: React.FC<Props> = ({ profile, onBlur, onFollow }) => {
       <div>
         <StyledAvatar src={avatar} alt={profile.displayname} size="default" />
         <Space width={10} />
-        <section onClick={handleClick}>
+        <Section onClick={handleClick}>
           {/*!profile.verified ? (
             <strong>{profile.name}</strong>
           ) : (
@@ -122,7 +125,7 @@ const Option: React.FC<Props> = ({ profile, onBlur, onFollow }) => {
           )*/}
           <strong>{profile.displayname}</strong>
           <span>{'@' + profile.username}</span>
-        </section>
+        </Section>
       </div>
       <Button author={profile.author} following={profile.isFollowing} onSuccess={onFollow} />
     </Container>

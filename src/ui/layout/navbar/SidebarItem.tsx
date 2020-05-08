@@ -93,9 +93,9 @@ const SidebarItem: React.FC<Props> = ({ onClick, children, href, as, selected, i
     if (onClick) {
       onClick();
     } else {
-      router.push(href, as, { shallow: true });
+      router.push(as);
     }
-  }, [onClick, href, router, as]);
+  }, [onClick, router, as]);
 
   return (
     <Container onClick={handleClick} selected={selected} {...props}>

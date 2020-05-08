@@ -80,6 +80,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
   }, [meUsername, username]);
 
   const [page, setPage] = useState(1);
+  const [posts, setPosts] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
 
@@ -98,10 +99,14 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
     );
   }, [userData, profile]);
 
-  const { data, fetchMore, loading } = useQuery(GET_POSTS, {
+  const { fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
       accountname: username,
       pathBuilder: () => `posts/account/${username}?Page=1&Limit=12&domainID=${1}`,
+    },
+    onCompleted: data => {
+      const results = data.posts.filter((post, idx) => data.posts.indexOf(post) == idx);
+      setPosts(results);
     },
   });
 
@@ -128,9 +133,9 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
     });
   }, [username, fetchMore, page]);
 
-  if (!data && loading) return <Loading withContainer size="big" />;
+  if (!posts && loading) return <Loading withContainer size="big" />;
 
-  const medias = useS3PostsImages(data ? data.posts : [], 'thumbBig');
+  const medias = useS3PostsImages(posts, 'thumbBig');
 
   const tabs = [
     {

@@ -47,6 +47,7 @@ interface Props {
 
 const Home: NextPage<Props> = ({ author }) => {
   const [page, setPage] = useState(1);
+  const [posts, setPosts] = useState([]);
   const { wax, eos, liquidBalance, upvoted } = useSelector((state: RootState) => state.user.profile);
 
   const { data, fetchMore, loading } = useQuery(GET_POSTS, {
@@ -56,6 +57,10 @@ const Home: NextPage<Props> = ({ author }) => {
       page: 1,
       postsStatus: 'home',
       pathBuilder: () => `posts/home/${author}?Page=${page}&Limit=12&domainId=${1}`,
+    },
+    onCompleted: data => {
+      const results = data.posts.filter((post, idx) => data.posts.indexOf(post) == idx);
+      setPosts(results);
     },
   });
 
@@ -88,9 +93,9 @@ const Home: NextPage<Props> = ({ author }) => {
       ) : (
         <>
           <Space height={20} />
-          {data ? (
-            <InfinityScroll length={data.posts.length} loadMore={loadMorePosts} hasMore={data.posts.length > 0}>
-              {data.posts.map((post, index) => (
+          {posts ? (
+            <InfinityScroll length={posts.length} loadMore={loadMorePosts} hasMore={posts.length > 0}>
+              {posts.map((post, index) => (
                 <React.Fragment key={String(index)}>
                   {index > 0 && <Space height={40} />}
                   <PostCard
