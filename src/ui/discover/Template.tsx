@@ -1,12 +1,34 @@
-import React, { useRef } from 'react';
-import { css } from 'styled-components';
+import React from 'react';
+import styled, { css } from 'styled-components';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { useRouter } from 'next/router';
 
 import InfinityScroll from '../common/InfinityScroll';
 import ShimmerImage from '../common/ShimmerImage';
 import Grid from '../common/Grid';
-import Space from '../common/Space';
+
+import playIcon from '../assets/play.png';
+
+const Section = styled.div`
+  position: relative;
+`;
+
+const PlayButton = styled.img`
+  position: absolute;
+  width: 10%;
+  height: 10%;
+  bottom: 5%;
+  right: 5%;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 100px;
+  max-height: 100px;
+  cursor: pointer;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
+`;
 
 const gridCss = css`
   @media (max-width: 550px) {
@@ -28,7 +50,7 @@ const imageCss = css`
 
 interface Props {
   renderedRef?: any;
-  medias: Array<{ post_id: string; content: string }>;
+  medias: Array<{ post_id: string; type: string; content: string; thumbnail?: string }>;
   loadMore(): void;
 }
 
@@ -40,16 +62,20 @@ const Template: React.FC<Props> = ({ renderedRef, medias, loadMore }) => {
       <SkeletonTheme color="#191A19" highlightColor="#333">
         <Grid columns="3" gap="24px" align css={gridCss}>
           {medias.map((media, index) => (
-            <div ref={index == 0 ? renderedRef : null} key={String(index)}>
+            <Section
+              ref={index == 0 ? renderedRef : null}
+              key={String(index)}
+              onClick={() => router.push('/post/[id]', `/post/${media.post_id}`, { shallow: true })}
+            >
               <ShimmerImage
-                src={media.content}
+                src={media.type == 'video' ? media.thumbnail : media.content}
                 alt="discover"
                 css={imageCss}
                 height={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : null}
                 width={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : null}
-                onClick={() => router.push('/post/[id]', `/post/${media.post_id}`, { shallow: true })}
               />
-            </div>
+              {media.type == 'video' ? <PlayButton src={playIcon} alt="play" /> : null}
+            </Section>
           ))}
         </Grid>
       </SkeletonTheme>

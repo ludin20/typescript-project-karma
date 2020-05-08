@@ -81,6 +81,7 @@ interface Props {
   eos?: number;
   liquidBalance?: number;
   upvoted?: Array<string>;
+  isDetails: boolean;
 }
 
 const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFollowButton = true, ...props }) => {
@@ -98,8 +99,8 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
   } = post;
 
   const content = useMemo(() => {
-    return { imagehashes, videohashes };
-  }, [imagehashes, videohashes]);
+    return { post_id, imagehashes, videohashes };
+  }, [post_id, imagehashes, videohashes]);
 
   const router = useRouter();
 
@@ -153,9 +154,12 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
       </Caption>
 
       <PostContent
+        isDetails={props.isDetails}
         content={content}
         size={size}
-        onClick={() => router.push('/post/[id]', `/post/${post_id}`, { shallow: true })}
+        onClick={() => {
+          if (!props.isDetails) router.push('/post/[id]', `/post/${post_id}`, { shallow: true });
+        }}
       />
       <PostActions
         postId={post_id}

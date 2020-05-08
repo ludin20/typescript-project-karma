@@ -50,7 +50,7 @@ const Home: NextPage<Props> = ({ author }) => {
   const [posts, setPosts] = useState([]);
   const { wax, eos, liquidBalance, upvoted } = useSelector((state: RootState) => state.user.profile);
 
-  const { data, fetchMore, loading } = useQuery(GET_POSTS, {
+  const { fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
       accountname: author,
       upvoted: upvoted,
@@ -105,6 +105,7 @@ const Home: NextPage<Props> = ({ author }) => {
                     liquidBalance={Math.floor(liquidBalance)}
                     upvoted={upvoted}
                     withFollowButton={false}
+                    isDetails={false}
                   />
                 </React.Fragment>
               ))}

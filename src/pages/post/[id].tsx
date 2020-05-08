@@ -98,6 +98,7 @@ const Post: NextPage<Props> = ({ post, comments }) => {
         upvoted={upvoted}
         shouldHideFollowOnMobile
         withFollowButton={false}
+        isDetails={true}
       />
 
       <PostComments comments={comments} avatar={avatar as string} />

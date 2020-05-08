@@ -11,7 +11,7 @@ import { withAuthSync } from '../../auth/WithAuthSync';
 import { withApollo } from '../../apollo/Apollo';
 import { KARMA_AUTHOR } from '../../common/config';
 import validateTab from '../../util/validateTab';
-import { useS3PostsImages } from '../../hooks';
+import { useS3PostsMedias } from '../../hooks';
 
 const GET_POSTS = graphql`
   query posts($accountname: String!, $page: Int, $pathBuilder: any, $postsStatus: String) {
@@ -50,7 +50,7 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
     },
   });
 
-  const medias = useS3PostsImages(posts, 'thumbBig');
+  const medias = useS3PostsMedias(posts, 'thumbBig');
 
   useEffect(() => {
     const path = `/discover/${tab}`;

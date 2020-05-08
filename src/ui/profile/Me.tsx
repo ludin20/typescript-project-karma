@@ -33,6 +33,8 @@ interface Props {
     hash: string;
     followers: [];
     following: [];
+    followers_count: number;
+    following_count: number;
     username: string;
     url: string;
     wax: number;
@@ -40,24 +42,27 @@ interface Props {
     liquidBalance: number;
     currentPower: number;
   };
-  followers_count: number;
-  following_count: number;
   followersData: Follow[];
   followingData: Follow[];
   postCount: string | number;
 }
 
-const Me: React.FC<Props> = ({
-  tabs,
-  tab,
-  profile,
-  followersData,
-  followingData,
-  followers_count,
-  following_count,
-  postCount,
-}) => {
-  const { displayname, bio, hash, author, following, username, url, wax, eos, liquidBalance, currentPower } = profile;
+const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData, postCount }) => {
+  const {
+    displayname,
+    bio,
+    hash,
+    author,
+    following,
+    followers_count,
+    following_count,
+    username,
+    url,
+    wax,
+    eos,
+    liquidBalance,
+    currentPower,
+  } = profile;
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const avatar = useS3Image(hash, 'thumbBig');

@@ -14,7 +14,7 @@ import { withApollo } from '../../../apollo/Apollo';
 
 import { Template, ProfileThoughts, Me, Profile, Loading } from '../../../ui';
 import { labels } from '../../../ui/layout';
-import { useS3PostsImages } from '../../../hooks';
+import { useS3PostsMedias } from '../../../hooks';
 
 import validateTab from '../../../util/validateTab';
 import { KARMA_AUTHOR } from '../../../common/config';
@@ -47,6 +47,7 @@ const GET_PROFILE = graphql`
     posts(accountname: $accountname) @rest(type: "Post", pathBuilder: $postsPath) {
       post_id
       imagehashes
+      videohashes
     }
   }
 `;
@@ -56,6 +57,7 @@ const GET_POSTS = graphql`
     posts(accountname: $accountname) @rest(type: "Post", pathBuilder: $pathBuilder) {
       post_id
       imagehashes
+      videohashes
     }
   }
 `;
@@ -135,7 +137,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
 
   if (!posts && loading) return <Loading withContainer size="big" />;
 
-  const medias = useS3PostsImages(posts, 'thumbBig');
+  const medias = useS3PostsMedias(posts, 'thumbBig');
 
   const tabs = [
     {
@@ -155,8 +157,6 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
         tab={tab as string}
         followersData={followers}
         followingData={following}
-        followers_count={followers.length}
-        following_count={following.length}
         profile={profile}
         postCount={userData.posts.length}
       />
