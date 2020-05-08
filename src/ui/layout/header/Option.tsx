@@ -21,6 +21,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 
   div {
     display: flex;
@@ -61,10 +62,6 @@ const Container = styled.div`
     section > strong {
     }
   }
-`;
-
-const Section = styled.section`
-  cursor: pointer;
 `;
 
 const StyledAvatar = styled(Avatar)`
@@ -111,10 +108,10 @@ const Option: React.FC<Props> = ({ profile, onBlur, onFollow }) => {
 
   return (
     <Container>
-      <div>
+      <div onClick={handleClick}>
         <StyledAvatar src={avatar} alt={profile.displayname} size="default" />
         <Space width={10} />
-        <Section onClick={handleClick}>
+        <section>
           {/*!profile.verified ? (
             <strong>{profile.name}</strong>
           ) : (
@@ -125,7 +122,7 @@ const Option: React.FC<Props> = ({ profile, onBlur, onFollow }) => {
           )*/}
           <strong>{profile.displayname}</strong>
           <span>{'@' + profile.username}</span>
-        </Section>
+        </section>
       </div>
       <Button author={profile.author} following={profile.isFollowing} onSuccess={onFollow} />
     </Container>

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import { css } from 'styled-components';
 
 import { useS3Image } from '../../hooks';
 
@@ -11,7 +11,7 @@ import Row from './Row';
 import Col from './Column';
 import Text from './Text';
 
-const Section = styled.div`
+const sectionCss = css`
   cursor: pointer;
 `;
 
@@ -40,11 +40,11 @@ const FollowCard: React.FC<Props> = ({ author, username, hash, displayname, isFo
     <>
       <Space height={30} />
       <Row align="center" justify="space-between" style={{ width: '100%' }}>
-        <Row align="center">
+        <Row css={sectionCss} align="center" onClick={handleClick}>
           <Avatar src={avatar} alt={name} size="small" />
           <Space width={10} />
-          <Col align="flex-start" onClick={handleClick}>
-            <Section>
+          <Col align="flex-start">
+            <div>
               <Text size={16} weight="900">
                 {displayname}
               </Text>
@@ -53,7 +53,7 @@ const FollowCard: React.FC<Props> = ({ author, username, hash, displayname, isFo
               <Text size={16} color="midGray">
                 {'@' + username}
               </Text>
-            </Section>
+            </div>
           </Col>
         </Row>
 

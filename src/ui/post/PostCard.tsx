@@ -128,15 +128,14 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
   return (
     <Container>
       <Row align="center" justify="space-between">
-        <Row align="center">
+        <Row
+          align="center"
+          onClick={() => router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })}
+        >
           <Avatar src={avatar} alt={author_displayname} />
           <Space width={18} />
 
-          <Row
-            css={headerCss}
-            align="center"
-            onClick={() => router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })}
-          >
+          <Row css={headerCss} align="center">
             <Text color="white" size={25} weight="900">
               {author_displayname}
             </Text>
