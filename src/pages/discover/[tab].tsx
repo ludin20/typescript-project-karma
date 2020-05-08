@@ -19,6 +19,7 @@ const GET_POSTS = graphql`
       @rest(type: "Post", pathBuilder: $pathBuilder) {
       post_id
       imagehashes
+      videohashes
     }
   }
 `;
