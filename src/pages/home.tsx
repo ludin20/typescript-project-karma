@@ -48,7 +48,8 @@ interface Props {
 const Home: NextPage<Props> = ({ author }) => {
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
-  const { wax, eos, liquidBalance, upvoted } = useSelector((state: RootState) => state.user.profile);
+  const [upvoted, setUpvoted] = useState(JSON.parse(localStorage.getItem('upvoted')));
+  const { wax, eos, liquidBalance } = useSelector((state: RootState) => state.user.profile);
 
   const { fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
@@ -76,6 +77,7 @@ const Home: NextPage<Props> = ({ author }) => {
         if (!fetchMoreResult) {
           return previousResult;
         }
+
         setPage(page + 1);
         return Object.assign({}, previousResult, {
           posts: [...previousResult.posts, ...fetchMoreResult.posts],

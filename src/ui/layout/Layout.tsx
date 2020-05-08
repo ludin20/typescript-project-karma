@@ -216,7 +216,11 @@ const Layout: React.FC<Props> = ({
   }, [authLoading, userLoading, activityLoading, actionLoading]);
 
   useEffect(() => {
-    profile && setProfile(profile);
+    if (profile) {
+      setProfile(profile);
+      localStorage.setItem('upvoted', JSON.stringify(profile.upvoted));
+    }
+
     if (!profile || !profile.hash) setModalIsOpen(true);
     else setModalIsOpen(false);
   }, [profile]);
