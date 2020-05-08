@@ -6,7 +6,7 @@ import { ProfileHeader, ProfileInfo, Tabs, GoBackButton } from '../../ui';
 import { TabInterface } from '../tabs/Tabs';
 import { useS3Image } from '../../hooks';
 import karmaApi from '../../services/api';
-import { fetchBalance } from '../../services/Auth';
+import { fetchStakedBalance } from '../../services/Auth';
 import { actionRequest, actionSuccess } from '../../store/ducks/action';
 import { updateProfileSuccess } from '../../store/ducks/user';
 
@@ -81,7 +81,7 @@ const Profile: React.FC<Props> = ({ tabs, tab, profile, myProfile, postCount, me
         setFollowsMe(!!response.data.following.find(follow => follow === me));
       }
 
-      const stacked = await fetchBalance(author);
+      const stacked = await fetchStakedBalance(author);
       setCurrentPower(stacked);
       dispatch(actionSuccess());
     }
