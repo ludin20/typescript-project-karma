@@ -42,7 +42,7 @@ const Container = styled.div`
   }
 `;
 
-const WebSite = styled.div`
+const WebSite = styled.a`
   margin-left: 5px;
   display: flex;
   align-items: center;
@@ -52,7 +52,7 @@ const WebSite = styled.div`
     margin-bottom: 4px;
   }
 
-  a {
+  p {
     margin-left: 6px;
     color: #2996dd;
     font-size: 18px;
@@ -128,9 +128,9 @@ const ProfileInfo: React.FC<Props> = ({
         </div>
       )}
       {url && (
-        <WebSite>
+        <WebSite href={url} target="_blank">
           <img src={link} alt="link" />
-          <a>{url}</a>
+          <p>{url}</p>
         </WebSite>
       )}
 
