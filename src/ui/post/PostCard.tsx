@@ -17,6 +17,7 @@ import PostContent from './PostContent';
 
 const Container = styled.ul`
   list-style: none;
+  cursor: pointer;
 `;
 
 const headerCss = css`
@@ -34,10 +35,6 @@ const headerCss = css`
       height: 4px;
     }
   }
-`;
-
-const clickableCss = css`
-  cursor: pointer;
 `;
 
 const Caption = styled.li`
@@ -133,7 +130,6 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
       <Row align="center" justify="space-between">
         <Row
           align="center"
-          css={clickableCss}
           onClick={() => router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })}
         >
           <Avatar src={avatar} alt={author_displayname} />
