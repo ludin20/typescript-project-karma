@@ -44,12 +44,6 @@ const Container = styled.div<{ me: boolean }>`
           display: none;
         }
       }
-
-      @media (min-width: 1460px) {
-        &:nth-child(3) {
-          display: none;
-        }
-      }
     `}
 `;
 

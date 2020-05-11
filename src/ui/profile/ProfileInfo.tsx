@@ -40,10 +40,17 @@ const Container = styled.div`
       font-size: 18px;
     }
   }
+
+  @media (min-width: 1460px) {
+    > div:nth-child(4) {
+      display: none;
+    }
+  }
 `;
 
 const WebSite = styled.a`
   margin-left: 5px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
 
