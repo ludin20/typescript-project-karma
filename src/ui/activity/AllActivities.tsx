@@ -67,7 +67,8 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                   key={index}
                   icon={heart}
                   avatar={item.sender_profile_hash}
-                  author={item.sender_displayname}
+                  author={item.sender}
+                  displayname={item.sender_displayname}
                   action="liked your post:"
                   date={item.created_at}
                   post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
@@ -79,7 +80,8 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                   key={index}
                   icon={comment}
                   avatar={item.sender_profile_hash}
-                  author={item.sender_displayname}
+                  author={item.sender}
+                  displayname={item.sender_displayname}
                   action="commented on your post:"
                   post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
                   date={item.created_at}
@@ -91,7 +93,8 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                   key={index}
                   icon={tip}
                   avatar={item.sender_profile_hash}
-                  author={item.sender_displayname}
+                  author={item.sender}
+                  displayname={item.sender_displayname}
                   action="tipped you:"
                   post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
                   date={item.created_at}
@@ -105,7 +108,8 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                   key={index}
                   icon={recycled}
                   avatar={item.sender_profile_hash}
-                  author={item.sender_displayname}
+                  author={item.sender}
+                  displayname={item.sender_displayname}
                   action="recycled your post:"
                   date={item.created_at}
                   post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
@@ -118,7 +122,8 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                   key={index}
                   icon={sent}
                   avatar={item.sender_profile_hash}
-                  author={item.sender_displayname}
+                  author={item.sender}
+                  displayname={item.sender_displayname}
                   action="sent you:"
                   date={item.created_at}
                   content={item.data}
