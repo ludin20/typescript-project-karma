@@ -11,7 +11,7 @@ import Space from '../common/Space';
 import playIcon from '../assets/play.svg';
 
 const Container = styled.div`
-  margin: -27px 0 0 80px;
+  margin-left: 80px;
 
   @media (max-width: 550px) {
     margin: 0;
@@ -114,7 +114,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
         {medias.length > 0 && (
           <SkeletonTheme color="#191A19" highlightColor="#333">
             <>
-              <Space height={50} css={topSpaceCss} />
+              <Space height={30} css={topSpaceCss} />
               <Grid columns={medias.length < 3 ? medias.length : 3} gap="24px" css={gridCss}>
                 {medias.map((media, index) =>
                   isDetails && media.type == 'video' ? (

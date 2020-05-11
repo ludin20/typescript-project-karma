@@ -53,11 +53,25 @@ const GET_PROFILE = graphql`
 `;
 
 const GET_POSTS = graphql`
-  query posts($accountname: String!, $pathBuilder: any) {
+  query posts($accountname: String!, $upvoted: Array, $pathBuilder: any) {
     posts(accountname: $accountname) @rest(type: "Post", pathBuilder: $pathBuilder) {
       post_id
+      author
+      author_displayname
+      author_profilehash
+      description
+      voteStatus(upvoted: $upvoted) @client
+      created_at
+      last_edited_at
       imagehashes
       videohashes
+      category_ids
+      upvote_count
+      downvote_count
+      comment_count
+      tip_count
+      view_count
+      username
     }
   }
 `;
@@ -104,6 +118,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
   const { fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
       accountname: username,
+      upvoted: profile.upvoted,
       pathBuilder: () => `posts/account/${username}?Page=1&Limit=12&domainID=${1}`,
     },
     onCompleted: data => {
@@ -144,10 +159,10 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
       name: 'Media',
       render: () => Template({ medias: medias, loadMore: loadMorePosts, renderedRef: imgRef }),
     },
-    /* {
+    {
       name: 'Thoughts',
-      render: () => ProfileThoughts({ profile: data.profile, posts: data.posts }),
-    }, */
+      render: () => ProfileThoughts({ profile: profile, posts: posts, loadMore: loadMorePosts }),
+    },
   ];
 
   if (isMe)
