@@ -28,10 +28,14 @@ const Container = styled.div`
   }
 `;
 
-const Aside: React.FC = () => {
+interface Props {
+  followers: Array<any>;
+}
+
+const Aside: React.FC<Props> = ({ followers }) => {
   return (
     <Container>
-      <WhoToFollow />
+      <WhoToFollow data={followers} />
 
       {/* <Trending /> */}
     </Container>

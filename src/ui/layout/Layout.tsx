@@ -172,6 +172,17 @@ const GET_PROFILE = graphql`
   }
 `;
 
+const GET_FOLLOWERS = graphql`
+  query Profile($accountname: String!) {
+    profile(accountname: $accountname) @rest(type: "Profile", path: "profile/{args.accountname}/whotofollow") {
+      author
+      hash
+      displayname
+      username
+    }
+  }
+`;
+
 const Layout: React.FC<Props> = ({
   children,
   shouldHideCreatePost,
@@ -189,6 +200,7 @@ const Layout: React.FC<Props> = ({
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [accountProfile, setProfile] = useState(profile);
+  const [followers, setFollowers] = useState([]);
 
   useQuery(GET_PROFILE, {
     variables: {
@@ -204,6 +216,23 @@ const Layout: React.FC<Props> = ({
 
       if (data && (!data.profile || !data.profile.hash)) setModalIsOpen(true);
       else setModalIsOpen(false);
+    },
+  });
+
+  useQuery(GET_FOLLOWERS, {
+    variables: {
+      accountname: author,
+    },
+    onCompleted: data => {
+      // Get top 3
+      // const topThreeData = data.profile.filter((item, index) => index < 3);
+      const topThreeData = [data.profile[0], data.profile[2], data.profile[3]];
+      setFollowers(
+        topThreeData.map((item: { author: string }) => ({
+          ...item,
+          isFollowing: !!profile.following.find(follow => follow == item.author),
+        })),
+      );
     },
   });
 
@@ -252,7 +281,7 @@ const Layout: React.FC<Props> = ({
 
         <ContentWrapper shouldHideHeader={shouldHideHeader}>
           <Content>{children}</Content>
-          <Aside />
+          <Aside followers={followers} />
         </ContentWrapper>
       </Container>
 

@@ -8,10 +8,14 @@ import WhoToFollowCard from './WhoToFollowCard';
 
 const Container = styled.div``;
 
-const WhoToFollow: React.FC = () => {
+interface Props {
+  data: Array<any>;
+}
+
+const WhoToFollow: React.FC<Props> = ({ data }) => {
   return (
     <Container>
-      <AsideCard title="Who to follow" seeMore="discover/whoToFollow" data={whoToFollow} renderItem={WhoToFollowCard} />
+      <AsideCard title="Who to follow" seeMore="discover/whoToFollow" data={data} renderItem={WhoToFollowCard} />
     </Container>
   );
 };

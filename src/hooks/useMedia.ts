@@ -5,7 +5,7 @@ import { IPFS_S3 } from '../common/config';
 type Size = 'thumbBig' | 'thumbSmall';
 
 export function useS3Image(image: string, size: Size) {
-  const S3Image = useMemo(() => (image ? `${IPFS_S3}/${image}/${size}.jpg` : ''), [image, size]);
+  const S3Image = image ? `${IPFS_S3}/${image}/${size}.jpg` : '';
 
   return S3Image;
 }
