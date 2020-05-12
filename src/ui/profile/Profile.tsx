@@ -7,7 +7,7 @@ import { TabInterface } from '../tabs/Tabs';
 import { useS3Image } from '../../hooks';
 import karmaApi from '../../services/api';
 import { fetchStakedBalance } from '../../services/Auth';
-import { actionRequest, actionSuccess } from '../../store/ducks/action';
+import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
 import { updateProfileSuccess } from '../../store/ducks/user';
 
 const Wrapper = styled.div`
@@ -74,16 +74,20 @@ const Profile: React.FC<Props> = ({ tabs, tab, profile, myProfile, postCount, me
 
   useEffect(() => {
     async function fetchData() {
-      dispatch(actionRequest());
-      const response = await karmaApi.get(`profile/${author}?domainID=1`);
-      if (response && response.data) {
-        setIsFollowing(!!response.data.followers.find(follow => follow === me));
-        setFollowsMe(!!response.data.following.find(follow => follow === me));
-      }
+      try {
+        dispatch(actionRequest());
+        const response = await karmaApi.get(`profile/${author}?domainID=1`);
+        if (response && response.data) {
+          setIsFollowing(!!response.data.followers.find(follow => follow === me));
+          setFollowsMe(!!response.data.following.find(follow => follow === me));
+        }
 
-      const stacked = await fetchStakedBalance(author);
-      setCurrentPower(stacked);
-      dispatch(actionSuccess());
+        const stacked = await fetchStakedBalance(author);
+        setCurrentPower(stacked);
+        dispatch(actionSuccess());
+      } catch (err) {
+        dispatch(actionFailure());
+      }
     }
 
     fetchData();

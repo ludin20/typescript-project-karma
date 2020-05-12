@@ -101,18 +101,22 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
   const [following, setFollowing] = useState([]);
 
   useEffect(() => {
-    setFollowers(
-      userData.profile.followers.map((data: { author: string }) => ({
-        ...data,
-        isFollowing: !!profile.following.find(item => item == data.author),
-      })),
-    );
-    setFollowing(
-      userData.profile.following.map((data: { author: string }) => ({
-        ...data,
-        isFollowing: !!profile.following.find(item => item == data.author),
-      })),
-    );
+    if (!userData || !userData.profile || !profile) {
+      router.back();
+    } else {
+      setFollowers(
+        userData.profile.followers.map((data: { author: string }) => ({
+          ...data,
+          isFollowing: !!profile.following.find(item => item == data.author),
+        })),
+      );
+      setFollowing(
+        userData.profile.following.map((data: { author: string }) => ({
+          ...data,
+          isFollowing: !!profile.following.find(item => item == data.author),
+        })),
+      );
+    }
   }, [userData, profile]);
 
   const { fetchMore, loading } = useQuery(GET_POSTS, {
