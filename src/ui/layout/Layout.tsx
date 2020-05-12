@@ -224,10 +224,10 @@ const Layout: React.FC<Props> = ({
       accountname: author,
     },
     onCompleted: data => {
-      // Get top 3
-      const topThreeData = data.profile.filter((item, index) => index < 3);
+      // Get top 5
+      const topFiveData = data.profile.filter((item, index) => index < 5);
       setFollowers(
-        topThreeData.map((item: { author: string }) => ({
+        topFiveData.map((item: { author: string }) => ({
           ...item,
           isFollowing: !!profile.following.find(follow => follow == item.author),
         })),
