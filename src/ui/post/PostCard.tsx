@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
 
@@ -110,6 +110,8 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
   const formattedDateStrings = useFormatDistanceStrict(created_at).split(' ');
   const formattedDate = formattedDateStrings[0] + formattedDateStrings[1][0];
   const avatar = useS3Image(author_profilehash, 'thumbSmall');
+
+  useEffect(() => setData(post), [post]);
 
   const onSuccessAction = (action: string, value: number) => {
     switch (action) {

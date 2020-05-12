@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage, NextPageContext } from 'next';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
@@ -75,12 +75,19 @@ interface Props {
 }
 
 const Post: NextPage<Props> = ({ post, comments }) => {
+  const [postData, setPostData] = useState(post);
+  const [commentsData, setCommentsData] = useState(comments);
   const { wax, eos, liquidBalance, upvoted, hash } = useSelector((state: RootState) => state.user.profile);
   const avatar = useS3Image(hash, 'thumbSmall');
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleSuccessComment = data => {
+    setPostData({ ...postData, comment_count: postData.comment_count + 1 });
+    setCommentsData([data, ...commentsData]);
+  };
 
   return (
     <Wrapper>
@@ -91,7 +98,7 @@ const Post: NextPage<Props> = ({ post, comments }) => {
       <Space height={20} />
 
       <PostCard
-        post={post}
+        post={postData}
         wax={wax}
         eos={eos}
         liquidBalance={Math.floor(liquidBalance)}
@@ -101,7 +108,7 @@ const Post: NextPage<Props> = ({ post, comments }) => {
         isDetails={true}
       />
 
-      <PostComments comments={comments} avatar={avatar as string} />
+      <PostComments comments={commentsData} avatar={avatar as string} onSuccessComment={handleSuccessComment} />
     </Wrapper>
   );
 };

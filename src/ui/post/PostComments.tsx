@@ -16,14 +16,15 @@ const subTitleCss = css`
 interface Props {
   comments: { cmmt_id: string; author: string; author_profilehash: string; created_at: string; text: string }[];
   avatar: string;
+  onSuccessComment(data: object): void;
 }
 
-const PostComments: React.FC<Props> = ({ comments, avatar }) => {
+const PostComments: React.FC<Props> = ({ comments, avatar, onSuccessComment }) => {
   return (
     <>
       <Space height={30} />
       <div>
-        <CreateComment avatar={avatar} />
+        <CreateComment avatar={avatar} onSuccessComment={onSuccessComment} />
       </div>
       <Text size={16} weight="bold" color="white" css={subTitleCss}>
         All comments

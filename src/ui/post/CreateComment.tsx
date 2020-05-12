@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import graphql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -12,6 +13,8 @@ import Avatar from '../common/Avatar';
 import TextInput from '../form/FormikInput';
 
 import sendComment from '../assets/send-comment.svg';
+
+import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
 
 const Container = styled(Row)`
   @media (min-width: 549px) {
@@ -89,11 +92,13 @@ const CREATE_COMMENT = graphql`
 
 interface Props {
   avatar: string;
+  onSuccessComment(data: object): void;
 }
 
-const CreateComment: React.FC<Props> = ({ avatar }) => {
+const CreateComment: React.FC<Props> = ({ avatar, onSuccessComment }) => {
   const [createComment] = useMutation(CREATE_COMMENT);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: { comment: '' },
@@ -101,11 +106,20 @@ const CreateComment: React.FC<Props> = ({ avatar }) => {
       comment: yup.string().required('Comment is required'),
     }),
     onSubmit: ({ comment }) => {
-      createComment({ variables: { text: comment, post_id: router.query.id } });
+      dispatch(actionRequest());
+      createComment({ variables: { text: comment, post_id: router.query.id } })
+        .then(res => onCreatedComment(res))
+        .catch(err => dispatch(actionFailure));
     },
   });
 
   const { handleSubmit } = formik;
+
+  const onCreatedComment = res => {
+    res.data && res.data.createComment && onSuccessComment(res.data.createComment);
+    dispatch(actionSuccess());
+    formik.setValues({ comment: '' });
+  };
 
   return (
     <FormikProvider value={formik}>
