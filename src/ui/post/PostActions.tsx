@@ -46,6 +46,7 @@ const Image = styled.img<{ withoutMargin?: boolean }>`
   height: 16px;
   width: auto;
   margin-right: ${p => (p.withoutMargin ? 0 : '10px')};
+  cursor: pointer;
 `;
 
 const ButtonText = styled(Text).attrs({
@@ -94,6 +95,7 @@ interface Props {
   eos?: number;
   liquidBalance?: number;
   upvoted?: Array<string>;
+  isDetails: boolean;
   onSuccessAction(action: string, value: number): void;
 }
 
@@ -111,6 +113,7 @@ const PostActions: React.FC<Props> = ({
   eos,
   liquidBalance,
   upvoted,
+  isDetails,
   ...props
 }) => {
   const accountName = cookie.get(KARMA_AUTHOR);
@@ -221,7 +224,13 @@ const PostActions: React.FC<Props> = ({
         </Row>
 
         <Row align="center" justify="center">
-          <Image src={comment} alt="comment" />
+          <Image
+            src={comment}
+            alt="comment"
+            onClick={() => {
+              if (!isDetails) router.push('/post/[id]', `/post/${postId}`, { shallow: true });
+            }}
+          />
           <ButtonText>{comments}</ButtonText>
         </Row>
 

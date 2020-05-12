@@ -17,7 +17,6 @@ import PostContent from './PostContent';
 
 const Container = styled.ul`
   list-style: none;
-  cursor: pointer;
 `;
 
 const headerCss = css`
@@ -48,6 +47,10 @@ const Caption = styled.li`
       font-size: 18px;
     }
   }
+`;
+
+const Clickable = styled.div`
+  cursor: pointer;
 `;
 
 export interface PostInterface {
@@ -132,18 +135,22 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
           align="center"
           onClick={() => router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })}
         >
-          <Avatar src={avatar} alt={author_displayname} />
+          <Clickable>
+            <Avatar src={avatar} alt={author_displayname} />
+          </Clickable>
           <Space width={18} />
 
-          <Row css={headerCss} align="center">
-            <Text color="white" size={25} weight="900">
-              {author_displayname}
-            </Text>
-            <Space width={10} />
-            <Text color="lightBlue" size={20}>
-              @{username} - {formattedDate}
-            </Text>
-          </Row>
+          <Clickable>
+            <Row css={headerCss} align="center">
+              <Text color="white" size={25} weight="900">
+                {author_displayname}
+              </Text>
+              <Space width={10} />
+              <Text color="lightBlue" size={20}>
+                @{username} - {formattedDate}
+              </Text>
+            </Row>
+          </Clickable>
         </Row>
 
         {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
@@ -174,6 +181,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         eos={props.eos}
         liquidBalance={props.liquidBalance}
         upvoted={props.upvoted}
+        isDetails={props.isDetails}
         onSuccessAction={onSuccessAction}
       />
     </Container>
