@@ -65,7 +65,7 @@ const WhoToFollowCard: React.FC<Props> = ({ author, displayname, username, hash,
         <Space width={10} />
         <section>
           <strong>{displayname}</strong>
-          <span>{username}</span>
+          <span>{'@' + username}</span>
         </section>
       </Clickable>
 
