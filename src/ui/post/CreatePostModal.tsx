@@ -55,6 +55,7 @@ const Content = styled.div`
 const CREATE_POST = graphql`
   mutation createPost(
     $post_id: Int
+    $post_type: Int
     $description: String
     $lat: String
     $lng: String
@@ -64,6 +65,7 @@ const CREATE_POST = graphql`
   ) {
     createPost(
       post_id: $post_id
+      post_type: $post_type
       description: $description
       lat: $lat
       lng: $lng
@@ -77,6 +79,7 @@ const CREATE_POST = graphql`
       imagehashes
       videohashes
       post_id
+      post_type
       created_at
       description
       upvote_count
@@ -117,15 +120,13 @@ const CreatePostModal: React.FC<Props> = props => {
     validateOnMount: true,
     validationSchema: Yup.object().shape({
       content: Yup.string().required('Post text is required'),
-      imagehashes: Yup.array()
-        .of(Yup.string())
-        .min(1, 'Post media is required'),
     }),
     onSubmit: ({ content, imagehashes }) => {
       dispatch(actionRequest());
       createPost({
         variables: {
           post_id: 0,
+          post_type: imagehashes.length > 0 ? 1 : 2,
           description: content,
           lat: '1',
           lng: '2',
