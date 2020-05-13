@@ -89,6 +89,7 @@ const ActivityItem: React.FC<Props> = ({
           <Row align="flex-start">
             <ShimmerImage
               avatar
+              size="small"
               src={userAvatar}
               alt={displayname}
               css={clickableCss}
