@@ -9,6 +9,7 @@ import Grid from '../common/Grid';
 import Space from '../common/Space';
 
 import playIcon from '../assets/play.svg';
+import closeIcon from '../assets/close.svg';
 
 const Container = styled.div`
   margin-left: 80px;
@@ -19,8 +20,26 @@ const Container = styled.div`
   }
 `;
 
-const Section = styled.div`
+const Section = styled.div<{ active?: boolean }>`
   position: relative;
+  ${props =>
+    props.active &&
+    css`
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999999;
+      background: black;
+      display: flex;
+      justify-content: center;
+      video {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+      }
+    `}
 `;
 
 const Video = styled.video`
@@ -43,6 +62,19 @@ const PlayButton = styled.img`
   @media (max-width: 550px) {
     width: 40px;
     height: 40px;
+  }
+`;
+
+const CloseButton = styled.button`
+  background: none;
+  position: fixed;
+  top: 30px;
+  right: 50px;
+  z-index: 9999999;
+
+  img {
+    width: 30px;
+    height: 30px;
   }
 `;
 
@@ -74,59 +106,32 @@ interface Props {
 
 const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
   const medias = useS3PostMedias(content, 'thumbBig');
-  const [videoRefs, setVideoRefs] = useState([]);
+  const [videoStates, setVideoStates] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setVideoRefs(videoRefs => medias.map((_, i) => videoRefs[i] || { ref: createRef(), active: false }));
+    setVideoStates(videoStates => medias.map((_, i) => videoStates[i] || false));
     setIsLoaded(true);
+    document.addEventListener('keydown', handleEsc, false);
+
+    return () => {
+      document.removeEventListener('keydown', handleEsc, false);
+    };
   }, []);
 
   const handleClickVideo = (index: number) => {
-    if (videoRefs[index] && videoRefs[index].ref && videoRefs[index].ref.current) {
-      const elem = videoRefs[index].ref.current;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) {
-        /* Firefox */
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) {
-        /* Chrome, Safari and Opera */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
-        /* IE/Edge */
-        elem.msRequestFullscreen();
-      }
+    window.setTimeout(() => {
+      setVideoStates([...videoStates.slice(0, index), true, ...videoStates.slice(index + 1)]);
+      document.body.style.overflow = 'hidden';
+    }, 100);
+  };
 
-      window.setTimeout(
-        () =>
-          setVideoRefs([
-            ...videoRefs.slice(0, index),
-            { ...videoRefs[index], active: true },
-            ...videoRefs.slice(index + 1),
-          ]),
-        100,
-      );
+  const handleEsc = e => {
+    if (e.code == 'Escape') {
+      setVideoStates(videoRefs => videoRefs.map(() => false));
+      document.body.style.overflow = 'inherit';
     }
   };
-
-  const exitHandler = () => {
-    setVideoRefs(videoRefs => videoRefs.map(item => ({ ...item, active: false })));
-  };
-
-  useEffect(() => {
-    document.addEventListener('fullscreenchange', exitHandler, false);
-    document.addEventListener('mozfullscreenchange', exitHandler, false);
-    document.addEventListener('MSFullscreenChange', exitHandler, false);
-    document.addEventListener('webkitfullscreenchange', exitHandler, false);
-
-    return () => {
-      document.removeEventListener('fullscreenchange', exitHandler, false);
-      document.removeEventListener('mozfullscreenchange', exitHandler, false);
-      document.removeEventListener('MSFullscreenChange', exitHandler, false);
-      document.removeEventListener('webkitfullscreenchange', exitHandler, false);
-    };
-  }, []);
 
   return !isLoaded ? (
     <div></div>
@@ -143,14 +148,8 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
                 <Grid columns={medias.length < 3 ? medias.length : 3} gap="24px" css={gridCss}>
                   {medias.map((media, index) =>
                     isDetails && media.type == 'video' ? (
-                      <Section key={String(index)} onClick={() => handleClickVideo(index)}>
-                        <Video
-                          ref={videoRefs[index].ref}
-                          height={500}
-                          autoPlay
-                          muted={!videoRefs[index].active}
-                          controls={videoRefs[index].active}
-                        >
+                      <Section key={String(index)} onClick={() => handleClickVideo(index)} active={videoStates[index]}>
+                        <Video height={500} autoPlay muted={!videoStates[index]} controls={videoStates[index]}>
                           <source src={media.content} type="video/mp4" />
                         </Video>
                       </Section>
@@ -165,6 +164,11 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
                         {media.type == 'video' ? <PlayButton src={playIcon} alt="play" /> : null}
                       </Section>
                     ),
+                  )}
+                  {!!videoStates.find(videoState => videoState) && (
+                    <CloseButton type="button" onClick={() => handleEsc({ code: 'Escape' })}>
+                      <img src={closeIcon} alt="close" />
+                    </CloseButton>
                   )}
                 </Grid>
               </>
