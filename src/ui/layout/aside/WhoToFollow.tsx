@@ -15,7 +15,7 @@ interface Props {
 const WhoToFollow: React.FC<Props> = ({ data }) => {
   return (
     <Container>
-      <AsideCard title="Who to follow" seeMore="discover/whoToFollow" data={data} renderItem={WhoToFollowCard} />
+      <AsideCard title="Who to follow" seeMore="/whotofollow" data={data} renderItem={WhoToFollowCard} />
     </Container>
   );
 };
