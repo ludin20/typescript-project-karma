@@ -55,6 +55,7 @@ const GET_POST = graphql`
       downvote_count
       comment_count
       tip_count
+      video_count
       username
     }
     comments(post_id: $post_id) @rest(type: "Comment", path: "comments/post/{args.post_id}") {

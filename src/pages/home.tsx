@@ -35,7 +35,7 @@ const GET_POSTS = graphql`
       downvote_count
       comment_count
       tip_count
-      view_count
+      video_count
       username
     }
   }

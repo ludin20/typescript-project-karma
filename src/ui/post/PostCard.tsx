@@ -69,7 +69,7 @@ export interface PostInterface {
   downvote_count: number;
   comment_count: number;
   tip_count: number;
-  view_count: any;
+  video_count: any;
   username: string;
   __typename: string;
 }
@@ -97,13 +97,14 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
     description,
     imagehashes,
     videohashes,
+    video_count,
     author_profilehash,
     post_id,
-  } = post;
+  } = data;
 
   const content = useMemo(() => {
-    return { post_id, imagehashes, videohashes };
-  }, [post_id, imagehashes, videohashes]);
+    return { post_id, imagehashes, videohashes, video_count };
+  }, [post_id, imagehashes, videohashes, video_count]);
 
   const router = useRouter();
 

@@ -2,11 +2,12 @@ import React, { useState, useEffect, createRef } from 'react';
 import styled, { css } from 'styled-components';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
-import { useS3PostMedias } from '../../hooks';
+import { useS3PostMedias, useFormatDuration } from '../../hooks';
 
 import ShimmerImage from '../common/ShimmerImage';
 import Grid from '../common/Grid';
 import Space from '../common/Space';
+import Text from '../common/Text';
 
 import playIcon from '../assets/play.svg';
 import closeIcon from '../assets/close.svg';
@@ -20,8 +21,14 @@ const Container = styled.div`
   }
 `;
 
-const Section = styled.div<{ active?: boolean }>`
+const Section = styled.div<{ isDetails?: boolean; active?: boolean }>`
   position: relative;
+  display: none;
+  ${props =>
+    props.isDetails &&
+    css`
+      display: block;
+    `}
   ${props =>
     props.active &&
     css`
@@ -65,12 +72,50 @@ const PlayButton = styled.img`
   }
 `;
 
+const VideoViewCounts = styled.div`
+  position: absolute;
+  background-color: #20252e;
+  top: 25px;
+  left: 25px;
+  border-radius: 15px;
+  padding: 4px 14px;
+  @media (max-width: 550px) {
+    top: 20px;
+    left: 20px;
+    padding: 3px 10px;
+    span {
+      font-size: 15px;
+    }
+  }
+`;
+
+const VideoDuration = styled.div`
+  position: absolute;
+  background-color: #20252e;
+  top: 25px;
+  right: 25px;
+  border-radius: 15px;
+  padding: 4px 14px;
+  @media (max-width: 550px) {
+    top: 20px;
+    right: 20px;
+    padding: 3px 10px;
+    span {
+      font-size: 15px;
+    }
+  }
+`;
+
 const CloseButton = styled.button`
   background: none;
   position: fixed;
   top: 30px;
   right: 50px;
   z-index: 9999999;
+  @media (max-width: 550px) {
+    top: 20px;
+    right: 20px;
+  }
 
   img {
     width: 30px;
@@ -98,7 +143,7 @@ const topSpaceCss = css`
 `;
 
 interface Props {
-  content: { post_id: number; imagehashes: []; videohashes: [] };
+  content: { post_id: number; imagehashes: []; videohashes: []; video_count: number };
   size?: 'default' | 'small';
   onClick(): void;
   isDetails: boolean;
@@ -110,7 +155,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setVideoStates(videoStates => medias.map((_, i) => videoStates[i] || false));
+    setVideoStates(videoStates => medias.map((_, i) => videoStates[i] || { ref: createRef(), active: false }));
     setIsLoaded(true);
     document.addEventListener('keydown', handleEsc, false);
 
@@ -121,14 +166,18 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
 
   const handleClickVideo = (index: number) => {
     window.setTimeout(() => {
-      setVideoStates([...videoStates.slice(0, index), true, ...videoStates.slice(index + 1)]);
+      setVideoStates([
+        ...videoStates.slice(0, index),
+        { ...videoStates[index], active: true },
+        ...videoStates.slice(index + 1),
+      ]);
       document.body.style.overflow = 'hidden';
     }, 100);
   };
 
   const handleEsc = e => {
     if (e.code == 'Escape') {
-      setVideoStates(videoRefs => videoRefs.map(() => false));
+      setVideoStates(videoStates => videoStates.map(item => ({ ...item, active: false })));
       document.body.style.overflow = 'inherit';
     }
   };
@@ -147,25 +196,63 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
                 <Space height={30} css={topSpaceCss} />
                 <Grid columns={medias.length < 3 ? medias.length : 3} gap="24px" css={gridCss}>
                   {medias.map((media, index) =>
-                    isDetails && media.type == 'video' ? (
-                      <Section key={String(index)} onClick={() => handleClickVideo(index)} active={videoStates[index]}>
-                        <Video height={500} autoPlay muted={!videoStates[index]} controls={videoStates[index]}>
-                          <source src={media.content} type="video/mp4" />
-                        </Video>
-                      </Section>
+                    media.type == 'video' ? (
+                      <div>
+                        <Section key={String(index)} isDetails={!isDetails}>
+                          <ShimmerImage src={media.thumbnail} alt="image" css={imgCss} height={500} />
+                          <PlayButton src={playIcon} alt="play" />
+                          <VideoViewCounts>
+                            <Text color="white" size={17}>
+                              {content.video_count + ' views'}
+                            </Text>
+                          </VideoViewCounts>
+                          <VideoDuration>
+                            <Text color="white" size={17}>
+                              {videoStates[index].ref.current &&
+                                // eslint-disable-next-line react-hooks/rules-of-hooks
+                                useFormatDuration(videoStates[index].ref.current.duration)}
+                            </Text>
+                          </VideoDuration>
+                        </Section>
+                        <Section
+                          key={String(index)}
+                          onClick={() => handleClickVideo(index)}
+                          isDetails={isDetails}
+                          active={videoStates[index].active}
+                        >
+                          <Video
+                            ref={videoStates[index].ref}
+                            height={500}
+                            autoPlay
+                            muted={!videoStates[index].active}
+                            controls={videoStates[index].active}
+                          >
+                            <source src={media.content} type="video/mp4" />
+                          </Video>
+                        </Section>
+                      </div>
                     ) : (
-                      <Section key={String(index)}>
-                        <ShimmerImage
-                          src={media.type == 'video' ? media.thumbnail : media.content}
-                          alt="image"
-                          css={imgCss}
-                          height={500}
-                        />
-                        {media.type == 'video' ? <PlayButton src={playIcon} alt="play" /> : null}
+                      <Section key={String(index)} isDetails>
+                        <ShimmerImage src={media.content} alt="image" css={imgCss} height={500} />
+                        {media.type == 'video' ? (
+                          <div>
+                            <PlayButton src={playIcon} alt="play" />
+                            <VideoViewCounts>
+                              <Text color="white" size={17}>
+                                {content.video_count + ' views'}
+                              </Text>
+                            </VideoViewCounts>
+                            <VideoDuration>
+                              <Text color="white" size={17}>
+                                {}
+                              </Text>
+                            </VideoDuration>
+                          </div>
+                        ) : null}
                       </Section>
                     ),
                   )}
-                  {!!videoStates.find(videoState => videoState) && (
+                  {!!videoStates.find(videoState => videoState.active) && (
                     <CloseButton type="button" onClick={() => handleEsc({ code: 'Escape' })}>
                       <img src={closeIcon} alt="close" />
                     </CloseButton>
