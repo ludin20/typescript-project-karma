@@ -43,8 +43,8 @@ const buttonCss = css`
 `;
 
 const Image = styled.img<{ withoutMargin?: boolean }>`
-  height: 16px;
-  width: auto;
+  height: 17px;
+  width: 17px;
   margin-right: ${p => (p.withoutMargin ? 0 : '10px')};
   cursor: pointer;
 `;
