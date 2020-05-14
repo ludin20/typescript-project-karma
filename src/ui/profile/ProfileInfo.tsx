@@ -10,8 +10,6 @@ import ProfileActions from './ProfileActions';
 
 const Container = styled.div`
   > div:nth-child(2) {
-    max-width: 350px;
-    overflow: hidden;
     color: #fff;
     font-size: 20px;
     line-height: 1.4;
