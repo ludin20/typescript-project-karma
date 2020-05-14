@@ -26,7 +26,7 @@ const ProfileThoughts: React.FC<Props> = ({ posts, profile, loadMore }) => {
               {index > 0 && <Space height={40} />}
               <PostCard
                 me
-                post={{ ...post, imagehashes: [], videohashes: [] }}
+                post={post}
                 wax={profile.wax}
                 eos={profile.eos}
                 liquidBalance={Math.floor(profile.liquidBalance)}

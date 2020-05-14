@@ -123,7 +123,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
     variables: {
       accountname: username,
       upvoted: profile.upvoted,
-      pathBuilder: () => `posts/account/${username}?Page=1&Limit=12&domainID=${1}`,
+      pathBuilder: () => `posts/account/${username}?Page=1&Limit=12&post_type=${tab == 'media' ? 1 : 2}&domainID=${1}`,
     },
     onCompleted: data => {
       const results = data.posts.filter((post, idx) => data.posts.indexOf(post) == idx);
@@ -134,7 +134,8 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
   const loadMorePosts = useCallback(() => {
     fetchMore({
       variables: {
-        pathBuilder: () => `posts/account/${username}?Page=${page + 1}&Limit=12&domainId=${1}`,
+        pathBuilder: () =>
+          `posts/account/${username}?Page=${page + 1}&Limit=12&post_type=${tab == 'media' ? 1 : 2}&domainId=${1}`,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult || fetchMoreResult.posts.length == 0) {

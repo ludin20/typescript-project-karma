@@ -78,8 +78,8 @@ const TabsHeader: React.FC<Props> = ({ children, tabs, active, setActive, size }
   const router = useRouter();
 
   const handleClick = (tabName: string, index: number) => {
-    setActive(index);
     pushToRoute(tabName);
+    window.setTimeout(() => setActive(index), 500);
   };
 
   const pushToRoute = (tabName: string) => {
@@ -88,7 +88,7 @@ const TabsHeader: React.FC<Props> = ({ children, tabs, active, setActive, size }
 
     const as = `/${route}/${query}${tabName}`;
 
-    router.push(router.pathname, as, { shallow: true });
+    router.push(as);
   };
 
   return children ? (

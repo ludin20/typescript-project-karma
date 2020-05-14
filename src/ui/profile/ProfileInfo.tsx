@@ -42,7 +42,7 @@ const Container = styled.div`
   }
 
   @media (min-width: 1460px) {
-    > div:nth-child(4) {
+    > div:nth-child(3) {
       display: none;
     }
   }
