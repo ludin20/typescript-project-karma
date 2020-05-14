@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { SkeletonTheme } from 'react-loading-skeleton';
 
 import { useS3PostMedias, useFormatDuration } from '../../hooks';
+import { playVideo } from '../../services/config';
 
 import ShimmerImage from '../common/ShimmerImage';
 import Grid from '../common/Grid';
@@ -147,9 +148,10 @@ interface Props {
   size?: 'default' | 'small';
   onClick(): void;
   isDetails: boolean;
+  onSuccessAction?(action: string, value: number): void;
 }
 
-const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
+const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAction }) => {
   const medias = useS3PostMedias(content, 'thumbBig');
   const [videoStates, setVideoStates] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -164,15 +166,20 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
     };
   }, []);
 
-  const handleClickVideo = (index: number) => {
-    window.setTimeout(() => {
-      setVideoStates([
-        ...videoStates.slice(0, index),
-        { ...videoStates[index], active: true },
-        ...videoStates.slice(index + 1),
-      ]);
-      document.body.style.overflow = 'hidden';
-    }, 100);
+  const handleClickVideo = (index: number, post_id: number | string) => {
+    playVideo(post_id)
+      .then(res => {
+        onSuccessAction('playVideo', 1);
+        setVideoStates([
+          ...videoStates.slice(0, index),
+          { ...videoStates[index], active: true },
+          ...videoStates.slice(index + 1),
+        ]);
+        document.body.style.overflow = 'hidden';
+      })
+      .catch(err => {
+        console.log('playVideo action error', err); // eslint-disable-line no-console
+      });
   };
 
   const handleEsc = e => {
@@ -214,7 +221,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
                         </Section>
                         <Section
                           key={String(index)}
-                          onClick={() => handleClickVideo(index)}
+                          onClick={() => handleClickVideo(index, media.post_id)}
                           isDetails={isDetails}
                           active={videoStates[index].active}
                         >

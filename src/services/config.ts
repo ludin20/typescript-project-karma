@@ -151,6 +151,27 @@ export const follow = async (accountName: string, willFollow: string) => {
   }
 };
 
+export const playVideo = async (post_id: number | string) => {
+  try {
+    const body = {
+      post_id: post_id,
+    };
+
+    return new Promise((resolve, reject) => {
+      karmaApi
+        .post('/post/playvideo', body)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  } catch (e) {
+    console.log(e); // eslint-disable-line no-console
+  }
+};
+
 export const getWAXUSDPrice = async () => {
   // dev only: https://cors-anywhere.herokuapp.com/
   return fetch(`https://cors-anywhere.herokuapp.com/https://newdex.io/api/common/getLegalCurrencyPrices?valuationCoins=WAX&legalCurrency=USD`)

@@ -128,6 +128,9 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
       case 'boost':
         setData({ ...data, tip_count: data.tip_count + value });
         break;
+      case 'playVideo':
+        setData({ ...data, video_count: data.video_count + value });
+        break;
     }
   };
 
@@ -169,6 +172,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         onClick={() => {
           if (!props.isDetails) router.push('/post/[id]', `/post/${post_id}`, { shallow: true });
         }}
+        onSuccessAction={onSuccessAction}
       />
       <PostActions
         postId={post_id}
