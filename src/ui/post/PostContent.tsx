@@ -208,9 +208,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails }) => {
                           </VideoViewCounts>
                           <VideoDuration>
                             <Text color="white" size={17}>
-                              {videoStates[index].ref.current &&
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useFormatDuration(videoStates[index].ref.current.duration)}
+                              {videoStates[index].ref.current ? useFormatDuration(videoStates[index].ref.current.duration) : useFormatDuration(0)}
                             </Text>
                           </VideoDuration>
                         </Section>
