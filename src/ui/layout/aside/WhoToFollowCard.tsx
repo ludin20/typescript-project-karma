@@ -13,6 +13,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-right: 10px;
+  padding-left: 10px;
 
   div {
     display: flex;
@@ -37,11 +39,11 @@ const Container = styled.div`
     }
   }
 
-  @media (max-width: 1200px) {
-    div + button {
-      display: none;
-    }
-  }
+  // @media (max-width: 1200px) {
+  //   div + button {
+  //     display: none;
+  //   }
+  // }
 `;
 
 const Clickable = styled.div`
