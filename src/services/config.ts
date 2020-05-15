@@ -8,6 +8,7 @@ import { Api, JsonRpc } from 'eosjs';
 import cookie from 'js-cookie';
 import encoding from 'text-encoding';
 import jwt from 'jsonwebtoken';
+const qs = require('querystring');
 
 export const rpc = new JsonRpc(EOS_URL, { fetch });
 export const signatureProvider = new JsProvider();
@@ -157,9 +158,15 @@ export const playVideo = async (post_id: number | string) => {
       post_id: post_id,
     };
 
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    };
+
     return new Promise((resolve, reject) => {
       karmaApi
-        .post('/post/playvideo', body)
+        .post('/post/playvideo', qs.stringify(body), config)
         .then(res => {
           resolve(res);
         })
