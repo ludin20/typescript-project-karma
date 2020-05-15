@@ -8,7 +8,8 @@ import ApolloClient from 'apollo-client';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
 import { withAuthSync } from '../auth/WithAuthSync';
-import { Title, Space, InfinityScroll } from '../ui';
+import { Title, Space, InfinityScroll, GoBackButton } from '../ui';
+
 import { labels } from '../ui/layout';
 import WhoToFollowCard from '../ui/layout/aside/WhoToFollowCard';
 
@@ -22,6 +23,21 @@ const GET_FOLLOWERS = graphql`
       hash
       displayname
       username
+    }
+  }
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  button {
+    margin: 0 20px 0 0;
+  }
+
+  @media (max-width: 350px) {
+    button + div {
+      display: none;
     }
   }
 `;
@@ -45,7 +61,10 @@ const WhoToFollow: NextPage<Props> = ({ profile, data }) => {
 
   return (
     <>
-      <Title shouldHideHeader>Who To Follow</Title>
+      <TitleWrapper>
+        <GoBackButton />
+        <Title>Who To Follow</Title>
+      </TitleWrapper>
       <Space height={20} />
       <InfinityScroll length={followers.length} loadMore={null} hasMore={false}>
         {followers.map((follow, index) => (
@@ -76,7 +95,7 @@ WhoToFollow.getInitialProps = async (ctx: Context) => {
   });
 
   return {
-    layoutConfig: { layout: labels.DEFAULT, shouldHideHeader: true },
+    layoutConfig: { layout: labels.DEFAULT, shouldHideCreatePost: true },
     meta: {
       title: 'Karma/WhoToFollow',
     },
