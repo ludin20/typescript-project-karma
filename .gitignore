@@ -36,6 +36,7 @@ typings/
 # build
 build
 dist
+out
 
 # editor
 .vscode

@@ -4,6 +4,10 @@ import cookie from 'js-cookie';
 import { parsePhoneNumber } from 'react-phone-number-input';
 import jwt from 'jsonwebtoken';
 import publicIP from 'public-ip';
+import ScatterJS from 'scatterjs-core';
+import ScatterEOS from 'scatterjs-plugin-eosjs';
+
+ScatterJS.plugins(new ScatterEOS());
 
 import { RootState } from '../ducks/rootReducer';
 import {
@@ -133,9 +137,51 @@ export function* signOut() {
   yield put(signOutSuccess());
 }
 
+export function* signWithScatter() {
+  const network = {
+    blockchain: 'eos',
+    protocol: 'https',
+    host: 'wax.greymass.com',
+    port: 443,
+    chainId: '1064487b3cd1a897ce03ae5b6a865651747e2e152090f99c1d19d44e01aea5a4',
+  };
+  try {
+    ScatterJS.scatter.connect('KARMA').then(connected => {
+      // User does not have Scatter Desktop, Mobile or Classic installed
+      if (!connected) {
+        return;
+      }
+      const scatter = ScatterJS.scatter;
+      const requiredFields = { accounts: [network] };
+      scatter
+        .getIdentity(requiredFields)
+        .then(() => {
+          const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
+          if (account.authority == 'active') {
+            const private_key = 'scatter';//account.publicKey;
+            const Author = account.name;
+            put(authenticateCodeSuccess(private_key, defaultProfile));
+            cookie.set(KARMA_SESS, private_key, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+            cookie.set(KARMA_AUTHOR, Author, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+            Router.push('/home');
+            window.ScatterJS = null;
+          }
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.error(error);
+        });
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+  }
+}
+
 export default all([
   takeLatest(types.SIGN_REQUEST, sign),
   takeLatest(types.RESEND_CODE_REQUEST, resendCode),
   takeLatest(types.AUTHENTICATE_CODE_REQUEST, authenticateCode),
   takeLatest(types.SIGN_OUT_REQUEST, signOut),
+  takeLatest(types.SIGN_SCATTER_REQUEST, signWithScatter),
 ]);

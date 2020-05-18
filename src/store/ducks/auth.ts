@@ -13,6 +13,7 @@ export const types = {
   SIGN_OUT_SUCCESS: '@auth/SIGN_OUT_SUCCESS',
   AUTHENTICATE_CODE_FAILURE: '@auth/AUTHENTICATE_CODE_FAILURE',
   SIGN_FAILURE: '@auth/SIGN_FAILURE',
+  SIGN_SCATTER_REQUEST: '@auth/SIGN_SCATTER_REQUEST',
 };
 
 export interface AuthState {
@@ -97,6 +98,10 @@ export default function reducer(state = INITIAL_STATE, action) {
         draft.isNewUser = false;
         break;
       }
+      case types.SIGN_SCATTER_REQUEST: {
+        draft.loading = false;
+        break;
+      }
       default:
     }
   });
@@ -177,5 +182,11 @@ export function signFailure() {
 export function authenticateCodeFailure() {
   return {
     type: types.AUTHENTICATE_CODE_FAILURE,
+  };
+}
+
+export function authenticateWithScatter() {
+  return {
+    type: types.SIGN_SCATTER_REQUEST,
   };
 }

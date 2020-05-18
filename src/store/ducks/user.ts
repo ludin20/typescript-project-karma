@@ -70,7 +70,7 @@ export default function reducer(state = INITIAL_STATE, action) {
         break;
       }
       case authTypes.SIGN_OUT_SUCCESS: {
-        draft.profile = null;
+        draft.profile = defaultProfile;
         break;
       }
       case types.CREATE_PROFILE_REQUEST: {

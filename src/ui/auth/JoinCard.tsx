@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { FormikProvider, FormikProps } from 'formik';
 
@@ -8,6 +9,8 @@ import Row from '../common/Row';
 
 import smartphone from '../assets/smartphone.svg';
 import Text from '../common/Text';
+
+import { authenticateWithScatter } from '../../store/ducks/auth';
 
 const Label = styled(Row)`
   span {
@@ -36,6 +39,14 @@ const SubmitButton = styled(Button)`
   font-weight: 900;
 `;
 
+const ScatterButton = styled(Button)`
+  width: 100%;
+  padding: 15px 0;
+  font-size: 20px;
+  font-weight: 900;
+  background: #009AFF;
+`;
+
 interface Props {
   label: string;
   input: React.ReactNode;
@@ -47,6 +58,11 @@ interface Props {
 
 const JoinCard: React.FC<Props> = ({ label, input, legend, submitText, loading, formik }) => {
   const { isValid } = formik;
+  const dispatch = useDispatch();
+
+  const onScatterSign = () => {
+    dispatch(authenticateWithScatter());
+  };
 
   return (
     <FormikProvider value={formik}>
@@ -76,6 +92,8 @@ const JoinCard: React.FC<Props> = ({ label, input, legend, submitText, loading, 
       <SubmitButton loading={loading} background="green" disabled={!isValid || loading} type="submit">
         {submitText}
       </SubmitButton>
+      <Space height={20} />
+      <ScatterButton onClick={onScatterSign}>Sign In With Scatter</ScatterButton>
     </FormikProvider>
   );
 };

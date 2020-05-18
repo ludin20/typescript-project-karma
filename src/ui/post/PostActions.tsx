@@ -18,8 +18,6 @@ import tip from '../assets/tip.png';
 import rocket from '../assets/rocket.svg';
 import share from '../assets/share.svg';
 
-import BoostModal from './actionsModal/BoostModal';
-import TipModal from './actionsModal/TipModal';
 import SuccessModal from '../wallet/SendMoneyModal/SuccessModal';
 
 import { tx, logtask } from '../../services/config';
@@ -27,6 +25,9 @@ import karmaApi from '../../services/api';
 import { KARMA_AUTHOR, TOKEN_CONTRACT } from '../../common/config';
 import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
 import { updateProfileSuccess } from '../../store/ducks/user';
+
+import TipModal from './actionsModal/TipModal';
+import BoostModal from './actionsModal/BoostModal';
 
 const Container = styled(Row)`
   width: 85% !important;
