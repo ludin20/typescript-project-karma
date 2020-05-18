@@ -16,14 +16,12 @@ import api from '../../services/api';
 import { getWAXUSDPrice, getEOSPrice } from '../../services/config';
 import { fetchBalance, fetchStakedBalance, fetchAccountInfo } from '../../services/Auth';
 
-const author = cookie.get(KARMA_AUTHOR);
-
 export function* createProfile({ payload }: ReturnType<typeof createProfileRequest>) {
   try {
     const { bio, username, displayname, hash } = payload.data;
 
     const body = {
-      author: author,
+      author: cookie.get(KARMA_AUTHOR),
       usernameOrig: payload.oldData.username,
       usernameNew: username,
       hash,
@@ -55,7 +53,7 @@ export function* updateProfile({ payload }: ReturnType<typeof updateProfileReque
     const { bio, username, displayname, hash, url } = payload.data;
 
     const body = {
-      author: author,
+      author: cookie.get(KARMA_AUTHOR),
       usernameOrig: payload.oldData.username,
       usernameNew: username,
       hash,
@@ -87,9 +85,9 @@ export function* updateProfile({ payload }: ReturnType<typeof updateProfileReque
 export function* getWallet() {
   try {
     const [balance, staked, accountInfo] = yield Promise.all([
-      fetchBalance(author),
-      fetchStakedBalance(author),
-      fetchAccountInfo(author),
+      fetchBalance(cookie.get(KARMA_AUTHOR)),
+      fetchStakedBalance(cookie.get(KARMA_AUTHOR)),
+      fetchAccountInfo(cookie.get(KARMA_AUTHOR)),
     ]);
 
     const WAXPrice = yield getWAXUSDPrice();

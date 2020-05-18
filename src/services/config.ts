@@ -76,7 +76,6 @@ export const tx = async (name: string, data: any, path: string, contract = 'thek
                 },
               )
               .then(trx => {
-                console.log(`Transaction ID: ${trx.transaction_id}`);
                 return trx;
               })
               .catch(error => {
