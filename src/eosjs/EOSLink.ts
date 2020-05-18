@@ -79,10 +79,6 @@ const tx = async (name: string, data: any, path: string, contract = 'thekarmadap
                       name: name,
                       authorization: [
                         {
-                          actor: contract,
-                          permission: account.authority,
-                        },
-                        {
                           actor: accountName,
                           permission: account.authority,
                         },
