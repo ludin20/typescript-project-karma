@@ -92,8 +92,8 @@ const tx = async (name: string, data: any, path: string, contract = 'thekarmadap
                   sign: true,
                 },
               )
-              .then(trx => {
-                return trx;
+              .then(result => {
+                return result;
               })
               .catch(error => {
                 // eslint-disable-next-line no-console
