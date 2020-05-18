@@ -79,7 +79,7 @@ const tx = async (name: string, data: any, path: string, contract = 'thekarmadap
                       name: name,
                       authorization: [
                         {
-                          actor: accountName,
+                          actor: account.name,
                           permission: account.authority,
                         },
                       ],
@@ -177,7 +177,7 @@ const tx = async (name: string, data: any, path: string, contract = 'thekarmadap
         signatures: allSigs,
         serializedTransaction: serializedTransaction,
       });
-
+      console.log('result=>',result);
       return result;
     } catch (e) {
       console.log(e); // eslint-disable-line no-console
