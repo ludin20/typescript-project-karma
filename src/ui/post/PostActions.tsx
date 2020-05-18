@@ -176,6 +176,7 @@ const PostActions: React.FC<Props> = ({
       TOKEN_CONTRACT,
     );
 
+    console.log('result=>', result);
     if (result) {
       // update post tip count
       const postTipData = {
@@ -185,6 +186,7 @@ const PostActions: React.FC<Props> = ({
         trxId: result.transaction_id,
         blockTime: result.processed.action_traces[0].block_time,
       };
+      console.log('postTipData=>', postTipData);
 
       karmaApi
         .post('/post/tip', postTipData)
