@@ -46,46 +46,34 @@ export const tx = async (name: string, data: any, path: string, contract = 'thek
         }
         const scatter = ScatterJS.scatter;
         const requiredFields = { accounts: [network] };
-        scatter
-          .getIdentity(requiredFields)
-          .then(() => {
-            const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
-            const eosOptions = { expireInSeconds: 60 };
-            const eos = scatter.eos(network, Eos, eosOptions);
+        scatter.getIdentity(requiredFields).then(async () => {
+          const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
+          const eosOptions = { expireInSeconds: 60 };
+          const eos = scatter.eos(network, Eos, eosOptions);
 
-            eos
-              .transaction(
+          const result = await eos.transaction(
+            {
+              actions: [
                 {
-                  actions: [
+                  account: contract,
+                  name: name,
+                  authorization: [
                     {
-                      account: contract,
-                      name: name,
-                      authorization: [
-                        {
-                          actor: account.name,
-                          permission: account.authority,
-                        },
-                      ],
-                      data: theObj,
+                      actor: account.name,
+                      permission: account.authority,
                     },
                   ],
+                  data: theObj,
                 },
-                {
-                  broadcast: true,
-                  sign: true,
-                },
-              )
-              .then(trx => {
-                return trx;
-              })
-              .catch(error => {
-                // eslint-disable-next-line no-console
-                console.error(error);
-              });
-          })
-          .catch(err => {
-            console.error(err);
-          });
+              ],
+            },
+            {
+              broadcast: true,
+              sign: true,
+            },
+          );
+          return result;
+        });
       });
     } catch (error) {
       // eslint-disable-next-line no-console
