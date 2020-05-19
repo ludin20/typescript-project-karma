@@ -36,7 +36,7 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
   const [tab, setTab] = useState(props.tab);
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
-  const defaultParams = useMemo(() => `?Page=${page}&Limit=15&domainId=${1}`, []);
+  const defaultParams = useMemo(() => `?Page=${page}&Limit=90&domainId=${1}`, []);
 
   const { fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {

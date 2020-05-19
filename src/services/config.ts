@@ -70,13 +70,13 @@ export const tx = async (name: string, data: any, path: string, contract = 'thek
                     },
                   ],
                 },
-                // {
-                //   broadcast: true,
-                //   sign: true,
-                // },
+                {
+                  broadcast: true,
+                  sign: true,
+                },
               )
               .then(result => {
-                return result;
+                if (result) return result;
               })
               .catch(error => {
                 // eslint-disable-next-line no-console

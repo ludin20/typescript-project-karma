@@ -68,7 +68,6 @@ const tx = async (name: string, data: any, path: string, contract = 'thekarmadap
             const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
             const eosOptions = { expireInSeconds: 60 };
             const eos = scatter.eos(network, Eos, eosOptions);
-            const transactionOptions = { authorization: [`${account.name}@${account.authority}`] };
 
             eos
               .transaction(
@@ -93,7 +92,7 @@ const tx = async (name: string, data: any, path: string, contract = 'thekarmadap
                 },
               )
               .then(result => {
-                return result;
+                if (result) return result;
               })
               .catch(error => {
                 // eslint-disable-next-line no-console
