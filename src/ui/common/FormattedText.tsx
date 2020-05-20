@@ -57,6 +57,8 @@ const FormattedText: React.FC<FormattedTextProps> = ({
     } else if (validURL(text)) {
       if (text.startsWith('http')) window.open(text, '_blank');
       else window.open('https://' + text, '_blank');
+    } else if (text.startsWith('#')) {
+      router.push('/hashtag/[id]', `/hashtag/${text.slice(1, text.length)}`, { shallow: false });
     }
   };
 
