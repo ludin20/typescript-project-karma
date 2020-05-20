@@ -31,6 +31,7 @@ const greenText = css`
 interface Props {
   data: {
     sender: string;
+    receiver: string;
     trx_id: string;
     receiver: string;
     action: string;
@@ -50,6 +51,7 @@ interface Props {
 }
 
 const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
+  console.log(data);
   return (
     <Container>
       <strong>Recent</strong>
@@ -60,82 +62,83 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
         hasMore={data.length > 0 && data[data.length - 1]['action'] != 'end'}
       >
         {data.map((item, index) => {
-          switch (item.action) {
-            case 'Upvote':
-              return (
-                <ActivityItem
-                  key={index}
-                  icon={heart}
-                  avatar={item.sender_profile_hash}
-                  author={item.sender}
-                  displayname={item.sender_displayname}
-                  action="liked your post:"
-                  date={item.created_at}
-                  post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
-                />
-              );
-            case 'Createcmmt':
-              return (
-                <ActivityItem
-                  key={index}
-                  icon={comment}
-                  avatar={item.sender_profile_hash}
-                  author={item.sender}
-                  displayname={item.sender_displayname}
-                  action="commented on your post:"
-                  post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
-                  date={item.created_at}
-                />
-              );
-            case 'tip':
-              return (
-                <ActivityItem
-                  key={index}
-                  icon={tip}
-                  avatar={item.sender_profile_hash}
-                  author={item.sender}
-                  displayname={item.sender_displayname}
-                  action="tipped you:"
-                  post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
-                  date={item.created_at}
-                  content={item.data}
-                  contentCss={greenText}
-                />
-              );
-            case 'recycle':
-              return (
-                <ActivityItem
-                  key={index}
-                  icon={recycled}
-                  avatar={item.sender_profile_hash}
-                  author={item.sender}
-                  displayname={item.sender_displayname}
-                  action="recycled your post:"
-                  date={item.created_at}
-                  post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
-                  content={`"${item.data}"`}
-                />
-              );
-            case 'Transfer':
-              return (
-                <ActivityItem
-                  key={index}
-                  icon={sent}
-                  avatar={item.sender_profile_hash}
-                  author={item.sender}
-                  displayname={item.sender_displayname}
-                  action="sent you:"
-                  date={item.created_at}
-                  content={item.data}
-                  contentCss={greenText}
-                />
-              );
-            default:
-              return null;
+          if (item.sender != item.receiver) {
+            switch (item.action) {
+              case 'Upvote':
+                return (
+                  <ActivityItem
+                    key={index}
+                    icon={heart}
+                    avatar={item.sender_profile_hash}
+                    author={item.sender}
+                    displayname={item.sender_displayname}
+                    action="liked your post:"
+                    date={item.created_at}
+                    post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
+                  />
+                );
+              case 'Createcmmt':
+                return (
+                  <ActivityItem
+                    key={index}
+                    icon={comment}
+                    avatar={item.sender_profile_hash}
+                    author={item.sender}
+                    displayname={item.sender_displayname}
+                    action="commented on your post:"
+                    post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
+                    date={item.created_at}
+                  />
+                );
+              case 'tip':
+                return (
+                  <ActivityItem
+                    key={index}
+                    icon={tip}
+                    avatar={item.sender_profile_hash}
+                    author={item.sender}
+                    displayname={item.sender_displayname}
+                    action="tipped you:"
+                    post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
+                    date={item.created_at}
+                    content={item.data}
+                    contentCss={greenText}
+                  />
+                );
+              case 'recycle':
+                return (
+                  <ActivityItem
+                    key={index}
+                    icon={recycled}
+                    avatar={item.sender_profile_hash}
+                    author={item.sender}
+                    displayname={item.sender_displayname}
+                    action="recycled your post:"
+                    date={item.created_at}
+                    post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
+                    content={`"${item.data}"`}
+                  />
+                );
+              case 'Transfer':
+                return (
+                  <ActivityItem
+                    key={index}
+                    icon={sent}
+                    avatar={item.sender_profile_hash}
+                    author={item.sender}
+                    displayname={item.sender_displayname}
+                    action="sent you:"
+                    date={item.created_at}
+                    content={item.data}
+                    contentCss={greenText}
+                  />
+                );
+              default:
+                return null;
+            }
           }
         })}
       </InfinityScroll>
-      
     </Container>
   );
 };
