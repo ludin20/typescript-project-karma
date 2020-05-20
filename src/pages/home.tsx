@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { NextPage, NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
@@ -7,6 +7,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import graphql from 'graphql-tag';
 
+import { follow } from 'src/services/config';
 import { withAuthSync } from '../auth/WithAuthSync';
 import { withApollo } from '../apollo/Apollo';
 import { KARMA_AUTHOR } from '../common/config';
@@ -49,7 +50,8 @@ const Home: NextPage<Props> = ({ author }) => {
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
   const [upvoted, setUpvoted] = useState(JSON.parse(localStorage.getItem('upvoted')));
-  const { wax, eos, liquidBalance } = useSelector((state: RootState) => state.user.profile);
+  const { wax, eos, liquidBalance, following } = useSelector((state: RootState) => state.user.profile);
+  const defaultParams = useMemo(() => `?Page=${page}&Limit=15&domainId=${1}`, []);
 
   const { fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
@@ -57,7 +59,10 @@ const Home: NextPage<Props> = ({ author }) => {
       upvoted: upvoted,
       page: 1,
       postsStatus: 'home',
-      pathBuilder: () => `posts/home/${author}?Page=${page}&Limit=12&domainId=${1}`,
+      pathBuilder: () =>
+        following.length > 1
+          ? `posts/home/${author}?Page=${page}&Limit=12&domainId=${1}`
+          : `posts/popularv3${defaultParams}`,
     },
     onCompleted: data => {
       const results = data.posts.filter((post, idx) => data.posts.indexOf(post) == idx);
@@ -67,11 +72,14 @@ const Home: NextPage<Props> = ({ author }) => {
 
   const loadMorePosts = () => {
     if (!fetchMore) return;
-
+    const params = `?Page=${page + 1}&Limit=15&domainId=${1}`;
     fetchMore({
       variables: {
         page: page + 1,
-        pathBuilder: () => `posts/home/${author}?Page=${page + 1}&Limit=12&domainId=${1}`,
+        pathBuilder: () =>
+          following.length > 1
+            ? `posts/home/${author}?Page=${page + 1}&Limit=12&domainId=${1}`
+            : `posts/popularv3${params}`,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) {
