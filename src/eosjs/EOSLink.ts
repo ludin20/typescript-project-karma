@@ -64,40 +64,34 @@ const tx = async (name: string, data: any, path: string, contract = 'thekarmadap
         const requiredFields = { accounts: [network] };
         scatter
           .getIdentity(requiredFields)
-          .then(() => {
+          .then(async () => {
             const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
             const eosOptions = { expireInSeconds: 60 };
             const eos = scatter.eos(network, Eos, eosOptions);
 
-            eos
-              .transaction(
-                {
-                  actions: [
-                    {
-                      account: contract,
-                      name: name,
-                      authorization: [
-                        {
-                          actor: account.name,
-                          permission: account.authority,
-                        },
-                      ],
-                      data: theObj,
-                    },
-                  ],
-                },
-                {
-                  broadcast: true,
-                  sign: true,
-                },
-              )
-              .then(result => {
-                if (result) return result;
-              })
-              .catch(error => {
-                // eslint-disable-next-line no-console
-                console.error(error);
-              });
+            const result = await eos.transaction(
+              {
+                actions: [
+                  {
+                    account: contract,
+                    name: name,
+                    authorization: [
+                      {
+                        actor: account.name,
+                        permission: account.authority,
+                      },
+                    ],
+                    data: theObj,
+                  },
+                ],
+              },
+              {
+                broadcast: true,
+                sign: true,
+              },
+            );
+            console.log('result', result);
+            return result;
           })
           .catch(err => {
             console.error(err);
