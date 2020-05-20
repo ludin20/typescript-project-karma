@@ -97,6 +97,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
 
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState([]);
+  const [thoughts, setThoughts] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
 
@@ -127,7 +128,8 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
     },
     onCompleted: data => {
       const results = data.posts.filter((post, idx) => data.posts.indexOf(post) == idx);
-      setPosts(results);
+      if (tab == 'media') setPosts(results);
+      else setThoughts(results);
     },
   });
 
@@ -166,7 +168,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
     },
     {
       name: 'Thoughts',
-      render: () => ProfileThoughts({ profile: profile, posts: posts, loadMore: loadMorePosts }),
+      render: () => ProfileThoughts({ profile: profile, posts: thoughts, loadMore: loadMorePosts }),
     },
   ];
 
