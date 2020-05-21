@@ -1,12 +1,15 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+import cookie from 'js-cookie';
+
 import heart from '../assets/green-heart.svg';
 import comment from '../assets/activity-comment.svg';
 import tip from '../assets/tip-big.png';
 import recycled from '../assets/recycled.svg';
 import sent from '../assets/karmas.png';
 import InfinityScroll from '../common/InfinityScroll';
+import { KARMA_AUTHOR } from '../../common/config';
 
 import ActivityItem from './ActivityItem';
 
@@ -61,7 +64,7 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
         hasMore={data.length > 0 && data[data.length - 1]['action'] != 'end'}
       >
         {data.map((item, index) => {
-          if ((item.sender == item.receiver && item.action == 'Transfer') || item.sender != item.receiver) {
+          if (item.action == 'Transfer' || item.sender != cookie.get(KARMA_AUTHOR)) {
             switch (item.action) {
               case 'Upvote':
                 return (
