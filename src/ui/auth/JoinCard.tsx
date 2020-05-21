@@ -11,6 +11,7 @@ import smartphone from '../assets/smartphone.svg';
 import Text from '../common/Text';
 
 import { authenticateWithScatter } from '../../store/ducks/auth';
+import { authenticateWithWaxCloud } from '../../store/ducks/auth';
 
 const Label = styled(Row)`
   span {
@@ -47,6 +48,14 @@ const ScatterButton = styled(Button)`
   background: #009AFF;
 `;
 
+const WaxCloudButton = styled(Button)`
+  width: 100%;
+  padding: 15px 0;
+  font-size: 20px;
+  font-weight: 900;
+  background: #ff8b1c;
+`;
+
 interface Props {
   label: string;
   input: React.ReactNode;
@@ -62,6 +71,10 @@ const JoinCard: React.FC<Props> = ({ label, input, legend, submitText, loading, 
 
   const onScatterSign = () => {
     dispatch(authenticateWithScatter());
+  };
+
+  const onWaxCloudSign = () => {
+    dispatch(authenticateWithWaxCloud());
   };
 
   return (
@@ -92,6 +105,8 @@ const JoinCard: React.FC<Props> = ({ label, input, legend, submitText, loading, 
       <SubmitButton loading={loading} background="green" disabled={!isValid || loading} type="submit">
         {submitText}
       </SubmitButton>
+      <Space height={20} />
+      <WaxCloudButton onClick={onWaxCloudSign}>Wax Cloud Wallet</WaxCloudButton>
       <Space height={20} />
       <ScatterButton onClick={onScatterSign}>Sign In With Scatter</ScatterButton>
     </FormikProvider>

@@ -51,7 +51,6 @@ interface Props {
 }
 
 const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
-  console.log(data);
   return (
     <Container>
       <strong>Recent</strong>

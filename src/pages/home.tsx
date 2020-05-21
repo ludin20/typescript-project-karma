@@ -71,8 +71,8 @@ const Home: NextPage<Props> = ({ author }) => {
   });
 
   const loadMorePosts = () => {
-    if (!fetchMore) return;
     const params = `?Page=${page + 1}&Limit=15&domainId=${1}`;
+    if (!fetchMore) return;
     fetchMore({
       variables: {
         page: page + 1,

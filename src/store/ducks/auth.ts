@@ -14,6 +14,7 @@ export const types = {
   AUTHENTICATE_CODE_FAILURE: '@auth/AUTHENTICATE_CODE_FAILURE',
   SIGN_FAILURE: '@auth/SIGN_FAILURE',
   SIGN_SCATTER_REQUEST: '@auth/SIGN_SCATTER_REQUEST',
+  SIGN_WAXCLOUD_REQUEST: '@auth/SIGN_WAXCLOUD_REQUEST',
 };
 
 export interface AuthState {
@@ -99,6 +100,10 @@ export default function reducer(state = INITIAL_STATE, action) {
         break;
       }
       case types.SIGN_SCATTER_REQUEST: {
+        draft.loading = false;
+        break;
+      }
+      case types.SIGN_WAXCLOUD_REQUEST: {
         draft.loading = false;
         break;
       }
@@ -188,5 +193,11 @@ export function authenticateCodeFailure() {
 export function authenticateWithScatter() {
   return {
     type: types.SIGN_SCATTER_REQUEST,
+  };
+}
+
+export function authenticateWithWaxCloud() {
+  return {
+    type: types.SIGN_WAXCLOUD_REQUEST,
   };
 }

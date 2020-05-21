@@ -108,12 +108,9 @@ const WalletActions: React.FC<WalletProps> = ({ wax, eos, currentPower, liquidBa
   const claim = async () => {
     try {
       dispatch(actionRequest());
-      console.log("a");
-      const result = await tx("claim", {}, "author", "thekarmadapp");      
+      const result = await tx('claim', {}, 'author', 'thekarmadapp');
       let reward = 0;
-      console.log("b")
       if (result) {
-        console.log('result=>', result);
         try {
           const traces = result.processed.action_traces[0].inline_traces;
 

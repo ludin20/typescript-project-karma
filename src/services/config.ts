@@ -1,4 +1,4 @@
-import { KARMA_SESS, KARMA_AUTHOR, EOS_URL, REQUEST_JWT, RESPONSE_JWT, PUB_KEY, TOKEN_NEWDEX } from '../common/config';
+import { KARMA_TYPE, KARMA_SESS, KARMA_AUTHOR, EOS_URL, REQUEST_JWT, RESPONSE_JWT, PUB_KEY, TOKEN_NEWDEX } from '../common/config';
 
 import JsProvider from './JsProvider';
 import karmaApi from './api';
@@ -12,6 +12,7 @@ const qs = require('querystring');
 import ScatterJS from 'scatterjs-core';
 import ScatterEOS from 'scatterjs-plugin-eosjs';
 import Eos from 'eosjs16';
+import * as waxjs from '@waxio/waxjs/dist';
 
 ScatterJS.plugins(new ScatterEOS());
 
@@ -28,8 +29,43 @@ const api = new Api({
 export const tx = async (name: string, data: any, path: string, contract = 'thekarmadapp') => {
   const accountName = cookie.get(KARMA_AUTHOR);
   const theObj = path ? set(data, path, accountName) : data;
-  const accountType = cookie.get(KARMA_SESS);
-  if (accountType == 'scatter') {
+  const accountType = cookie.get(KARMA_TYPE);
+
+  if (accountType == 'waxcloud') {
+    const publicKey = cookie.get(KARMA_SESS);
+    const accessKey = [publicKey.split('&&')[0], publicKey.split('&&')[1]];
+    const wax = new waxjs.WaxJS('https://wax.greymass.com', accountName, accessKey, false);
+    if (!wax.api) {
+      return;
+    }
+
+    try {
+      const result = await wax.api.transact(
+        {
+          actions: [
+            {
+              account: contract,
+              name: name,
+              authorization: [
+                {
+                  actor: accountName,
+                  permission: 'active',
+                },
+              ],
+              data: theObj,
+            },
+          ],
+        },
+        {
+          blocksBehind: 3,
+          expireSeconds: 30,
+        },
+      );
+      return result;
+    } catch (e) {
+      return;
+    }
+  } else if (accountType == 'scatter') {
     require('isomorphic-fetch');
     const network = {
       blockchain: 'eos',
@@ -74,7 +110,6 @@ export const tx = async (name: string, data: any, path: string, contract = 'thek
                 sign: true,
               },
             );
-            console.log('result=>', result);
             return result;
           })
           .catch(err => {

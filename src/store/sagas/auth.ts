@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import publicIP from 'public-ip';
 import ScatterJS from 'scatterjs-core';
 import ScatterEOS from 'scatterjs-plugin-eosjs';
+import * as waxjs from '@waxio/waxjs/dist';
 
 ScatterJS.plugins(new ScatterEOS());
 
@@ -25,7 +26,7 @@ import {
 } from '../ducks/auth';
 import { defaultProfile } from '../ducks/user';
 
-import { KARMA_SESS, REQUEST_JWT, RESPONSE_JWT, KARMA_AUTHOR, NODE_ENV } from '../../common/config';
+import { KARMA_TYPE, KARMA_SESS, REQUEST_JWT, RESPONSE_JWT, KARMA_AUTHOR, NODE_ENV } from '../../common/config';
 import api from '../../services/api';
 
 export function* sign({ payload }: ReturnType<typeof signRequest>) {
@@ -94,6 +95,7 @@ export function* resendCode({ payload }: ReturnType<typeof resendCodeRequest>) {
 
 export function* authenticateCode({ payload }: ReturnType<typeof authenticateCodeRequest>) {
   try {
+    const accounttype = 'phone';
     const { code } = payload;
 
     const { UserGuid, Author: ReducerAuthor }: AuthState = yield select((state: RootState) => state.auth);
@@ -123,6 +125,7 @@ export function* authenticateCode({ payload }: ReturnType<typeof authenticateCod
 
       cookie.set(KARMA_SESS, private_key, { expires: NODE_ENV !== 'development' ? 1 : 10 });
       cookie.set(KARMA_AUTHOR, Author, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+      cookie.set(KARMA_TYPE, accounttype, { expires: NODE_ENV !== 'development' ? 1 : 10 });
       Router.push('/home');
     }
   } catch (error) {
@@ -134,10 +137,12 @@ export function* signOut() {
   Router.push('/auth/sign');
   cookie.remove(KARMA_SESS);
   cookie.remove(KARMA_AUTHOR);
+  cookie.remove(KARMA_TYPE);
   yield put(signOutSuccess());
 }
 
 export function* signWithScatter() {
+  const accounttype = 'scatter';
   const network = {
     blockchain: 'eos',
     protocol: 'https',
@@ -158,11 +163,12 @@ export function* signWithScatter() {
         .then(() => {
           const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
           if (account.authority == 'active') {
-            const private_key = 'scatter';//account.publicKey;
+            const private_key = account.publicKey;
             const Author = account.name;
             put(authenticateCodeSuccess(private_key, defaultProfile));
             cookie.set(KARMA_SESS, private_key, { expires: NODE_ENV !== 'development' ? 1 : 10 });
             cookie.set(KARMA_AUTHOR, Author, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+            cookie.set(KARMA_TYPE, accounttype, { expires: NODE_ENV !== 'development' ? 1 : 10 });
             Router.push('/home');
             window.ScatterJS = null;
           }
@@ -178,10 +184,48 @@ export function* signWithScatter() {
   }
 }
 
+export function* signWithWaxCloud() {
+  const accounttype = 'waxcloud';
+  const wax = new waxjs.WaxJS('https://wax.greymass.com', null, null, false);
+  autoLogin();
+
+  //checks if autologin is available and calls the normal login function if it is 
+  async function autoLogin() {
+    const isAutoLoginAvailable = await wax.isAutoLoginAvailable();
+    if (isAutoLoginAvailable) {
+      const Author = wax.userAccount;
+      const publickey = wax.pubKeys;
+      const key = publickey[0] + '&&' + publickey[1];
+      put(authenticateCodeSuccess(key, defaultProfile));
+      cookie.set(KARMA_SESS, key, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+      cookie.set(KARMA_AUTHOR, Author, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+      cookie.set(KARMA_TYPE, accounttype, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+      Router.push('/home');
+    } else {
+      login();
+    }
+  }
+
+  //normal login. Triggers a popup for non-whitelisted dapps
+  async function login() {
+    try {
+      const Author = await wax.login();
+      const publickey = wax.pubKeys;
+      const key = publickey[0] + '&&' + publickey[1];
+      put(authenticateCodeSuccess(key, defaultProfile));
+      cookie.set(KARMA_SESS, key, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+      cookie.set(KARMA_AUTHOR, Author, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+      cookie.set(KARMA_TYPE, accounttype, { expires: NODE_ENV !== 'development' ? 1 : 10 });
+      Router.push('/home');
+    } catch (e) {}
+  }
+}
+
 export default all([
   takeLatest(types.SIGN_REQUEST, sign),
   takeLatest(types.RESEND_CODE_REQUEST, resendCode),
   takeLatest(types.AUTHENTICATE_CODE_REQUEST, authenticateCode),
   takeLatest(types.SIGN_OUT_REQUEST, signOut),
   takeLatest(types.SIGN_SCATTER_REQUEST, signWithScatter),
+  takeLatest(types.SIGN_WAXCLOUD_REQUEST, signWithWaxCloud),
 ]);
