@@ -107,8 +107,6 @@ const JoinCard: React.FC<Props> = ({ label, input, legend, submitText, loading, 
       </SubmitButton>
       <Space height={20} />
       <WaxCloudButton onClick={onWaxCloudSign}>Wax Cloud Wallet</WaxCloudButton>
-      <Space height={20} />
-      <ScatterButton onClick={onScatterSign}>Sign In With Scatter</ScatterButton>
     </FormikProvider>
   );
 };

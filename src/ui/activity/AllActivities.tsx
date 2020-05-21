@@ -61,7 +61,7 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
         hasMore={data.length > 0 && data[data.length - 1]['action'] != 'end'}
       >
         {data.map((item, index) => {
-          if (item.sender != item.receiver) {
+          if (item.sender != item.receiver || (item.sender == item.receiver && item.action == 'Transfer')) {
             switch (item.action) {
               case 'Upvote':
                 return (
