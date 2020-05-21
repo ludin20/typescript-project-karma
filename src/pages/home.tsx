@@ -60,7 +60,7 @@ const Home: NextPage<Props> = ({ author }) => {
       page: 1,
       postsStatus: 'home',
       pathBuilder: () =>
-        following.length > 1
+        following.length >= 1
           ? `posts/home/${author}?Page=${page}&Limit=12&domainId=${1}`
           : `posts/popularv3${defaultParams}`,
     },
@@ -77,7 +77,7 @@ const Home: NextPage<Props> = ({ author }) => {
       variables: {
         page: page + 1,
         pathBuilder: () =>
-          following.length > 1
+          following.length >= 1
             ? `posts/home/${author}?Page=${page + 1}&Limit=12&domainId=${1}`
             : `posts/popularv3${params}`,
       },
