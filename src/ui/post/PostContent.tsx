@@ -205,8 +205,21 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                   {medias.map((media, index) =>
                     media.type == 'video' ? (
                       <div>
-                        <Section key={String(index)} isDetails={!isDetails}>
-                          <ShimmerImage src={media.thumbnail} alt="image" css={imgCss} height={500} />
+                        <Section
+                          key={String(index)}
+                          isDetails={!isDetails}
+                          onClick={() => handleClickVideo(index, media.post_id)}
+                        >
+                          <Video
+                            ref={videoStates[index].ref}
+                            height={500}
+                            autoPlay
+                            loop
+                            muted={!videoStates[index].active}
+                            controls={videoStates[index].active}
+                          >
+                            <source src={media.content} type="video/mp4" />
+                          </Video>
                           <PlayButton src={playIcon} alt="play" />
                           <VideoViewCounts>
                             <Text color="white" size={17}>
@@ -229,6 +242,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                             ref={videoStates[index].ref}
                             height={500}
                             autoPlay
+                            loop
                             muted={!videoStates[index].active}
                             controls={videoStates[index].active}
                           >

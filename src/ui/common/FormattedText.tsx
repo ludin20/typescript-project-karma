@@ -19,6 +19,7 @@ const Content = styled.span<ContentProps>`
 
 interface FormattedTextProps {
   content: string;
+  post_id: number;
   contentCss?: FlattenInterpolation<ThemeProps<DefaultTheme>>;
   font?: { size: string; weight: string; color: string };
   maxWidth?: string;
@@ -27,6 +28,7 @@ interface FormattedTextProps {
 
 const FormattedText: React.FC<FormattedTextProps> = ({
   content,
+  post_id,
   contentCss,
   font = { size: '18px', weight: 'bold', color: 'gray' },
   maxWidth,
@@ -59,6 +61,8 @@ const FormattedText: React.FC<FormattedTextProps> = ({
       else window.open('https://' + text, '_blank');
     } else if (text.startsWith('#')) {
       router.push('/hashtag/[id]', `/hashtag/${text.slice(1, text.length)}`, { shallow: false });
+    } else {
+      router.push('/post/[id]', `/post/${post_id}`, { shallow: true });
     }
   };
 

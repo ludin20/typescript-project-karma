@@ -162,16 +162,20 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
       </Row>
       <Caption>
-        <FormattedText content={description} font={{ color: 'white', size: '19px', weight: 'normal' }} />
+        <FormattedText
+          content={description}
+          post_id={post_id}
+          font={{ color: 'white', size: '19px', weight: 'normal' }}
+        />
       </Caption>
 
       <PostContent
         isDetails={props.isDetails}
         content={content}
         size={size}
-        onClick={() => {
-          if (!props.isDetails) router.push('/post/[id]', `/post/${post_id}`, { shallow: true });
-        }}
+        // onClick={() => {
+        //   if (!props.isDetails) router.push('/post/[id]', `/post/${post_id}`, { shallow: true });
+        // }}
         onSuccessAction={onSuccessAction}
       />
       <PostActions
