@@ -52,7 +52,6 @@ const Section = styled.div<{ isDetails?: boolean; active?: boolean }>`
 
 const Video = styled.video`
   width: 100%;
-  height: 500px;
   border-radius: 25px;
 `;
 
@@ -215,6 +214,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                             ref={videoStates[index].ref}
                             autoPlay
                             loop
+                            height={500}
                             muted={!videoStates[index].active}
                             controls={videoStates[index].active}
                           >
