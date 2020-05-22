@@ -52,7 +52,7 @@ const Section = styled.div<{ isDetails?: boolean; active?: boolean }>`
 
 const Video = styled.video`
   width: 100%;
-  height: auto;
+  height: 500px;
   border-radius: 25px;
 `;
 
@@ -60,7 +60,7 @@ const PlayButton = styled.img`
   position: absolute;
   width: 50px;
   height: 50px;
-  bottom: 20px;
+  bottom: 25px;
   right: 20px;
   cursor: pointer;
   opacity: 1;
@@ -206,13 +206,13 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                     media.type == 'video' ? (
                       <div>
                         <Section
+                          height={500}
                           key={String(index)}
                           isDetails={!isDetails}
                           onClick={() => handleClickVideo(index, media.post_id)}
                         >
                           <Video
                             ref={videoStates[index].ref}
-                            height={500}
                             autoPlay
                             loop
                             muted={!videoStates[index].active}
@@ -240,7 +240,6 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                         >
                           <Video
                             ref={videoStates[index].ref}
-                            height={500}
                             autoPlay
                             loop
                             muted={!videoStates[index].active}
