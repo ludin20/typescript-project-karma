@@ -53,6 +53,7 @@ const Section = styled.div<{ isDetails?: boolean; active?: boolean }>`
 const Video = styled.video`
   width: 100%;
   border-radius: 25px;
+  object-fit: cover;
 `;
 
 const PlayButton = styled.img`
