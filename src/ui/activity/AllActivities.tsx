@@ -36,7 +36,6 @@ interface Props {
     sender: string;
     receiver: string;
     trx_id: string;
-    receiver: string;
     action: string;
     data: string;
     memo: string;

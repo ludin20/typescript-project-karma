@@ -4,14 +4,18 @@ export const types = {
   ACTION_REQUEST: '@activity/ACTION_REQUEST',
   ACTION_SUCCESS: '@activity/ACTION_SUCCESS',
   ACTION_FAILURE: '@activity/ACTION_FAILURE',
+  HASMORE_TURE: '@activity/HASMORE_TURE',
+  HASMORE_FAILURE: '@activity/HASMORE_FAILURE',
 };
 
 export interface ActionState {
   loading: boolean;
+  hasMore: boolean;
 }
 
 export const INITIAL_STATE: ActionState = {
   loading: false,
+  hasMore: true,
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
@@ -27,6 +31,14 @@ export default function reducer(state = INITIAL_STATE, action) {
       }
       case types.ACTION_FAILURE: {
         draft.loading = false;
+        break;
+      }
+      case types.HASMORE_TURE: {
+        draft.hasMore = true;
+        break;
+      }
+      case types.HASMORE_FAILURE: {
+        draft.hasMore = false;
         break;
       }
       default:
@@ -49,5 +61,17 @@ export function actionSuccess() {
 export function actionFailure() {
   return {
     type: types.ACTION_FAILURE,
+  };
+}
+
+export function hasMoreSuccess() {
+  return {
+    type: types.HASMORE_TURE,
+  };
+}
+
+export function hasMoreFailure() {
+  return {
+    type: types.HASMORE_FAILURE,
   };
 }

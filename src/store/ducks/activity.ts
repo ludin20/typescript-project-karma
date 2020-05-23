@@ -9,11 +9,13 @@ export const types = {
 export interface ActivityState {
   notifications: number;
   loading: boolean;
+  hasMore: boolean;
 }
 
 export const INITIAL_STATE: ActivityState = {
   notifications: 0,
   loading: false,
+  hasMore: true,
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
