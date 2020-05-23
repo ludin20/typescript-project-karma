@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import { useSelector, connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 import { useQuery } from '@apollo/react-hooks';
@@ -12,14 +13,29 @@ import { withApollo } from '../../apollo/Apollo';
 import { KARMA_AUTHOR } from '../../common/config';
 import validateTab from '../../util/validateTab';
 import { useS3PostsMedias } from '../../hooks';
+import { RootState } from '../../store/ducks/rootReducer';
 
 const GET_POSTS = graphql`
   query posts($accountname: String!, $page: Int, $pathBuilder: any, $postsStatus: String) {
     posts(accountname: $accountname, page: $page, postsStatus: $postsStatus)
       @rest(type: "Post", pathBuilder: $pathBuilder) {
       post_id
+      author
+      author_displayname
+      author_profilehash
+      description
+      voteStatus(upvoted: $upvoted) @client
+      created_at
+      last_edited_at
       imagehashes
       videohashes
+      category_ids
+      upvote_count
+      downvote_count
+      comment_count
+      tip_count
+      video_count
+      username
     }
   }
 `;
@@ -27,9 +43,10 @@ const GET_POSTS = graphql`
 interface Props {
   tab: string;
   author: string;
+  viewForm: boolean;
 }
 
-const Discover: NextPage<Props> = ({ author, ...props }) => {
+const Discover: NextPage<Props> = ({ author, viewForm, ...props }) => {
   const router = useRouter();
   const imgRef = useRef();
 
@@ -37,10 +54,13 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const defaultParams = useMemo(() => `?Page=${page}&Limit=90&domainId=${1}`, []);
+  const { wax, eos, liquidBalance, following } = useSelector((state: RootState) => state.user.profile);
+  const [upvoted, setUpvoted] = useState(JSON.parse(localStorage.getItem('upvoted')));
 
   const { fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
       accountname: author,
+      upvoted: upvoted,
       page: 1,
       postsStatus: 'home',
       pathBuilder: () => (tab === 'popular' ? `posts/popularv3${defaultParams}` : `posts${defaultParams}`),
@@ -93,11 +113,34 @@ const Discover: NextPage<Props> = ({ author, ...props }) => {
     () => [
       {
         name: 'Popular',
-        render: () => Template({ medias, loadMore: loadMorePosts, renderedRef: imgRef }),
+        render: () =>
+          Template({
+            posts,
+            medias,
+            loadMore: loadMorePosts,
+            renderedRef: imgRef,
+            wax: wax,
+            eos: eos,
+            liquidBalance: liquidBalance,
+            upvoted: upvoted,
+            viewForm: viewForm,
+            isProfile: false,
+          }),
       },
       {
         name: 'New',
-        render: () => Template({ medias, loadMore: loadMorePosts, renderedRef: imgRef }),
+        render: () =>
+          Template({
+            posts,
+            medias,
+            loadMore: loadMorePosts,
+            renderedRef: imgRef,
+            eos: eos,
+            liquidBalance: liquidBalance,
+            upvoted: upvoted,
+            viewForm: viewForm,
+            isProfile: false,
+          }),
       },
     ],
     [loadMorePosts, medias],
@@ -127,4 +170,8 @@ Discover.getInitialProps = async (ctx: Context) => {
   };
 };
 
-export default withAuthSync(withApollo({ ssr: true })(Discover));
+const mapStateToProps = state => ({
+  viewForm: state.action.viewForm,
+});
+
+export default connect(mapStateToProps)(withAuthSync(withApollo({ ssr: true })(Discover)));

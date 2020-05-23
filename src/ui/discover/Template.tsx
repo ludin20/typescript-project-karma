@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
 
 import InfinityScroll from '../common/InfinityScroll';
 import ShimmerImage from '../common/ShimmerImage';
 import Grid from '../common/Grid';
+import { PostCard, Space } from '../../ui';
+import Row from '../common/Row';
 
 import playIcon from '../assets/play.svg';
+import gridIcon from '../assets/grid.png';
+import listIcon from '../assets/list.png';
+
+import { viewFormTrue, viewFormFalse } from '../../store/ducks/action';
 
 const Section = styled.div`
   position: relative;
+`;
+
+const viewPortCss = css`
+  justify-content: flex-end;
+`;
+
+const viewPortBtnCss = css`
+  width: 30px;
+  height: 30px;
 `;
 
 const PlayButton = styled.img`
@@ -48,38 +64,117 @@ const imageCss = css`
   }
 `;
 
-interface Props {
-  renderedRef?: any;
-  medias: Array<{ post_id: string; type: string; content: string; thumbnail?: string }>;
-  loadMore(): void;
+export interface PostInterface {
+  post_id: number;
+  author: string;
+  author_displayname: string;
+  author_profilehash: string;
+  description: string;
+  voteStatus: any;
+  created_at: string;
+  last_edited_at: any;
+  imagehashes: [];
+  videohashes: [];
+  category_ids: [];
+  upvote_count: number;
+  downvote_count: number;
+  comment_count: number;
+  tip_count: number;
+  video_count: any;
+  username: string;
+  __typename: string;
 }
 
-const Template: React.FC<Props> = ({ renderedRef, medias, loadMore }) => {
+interface Props {
+  renderedRef?: any;
+  posts: Array<PostInterface>;
+  medias: Array<{ post_id: string; type: string; content: string; thumbnail?: string }>;
+  loadMore(): void;
+  wax?: number;
+  eos?: number;
+  liquidBalance?: number;
+  upvoted?: Array<string>;
+  viewForm?: boolean;
+  isProfile?: boolean;
+}
+
+const Template: React.FC<Props> = ({
+  renderedRef,
+  posts,
+  medias,
+  loadMore,
+  wax,
+  eos,
+  liquidBalance,
+  upvoted,
+  viewForm,
+  isProfile,
+}) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const viewPortListButtonClicked = () => {
+    dispatch(viewFormFalse());
+  };
+
+  const viewPortGridButtonClicked = () => {
+    dispatch(viewFormTrue());
+  };
 
   return (
-    <InfinityScroll length={medias.length} loadMore={loadMore} hasMore={medias.length > 0}>
-      <SkeletonTheme color="#191A19" highlightColor="#333">
-        <Grid columns="3" gap="24px" align css={gridCss}>
-          {medias.map((media, index) => (
-            <Section
-              ref={index == 0 ? renderedRef : null}
-              key={String(index)}
-              onClick={() => router.push('/post/[id]', `/post/${media.post_id}`, { shallow: true })}
-            >
-              <ShimmerImage
-                src={media.type == 'video' ? media.thumbnail : media.content}
-                alt="discover"
-                css={imageCss}
-                height={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : null}
-                width={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : null}
-              />
-              {media.type == 'video' ? <PlayButton src={playIcon} alt="play" /> : null}
-            </Section>
-          ))}
-        </Grid>
-      </SkeletonTheme>
-    </InfinityScroll>
+    <div>
+      {!isProfile ? (
+        <Row align="center" css={viewPortCss}>
+          <img src={gridIcon} alt="grid" onClick={viewPortGridButtonClicked} css={viewPortBtnCss} />
+          <img src={listIcon} alt="list" onClick={viewPortListButtonClicked} css={viewPortBtnCss} />
+        </Row>
+      ) : (
+        <div />
+      )}
+      <InfinityScroll length={posts.length} loadMore={loadMore} hasMore={posts.length > 0}>
+        {viewForm ? (
+          <SkeletonTheme color="#191A19" highlightColor="#333">
+            <Space height={30} />
+            <Grid columns="3" gap="24px" align css={gridCss}>
+              {medias.map((media, index) => (
+                <Section
+                  ref={index == 0 ? renderedRef : null}
+                  key={String(index)}
+                  onClick={() => router.push('/post/[id]', `/post/${media.post_id}`, { shallow: true })}
+                >
+                  <ShimmerImage
+                    src={media.type == 'video' ? media.thumbnail : media.content}
+                    alt="discover"
+                    css={imageCss}
+                    height={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : null}
+                    width={renderedRef && renderedRef.current ? renderedRef.current.clientWidth : null}
+                  />
+                  {media.type == 'video' ? <PlayButton src={playIcon} alt="play" /> : null}
+                </Section>
+              ))}
+            </Grid>
+          </SkeletonTheme>
+        ) : (
+          <div>
+            {!isProfile ? <Space height={20} /> : <div />};
+            {posts.map((post, index) => (
+              <React.Fragment key={String(index)}>
+                {index > 0 && <Space height={40} />}
+                <PostCard
+                  post={post}
+                  wax={wax}
+                  eos={eos}
+                  liquidBalance={Math.floor(liquidBalance)}
+                  upvoted={upvoted}
+                  withFollowButton={false}
+                  isDetails={false}
+                />
+              </React.Fragment>
+            ))}
+          </div>
+        )}
+      </InfinityScroll>
+    </div>
   );
 };
 

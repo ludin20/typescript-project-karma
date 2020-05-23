@@ -164,7 +164,15 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
   const tabs = [
     {
       name: 'Media',
-      render: () => Template({ medias: medias, loadMore: loadMorePosts, renderedRef: imgRef }),
+      render: () =>
+        Template({
+          medias: medias,
+          posts: posts,
+          loadMore: loadMorePosts,
+          renderedRef: imgRef,
+          viewForm: false,
+          isProfile: true,
+        }),
     },
     {
       name: 'Thoughts',

@@ -173,9 +173,9 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         isDetails={props.isDetails}
         content={content}
         size={size}
-        // onClick={() => {
-        //   if (!props.isDetails) router.push('/post/[id]', `/post/${post_id}`, { shallow: true });
-        // }}
+        onClick={() => {
+          if (!props.isDetails) router.push('/post/[id]', `/post/${post_id}`, { shallow: true });
+        }}
         onSuccessAction={onSuccessAction}
       />
       <PostActions
