@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
 
+import { useS3PostMedias } from '../../hooks';
 import Avatar from '../common/Avatar';
 import FollowButton from '../common/FollowButton';
 import Space from '../common/Space';
@@ -174,7 +175,9 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         content={content}
         size={size}
         onClick={() => {
-          if (!props.isDetails) router.push('/post/[id]', `/post/${post_id}`, { shallow: true });
+          const media = useS3PostMedias(content, 'thumbBig');
+          if (!props.isDetails && media[0].type != 'video')
+            router.push('/post/[id]', `/post/${post_id}`, { shallow: true });
         }}
         onSuccessAction={onSuccessAction}
       />
