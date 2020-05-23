@@ -40,7 +40,7 @@ export interface UserState {
 
 export const defaultProfile: ProfileProps = {
   displayname: 'Full Name',
-  username: '@username',
+  username: 'username',
   hash: '',
   bio: '',
   followers: [],
