@@ -138,7 +138,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
     },
     onCompleted: data => {
       const results = data.posts.filter((post, idx) => data.posts.indexOf(post) == idx);
-      if (results.length == 0) dispatch(hasMoreFalse());
+      if (results.length < 12) dispatch(hasMoreFalse());
       if (tab == 'media') setPosts(results);
       else setThoughts(results);
     },
@@ -151,6 +151,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
           `posts/account/${username}?Page=${page + 1}&Limit=12&post_type=${tab == 'media' ? 1 : 2}&domainId=${1}`,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
+        console.log(fetchMoreResult);
         if (!fetchMoreResult) {
           dispatch(hasMoreFalse());
           return Object.assign({}, previousResult, {
