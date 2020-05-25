@@ -213,7 +213,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                         >
                           <Video
                             ref={videoStates[index].ref}
-                            playsinline
+                            playsInline
                             autoPlay
                             loop
                             height={500}
@@ -242,7 +242,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                         >
                           <Video
                             ref={videoStates[index].ref}
-                            playsinline
+                            playsInline
                             autoPlay
                             loop
                             muted={!videoStates[index].active}
