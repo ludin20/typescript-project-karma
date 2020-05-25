@@ -151,7 +151,6 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
           `posts/account/${username}?Page=${page + 1}&Limit=12&post_type=${tab == 'media' ? 1 : 2}&domainId=${1}`,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
-        console.log(fetchMoreResult);
         if (!fetchMoreResult) {
           dispatch(hasMoreFalse());
           return Object.assign({}, previousResult, {

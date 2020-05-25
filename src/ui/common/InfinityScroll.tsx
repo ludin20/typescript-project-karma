@@ -13,7 +13,6 @@ interface InfinityScrollProps {
   hasMore?: boolean;
 }
 const InfinityScroll: React.FC<InfinityScrollProps> = ({ children, loadMore, hasMore, length }) => {
-  console.log('hasmore', hasMore);
   return (
     <ReactInfiniteScroll
       dataLength={length}
