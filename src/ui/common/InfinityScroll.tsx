@@ -1,17 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import ReactInfiniteScroll from 'react-infinite-scroll-component';
 
 import Loading from './Loading';
 import Text from './Text';
 import Row from './Row';
+import { has } from 'immer/dist/common';
 
 interface InfinityScrollProps {
   loadMore(): void;
   length: number;
   hasMore?: boolean;
 }
-
 const InfinityScroll: React.FC<InfinityScrollProps> = ({ children, loadMore, hasMore, length }) => {
+  console.log('hasmore', hasMore);
   return (
     <ReactInfiniteScroll
       dataLength={length}
@@ -31,4 +33,8 @@ const InfinityScroll: React.FC<InfinityScrollProps> = ({ children, loadMore, has
   );
 };
 
-export default InfinityScroll;
+const mapStateToProps = state => ({
+  hasMore: state.action.hasMore,
+});
+
+export default connect(mapStateToProps)(InfinityScroll);

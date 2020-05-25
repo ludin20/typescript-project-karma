@@ -18,7 +18,7 @@ interface Props {
 
 const ProfileThoughts: React.FC<Props> = ({ posts, profile, loadMore }) => {
   return (
-    <InfinityScroll length={posts.length} loadMore={loadMore} hasMore={posts.length > 0}>
+    <InfinityScroll length={posts.length} loadMore={loadMore}>
       <SkeletonTheme color="#191A19" highlightColor="#333">
         <Container>
           {posts.map((post, index) => (

@@ -12,6 +12,7 @@ import { labels } from '../ui/layout';
 import { readNotificationsRequest } from '../store/ducks/activity';
 import { withApollo } from '../apollo/Apollo';
 import { KARMA_AUTHOR } from '../common/config';
+import { hasMoreTrue, hasMoreFalse } from '../store/ducks/action';
 
 const GET_NOTIFICATIONS = graphql`
   query Notifications($accountname: String!, $page: Int, $pathBuilder: any) {
@@ -65,6 +66,7 @@ const Activity: NextPage<Props> = ({ author }) => {
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult || fetchMoreResult.notifications.length == 0) {
+          dispatch(hasMoreFalse());
           return Object.assign({}, previousResult, {
             notifications: [
               ...previousResult.notifications,
@@ -72,7 +74,8 @@ const Activity: NextPage<Props> = ({ author }) => {
             ],
           });
         }
-
+        if (fetchMoreResult.notifications.length < 12) dispatch(hasMoreFalse());
+        else dispatch(hasMoreTrue());
         setPage(page + 1);
         return Object.assign({}, previousResult, {
           notifications: [...previousResult.notifications, ...fetchMoreResult.notifications],

@@ -57,7 +57,7 @@ const ProfileMedia: React.FC<Props> = ({ posts }) => {
   };
 
   return (
-    <InfinityScroll length={posts.length} hasMore={false} loadMore={null}>
+    <InfinityScroll length={posts.length} loadMore={null}>
       <SkeletonTheme color="#191A19" highlightColor="#333">
         <Grid columns="3" gap="24px" align css={containerCss}>
           {posts.map(

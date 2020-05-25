@@ -76,13 +76,13 @@ export function actionFailure() {
   };
 }
 
-export function hasMoreSuccess() {
+export function hasMoreTrue() {
   return {
     type: types.HASMORE_TURE,
   };
 }
 
-export function hasMoreFailure() {
+export function hasMoreFalse() {
   return {
     type: types.HASMORE_FAILURE,
   };

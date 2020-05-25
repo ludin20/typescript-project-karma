@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
-import { useSelector, connect } from 'react-redux';
+import { useSelector, connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 import { useQuery } from '@apollo/react-hooks';
@@ -14,6 +14,7 @@ import { KARMA_AUTHOR } from '../../common/config';
 import validateTab from '../../util/validateTab';
 import { useS3PostsMedias } from '../../hooks';
 import { RootState } from '../../store/ducks/rootReducer';
+import { hasMoreTrue, hasMoreFalse } from '../../store/ducks/action';
 
 const GET_POSTS = graphql`
   query posts($accountname: String!, $page: Int, $pathBuilder: any, $postsStatus: String) {
@@ -49,11 +50,12 @@ interface Props {
 const Discover: NextPage<Props> = ({ author, viewForm, ...props }) => {
   const router = useRouter();
   const imgRef = useRef();
+  const dispatch = useDispatch();
 
   const [tab, setTab] = useState(props.tab);
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
-  const defaultParams = useMemo(() => `?Page=${page}&Limit=90&domainId=${1}`, []);
+  const defaultParams = useMemo(() => `?Page=${page}&Limit=15&domainId=${1}`, []);
   const { wax, eos, liquidBalance, following } = useSelector((state: RootState) => state.user.profile);
   const [upvoted, setUpvoted] = useState(JSON.parse(localStorage.getItem('upvoted')));
 
@@ -62,7 +64,7 @@ const Discover: NextPage<Props> = ({ author, viewForm, ...props }) => {
       accountname: author,
       upvoted: upvoted,
       page: 1,
-      postsStatus: 'home',
+      postsStatus: 'discover',
       pathBuilder: () => (tab === 'popular' ? `posts/popularv3${defaultParams}` : `posts${defaultParams}`),
     },
     onCompleted: data => {
@@ -99,8 +101,11 @@ const Discover: NextPage<Props> = ({ author, viewForm, ...props }) => {
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) {
+          dispatch(hasMoreFalse());
           return previousResult;
         }
+        if (fetchMoreResult.posts.length < 15) dispatch(hasMoreFalse());
+        else dispatch(hasMoreTrue());
         setPage(page + 1);
         return Object.assign({}, previousResult, {
           posts: [...previousResult.posts, ...fetchMoreResult.posts],

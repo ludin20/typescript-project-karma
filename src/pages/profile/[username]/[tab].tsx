@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { NextPage, NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
@@ -19,9 +19,17 @@ import { useS3PostsMedias } from '../../../hooks';
 import validateTab from '../../../util/validateTab';
 import { KARMA_AUTHOR } from '../../../common/config';
 import { RootState } from '../../../store/ducks/rootReducer';
+import { hasMoreTrue, hasMoreFalse } from '../../../store/ducks/action';
 
 const GET_PROFILE = graphql`
-  query profile($accountname: String!, $me: String!, $profilePath: any, $postsPath: any, $followersPath: any, $followingPath: any) {
+  query profile(
+    $accountname: String!
+    $me: String!
+    $profilePath: any
+    $postsPath: any
+    $followersPath: any
+    $followingPath: any
+  ) {
     profile(accountname: $accountname) @rest(type: "Profile", pathBuilder: $profilePath) {
       displayname
       author
@@ -101,6 +109,8 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (!userData || !userData.profile || !profile) {
       router.back();
@@ -140,7 +150,8 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
           `posts/account/${username}?Page=${page + 1}&Limit=12&post_type=${tab == 'media' ? 1 : 2}&domainId=${1}`,
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult || fetchMoreResult.posts.length == 0) {
+        if (!fetchMoreResult) {
+          dispatch(hasMoreFalse());
           return Object.assign({}, previousResult, {
             posts: [
               ...previousResult.posts,
@@ -148,7 +159,8 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
             ],
           });
         }
-
+        if (previousResult.posts.length < 12) dispatch(hasMoreFalse());
+        else dispatch(hasMoreTrue());
         setPage(page + 1);
         return Object.assign({}, previousResult, {
           posts: [...previousResult.posts, ...fetchMoreResult.posts],

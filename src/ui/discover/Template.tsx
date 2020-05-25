@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
 
 import InfinityScroll from '../common/InfinityScroll';
 import ShimmerImage from '../common/ShimmerImage';
@@ -108,7 +107,7 @@ const Template: React.FC<Props> = ({
 
   return (
     <div>
-      <InfinityScroll length={posts.length} loadMore={loadMore} hasMore={posts.length > 0}>
+      <InfinityScroll length={posts.length} loadMore={loadMore}>
         {viewForm ? (
           <SkeletonTheme color="#191A19" highlightColor="#333">
             <Grid columns="3" gap="24px" align css={gridCss}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NextPage, NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
 import ApolloClient from 'apollo-client';
@@ -16,6 +16,7 @@ import { Title, PostCard, Space, InfinityScroll, Loading } from '../ui';
 import { labels } from '../ui/layout';
 
 import { RootState } from '../store/ducks/rootReducer';
+import { hasMoreTrue, hasMoreFalse } from '../store/ducks/action';
 
 const GET_POSTS = graphql`
   query posts($accountname: String!, $upvoted: Array, $page: Int, $pathBuilder: any, $postsStatus: String) {
@@ -51,7 +52,7 @@ const Home: NextPage<Props> = ({ author }) => {
   const [posts, setPosts] = useState([]);
   const [upvoted, setUpvoted] = useState(JSON.parse(localStorage.getItem('upvoted')));
   const { wax, eos, liquidBalance, following } = useSelector((state: RootState) => state.user.profile);
-  const defaultParams = useMemo(() => `?Page=${page}&Limit=15&domainId=${1}`, []);
+  const dispatch = useDispatch();
 
   const { fetchMore, loading } = useQuery(GET_POSTS, {
     variables: {
@@ -62,7 +63,7 @@ const Home: NextPage<Props> = ({ author }) => {
       pathBuilder: () =>
         following.length >= 1
           ? `posts/home/${author}?Page=${page}&Limit=12&domainId=${1}`
-          : `posts/popularv3${defaultParams}`,
+          : `posts/popularv3?Page=${page}&Limit=15&domainId=${1}`,
     },
     onCompleted: data => {
       const results = data.posts.filter((post, idx) => data.posts.indexOf(post) == idx);
@@ -83,9 +84,16 @@ const Home: NextPage<Props> = ({ author }) => {
       },
       updateQuery: (previousResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) {
+          dispatch(hasMoreFalse());
           return previousResult;
         }
-
+        if (following.length >= 1) {
+          if (fetchMoreResult.posts.length < 12) dispatch(hasMoreFalse());
+          else dispatch(hasMoreTrue());
+        } else {
+          if (fetchMoreResult.posts.length < 15) dispatch(hasMoreFalse());
+          else dispatch(hasMoreTrue());
+        }
         setPage(page + 1);
         return Object.assign({}, previousResult, {
           posts: [...previousResult.posts, ...fetchMoreResult.posts],
@@ -104,7 +112,7 @@ const Home: NextPage<Props> = ({ author }) => {
         <>
           <Space height={20} />
           {posts ? (
-            <InfinityScroll length={posts.length} loadMore={loadMorePosts} hasMore={posts.length > 0}>
+            <InfinityScroll length={posts.length} loadMore={loadMorePosts}>
               {posts.map((post, index) => (
                 <React.Fragment key={String(index)}>
                   {index > 0 && <Space height={40} />}
