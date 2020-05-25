@@ -112,8 +112,12 @@ const ActivityItem: React.FC<Props> = ({
               </p>
               <Space height={10} />
 
-              {content && <FormattedText content={content} contentCss={contentCss} maxWidth="500px" />}
-              <Space height={10} />
+              {content && (
+                <div>
+                  <FormattedText content={content} contentCss={contentCss} maxWidth="500px" />
+                  <Space height={10} />{' '}
+                </div>
+              )}
 
               <DateText>{formattedDate}</DateText>
             </Column>
