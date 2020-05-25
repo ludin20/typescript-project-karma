@@ -16,9 +16,19 @@ interface Props {
   tabs: TabInterface[];
   size?: 'default' | 'big';
   loading?: boolean;
+  viewForm?: boolean;
+  isViewFormShow?: boolean;
 }
 
-const Tabs: React.FC<Props> = ({ title, tabs, paramTab, size = 'default', loading }) => {
+const Tabs: React.FC<Props> = ({
+  title,
+  tabs,
+  paramTab,
+  size = 'default',
+  loading,
+  viewForm,
+  isViewFormShow = false,
+}) => {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -30,7 +40,14 @@ const Tabs: React.FC<Props> = ({ title, tabs, paramTab, size = 'default', loadin
 
   return (
     <>
-      <TabsHeader tabs={tabs} setActive={setActive} active={active} size={size}>
+      <TabsHeader
+        tabs={tabs}
+        setActive={setActive}
+        active={active}
+        size={size}
+        viewForm={viewForm}
+        isViewFormShow={isViewFormShow}
+      >
         {title}
       </TabsHeader>
       <Space height={30} />

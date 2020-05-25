@@ -11,10 +11,6 @@ import { PostCard, Space } from '../../ui';
 import Row from '../common/Row';
 
 import playIcon from '../assets/play.svg';
-import gridIcon from '../assets/grid.png';
-import listIcon from '../assets/list.png';
-
-import { viewFormTrue, viewFormFalse } from '../../store/ducks/action';
 
 const Section = styled.div`
   position: relative;
@@ -95,7 +91,6 @@ interface Props {
   liquidBalance?: number;
   upvoted?: Array<string>;
   viewForm?: boolean;
-  isProfile?: boolean;
 }
 
 const Template: React.FC<Props> = ({
@@ -108,29 +103,11 @@ const Template: React.FC<Props> = ({
   liquidBalance,
   upvoted,
   viewForm,
-  isProfile,
 }) => {
   const router = useRouter();
-  const dispatch = useDispatch();
-
-  const viewPortListButtonClicked = () => {
-    dispatch(viewFormFalse());
-  };
-
-  const viewPortGridButtonClicked = () => {
-    dispatch(viewFormTrue());
-  };
 
   return (
     <div>
-      {!isProfile ? (
-        <Row align="center" css={viewPortCss}>
-          <img src={gridIcon} alt="grid" onClick={viewPortGridButtonClicked} css={viewPortBtnCss} />
-          <img src={listIcon} alt="list" onClick={viewPortListButtonClicked} css={viewPortBtnCss} />
-        </Row>
-      ) : (
-        <div />
-      )}
       <InfinityScroll length={posts.length} loadMore={loadMore} hasMore={posts.length > 0}>
         {viewForm ? (
           <SkeletonTheme color="#191A19" highlightColor="#333">
@@ -156,7 +133,6 @@ const Template: React.FC<Props> = ({
           </SkeletonTheme>
         ) : (
           <div>
-            {!isProfile ? <Space height={20} /> : <div />};
             {posts.map((post, index) => (
               <React.Fragment key={String(index)}>
                 {index > 0 && <Space height={40} />}

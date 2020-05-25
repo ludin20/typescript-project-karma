@@ -171,7 +171,6 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
           loadMore: loadMorePosts,
           renderedRef: imgRef,
           viewForm: false,
-          isProfile: true,
         }),
     },
     {

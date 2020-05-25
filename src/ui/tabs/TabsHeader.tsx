@@ -1,6 +1,11 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+
+import gridIcon from '../assets/grid.png';
+import listIcon from '../assets/list.png';
+import { viewFormTrue, viewFormFalse } from '../../store/ducks/action';
 
 import { TabInterface } from './Tabs';
 
@@ -66,16 +71,33 @@ const Button = styled.button<{ active: boolean; withTitle?: boolean; size: 'defa
     `}
 `;
 
+const viewPortBtnCss = css`
+  margin-left: 30px;
+  width: 30px;
+  height: 25px;
+`;
+
 interface Props {
   children: React.ReactChild;
   tabs?: TabInterface[];
   active: number;
   setActive: (index: number) => void;
   size: 'default' | 'big';
+  viewForm?: boolean;
+  isViewFormShow?: boolean;
 }
 
-const TabsHeader: React.FC<Props> = ({ children, tabs, active, setActive, size }) => {
+const TabsHeader: React.FC<Props> = ({ children, tabs, active, setActive, size, viewForm, isViewFormShow }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const viewPortListButtonClicked = () => {
+    dispatch(viewFormFalse());
+  };
+
+  const viewPortGridButtonClicked = () => {
+    dispatch(viewFormTrue());
+  };
 
   const handleClick = (tabName: string, index: number) => {
     pushToRoute(tabName);
@@ -106,6 +128,12 @@ const TabsHeader: React.FC<Props> = ({ children, tabs, active, setActive, size }
             {tab.name}
           </Button>
         ))}
+        {isViewFormShow && !viewForm && (
+          <img src={gridIcon} alt="grid" onClick={viewPortGridButtonClicked} css={viewPortBtnCss} />
+        )}
+        {isViewFormShow && viewForm && (
+          <img src={listIcon} alt="list" onClick={viewPortListButtonClicked} css={viewPortBtnCss} />
+        )}
       </div>
     </Container>
   ) : (

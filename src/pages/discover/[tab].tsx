@@ -124,7 +124,6 @@ const Discover: NextPage<Props> = ({ author, viewForm, ...props }) => {
             liquidBalance: liquidBalance,
             upvoted: upvoted,
             viewForm: viewForm,
-            isProfile: false,
           }),
       },
       {
@@ -139,14 +138,22 @@ const Discover: NextPage<Props> = ({ author, viewForm, ...props }) => {
             liquidBalance: liquidBalance,
             upvoted: upvoted,
             viewForm: viewForm,
-            isProfile: false,
           }),
       },
     ],
     [loadMorePosts, medias],
   );
 
-  return <Tabs title="Discover" tabs={tabs} paramTab={tab || ''} loading={loading} />;
+  return (
+    <Tabs
+      title="Discover"
+      tabs={tabs}
+      paramTab={tab || ''}
+      loading={loading}
+      viewForm={viewForm}
+      isViewFormShow={true}
+    />
+  );
 };
 
 interface Context extends NextPageContext {
