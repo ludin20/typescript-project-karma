@@ -111,7 +111,6 @@ const Template: React.FC<Props> = ({
       <InfinityScroll length={posts.length} loadMore={loadMore} hasMore={posts.length > 0}>
         {viewForm ? (
           <SkeletonTheme color="#191A19" highlightColor="#333">
-            <Space height={30} />
             <Grid columns="3" gap="24px" align css={gridCss}>
               {medias.map((media, index) => (
                 <Section
