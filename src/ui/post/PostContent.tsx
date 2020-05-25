@@ -216,7 +216,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                             autoPlay
                             loop
                             height={500}
-                            muted={!videoStates[index].active}
+                            muted
                             controls={videoStates[index].active}
                           >
                             <source src={media.content} type="video/mp4" />
