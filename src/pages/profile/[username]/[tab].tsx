@@ -138,6 +138,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
     },
     onCompleted: data => {
       const results = data.posts.filter((post, idx) => data.posts.indexOf(post) == idx);
+      if (results.length == 0) dispatch(hasMoreFalse());
       if (tab == 'media') setPosts(results);
       else setThoughts(results);
     },
