@@ -12,6 +12,8 @@ import activity from '../../assets/activity.svg';
 import wallet from '../../assets/wallet.svg';
 import logout from '../../assets/logout.svg';
 
+import { useS3Image } from '../../../hooks';
+
 import { RootState } from '../../../store/ducks/rootReducer';
 
 import { KARMA_AUTHOR } from '../../../common/config';
@@ -57,7 +59,7 @@ const ContainerItem = styled.button<{ selected: boolean }>`
 
 const Bottombar: React.FC = () => {
   const profile = useSelector((state: RootState) => state.user.profile);
-
+  const avatar = useS3Image(profile?.hash, 'thumbSmall');
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -90,7 +92,7 @@ const Bottombar: React.FC = () => {
         href="/profile/[username]/[tab]"
         as={`/profile/${cookies[KARMA_AUTHOR]}/media`}
         selected={selected.includes('profile')}
-        icon={profile ? (profile.avatar as string) || withoutAvatar : ''}
+        icon={profile ? avatar || withoutAvatar : ''}
       />
       <ContainerItem onClick={logOut}>
         <section />

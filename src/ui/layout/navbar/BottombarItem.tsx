@@ -14,6 +14,7 @@ const Container = styled.button<{ selected: boolean }>`
   &:nth-child(5) {
     img {
       border-radius: 50%;
+      border: 1px solid #303130;
     }
   }
 
