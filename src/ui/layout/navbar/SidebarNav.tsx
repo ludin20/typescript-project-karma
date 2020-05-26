@@ -97,13 +97,7 @@ const SidebarNav: React.FC<Props> = ({ avatar, setCollapsed, collapsed }) => {
         Discover
       </SidebarItem>
 
-      <SidebarItem
-        href="/activity"
-        as="/activity"
-        selected={selected.includes('activity')}
-        icon={activity}
-        extraContent={<span>{notifications}</span>}
-      >
+      <SidebarItem href="/activity" as="/activity" selected={selected.includes('activity')} icon={activity}>
         Activity
       </SidebarItem>
 
