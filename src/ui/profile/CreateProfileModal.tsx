@@ -30,11 +30,11 @@ const CreateProfileModal: React.FC<Props> = ({ profile, ...props }) => {
   const formik = useFormik({
     enableReinitialize: false,
     initialValues: {
-      displayname: profile ? profile.displayname || '' : '',
-      username: profile ? '@' + profile.username || '' : '',
-      bio: profile ? profile.bio || '' : '',
-      hash: profile ? profile.hash || '' : '',
-      url: profile ? profile.url || '' : '',
+      displayname: '',
+      username: '',
+      bio: '',
+      hash: '',
+      url: '',
     },
     validateOnMount: true,
     validationSchema: Yup.object().shape({

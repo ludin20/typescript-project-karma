@@ -98,7 +98,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
 
           <Space height={25} />
 
-          <Input label="Username" name="username" required bordered mask="@" />
+          <Input label="Username" name="username" required bordered placeholder="@username" mask="@" />
           <Space height={25} />
 
           <Input
