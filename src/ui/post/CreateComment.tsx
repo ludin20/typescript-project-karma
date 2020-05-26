@@ -21,35 +21,41 @@ const Container = styled(Row)`
     position: relative;
   }
 
-  @media (max-width: 550px) {
-    width: 100%;
-    background: ${props => props.theme.dark};
-    padding: 16px 16px 36px;
-    border-radius: 25px 25px 0 0;
-    box-shadow: 0px 3px 20px #00000099;
+  // @media (max-width: 550px) {
+  //   width: 100%;
+  //   background: ${props => props.theme.black};
+  //   padding: 16px 16px 36px;
+  //   border-radius: 25px 25px 0 0;
+  //   box-shadow: 0px 3px 20px #00000099;
 
-    position: fixed;
-    bottom: 80px;
-    left: 0;
-    z-index: 3;
-  }
+  //   position: fixed;
+  //   bottom: 80px;
+  //   left: 0;
+  //   z-index: 3;
+  // }
 `;
 
 const StyledAvatar = styled(Avatar)`
+  position: absolute;
+  left: 10px;
+  width: 35px;
+  height: 35px;
   @media (max-width: 550px) {
-    width: 40px;
-    height: 40px;
-    margin-right: 0;
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    left: 45px;
   }
 `;
 
 const Input = styled(TextInput)`
-  margin-left: 5px;
+  background: ${props => props.theme.black};
   border-radius: 100px;
   display: flex;
   justify-content: center;
   flex: 1;
   padding: 15px;
+  padding-left: 60px;
 
   input,
   textarea {
@@ -57,8 +63,7 @@ const Input = styled(TextInput)`
   }
 
   @media (max-width: 550px) {
-    background: #000;
-    margin-left: 10px;
+    background: ${props => props.theme.black};
 
     input {
       font-size: 16px;
@@ -68,11 +73,11 @@ const Input = styled(TextInput)`
 
 const sendButtonCss = css`
   position: absolute;
-  right: 25px;
+  right: 45px;
   cursor: pointer;
 
   @media (min-width: 549px) {
-    right: 15px;
+    right: 10px;
   }
 `;
 
@@ -92,10 +97,10 @@ const CREATE_COMMENT = graphql`
 
 interface Props {
   avatar: string;
-  onSuccessComment(data: object): void;
+  post_id: number;
 }
 
-const CreateComment: React.FC<Props> = ({ avatar, onSuccessComment }) => {
+const CreateComment: React.FC<Props> = ({ avatar, post_id }) => {
   const [createComment] = useMutation(CREATE_COMMENT);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -107,18 +112,19 @@ const CreateComment: React.FC<Props> = ({ avatar, onSuccessComment }) => {
     }),
     onSubmit: ({ comment }) => {
       dispatch(actionRequest());
-      createComment({ variables: { text: comment, post_id: router.query.id } })
+      createComment({ variables: { text: comment, post_id: post_id } })
         .then(res => onCreatedComment(res))
-        .catch(err => dispatch(actionFailure));
+        .catch(err => dispatch(actionFailure()));
     },
   });
 
   const { handleSubmit } = formik;
 
   const onCreatedComment = res => {
-    res.data && res.data.createComment && onSuccessComment(res.data.createComment);
-    dispatch(actionSuccess());
+    res.data && res.data.createComment && dispatch(actionSuccess());
     formik.setValues({ comment: '' });
+    if (router.query.post_id) router.reload();
+    else router.push('/post/[id]', `/post/${post_id}`, { shallow: false });
   };
 
   return (

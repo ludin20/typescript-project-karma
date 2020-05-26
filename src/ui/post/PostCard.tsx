@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 import { useS3PostMedias } from '../../hooks';
 import Avatar from '../common/Avatar';
@@ -10,14 +11,21 @@ import Row from '../common/Row';
 import Column from '../common/Column';
 import Text from '../common/Text';
 import FormattedText from '../common/FormattedText';
-
 import { useFormatDistanceStrict, useS3Image } from '../../hooks';
+import { RootState } from '../../store/ducks/rootReducer';
+
+import CreateComment from './CreateComment';
+
 
 import PostActions from './PostActions';
 import PostContent from './PostContent';
 
 const Container = styled.ul`
   list-style: none;
+  width: 100%;
+  background: ${props => props.theme.dark};
+  border-radius: 25px 25px 25px 25px;
+  padding: 20px;
 `;
 
 const headerCss = css`
@@ -38,12 +46,9 @@ const headerCss = css`
 `;
 
 const Caption = styled.li`
-  margin-left: 82px;
-  margin-top: -25px;
   overflow: hidden;
   @media (max-width: 550px) {
     margin-left: 0;
-    margin-top: 8px;
     span {
       font-size: 18px;
     }
@@ -112,6 +117,8 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
   const formattedDateStrings = useFormatDistanceStrict(created_at).split(' ');
   const formattedDate = formattedDateStrings[0] + formattedDateStrings[1][0];
   const avatar = useS3Image(author_profilehash, 'thumbSmall');
+  const { hash } = useSelector((state: RootState) => state.user.profile);
+  const userAvatar = useS3Image(hash, 'thumbSmall');
 
   useEffect(() => setData(post), [post]);
 
@@ -148,20 +155,19 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
           <Space width={18} />
 
           <Clickable>
-            <Row css={headerCss} align="center">
-              <Text color="white" size={25} weight="900">
-                {author_displayname}
-              </Text>
-              <Space width={10} />
-              <Text color="lightBlue" size={20}>
-                @{username} - {formattedDate}
-              </Text>
-            </Row>
+            <Text color="white" size={25} weight="900">
+              {author_displayname}
+            </Text>
+            <Space height={5} />
+            <Text color="lightBlue" size={20}>
+              @{username} - {formattedDate}
+            </Text>
           </Clickable>
         </Row>
 
         {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
       </Row>
+      <Space height={25} />
       <Caption>
         <FormattedText
           content={description}
@@ -198,6 +204,10 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
         isDetails={props.isDetails}
         onSuccessAction={onSuccessAction}
       />
+      <Space height={25} />
+      <div>
+        <CreateComment avatar={userAvatar} post_id={post_id} />
+      </div>
     </Container>
   );
 };

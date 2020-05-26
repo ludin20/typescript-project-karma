@@ -79,16 +79,10 @@ const Post: NextPage<Props> = ({ post, comments }) => {
   const [postData, setPostData] = useState(post);
   const [commentsData, setCommentsData] = useState(comments);
   const { wax, eos, liquidBalance, upvoted, hash } = useSelector((state: RootState) => state.user.profile);
-  const avatar = useS3Image(hash, 'thumbSmall');
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const handleSuccessComment = data => {
-    setPostData({ ...postData, comment_count: postData.comment_count + 1 });
-    setCommentsData([data, ...commentsData]);
-  };
 
   return (
     <Wrapper>
@@ -109,7 +103,7 @@ const Post: NextPage<Props> = ({ post, comments }) => {
         isDetails={true}
       />
 
-      <PostComments comments={commentsData} avatar={avatar as string} onSuccessComment={handleSuccessComment} />
+      <PostComments comments={commentsData} />
     </Wrapper>
   );
 };

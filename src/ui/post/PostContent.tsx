@@ -14,7 +14,6 @@ import playIcon from '../assets/play.svg';
 import closeIcon from '../assets/close.svg';
 
 const Container = styled.div`
-  margin-left: 80px;
   cursor: pointer;
 
   @media (max-width: 550px) {
@@ -60,7 +59,7 @@ const PlayButton = styled.img`
   position: absolute;
   width: 50px;
   height: 50px;
-  bottom: 25px;
+  bottom: 50px;
   right: 20px;
   cursor: pointer;
   opacity: 1;
@@ -75,19 +74,6 @@ const PlayButton = styled.img`
 
 const VideoViewCounts = styled.div`
   position: absolute;
-  background-color: #20252e;
-  top: 25px;
-  left: 25px;
-  border-radius: 15px;
-  padding: 4px 14px;
-  @media (max-width: 550px) {
-    top: 20px;
-    left: 20px;
-    padding: 3px 10px;
-    span {
-      font-size: 15px;
-    }
-  }
 `;
 
 const VideoDuration = styled.div`
@@ -200,7 +186,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
           medias.length > 0 && (
             <SkeletonTheme color="#191A19" highlightColor="#333">
               <>
-                <Space height={30} css={topSpaceCss} />
+                <Space height={25} css={topSpaceCss} />
                 <Grid columns={medias.length < 3 ? medias.length : 3} gap="24px" css={gridCss}>
                   {medias.map((media, index) =>
                     media.type == 'video' ? (
@@ -222,7 +208,8 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                           >
                             <source src={media.content} type="video/mp4" />
                           </Video>
-                          <PlayButton src={playIcon} alt="play" />
+                          {/* <PlayButton src={playIcon} alt="play" /> */}
+                          <Space height={25} />
                           <VideoViewCounts>
                             <Text color="white" size={17}>
                               {content.video_count + ' views'}
@@ -233,6 +220,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                               {videoStates[index].ref.current ? useFormatDuration(videoStates[index].ref.current.duration) : useFormatDuration(0)}
                             </Text>
                           </VideoDuration>
+                          <Space height={20} />
                         </Section>
                         <Section
                           key={String(index)}
@@ -284,7 +272,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
           )
         )}
       </Container>
-      <Space height={30} />
+      <Space height={25} />
     </>
   );
 };

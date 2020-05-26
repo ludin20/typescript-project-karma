@@ -14,9 +14,10 @@ import Title from '../common/Title';
 
 import ModalWrapper, { ModalProps } from '../common/ModalWrapper';
 
+import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
+
 import ModalForm from './ModalForm';
 
-import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
 
 const Content = styled.div`
   width: 100%;

@@ -44,15 +44,19 @@ const buttonCss = css`
 `;
 
 const Image = styled.img<{ withoutMargin?: boolean }>`
-  height: 17px;
-  width: 17px;
+  height: 20px;
+  width: 20px;
   margin-right: ${p => (p.withoutMargin ? 0 : '10px')};
   cursor: pointer;
+  @media (max-width: 550px) {
+    height: 17px;
+    width: 17px;
+  }
 `;
 
 const ButtonText = styled(Text).attrs({
   color: 'white',
-  size: 15,
+  size: 17,
   weight: '900',
 })`
   @media (max-width: 550px) {
@@ -217,7 +221,6 @@ const PostActions: React.FC<Props> = ({
 
   return (
     <Row>
-      <Space width={80} css={SpaceCss} />
       <Container justify="space-between" {...props}>
         <Row align="center" justify="center">
           <Image src={voteStatus ? liked : heart} alt="like" onClick={handleVote} />
@@ -250,9 +253,9 @@ const PostActions: React.FC<Props> = ({
           <ButtonText>{power}</ButtonText>
         </Row>
 
-        <Row align="center" justify="center" css={buttonCss}>
+        {/* <Row align="center" justify="center" css={buttonCss}>
           <Image src={share} alt="share" withoutMargin />
-        </Row>
+        </Row> */}
       </Container>
 
       {tipModalIsOpen && (
