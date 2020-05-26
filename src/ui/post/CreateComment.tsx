@@ -40,6 +40,7 @@ const StyledAvatar = styled(Avatar)`
   left: 10px;
   width: 35px;
   height: 35px;
+  border: 1px solid #303130;
   @media (max-width: 550px) {
     position: absolute;
     width: 35px;
