@@ -1,14 +1,16 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useMemo, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import cookie from 'js-cookie';
 
+import { signOutRequest } from '../../../store/ducks/auth';
 import withoutAvatar from '../../assets/withoutAvatar.svg';
 import home from '../../assets/home.svg';
 import discover from '../../assets/discover.svg';
 import activity from '../../assets/activity.svg';
 import wallet from '../../assets/wallet.svg';
+import logout from '../../assets/logout.svg';
 
 import { RootState } from '../../../store/ducks/rootReducer';
 
@@ -37,14 +39,35 @@ const Container = styled.div`
   }
 `;
 
+const ContainerItem = styled.button<{ selected: boolean }>`
+  background: none;
+  opacity: 0.4;
+
+  img {
+    height: 30px;
+    width: 30px;
+  }
+
+  &:nth-child(5) {
+    img {
+      border-radius: 50%;
+    }
+  }
+`;
+
 const Bottombar: React.FC = () => {
   const profile = useSelector((state: RootState) => state.user.profile);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const selected = useMemo(() => {
     return router.pathname.replace('/', '');
   }, [router.pathname]);
+
+  const logOut = useCallback(() => {
+    dispatch(signOutRequest());
+  }, [dispatch]);
 
   const cookies = cookie.get();
 
@@ -69,6 +92,10 @@ const Bottombar: React.FC = () => {
         selected={selected.includes('profile')}
         icon={profile ? (profile.avatar as string) || withoutAvatar : ''}
       />
+      <ContainerItem onClick={logOut}>
+        <section />
+        <img src={logout} alt="icon" />
+      </ContainerItem>
     </Container>
   );
 };
