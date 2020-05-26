@@ -98,9 +98,10 @@ const CREATE_COMMENT = graphql`
 interface Props {
   avatar: string;
   post_id: number;
+  isDetailPage?: boolean;
 }
 
-const CreateComment: React.FC<Props> = ({ avatar, post_id }) => {
+const CreateComment: React.FC<Props> = ({ avatar, post_id, isDetailPage = false }) => {
   const [createComment] = useMutation(CREATE_COMMENT);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -123,7 +124,7 @@ const CreateComment: React.FC<Props> = ({ avatar, post_id }) => {
   const onCreatedComment = res => {
     res.data && res.data.createComment && dispatch(actionSuccess());
     formik.setValues({ comment: '' });
-    if (router.query.post_id) router.reload();
+    if (isDetailPage) router.reload();
     else router.push('/post/[id]', `/post/${post_id}`, { shallow: false });
   };
 

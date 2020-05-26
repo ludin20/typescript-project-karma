@@ -206,7 +206,7 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
       />
       <Space height={25} />
       <div>
-        <CreateComment avatar={userAvatar} post_id={post_id} />
+        <CreateComment avatar={userAvatar} post_id={post_id} isDetailPage={props.isDetails} />
       </div>
     </Container>
   );
