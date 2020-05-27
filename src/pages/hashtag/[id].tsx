@@ -88,7 +88,7 @@ const Hashtag: NextPage<Props> = ({ data, hashtag }) => {
           <InfinityScroll length={posts.length}>
             {posts.map((post, index) => (
               <React.Fragment key={String(index)}>
-                {index > 0 && <Space height={40} />}
+                {index > 0 && <Space height={30} />}
                 <PostCard
                   post={post}
                   wax={wax}
