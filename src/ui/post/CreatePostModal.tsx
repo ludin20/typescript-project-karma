@@ -18,7 +18,6 @@ import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/a
 
 import ModalForm from './ModalForm';
 
-
 const Content = styled.div`
   width: 100%;
   max-width: 600px;
@@ -46,7 +45,7 @@ const Content = styled.div`
 
   @media (max-width: 700px) {
     max-width: unset;
-    height: 100vh;
+    height: 95vh;
     border-radius: 0;
     padding: 50px 15px;
     margin-top: 0;

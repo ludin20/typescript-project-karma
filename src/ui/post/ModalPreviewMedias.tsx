@@ -20,6 +20,11 @@ const Media = styled.li`
     border-radius: 15px;
   }
 
+  > video {
+    max-width: 200px;
+    border-radius: 15px;
+  }
+
   button {
     background: none;
 
@@ -53,7 +58,13 @@ const ModalPreviewMedias: React.FC<Props> = ({ name, files, setFiles }) => {
     <Container total={files.length.toString()}>
       {files.map((file, index) => (
         <Media key={index}>
-          <img src={file.preview} />
+          {file.type.split('/')[0] == 'image' ? (
+            <img src={file.preview} />
+          ) : (
+            <video>
+              <source src={file.preview} type="video/mp4" />
+            </video>
+          )}
           <button type="button" onClick={() => handleDeleteFile(index)}>
             <img src={exclude} alt="exclude" />
           </button>
