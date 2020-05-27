@@ -45,6 +45,11 @@ const headerCss = css`
   }
 `;
 
+const usernameCSS = css`
+  color: #6f767e;
+  font-size: 16px;
+`;
+
 const Caption = styled.li`
   overflow: hidden;
   @media (max-width: 550px) {
@@ -150,16 +155,16 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
           onClick={() => router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })}
         >
           <Clickable>
-            <Avatar src={avatar} alt={author_displayname} />
+            <Avatar src={avatar} alt={author_displayname} size="small" />
           </Clickable>
           <Space width={18} />
 
           <Clickable>
-            <Text color="white" size={25} weight="900">
+            <Text color="white" size={16} weight="900">
               {author_displayname}
             </Text>
             <Space height={5} />
-            <Text color="lightBlue" size={20}>
+            <Text css={usernameCSS}>
               @{username} - {formattedDate}
             </Text>
           </Clickable>
