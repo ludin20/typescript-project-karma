@@ -124,6 +124,12 @@ const CreatePostModal: React.FC<Props> = props => {
     }),
     onSubmit: ({ content, imagehashes }) => {
       dispatch(actionRequest());
+      const images = [];
+      const videos = [];
+      imagehashes.forEach(element => {
+        if (element.split('&&')[1] == 'Video') videos.push(element.split('&&')[0]);
+        else if (element.split('&&')[1] == 'Image') images.push(element.split('&&')[0]);
+      });
       createPost({
         variables: {
           post_id: 0,
@@ -131,8 +137,8 @@ const CreatePostModal: React.FC<Props> = props => {
           description: content,
           lat: '1',
           lng: '2',
-          imagehashes,
-          videohashes: [],
+          imagehashes: images,
+          videohashes: videos,
           categories: [1],
         },
       });

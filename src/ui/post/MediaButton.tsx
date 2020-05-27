@@ -55,7 +55,7 @@ const MediaButton: React.FC<Props> = ({ name, children, files, setFiles }) => {
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: 'image/*,video/*',
     onDrop,
   });
 
