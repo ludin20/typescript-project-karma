@@ -15,8 +15,8 @@ import ShimmerImage from '../common/ShimmerImage';
 import Icon from './Icon';
 
 const Text = styled.span<{ white?: boolean; clickable?: boolean }>`
-  font-size: 18px;
-  font-weight: 900;
+  font-size: 16px;
+  font-weight: 400;
   color: ${p => (p.white ? '#FFFFFF' : '#b1b1b1')};
   ${p =>
     p.clickable &&
@@ -27,7 +27,7 @@ const Text = styled.span<{ white?: boolean; clickable?: boolean }>`
 
 const DateText = styled.span`
   font-size: 14px;
-  font-weight: 900;
+  font-weight: 200;
   color: #ffffff;
   opacity: 0.6;
 `;
