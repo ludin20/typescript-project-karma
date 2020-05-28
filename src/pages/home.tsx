@@ -6,7 +6,6 @@ import ApolloClient from 'apollo-client';
 import { useQuery } from '@apollo/react-hooks';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import graphql from 'graphql-tag';
-
 import { follow } from 'src/services/config';
 import { withAuthSync } from '../auth/WithAuthSync';
 import { withApollo } from '../apollo/Apollo';
@@ -27,7 +26,7 @@ const GET_POSTS = graphql`
       author_displayname
       author_profilehash
       description
-      voteStatus(upvoted: $upvoted) @client
+      voteStatus(upvoted: $upvoted)
       created_at
       last_edited_at
       imagehashes

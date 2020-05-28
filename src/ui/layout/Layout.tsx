@@ -201,6 +201,7 @@ const Layout: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [accountProfile, setProfile] = useState(profile);
   const [followers, setFollowers] = useState([]);
+  const [loadState, setLoadState] = useState(false);
 
   useQuery(GET_PROFILE, {
     variables: {
@@ -211,6 +212,7 @@ const Layout: React.FC<Props> = ({
     onCompleted: data => {
       if (data && data.profile) {
         setProfile(data.profile);
+        setLoadState(true);
         dispatch(updateProfileSuccess(data.profile));
       }
 
@@ -280,7 +282,7 @@ const Layout: React.FC<Props> = ({
         />
 
         <ContentWrapper shouldHideHeader={shouldHideHeader}>
-          <Content>{children}</Content>
+          {loadState ? <Content>{children}</Content> : null}
           <Aside followers={followers} />
         </ContentWrapper>
       </Container>
