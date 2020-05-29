@@ -250,7 +250,7 @@ const PostActions: React.FC<Props> = ({
 
         <Row align="center" justify="center" onClick={() => setBoostModalIsOpen(true)}>
           <Image src={rocket} alt="rocket" />
-          <ButtonText>{power}</ButtonText>
+          {/* <ButtonText>{power}</ButtonText> */}
         </Row>
 
         {/* <Row align="center" justify="center" css={buttonCss}>

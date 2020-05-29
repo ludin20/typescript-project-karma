@@ -77,9 +77,9 @@ const BoostModal: React.FC<Props> = props => {
             <img src={karma} alt="karma" />
           </TypeOfBoost>
 
-          <TypeOfBoost active={typeOfBoost === 'WAX'} onClick={() => setTypeOfBoost('WAX')}>
+          {/* <TypeOfBoost active={typeOfBoost === 'WAX'} onClick={() => setTypeOfBoost('WAX')}>
             <img src={wax} alt="wax" />
-          </TypeOfBoost>
+          </TypeOfBoost> */}
         </div>
       </Header>
     );

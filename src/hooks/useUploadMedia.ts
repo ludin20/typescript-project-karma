@@ -19,7 +19,7 @@ export function useUploadMedia() {
       data.append('file', media);
       const config = {
         onUploadProgress: progressEvent =>
-          dispatch(uploadPercent(Math.floor((progressEvent.loaded / media.size) * 100))),
+          dispatch(uploadPercent(Math.floor((progressEvent.loaded / media.size) * 100) % 101)),
       };
       dispatch(fileUploadStart());
       const response = await ipfs.post(`upload/${fileType}/${author}`, data, config);
