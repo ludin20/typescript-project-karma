@@ -27,7 +27,7 @@ const Section = styled.div<{ isDetails?: boolean; active?: boolean }>`
   ${props =>
     props.isDetails &&
     css`
-      display: block;
+      //display: block;
     `}
   ${props =>
     props.active &&
