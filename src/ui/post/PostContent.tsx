@@ -27,7 +27,7 @@ const Section = styled.div<{ isDetails?: boolean; active?: boolean }>`
   ${props =>
     props.isDetails &&
     css`
-      //display: block;
+      display: block;
     `}
   ${props =>
     props.active &&
@@ -38,7 +38,7 @@ const Section = styled.div<{ isDetails?: boolean; active?: boolean }>`
       width: 100vw;
       height: 100vh;
       -webkit-transform: translate3d(0, 0, 0);
-      z-index: 9999999;
+      z-index: 99999999;
       background: black;
       display: flex;
       justify-content: center;
@@ -99,7 +99,7 @@ const CloseButton = styled.button`
   top: 30px;
   right: 50px;
   -webkit-transform: translate3d(0, 0, 0);
-  z-index: 9999999;
+  z-index: 99999999;
   @media (max-width: 550px) {
     top: 20px;
     right: 20px;
