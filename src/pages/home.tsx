@@ -26,7 +26,7 @@ const GET_POSTS = graphql`
       author_displayname
       author_profilehash
       description
-      voteStatus(upvoted: $upvoted)
+      voteStatus(upvoted: $upvoted) @client
       created_at
       last_edited_at
       imagehashes
