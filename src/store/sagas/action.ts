@@ -22,10 +22,15 @@ export function* viewFormFalse() {
   console.log('viewFormFalse');
 }
 
+export function* fileUploadStatus() {
+  console.log('fileUploadStatus');
+}
+
 export default all([
   takeLatest(types.ACTION_REQUEST, actionRequest),
   takeLatest(types.ACTION_SUCCESS, actionSuccess),
   takeLatest(types.ACTION_FAILURE, actionFailure),
   takeLatest(types.VIEWFORM_TRUE, viewFormTrue),
   takeLatest(types.VIEWFORM_FALSE, viewFormFalse),
+  takeLatest(types.FILE_UPLOAD_STATUS, fileUploadStatus),
 ]);

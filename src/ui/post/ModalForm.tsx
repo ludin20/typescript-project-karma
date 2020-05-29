@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { FormikProvider, FormikProps } from 'formik';
 
 import Avatar from '../common/Avatar';
 import Button from '../common/Button';
 import FormikInput from '../form/FormikInput';
+import Loading from '../common/Loading';
+import Row from '../common/Row';
 
 import { useS3Image } from '../../hooks';
 
@@ -57,12 +60,42 @@ const SubmitButton = styled(Button)`
   flex: 1;
 `;
 
+const LoadingBar = styled(Row)`
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+  padding-bottom: 30px;
+  margin-top: -25px;
+  margin-bottom: 15px;
+
+  > div {
+    color: white;
+    padding-bottom: 10px;
+    width: 100%;
+    justify-content: center;
+
+    > img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+  @media (max-width: 550px) {
+    height: 100px;
+
+    > div {
+      padding-bottom: 15px;
+    }
+  }
+`;
+
 interface Props {
   formik: FormikProps<any>;
   hash: string;
+  uploadPercent: number;
+  isUploadingState: boolean;
 }
 
-const ModalForm: React.FC<Props> = ({ formik, hash }) => {
+const ModalForm: React.FC<Props> = ({ formik, hash, uploadPercent, isUploadingState }) => {
   const [files, setFiles] = useState([]);
   const avatar = useS3Image(hash, 'thumbSmall');
 
@@ -76,8 +109,16 @@ const ModalForm: React.FC<Props> = ({ formik, hash }) => {
           <Input withMedia={files.length > 0} multiline name="content" placeholder="Post something awesome!" dark />
         </section>
 
-        <ModalPreviewMedias name="imagehashes" files={files} setFiles={setFiles} />
-
+        {isUploadingState ? (
+          <LoadingBar>
+            <div>
+              <Loading size="big" />
+            </div>
+            <div>Uploading... {uploadPercent}%</div>
+          </LoadingBar>
+        ) : (
+          <ModalPreviewMedias name="imagehashes" files={files} setFiles={setFiles} />
+        )}
         <div>
           <MediaButton name="imagehashes" setFiles={setFiles} files={files}>
             Photo/Video
@@ -91,4 +132,9 @@ const ModalForm: React.FC<Props> = ({ formik, hash }) => {
   );
 };
 
-export default ModalForm;
+const mapStateToProps = state => ({
+  uploadPercent: state.action.uploadPercent,
+  isUploadingState: state.action.isUploading,
+});
+
+export default connect(mapStateToProps)(ModalForm);

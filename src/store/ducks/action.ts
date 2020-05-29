@@ -8,18 +8,25 @@ export const types = {
   HASMORE_FAILURE: '@activity/HASMORE_FAILURE',
   VIEWFORM_TRUE: '@activity/VIEWFORM_TRUE',
   VIEWFORM_FALSE: '@activity/VIEWFORM_FALSE',
+  FILE_UPLOAD_STATUS: '@activity/FILE_UPLOAD_STATUS',
+  FILE_UPLOAD_START: '@activity/FILE_UPLOAD_START',
+  FILE_UPLOAD_END: '@activity/FILE_UPLOAD_END',
 };
 
 export interface ActionState {
   loading: boolean;
   hasMore: boolean;
   viewForm: boolean;
+  uploadPercent: number;
+  isUploading: boolean;
 }
 
 export const INITIAL_STATE: ActionState = {
   loading: false,
   hasMore: true,
   viewForm: true,
+  uploadPercent: 0,
+  isUploading: false,
 };
 
 export default function reducer(state = INITIAL_STATE, action) {
@@ -51,6 +58,19 @@ export default function reducer(state = INITIAL_STATE, action) {
       }
       case types.VIEWFORM_FALSE: {
         draft.viewForm = false;
+        break;
+      }
+      case types.FILE_UPLOAD_START: {
+        draft.isUploading = true;
+        break;
+      }
+      case types.FILE_UPLOAD_END: {
+        draft.isUploading = false;
+        draft.uploadPercent = 0;
+        break;
+      }
+      case types.FILE_UPLOAD_STATUS: {
+        draft.uploadPercent = action.payload.percent;
         break;
       }
       default:
@@ -96,5 +116,26 @@ export function viewFormTrue() {
 export function viewFormFalse() {
   return {
     type: types.VIEWFORM_FALSE,
+  };
+}
+
+export function fileUploadStart() {
+  return {
+    type: types.FILE_UPLOAD_START,
+  };
+}
+
+export function fileUploadEnd() {
+  return {
+    type: types.FILE_UPLOAD_END,
+  };
+}
+
+export function uploadPercent(percent: number) {
+  return {
+    type: types.FILE_UPLOAD_STATUS,
+    payload: {
+      percent,
+    },
   };
 }
