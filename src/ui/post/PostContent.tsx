@@ -52,7 +52,6 @@ const Section = styled.div<{ isDetails?: boolean; active?: boolean }>`
 const Video = styled.video`
   width: 100%;
   border-radius: 25px;
-  object-fit: cover;
 `;
 
 const PlayButton = styled.img`
@@ -141,6 +140,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
   const medias = useS3PostMedias(content, 'thumbBig');
   const [videoStates, setVideoStates] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [videoStyle, setVideoStyle] = useState({ objectFit: 'cover' });
 
   useEffect(() => {
     setVideoStates(videoStates => medias.map((_, i) => videoStates[i] || { ref: createRef(), active: false }));
@@ -162,6 +162,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
           ...videoStates.slice(index + 1),
         ]);
         document.body.style.overflow = 'hidden';
+        videoStyle.objectFit = 'contain';
       })
       .catch(err => {
         console.log('playVideo action error', err); // eslint-disable-line no-console
@@ -172,6 +173,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
     if (e.code == 'Escape') {
       setVideoStates(videoStates => videoStates.map(item => ({ ...item, active: false })));
       document.body.style.overflow = 'inherit';
+      setVideoStyle({ objectFit: 'cover' });
     }
   };
 
@@ -199,6 +201,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                         >
                           <Video
                             ref={videoStates[index].ref}
+                            style={videoStyle}
                             playsInline
                             autoPlay
                             loop
