@@ -30,6 +30,7 @@ export function useUploadMedia() {
 
       hash = responseWithHash.data.hash + '&&' + responseWithHash.data.type;
     } catch (e) {
+      dispatch(fileUploadEnd());
       console.log(e); //eslint-disable-line no-console
     }
 

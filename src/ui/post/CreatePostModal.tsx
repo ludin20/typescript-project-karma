@@ -14,7 +14,7 @@ import Title from '../common/Title';
 
 import ModalWrapper, { ModalProps } from '../common/ModalWrapper';
 
-import { actionRequest, actionSuccess, actionFailure } from '../../store/ducks/action';
+import { actionRequest, actionSuccess, actionFailure, fileUploadEnd } from '../../store/ducks/action';
 
 import ModalForm from './ModalForm';
 
@@ -101,6 +101,7 @@ const CreatePostModal: React.FC<Props> = props => {
   const dispatch = useDispatch();
   const [createPost] = useMutation(CREATE_POST, {
     onCompleted: res => {
+      dispatch(fileUploadEnd());
       if (res && res.createPost) {
         props.close();
         router.push(`/post/${res.createPost.post_id}`);
@@ -152,7 +153,13 @@ const CreatePostModal: React.FC<Props> = props => {
             Create Post
           </Title>
 
-          <button onClick={() => props.close()} type="button">
+          <button
+            onClick={() => {
+              props.close();
+              dispatch(fileUploadEnd());
+            }}
+            type="button"
+          >
             <img src={closeIcon} alt="close" />
           </button>
         </header>
