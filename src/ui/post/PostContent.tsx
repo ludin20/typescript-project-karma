@@ -37,7 +37,8 @@ const Section = styled.div<{ isDetails?: boolean; active?: boolean }>`
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 999999;
+      -webkit-transform: translate3d(0, 0, 0);
+      z-index: 999;
       background: black;
       display: flex;
       justify-content: center;
