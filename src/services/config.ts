@@ -34,7 +34,12 @@ export const tx = async (name: string, data: any, path: string, contract = 'thek
   if (accountType == 'waxcloud') {
     const publicKey = cookie.get(KARMA_SESS);
     const accessKey = [publicKey.split('&&')[0], publicKey.split('&&')[1]];
-    const wax = new waxjs.WaxJS('https://wax.greymass.com', accountName, accessKey, false);
+    // const wax = new waxjs.WaxJS('https://wax.greymass.com', accountName, accessKey, false);
+    const wax = new waxjs.WaxJS('https://wax.greymass.com', null, null, false);
+    const isAutoLoginAvailable = await wax.isAutoLoginAvailable();
+    if (!isAutoLoginAvailable) {
+      const Author = await wax.login();
+    }
     if (!wax.api) {
       return;
     }
