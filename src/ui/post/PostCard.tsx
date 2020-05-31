@@ -96,9 +96,17 @@ interface Props {
   liquidBalance?: number;
   upvoted?: Array<string>;
   isDetails: boolean;
+  onCommentAdded?(text: string): void;
 }
 
-const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFollowButton = true, ...props }) => {
+const PostCard: React.FC<Props> = ({
+  post,
+  me = false,
+  size = 'default',
+  withFollowButton = true,
+  onCommentAdded,
+  ...props
+}) => {
   const [data, setData] = useState(post);
   const {
     author,
@@ -211,7 +219,13 @@ const PostCard: React.FC<Props> = ({ post, me = false, size = 'default', withFol
       />
       <Space height={25} />
       <div>
-        <CreateComment avatar={userAvatar} post_id={post_id} isDetailPage={props.isDetails} />
+        <CreateComment
+          avatar={userAvatar}
+          post_id={post_id}
+          isDetailPage={props.isDetails}
+          onSuccessAction={onSuccessAction}
+          oncommandAddedAction={onCommentAdded}
+        />
       </div>
     </Container>
   );

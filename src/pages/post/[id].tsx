@@ -6,6 +6,7 @@ import graphql from 'graphql-tag';
 import nextCookie from 'next-cookies';
 import ApolloClient from 'apollo-client';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
+import { useRouter } from 'next/router';
 
 import { withAuthSync } from '../../auth/WithAuthSync';
 import { Title, PostCard, PostComments, GoBackButton, Space } from '../../ui';
@@ -17,6 +18,7 @@ import { KARMA_AUTHOR } from '../../common/config';
 import { PostInterface } from '../../ui/post/PostCard';
 
 import { useS3Image } from '../../hooks';
+import auth from 'src/store/sagas/auth';
 
 const Wrapper = styled.div`
   @media (max-width: 700px) {
@@ -73,16 +75,33 @@ const GET_POST = graphql`
 interface Props {
   post: PostInterface;
   comments: any[];
+  author: string;
 }
 
-const Post: NextPage<Props> = ({ post, comments }) => {
+const Post: NextPage<Props> = ({ post, comments, author }) => {
   const [postData, setPostData] = useState(post);
   const [commentsData, setCommentsData] = useState(comments);
-  const { wax, eos, liquidBalance, upvoted, hash } = useSelector((state: RootState) => state.user.profile);
+  // eslint-disable-next-line prettier/prettier
+  const { wax, eos, liquidBalance, upvoted, hash, username } = useSelector((state: RootState) => state.user.profile);
+  const router = useRouter();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const onCommentAdded = (text: string) => {
+    const createdDate = new Date();
+    commentsData.unshift({
+      author: author,
+      author_profilehash: hash,
+      cmmt_id: createdDate.getTime() / 1000,
+      created_at: createdDate.toISOString(),
+      post_id: router.query.id,
+      text: text,
+      username: username,
+    });
+    setCommentsData([...commentsData]);
+  };
 
   return (
     <Wrapper>
@@ -101,6 +120,7 @@ const Post: NextPage<Props> = ({ post, comments }) => {
         shouldHideFollowOnMobile
         withFollowButton={false}
         isDetails={true}
+        onCommentAdded={onCommentAdded}
       />
 
       <PostComments comments={commentsData} />
@@ -130,6 +150,7 @@ Post.getInitialProps = async (ctx: Context) => {
   return {
     post: data.post,
     comments: data.comments,
+    author: author,
     meta: {
       title: `${data.post.author} on Karma "${data.post.description}"`,
       description: data.post.description,

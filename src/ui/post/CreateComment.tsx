@@ -100,9 +100,17 @@ interface Props {
   avatar: string;
   post_id: number;
   isDetailPage?: boolean;
+  onSuccessAction(action: string, value: number): void;
+  oncommandAddedAction(text: string): void;
 }
 
-const CreateComment: React.FC<Props> = ({ avatar, post_id, isDetailPage = false }) => {
+const CreateComment: React.FC<Props> = ({
+  avatar,
+  post_id,
+  isDetailPage = false,
+  onSuccessAction,
+  oncommandAddedAction,
+}) => {
   const [createComment] = useMutation(CREATE_COMMENT);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -113,7 +121,11 @@ const CreateComment: React.FC<Props> = ({ avatar, post_id, isDetailPage = false 
       comment: yup.string().required('Comment is required'),
     }),
     onSubmit: ({ comment }) => {
-      dispatch(actionRequest());
+      onSuccessAction('comment', 1);
+      if (isDetailPage) oncommandAddedAction(comment);
+      formik.setValues({ comment: '' });
+
+      //dispatch(actionRequest());
       createComment({ variables: { text: comment, post_id: post_id } })
         .then(res => onCreatedComment(res))
         .catch(err => dispatch(actionFailure()));
@@ -123,10 +135,11 @@ const CreateComment: React.FC<Props> = ({ avatar, post_id, isDetailPage = false 
   const { handleSubmit } = formik;
 
   const onCreatedComment = res => {
-    res.data && res.data.createComment && dispatch(actionSuccess());
-    formik.setValues({ comment: '' });
-    if (isDetailPage) router.reload();
-    else router.push('/post/[id]', `/post/${post_id}`, { shallow: false });
+    //res.data && res.data.createComment && dispatch(actionSuccess());
+    //formik.setValues({ comment: '' });
+    // if (isDetailPage) {
+    //   router.reload();
+    // }
   };
 
   return (
