@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled, { keyframes, css } from 'styled-components';
+import cookie from 'js-cookie';
+
+import { KARMA_AUTHOR } from '../../common/config';
 
 import powerIcon from '../assets/power-count.svg';
 import refresh from '../assets/refresh.svg';
@@ -74,7 +77,7 @@ const Refresh = styled.div<{ loading: number }>`
   width: 100%;
 
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 
   @media (max-width: 550px) {
     button {
@@ -88,7 +91,7 @@ const Refresh = styled.div<{ loading: number }>`
   button {
     background: rgba(255, 255, 255, 0.2);
     padding: 20px;
-    border-radius: 50%;
+    //border-radius: 50%;
 
     transition: background 0.2s;
 
@@ -120,6 +123,7 @@ export interface BalanceProps {
 
 const Balance: React.FC<BalanceProps> = ({ currentPower, totalAmount, onRefresh, userloading }) => {
   const [loading, setLoading] = useState(false);
+  const author = cookie.get(KARMA_AUTHOR);
 
   useEffect(() => {
     setLoading(userloading);
@@ -133,6 +137,7 @@ const Balance: React.FC<BalanceProps> = ({ currentPower, totalAmount, onRefresh,
   return (
     <Container>
       <Refresh loading={loading ? 1 : 0}>
+        <button>{author}</button>
         <button onClick={handleRefresh} type="button">
           <img src={refresh} alt="refresh" />
         </button>
