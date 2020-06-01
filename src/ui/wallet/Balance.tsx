@@ -29,7 +29,7 @@ const Container = styled.div`
   button {
     background: rgba(255, 255, 255, 0.2);
     color: #fff;
-    margin: 10px 0;
+    margin: 20px 0;
     padding: 10px 20px;
     font-size: 20px;
     font-weight: 900;
@@ -90,7 +90,7 @@ const Refresh = styled.div<{ loading: number }>`
 
   button {
     background: rgba(255, 255, 255, 0.2);
-    padding: 20px;
+    padding: 10px;
     //border-radius: 50%;
 
     transition: background 0.2s;
