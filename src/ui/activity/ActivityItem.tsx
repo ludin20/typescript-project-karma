@@ -57,6 +57,7 @@ interface Props {
   post?: string;
   content?: string;
   contentCss?: FlattenInterpolation<ThemeProps<DefaultTheme>>;
+  isSentByMe?: boolean;
 }
 
 const ActivityItem: React.FC<Props> = ({
@@ -69,6 +70,7 @@ const ActivityItem: React.FC<Props> = ({
   post,
   contentCss,
   content,
+  isSentByMe,
 }) => {
   const router = useRouter();
   const formattedDate = useFormatDistance(date);
@@ -97,19 +99,35 @@ const ActivityItem: React.FC<Props> = ({
             />
             <Space width={10} />
             <Column>
-              <p>
-                <Text
-                  white
-                  clickable
-                  onClick={() =>
-                    router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })
-                  }
-                >
-                  {displayname}
-                </Text>
-                {` `}
-                <Text>{action}</Text>
-              </p>
+              {isSentByMe ? (
+                <p>
+                  <Text>{action}</Text>
+                  {` `}
+                  <Text
+                    white
+                    clickable
+                    onClick={() =>
+                      router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })
+                    }
+                  >
+                    {displayname}
+                  </Text>
+                </p>
+              ) : (
+                <p>
+                  <Text
+                    white
+                    clickable
+                    onClick={() =>
+                      router.push('/profile/[username]/[tab]', `/profile/${author}/media`, { shallow: true })
+                    }
+                  >
+                    {displayname}
+                  </Text>
+                  {` `}
+                  <Text>{action}</Text>
+                </p>
+              )}
               <Space height={10} />
 
               {content && (

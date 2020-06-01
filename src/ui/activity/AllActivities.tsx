@@ -75,6 +75,7 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                     action="liked your post:"
                     date={item.created_at}
                     post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
+                    isSentByMe={false}
                   />
                 );
               case 'Createcmmt':
@@ -88,6 +89,7 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                     action="commented on your post:"
                     post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
                     date={item.created_at}
+                    isSentByMe={false}
                   />
                 );
               case 'tip':
@@ -103,6 +105,7 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                     date={item.created_at}
                     content={item.data}
                     contentCss={greenText}
+                    isSentByMe={false}
                   />
                 );
               case 'recycle':
@@ -117,6 +120,7 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                     date={item.created_at}
                     post={item.post_image_hashes ? item.post_image_hashes[0] : undefined}
                     content={`"${item.data}"`}
+                    isSentByMe={false}
                   />
                 );
               case 'Transfer':
@@ -125,12 +129,15 @@ const AllActivities: React.FC<Props> = ({ data, loadMore }) => {
                     key={index}
                     icon={sent}
                     avatar={item.sender_profile_hash}
-                    author={item.sender}
-                    displayname={item.sender_displayname}
-                    action="sent you:"
+                    author={item.sender != cookie.get(KARMA_AUTHOR) ? item.sender : item.receiver}
+                    displayname={
+                      item.sender != cookie.get(KARMA_AUTHOR) ? item.sender_displayname : item.receiver_displayname
+                    }
+                    action={item.sender != cookie.get(KARMA_AUTHOR) ? 'sent you:' : 'You sent to'}
                     date={item.created_at}
                     content={item.data}
                     contentCss={greenText}
+                    isSentByMe={item.sender != cookie.get(KARMA_AUTHOR) ? false : true}
                   />
                 );
               default:
