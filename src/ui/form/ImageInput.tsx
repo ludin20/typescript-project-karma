@@ -94,7 +94,7 @@ const ImageInput: React.FC<Props> = ({ name, author }) => {
 
   const onDrop = async (acceptedFiles: File[]) => {
     const hash = await uploadImage({ media: acceptedFiles[0], author });
-    setFieldValue(name, hash);
+    setFieldValue(name, hash.split('&&')[0]);
     setFile(
       Object.assign(acceptedFiles[0], {
         preview: URL.createObjectURL(acceptedFiles[0]),
