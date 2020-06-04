@@ -26,6 +26,7 @@ const Container = styled.ul`
   background: ${props => props.theme.dark};
   border-radius: 25px 25px 25px 25px;
   padding: 20px;
+  max-width: 1105px;
 `;
 
 const headerCss = css`
