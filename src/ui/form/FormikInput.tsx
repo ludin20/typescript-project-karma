@@ -37,7 +37,7 @@ const Container = styled.div<Props>`
   input,
   textarea {
     background: none;
-    color: ${props => props.theme.white};
+    color: ${props => props.warning ? props.theme.warning : props.theme.white};
     border: none;
     font-size: 24px;
 
@@ -69,7 +69,7 @@ const Container = styled.div<Props>`
         content: '';
         height: 3px;
         width: 99.8%;
-        background: ${props.empty ? props.theme.white : props.theme.green};
+        background: ${props.warning ? props.theme.warning : (props.empty ? props.theme.white : props.theme.green)};
         transition: all 0.1s;
 
         border-radius: 0px 0px 15px 15px;
@@ -96,6 +96,7 @@ const Container = styled.div<Props>`
 `;
 
 export interface Props {
+  warning?: boolean;
   required?: boolean;
   label?: string;
   placeholder?: string;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect, useDispatch } from 'react-redux';
 import styled, { css } from 'styled-components';
 import { FormikProvider, FormikProps } from 'formik';
 
@@ -9,6 +10,7 @@ import Button from '../common/Button';
 import Space from '../common/Space';
 import Row from '../common/Row';
 import Title from '../common/Title';
+import { updateUsernameTakenRequest } from '../../store/ducks/user';
 
 export const Container = styled.form`
   width: 100%;
@@ -41,6 +43,7 @@ const SubmitButton = styled(Button)`
 
 interface InputProps {
   flex?: boolean;
+  warning?: boolean;
 }
 const Input = styled(FormikInput)<InputProps>`
   @media (max-width: 700px) {
@@ -72,10 +75,12 @@ interface Props extends ModalProps {
   title?: string;
   customHeader?: React.FC;
   author: string;
+  usernametakenState: boolean;
 }
 
-const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, formik, author, ...props }) => {
+const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, formik, author, usernametakenState, ...props }) => {
   const { handleSubmit, isValid } = formik;
+  const dispatch = useDispatch();
 
   return (
     <ModalWrapper {...props} withoutPaddingOnMobile>
@@ -98,7 +103,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
 
           <Space height={25} />
 
-          <Input label="Username" name="username" required bordered placeholder="@username" mask="@" />
+          <Input label="Username" name="username" required bordered placeholder="@username" mask="@" warning={usernametakenState} onChange={() => dispatch(updateUsernameTakenRequest(false))} />
           <Space height={25} />
 
           <Input
@@ -121,5 +126,8 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
     </ModalWrapper>
   );
 };
+const mapStateToProps = state => ({
+  usernametakenState: state.user.usernametaken,
+});
 
-export default ProfileModal;
+export default connect(mapStateToProps)(ProfileModal);

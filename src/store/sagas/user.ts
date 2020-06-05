@@ -8,6 +8,7 @@ import {
   updateProfileRequest,
   updateProfileSuccess,
   profileFailure,
+  updateUsernameTakenRequest,
   types,
   defaultProfile,
 } from '../ducks/user';
@@ -42,6 +43,7 @@ export function* createProfile({ payload }: ReturnType<typeof createProfileReque
       payload.action && payload.action();
     } else {
       yield put(profileFailure());
+      yield put(updateUsernameTakenRequest(decodedData.response.UsernameTaken));
     }
   } catch (error) {
     yield put(profileFailure());
@@ -75,6 +77,7 @@ export function* updateProfile({ payload }: ReturnType<typeof updateProfileReque
       payload.action && payload.action();
     } else {
       yield put(profileFailure());
+      yield put(updateUsernameTakenRequest(decodedData.response.UsernameTaken));
       payload.action && payload.action();
     }
   } catch (error) {

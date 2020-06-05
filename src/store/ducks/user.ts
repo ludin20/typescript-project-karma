@@ -9,6 +9,7 @@ export const types = {
   CREATE_PROFILE_SUCCESS: '@user/CREATE_PROFILE_SUCCESS',
   UPDATE_PROFILE_REQUEST: '@user/UPDATE_PROFILE_REQUEST',
   UPDATE_PROFILE_SUCCESS: '@user/UPDATE_PROFILE_SUCCESS',
+  UPDATE_USERNAME_TAKEN_REQUEST: '@user/UPDATE_USERNAME_TAKEN_REQUEST',
   GET_WALLET_REQUEST: '@user/GET_WALLET_REQUEST',
   PROFILE_FAILURE: '@user/PROFILE_FAILURE',
 };
@@ -35,6 +36,7 @@ export interface ProfileProps {
 
 export interface UserState {
   profile: ProfileProps;
+  usernametaken: boolean;
   loading: boolean;
 }
 
@@ -59,6 +61,7 @@ export const defaultProfile: ProfileProps = {
 
 export const INITIAL_STATE: UserState = {
   profile: defaultProfile,
+  usernametaken: false,
   loading: false,
 };
 
@@ -80,6 +83,7 @@ export default function reducer(state = INITIAL_STATE, action) {
       case types.CREATE_PROFILE_SUCCESS: {
         draft.profile = { ...defaultProfile, ...action.payload.user };
         draft.loading = false;
+        draft.usernametaken = false;
         break;
       }
       case types.UPDATE_PROFILE_REQUEST: {
@@ -89,6 +93,7 @@ export default function reducer(state = INITIAL_STATE, action) {
       case types.UPDATE_PROFILE_SUCCESS: {
         draft.profile = { ...draft.profile, ...action.payload.user };
         draft.loading = false;
+        draft.usernametaken = false;
         break;
       }
       case types.GET_WALLET_REQUEST: {
@@ -97,6 +102,10 @@ export default function reducer(state = INITIAL_STATE, action) {
       }
       case types.PROFILE_FAILURE: {
         draft.loading = false;
+        break;
+      }
+      case types.UPDATE_USERNAME_TAKEN_REQUEST: {
+        draft.usernametaken = action.payload.usernametaken;
         break;
       }
       default:
@@ -160,5 +169,14 @@ export function getWalletRequest() {
 export function profileFailure() {
   return {
     type: types.PROFILE_FAILURE,
+  };
+}
+
+export function updateUsernameTakenRequest(usernametaken) {
+  return {
+    type: types.UPDATE_USERNAME_TAKEN_REQUEST,
+    payload: {
+      usernametaken
+    },
   };
 }
