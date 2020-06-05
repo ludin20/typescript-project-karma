@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import Router from 'next/router';
 
 import logo from '../assets/logo.png';
 
@@ -7,6 +8,7 @@ const Container = styled.div<Props>`
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 
   strong {
     color: #fff;
@@ -57,7 +59,7 @@ interface Props {
 
 const Logo: React.FC<Props> = props => {
   return (
-    <Container {...props}>
+    <Container onClick={() => {Router.push('/home');}} {...props}>
       <img src={logo} alt="Karma" />
       <strong>KARMA</strong>
     </Container>
