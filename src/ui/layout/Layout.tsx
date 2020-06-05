@@ -228,7 +228,6 @@ const Layout: React.FC<Props> = ({
     onCompleted: data => {
       // Get top 5
       const topFiveData = data.profile.filter((item, index) => index < 5);
-      // const topFiveData = [data.profile[0], data.profile[2], data.profile[3], data.profile[4], data.profile[5]];
       setFollowers(
         topFiveData.map((item: { author: string }) => ({
           ...item,
@@ -251,10 +250,12 @@ const Layout: React.FC<Props> = ({
       setProfile(profile);
       localStorage.setItem('upvoted', JSON.stringify(profile.upvoted));
     }
-
-    if (!profile || !profile.hash) setModalIsOpen(true);
-    else setModalIsOpen(false);
   }, [profile]);
+
+  useEffect(() => {
+    if (!isLoading && (!profile || !profile.hash)) setModalIsOpen(true);
+    else setModalIsOpen(false);
+  }, [isLoading])
 
   const close = useCallback(() => {
     if (accountProfile && accountProfile.hash) {
