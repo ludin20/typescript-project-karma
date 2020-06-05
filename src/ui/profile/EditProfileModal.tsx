@@ -47,19 +47,20 @@ const EditProfileModal: React.FC<Props> = ({ profile, ...props }) => {
       url: profile ? profile.url || '' : '',
     },
     validationSchema: Yup.object().shape({
-      hash: Yup.string(),
-      username: Yup.string(),
+      displayname: Yup.string().required('Name is required'),
+      username: Yup.string().required('Username is required'),
       bio: Yup.string(),
+      hash: Yup.string().required('User Image is required'),
       url: Yup.string(),
     }),
     validateOnMount: true,
     onSubmit: values => {
       const oldProfile = {
-        displayname: profile.displayname,
-        username: profile.username,
-        bio: profile.bio,
-        hash: profile.hash,
-        url: profile.url,
+        displayname: profile ? profile.displayname : '',
+        username: profile ? profile.username : '',
+        bio: profile ? profile.bio : '',
+        hash: profile ? profile.hash : '',
+        url: profile ? profile.url : '',
       };
 
       const newProfile = {
