@@ -76,9 +76,11 @@ interface Props extends ModalProps {
   customHeader?: React.FC;
   author: string;
   usernametakenState: boolean;
+  uploadPercent: number;
+  isUploadingState: boolean;
 }
 
-const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, formik, author, usernametakenState, ...props }) => {
+const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, formik, author, usernametakenState, uploadPercent, isUploadingState, ...props }) => {
   const { handleSubmit, isValid } = formik;
   const dispatch = useDispatch();
 
@@ -96,7 +98,7 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
           <Space height={35} />
 
           <Row align="center">
-            <ImageInput name="hash" author={author} />
+            <ImageInput name="hash" author={author} isUploadingState={isUploadingState} uploadPercent={uploadPercent} />
             <Space width={10} />
             <Input label="Name" name="displayname" placeholder="Enter Name" required bordered flex />
           </Row>
@@ -128,6 +130,8 @@ const ProfileModal: React.FC<Props> = ({ title, customHeader: CustomHeader, form
 };
 const mapStateToProps = state => ({
   usernametakenState: state.user.usernametaken,
+  uploadPercent: state.action.uploadPercent,
+  isUploadingState: state.action.isUploading,
 });
 
 export default connect(mapStateToProps)(ProfileModal);

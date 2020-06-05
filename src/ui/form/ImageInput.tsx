@@ -5,6 +5,8 @@ import { useDropzone } from 'react-dropzone';
 import { useField, useFormikContext } from 'formik';
 
 import camera from '../assets/camera.svg';
+import Loading from '../common/Loading';
+import Row from '../common/Row';
 import { useUploadMedia, useS3Image } from '../../hooks';
 
 const Container = styled.div`
@@ -74,12 +76,34 @@ const WithPreview = styled.div`
   }
 `;
 
+const LoadingBar = styled(Row)`
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+
+  > div {
+    color: white;
+    width: 100%;
+    justify-content: center;
+    font-size: 24px;
+  }
+  @media (max-width: 550px) {
+    height: 100px;
+
+    > div {
+      font-size: 18px;
+    }
+  }
+`;
+
 interface Props {
   name: string;
   author: string;
+  uploadPercent: number;
+  isUploadingState: boolean;
 }
 
-const ImageInput: React.FC<Props> = ({ name, author }) => {
+const ImageInput: React.FC<Props> = ({ name, author, isUploadingState, uploadPercent }) => {
   const [file, setFile] = useState(null);
   const [field] = useField(name);
   const { setFieldValue } = useFormikContext<any>();
@@ -109,7 +133,11 @@ const ImageInput: React.FC<Props> = ({ name, author }) => {
       {!file ? (
         <>
           <input {...getInputProps()} name={name} />
-          <img src={camera} alt="Profile image" />
+            {
+              isUploadingState ? (<LoadingBar>
+                <div>{uploadPercent}%</div>
+              </LoadingBar>) : <img src={camera} alt="Profile image" />
+            }
         </>
       ) : (
         <WithPreview>
@@ -117,7 +145,11 @@ const ImageInput: React.FC<Props> = ({ name, author }) => {
 
           <div>
             <input {...getInputProps()} name={name} />
-            <img src={camera} alt="Profile image" />
+            {
+              isUploadingState ? (<LoadingBar>
+                <div>{uploadPercent}%</div>
+              </LoadingBar>) : <img src={camera} alt="Profile image" />
+            }
           </div>
         </WithPreview>
       )}
