@@ -250,12 +250,9 @@ const Layout: React.FC<Props> = ({
       setProfile(profile);
       localStorage.setItem('upvoted', JSON.stringify(profile.upvoted));
     }
-  }, [profile]);
-
-  useEffect(() => {
-    if (!isLoading && (!profile || !profile.hash)) setModalIsOpen(true);
+    if (isLoading && (!profile || !profile.hash)) setModalIsOpen(true);
     else setModalIsOpen(false);
-  }, [isLoading])
+  }, [profile]);
 
   const close = useCallback(() => {
     if (accountProfile && accountProfile.hash) {
