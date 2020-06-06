@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { ProfileHeader, ProfileInfo, EditProfileModal, Tabs } from '../../ui';
@@ -45,9 +45,10 @@ interface Props {
   followersData: Follow[];
   followingData: Follow[];
   postCount: string | number;
+  usernametakenState: boolean;
 }
 
-const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData, postCount }) => {
+const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData, postCount, usernametakenState }) => {
   const {
     displayname,
     bio,
@@ -67,6 +68,11 @@ const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData,
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const avatar = useS3Image(hash, 'thumbBig');
   const dispatch = useDispatch();
+  
+  useEffect(() => {
+    if (usernametakenState) setModalIsOpen(true);
+    else setModalIsOpen(false);
+  }, [usernametakenState]);
 
   const handleFollow = (author: string, follow: boolean) => {
     if (follow) {
@@ -126,4 +132,8 @@ const Me: React.FC<Props> = ({ tabs, tab, profile, followersData, followingData,
   );
 };
 
-export default Me;
+const mapStateToProps = state => ({
+  usernametakenState: state.user.usernametaken,
+});
+
+export default connect(mapStateToProps)(Me);
