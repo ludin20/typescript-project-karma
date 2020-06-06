@@ -131,14 +131,14 @@ const ImageInput: React.FC<Props> = ({ name, author, isUploadingState, uploadPer
   return (
     <Container {...getRootProps()}>
       {!file ? (
-        <>
+        <div>
           <input {...getInputProps()} name={name} />
             {
               isUploadingState ? (<LoadingBar>
                 <div>{uploadPercent}%</div>
               </LoadingBar>) : <img src={camera} alt="Profile image" />
             }
-        </>
+        </div>
       ) : (
         <WithPreview>
           <img src={file.view ? file.view : file.preview} />
