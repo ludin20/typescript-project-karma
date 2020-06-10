@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import Space from '../common/Space';
 
 const Container = styled.div`
   background: ${props => props.theme.dark};
   width: 100%;
   padding: 25px 25px;
   border-radius: 25px;
+  font-family: sans-serif;
 
   header {
     margin-bottom: 24px;
@@ -17,7 +19,7 @@ const Container = styled.div`
     > strong {
       color: #fff;
       font-size: 32px;
-      font-weight: 900;
+      font-weight: 700;
     }
   }
 
@@ -32,17 +34,17 @@ const Container = styled.div`
   }
 `;
 
-const Description = styled.div`
+const Description = styled.p`
   color: #fff;
-  font-size: 24px;
-  margin-bottom: 40px
+  font-size: 20px;
 `
 
 const UniqueLink = styled.div`
   > p {
     color: #fff;
     font-size: 24px;
-    font-weight: 900;
+    font-weight: 700;
+    margin-bottom: 20px;
   }
   
   button:last-child {
@@ -66,7 +68,6 @@ const UniqueLink = styled.div`
   }
 `
 
-
 export interface StatsProps {
 }
 
@@ -78,6 +79,7 @@ const InviteNow: React.FC<StatsProps> = ({  }) => {
         <strong>Invite Now</strong>
       </header>
       <Description>Use your unique referral link to invite friends to KARMA. This can be shared by phone, email or on other social platforms.</Description>
+      <Space height={30} />
       <UniqueLink>
         <p>Your unique link</p>
         <button>Copy</button>

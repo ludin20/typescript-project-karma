@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import karmas from '../assets/karmas.png';
+import Space from '../common/Space';
 
 const Container = styled.div`
   background: ${props => props.theme.dark};
   width: 100%;
   padding: 25px 25px;
   border-radius: 25px;
+  font-family: sans-serif;
 
-  header {
-    margin-bottom: 30px;
+  > header {
+    margin-bottom: 24px;
 
     display: flex;
     justify-content: space-between;
@@ -18,17 +20,17 @@ const Container = styled.div`
     > strong {
       color: #fff;
       font-size: 32px;
-      font-weight: 900;
+      font-weight: 700;
     }
   }
 
-  div {
+  > div {
     display: inline-block;
 
     > p {
       color: #fff;
       font-size: 24px;
-      font-weight: 900;
+      font-weight: 500;
     }
   }
 
@@ -41,6 +43,22 @@ const Container = styled.div`
 
 const Content = styled.div`
   display: block !important;
+  margin-top: 20px;
+
+  > div {
+    width: 50%;
+    display: inline-block;
+
+    @media (max-width: 700px) {
+      width: 100%;
+    }
+
+    > p {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 500;
+    }
+  }
 `
 
 const AmountEarned = styled.div`
@@ -49,7 +67,8 @@ const AmountEarned = styled.div`
   > p {
     color: #fff;
     font-size: 24px;
-    font-weight: 900;
+    font-weight: 700;
+    margin-bottom: 20px;
   }
   
   button:last-child {

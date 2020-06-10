@@ -23,18 +23,26 @@ const Container = styled.div`
   @media (max-width: 700px) {
     margin-top: 0;
     border-radius: 0 0 25px 25px;
+    padding: 60px 20px;
   }
 
   > h1 {
     font-size: 54px;
     font-weight: 900;
     margin-bottom: 25px;
+
+    @media (max-width: 700px) {
+      font-size: 27px;
+    }
   }
 
   > h3 {
     font-size: 24px;
     font-weight: 500;
     margin-bottom: 45px;
+    @media (max-width: 700px) {
+      font-size: 18px;
+    }
   }
 `;
 
