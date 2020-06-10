@@ -35,6 +35,10 @@ export { default as WalletButton } from './wallet/WalletButton';
 export { default as Token } from './wallet/Token';
 export { default as SendMoneyModal } from './wallet/SendMoneyModal/SendMoneyModal';
 
+export { default as Stats } from './referandearn/Stats';
+export { default as InviteNow } from './referandearn/InviteNow';
+export { default as ReferedUsers } from './referandearn/ReferedUsers';
+
 export { default as ProfileHeader } from './profile/ProfileHeader';
 export { default as ProfileInfo } from './profile/ProfileInfo';
 export { default as ProfileThoughts } from './profile/ProfileThoughts';

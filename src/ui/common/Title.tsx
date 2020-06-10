@@ -46,14 +46,15 @@ interface Props {
   bordered?: boolean;
   size?: 'default' | 'small';
   shouldHideHeader?: boolean;
+  color?: string;
 }
 
-const Title: React.FC<Props> = ({ children, withDropDown, bordered = true, size = 'default', shouldHideHeader }) => {
+const Title: React.FC<Props> = ({ children, withDropDown, bordered = true, size = 'default', shouldHideHeader, color }) => {
   const [toogled, setToogled] = useState(false);
 
   return (
     <Container bordered={bordered} size={size} css={shouldHideHeader ? hiddenHeader : undefined}>
-      <Text size={size === 'default' ? 34 : 30} weight="900" color="white">
+      <Text size={size === 'default' ? 34 : 30} weight="900" color={color ? color : "white"}>
         {children}
       </Text>
       {withDropDown && (

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import WhoToFollow from './WhoToFollow';
-import Trending from './Trending';
+import ReferandEarn from './ReferandEarn';
 
 const Container = styled.div`
   min-width: 368px;
@@ -28,6 +28,10 @@ const Container = styled.div`
   }
 `;
 
+const Split =styled.div`
+  margin-bottom: 16px;
+`;
+
 interface Props {
   followers: Array<any>;
 }
@@ -36,6 +40,11 @@ const Aside: React.FC<Props> = ({ followers }) => {
   return (
     <Container>
       <WhoToFollow data={followers} />
+      <Split />
+      
+      {/* Refer & Earn */}
+      <ReferandEarn data={followers} />
+      <Split />
 
       {/* <Trending /> */}
     </Container>

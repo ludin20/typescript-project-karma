@@ -3,7 +3,7 @@ import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 
 import withoutAvatar from '../assets/withoutAvatar.svg';
 
-const Container = styled.img<{ online?: boolean; size: 'default' | 'small' | 'big'; css?: FlattenSimpleInterpolation }>`
+const Container = styled.img<{ online?: boolean; size: 'default' | 'small' | 'big' | 'tiny'; css?: FlattenSimpleInterpolation }>`
   width: ${props => (props.size === 'default' ? '65px' : '50px')};
   height: ${props => (props.size === 'default' ? '65px' : '50px')};
   border-radius: 50%;
@@ -31,13 +31,30 @@ const Container = styled.img<{ online?: boolean; size: 'default' | 'small' | 'bi
         height: 80px;
       }
     `}
+
+    ${props =>
+      props.size === 'tiny' &&
+      css`
+        width: 30px;
+        height: 30px;
+  
+        @media (max-width: 1200px) {
+          width: 30px;
+          height: 30px;
+        }
+  
+        @media (max-width: 550px) {
+          width: 30px;
+          height: 30px;
+        }
+      `}
 `;
 
 interface Props {
   src?: string;
   online?: boolean;
   alt: string;
-  size?: 'default' | 'small' | 'big';
+  size?: 'default' | 'small' | 'big' | 'tiny';
   onLoad?(): void;
   css?: FlattenSimpleInterpolation;
 }

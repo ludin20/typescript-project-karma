@@ -6,6 +6,7 @@ import { following, followers } from './follows';
 import profile from './profile';
 import quezPosts from './quezPosts';
 import whoToFollow from './whoToFollow';
+import referandearn from './referandearn';
 import trending from './trending';
 import feed from './feed';
 
@@ -21,6 +22,7 @@ export {
   profile,
   quezPosts,
   whoToFollow,
+  referandearn,
   trending,
   feed,
 };
