@@ -47,6 +47,10 @@ const Label = styled.div`
         font-weight: 700;
         letter-spacing: 3px;
         font-family: sans-serif;
+
+        @media (max-width: 650px) {
+          font-size: 40px;
+        }
     }
 `;
 
