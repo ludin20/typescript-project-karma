@@ -5,22 +5,42 @@ import Space from '../common/Space';
 
 const Container = styled.div`
   background: ${props => props.theme.dark};
-  width: 100%;
+  width: 500px;
+  height: 350px;
   padding: 25px 25px;
   border-radius: 25px;
   font-family: sans-serif;
+  letter-spacing: 1px;
+
+  @media (max-width: 1560px) { 
+    width: 100%;
+  }
 
   header {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 
     display: flex;
     justify-content: space-between;
 
     > strong {
-      color: #fff;
-      font-size: 32px;
+      color: #fcfefe;
+      font-size: 30px;
       font-weight: 700;
     }
+  }
+
+  > p {
+    color: #fcfefe;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+
+  > p.unique_link {
+    color: #fcfefe;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
   }
 
   @media (max-width: 550px) {
@@ -35,28 +55,52 @@ const Container = styled.div`
 `;
 
 const Description = styled.p`
-  color: #fff;
-  font-size: 20px;
+  color: #ece9e9;
+  font-size: 18px;
+  letter-spacing: 0.8px;
+  font-size: 18px;
+  line-height: 28px;
 `
 
 const UniqueLink = styled.div`
-  > p {
-    color: #fff;
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 20px;
+  position: relative;
+  height: 60px;
+  border: 1px solid #4ec89f;
+  border-width: 2px;
+  border-radius: 90px;
+  padding-left: 20px;
+  padding-top: 15px;
+
+  @media (max-width: 800px) {
+    padding-top: 10px;
+    height: 40px;
+
+    button:last-child {
+      height: 40px !important;
+      font-size: 16px !important;
+      line-height: 20px !important;
+      width: 80px !important;
+    }   
+
+    span {
+      font-size: 16px !important;
+    }
   }
-  
+
   button:last-child {
-    width: 190px;
-    background: linear-gradient(270deg, #26cc8b 0%, #2adce8 100%) 0% 0%;
-    color: #fff;
+    position: absolute;
+    right: 0;
+    top: -2px;
+    height: 60px;
+    line-height: 40px;
+    width: 120px;
+    background: linear-gradient(270deg,#51c799 0%,#2adce8 100%) 0% 0%;
+    color: #101010;
     padding: 10px 20px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 900;
     box-shadow: 0px 3px 25px #26cc8b80;
     border-radius: 90px;
-
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -66,12 +110,17 @@ const UniqueLink = styled.div`
       margin-right: 10px;
     }
   }
+
+  span {
+    color: white;
+    font-size: 22px;
+  }
 `
 
 export interface StatsProps {
 }
 
-const InviteNow: React.FC<StatsProps> = ({  }) => {
+const InviteNow: React.FC<StatsProps> = () => {
   const dispatch = useDispatch();
   return (
     <Container>
@@ -80,9 +129,9 @@ const InviteNow: React.FC<StatsProps> = ({  }) => {
       </header>
       <Description>Use your unique referral link to invite friends to KARMA. This can be shared by phone, email or on other social platforms.</Description>
       <Space height={30} />
+      <p class="unique_link">Your unique link</p>
       <UniqueLink>
-        <p>Your unique link</p>
-        <button>Copy</button>
+        <span>www.karmaapp.io/r/13829</span><button>Copy</button>
       </UniqueLink>
     </Container>
   );

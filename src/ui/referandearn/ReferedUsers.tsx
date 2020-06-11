@@ -12,25 +12,38 @@ const Container = styled.div`
   border-radius: 25px;
 
   header {
-    margin-bottom: 30px;
-
+    margin-bottom: 30px;    
+    padding-right: 5px;
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 550px) {
+      > strong {
+        font-size: 20px !important;
+      }
+
+      > span { 
+        font-size: 18px !important;
+      }
+    }
 
     > strong {
       color: #fff;
       font-size: 32px;
       font-weight: 900;
+      line-height: 40px;
     }
 
-    > h3 {
+    > span {
       color: #fff;
+      font-size: 24px;
+      line-height: 40px;
     }
   }
 
   div {
     display: inline-block;
-
+    width: 100%;
     > p {
       color: #fff;
       font-size: 24px;
@@ -38,43 +51,62 @@ const Container = styled.div`
     }
   }
 
-  @media (max-width: 550px) {
-    > strong {
-      font-size: 24px;
-    }
-  }
+  
 `;
 
 const Content = styled.div`
+  @media (max-width: 550px) {
+    padding-bottom: 50px;
+  }
 `
 const Item = styled.div`
   display: block !important;
+  position: relative;
+  margin-bottom: 20px;
+
+  @media (max-width: 550px) {
+    > strong:nth-child(2) {
+      font-size: 14px !important;
+    }
+
+    > strong:nth-child(3) {
+      font-size: 14px !important;
+    }
+  }
 
   > strong:nth-child(2) {
-    font-size: 24px;
+    position: absolute;
+    top:10px;
+    left: 70px;
+    font-size: 20px;
     color: #fff;
+    font-weight: 400;
   }
 
   > strong:nth-child(3) {
-    font-size: 24px;
+    position: absolute;
+    top:10px;
+    right: 0px;
+    font-size: 22px;
     color: #29DB95;
+    font-weight: 600;
   }
 `
 
 export interface StatsProps {
 }
 
-const Stats: React.FC<StatsProps> = ({  }) => {
+const Stats: React.FC<StatsProps> = () => {
   const dispatch = useDispatch();
   return (
     <Container>
       <header>
         <strong>Refered Users</strong>
-        <h3>Earnings</h3>
+        <span>Earnings</span>
       </header>
       <Content>
-        {referandearn.map(item =>
-          <Item>
+        {referandearn.map((item, index) =>
+          <Item key={String(index)}>
             <Avatar src={item.avatar} alt={name} size="small" />
             <strong>{item.name}</strong>
             <strong>{item.karma} KARMA</strong>

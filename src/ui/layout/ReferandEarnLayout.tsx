@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import styled, { css, keyframes } from 'styled-components';
 import graphql from 'graphql-tag';
@@ -93,6 +93,9 @@ const ContentWrapper = styled.div<{ shouldHideHeader: boolean }>`
 
 const Content = styled.div`
   width: 100%;
+  
+  background: linear-gradient(90deg, #2adce8 0%, #26cc8b 100%);
+  border-radius: 0 0 25px 25px;
 `;
 
 interface Props {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { NextPage, NextPageContext } from 'next';
@@ -7,17 +7,16 @@ import ApolloClient from 'apollo-client';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
 import { withAuthSync } from '../auth/WithAuthSync';
-import { Title, Stats, InviteNow, ReferedUsers } from '../ui';
+import { Stats, InviteNow, ReferedUsers } from '../ui';
 import { labels } from '../ui/layout';
 
 import { withApollo } from '../apollo/Apollo';
 import { KARMA_AUTHOR } from '../common/config';
 
 const Container = styled.div`
+  max-width: 1280px;
   width: 100%;
   height: 45vh;
-  background: linear-gradient(90deg, #2adce8 0%, #26cc8b 100%);
-  border-radius: 0 0 25px 25px;
   padding: 60px 100px;
 
   @media (max-width: 700px) {
@@ -51,9 +50,17 @@ const InviteNowContent = styled.div`
   display: inline-block;
   padding-right: 10px;
   
-  @media (max-width: 1024px) { {
+  @media (max-width: 1560px) { {
     width: 100%;
     padding-right: 0px;
+    max-width: 80%;
+  }
+
+  @media (max-width: 800px) { 
+    width: 100%;
+    padding-left: 0px;
+    margin-top: 20px;
+    max-width: 100%;
   }
 `;
 
@@ -62,18 +69,40 @@ const StatsContent = styled.div`
   display: inline-block;
   padding-left: 10px;
 
-  @media (max-width: 1024px) { {
+  @media (max-width: 1560px) { 
     width: 100%;
     padding-left: 0px;
+    margin-top: 20px;
+    max-width: 80%;
+  }
+
+  @media (max-width: 800px) { 
+    width: 100%;
+    padding-left: 0px;
+    margin-top: 20px;
+    max-width: 100%;
   }
 `;
 
 const ReferedUsersContent = styled.div`
   width: 100%;
   display: inline-block;
-  padding-left: 10px;
+  padding-right: 28px;
   min-height: 40vh;
   margin-top: 20px;
+
+  @media (max-width: 1560px) { {
+    width: 100%;
+    padding-right: 0px;
+    max-width: 80%;
+  }
+
+  @media (max-width: 800px) { {
+    width: 100%;
+    padding-left: 0px;
+    margin-top: 20px;
+    max-width: 100%;
+  }
 `;
 
 interface Props {
@@ -81,7 +110,6 @@ interface Props {
 }
 
 const ReferandEarn: NextPage<Props> = ({ profile }) => {
-  const dispatch = useDispatch();
 
   return (
     <>

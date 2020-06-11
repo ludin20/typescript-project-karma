@@ -6,20 +6,24 @@ import Space from '../common/Space';
 
 const Container = styled.div`
   background: ${props => props.theme.dark};
-  width: 100%;
+  width: 500px;
+  height: 350px;
   padding: 25px 25px;
   border-radius: 25px;
   font-family: sans-serif;
 
-  > header {
-    margin-bottom: 24px;
+  @media (max-width: 1560px) { 
+    width: 100%;
+  }
 
+  > header {
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
 
     > strong {
-      color: #fff;
-      font-size: 32px;
+      color: #fcfefe;
+      font-size: 30px;
       font-weight: 700;
     }
   }
@@ -28,9 +32,11 @@ const Container = styled.div`
     display: inline-block;
 
     > p {
-      color: #fff;
-      font-size: 24px;
-      font-weight: 500;
+      color: #fcfefe;
+      margin-top: 10px;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
     }
   }
 
@@ -43,59 +49,90 @@ const Container = styled.div`
 
 const Content = styled.div`
   display: block !important;
-  margin-top: 20px;
 
   > div {
     width: 50%;
     display: inline-block;
 
     @media (max-width: 700px) {
-      width: 100%;
+      > p {
+        font-size: 20px !important;
+      }
+      > span {
+        font-size: 18px !important;
+      }
     }
 
     > p {
-      color: #fff;
-      font-size: 24px;
-      font-weight: 500;
+      color: #fcfefe;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
+
+    > span {
+      color: #fcfefe;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      padding: 15px 30px 15px 30px;
+      border: 2px solid white;
+      border-radius: 90px;
     }
   }
 `
 
 const AmountEarned = styled.div`
   display: block;
+  margin-top: 40px;
+  position: relative; 
 
   > p {
-    color: #fff;
-    font-size: 24px;
+    color: #fcfefe;
+    margin-top: 6px;
+    font-size: 22px;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+  }
+
+  img {
+    position: absolute;
+    left: 20px;
+    top: 64px;
+    width: 30px;
+    padding: 5px;
+    margin-right: 10px;
+    background: black;
+    border-radius: 50%;
+    border: 2px solid #3ad3c7;
+    line-height: 60px;
+    margin-bottom: 2px;
+    box-shadow: 1px 1px 1px #585757;
   }
   
   button:last-child {
-    width: 190px;
-    background: linear-gradient(270deg, #26cc8b 0%, #2adce8 100%) 0% 0%;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 18px;
-    font-weight: 900;
+    width: 220px;
+    background: linear-gradient(270deg,#51c799 0%,#2adce8 100%) 0% 0%;
+    color: #101010;
+    padding: 18px 20px;
+    padding-left: 55px;
+    height: 60px;
+    line-height: 20px;
+    font-size: 22px;
+    font-weight: 700;
     box-shadow: 0px 3px 25px #26cc8b80;
     border-radius: 90px;
 
     display: flex;
     align-items: flex-end;
-    justify-content: center;
-
-    img {
-      width: 26px;
-      margin-right: 10px;
-    }
+    justify-content: center;    
   }
 `
 
 export interface StatsProps {
 }
 
-const Stats: React.FC<StatsProps> = ({  }) => {
+const Stats: React.FC<StatsProps> = () => {
   const dispatch = useDispatch();
   return (
     <Container>
@@ -105,17 +142,17 @@ const Stats: React.FC<StatsProps> = ({  }) => {
       <Content>
         <div>
           <p>Referral Level</p>
-          <p>Level 1</p>
+          <span>Level 1</span>
         </div>
         <div>
           <p>Total Invites</p>
-          <p>3 Freinds</p>
+          <span>3 Friends</span>
         </div>
       </Content>
       <AmountEarned>
         <p>Amount Earned</p>
-        <button>
-          <img src={karmas} alt="karmas" />
+        <img src={karmas} alt="karmas" />
+        <button>          
           600 KARMA
         </button>
       </AmountEarned>
