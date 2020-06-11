@@ -13,7 +13,7 @@ const Container = styled.div<{ toogled: boolean }>`
   padding-bottom: ${props => props.toogled && '20px'};
 
   > div {
-    padding: 20px 15px 0;
+    padding: 10px 15px 0;
     border-radius: 25px 25px 0 0;
 
     header {
@@ -23,20 +23,44 @@ const Container = styled.div<{ toogled: boolean }>`
         font-size: 20px;
         font-weight: 900;
         color: #fff;
-      }
-
-      div {
-          
+        line-height: 45px;
       }
 
       button {
         background: none;
         margin-left: 10px;
+        position: relative;
+
+        img.arrow {
+          position: absolute;
+          left: 160px;
+          top: 8px; 
+          width: 14px !important;
+          transition: transform 0.2s !important;
+          transform: ${props => props.toogled && 'rotate(-90deg)'} !important;
+          margin-left: 15px !important;
+        }
+
+        img:first-child {
+          margin-left: 0px !important;
+        }
 
         img {
-          width: 14px;
-          transition: transform 0.2s;
-          transform: ${props => props.toogled && 'rotate(-90deg)'};
+          height: 30px !important;
+          width: 30px !important;
+          transform: none !important;
+          margin-left: -20px !important;
+        }
+
+        span {
+          position: absolute;
+          width: 120px;
+          top: 4px;
+          font-size: 16px;
+          color: #26cc8b;
+          line-height: 40px;
+          position: absolute;
+          width: 120px;
         }
       }
     }
@@ -50,7 +74,7 @@ const Container = styled.div<{ toogled: boolean }>`
     font-weight: 900;
     padding: 15px 0;
     box-shadow: 0 3px 6px #00000029;
-    border-radius: 0 0 25px 25px;
+    border-radius: 0 0 25px 25px;    
   }
 
   section {
@@ -75,7 +99,13 @@ const AsideReferandEarnCard: React.FC<Props> = ({ title, data }) => {
           <header>
             <strong>{title}</strong>
             <button onClick={() => router.push('/referandearn')}>
-              <img src={arrow} alt="toogle" />
+              {
+                data.map((item, index) => (
+                  <Avatar online={false} src={item.avatar} alt={name} size="small" />
+                ))
+              }
+              <span>+200 KARMA</span>
+              <img class="arrow" src={arrow} alt="toogle" />
             </button>
           </header>
         </div>
