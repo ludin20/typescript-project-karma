@@ -15,7 +15,7 @@ import PhoneInput from '../form/PhoneInput';
 
 const Container = styled.div`
   padding: 50px 75px;
-
+  font-family: Montserrat, sans-serif !important;
   
   @media (max-width: 650px) {    
     padding: 20px 10px;
@@ -212,8 +212,7 @@ const WaxActiveKey = styled.div`
   }
 
   > p {
-    font-family: initial;
-    font-size: 14px;
+    font-size: 12px;
     color: #fff;
     font-weight: 200 !important;
     letter-spacing: 1px;
@@ -225,7 +224,7 @@ const WaxActiveKey = styled.div`
 `;
 
 const Input = styled(FormikInput)`
-  border-radius: 4px;
+  border-radius: 0px;
   background: transparent;
   border-bottom: 2px solid #26cc8b;
   font-size: 18px;

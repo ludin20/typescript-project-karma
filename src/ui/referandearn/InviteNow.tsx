@@ -9,8 +9,8 @@ const Container = styled.div`
   height: 350px;
   padding: 25px 25px;
   border-radius: 25px;
-  font-family: sans-serif;
   letter-spacing: 1px;
+  font-family: Montserrat, sans-serif;
 
   @media (max-width: 1560px) { 
     width: 100%;
@@ -31,7 +31,7 @@ const Container = styled.div`
 
   > p {
     color: #fcfefe;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     margin-bottom: 20px;
   }
@@ -83,7 +83,7 @@ const UniqueLink = styled.div`
     }   
 
     span {
-      font-size: 16px !important;
+      font-size: 14px !important;
     }
   }
 
@@ -113,7 +113,7 @@ const UniqueLink = styled.div`
 
   span {
     color: white;
-    font-size: 22px;
+    font-size: 20px;
   }
 `
 

@@ -10,7 +10,7 @@ const Container = styled.div<{ toogled: boolean }>`
   width: 100%;
   background: ${props => props.theme.dark};
   border-radius: 25px 25px 25px 25px;
-  padding-bottom: ${props => props.toogled && '20px'};
+  padding-bottom: ${props => props.toogled && '10px'};
 
   > div {
     padding: 10px 15px 0;
@@ -32,8 +32,9 @@ const Container = styled.div<{ toogled: boolean }>`
         position: relative;
 
         img.arrow {
+          border: none;
           position: absolute;
-          left: 160px;
+          left: 290px;
           top: 8px; 
           width: 14px !important;
           transition: transform 0.2s !important;
@@ -41,26 +42,36 @@ const Container = styled.div<{ toogled: boolean }>`
           margin-left: 15px !important;
         }
 
-        img:first-child {
-          margin-left: 0px !important;
+        img:nth-child(2) {
+          left: 155px;
+        }
+
+        img:nth-child(3) {
+          left: 165px;
+        }
+
+        img:nth-child(4) {
+          left: 175px;
         }
 
         img {
-          height: 30px !important;
-          width: 30px !important;
+          position: absolute;
+          top: 5px;
+          height: 32px !important;
+          width: 32px !important;
           transform: none !important;
           margin-left: -20px !important;
+          border: 2px solid #20252e;
         }
 
         span {
           position: absolute;
-          width: 120px;
+          left: 160px;
+          width: 170px;
           top: 4px;
           font-size: 16px;
           color: #26cc8b;
           line-height: 40px;
-          position: absolute;
-          width: 120px;
         }
       }
     }
@@ -96,9 +107,9 @@ const AsideReferandEarnCard: React.FC<Props> = ({ title, data }) => {
     <>
       <Container toogled={toogled}>
         <div>
-          <header>
-            <strong>{title}</strong>
+          <header>            
             <button onClick={() => router.push('/referandearn')}>
+              <strong>{title}</strong>
               {
                 data.map((item, index) => (
                   <Avatar online={false} src={item.avatar} alt={name} size="small" />

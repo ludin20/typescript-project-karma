@@ -18,6 +18,7 @@ const SuccessWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: Montserrat, sans-serif;
 
   @media (max-width: 550px) {
     padding: 0 15px;
@@ -46,7 +47,7 @@ const Label = styled.div`
         color: #fff;
         font-weight: 700;
         letter-spacing: 3px;
-        font-family: sans-serif;
+        font-family: Montserrat, sans-serif;
 
         @media (max-width: 650px) {
           font-size: 40px;

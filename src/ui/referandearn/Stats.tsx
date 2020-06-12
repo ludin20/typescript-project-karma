@@ -10,14 +10,14 @@ const Container = styled.div`
   height: 350px;
   padding: 25px 25px;
   border-radius: 25px;
-  font-family: sans-serif;
+  font-family: Montserrat, sans-serif;
 
   @media (max-width: 1560px) { 
     width: 100%;
   }
 
   > header {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
 
@@ -33,10 +33,10 @@ const Container = styled.div`
 
     > p {
       color: #fcfefe;
-      margin-top: 10px;
+      margin-top: 8px;
       font-size: 22px;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
   }
 

@@ -10,7 +10,8 @@ const Container = styled.div`
   width: 100%;
   padding: 25px 25px;
   border-radius: 25px;
-
+  font-family: Montserrat, sans-serif;
+  
   header {
     margin-bottom: 30px;    
     padding-right: 5px;

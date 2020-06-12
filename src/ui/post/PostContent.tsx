@@ -222,7 +222,7 @@ const PostContent: React.FC<Props> = ({ content, onClick, isDetails, onSuccessAc
                           </VideoViewCounts>
                           <VideoDuration>
                             <Text color="white" size={17}>
-                              {videoStates[index].ref.current ? useFormatDuration(videoStates[index].ref.current.duration ? videoStates[index].ref.current.duration : 0) : useFormatDuration(0)}
+                              {videoStates[index].ref.current ? useFormatDuration(videoStates[index].ref.current.duration) : useFormatDuration(0)}
                             </Text>
                           </VideoDuration>
                           <Space height={20} />
