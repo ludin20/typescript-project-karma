@@ -187,5 +187,5 @@ const SearchBar: React.FC<Props> = ({
 export default SearchBar;
 
 function isStringEmpty(text: string) {
-  return !text || text.trim().length <= 1;
+  return !text || text.trim().length <= 0;
 }
