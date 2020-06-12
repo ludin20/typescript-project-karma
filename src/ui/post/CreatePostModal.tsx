@@ -120,7 +120,7 @@ const CreatePostModal: React.FC<Props> = props => {
     },
     validateOnMount: true,
     validationSchema: Yup.object().shape({
-      content: Yup.string().required('Post text is required'),
+      content: Yup.string().required('Post text is required').max(300, 'Password has to be shorter than 300 characters!.'),
     }),
     onSubmit: ({ content, imagehashes }) => {
       dispatch(actionRequest());
