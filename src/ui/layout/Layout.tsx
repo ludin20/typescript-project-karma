@@ -227,7 +227,7 @@ const Layout: React.FC<Props> = ({
     },
     onCompleted: data => {
       // Get top 5
-      const topFiveData = data.profile.filter((item, index) => index < 5 && index != 1);
+      const topFiveData = data.profile.filter((item, index) => index < 5);
       setFollowers(
         topFiveData.map((item: { author: string }) => ({
           ...item,

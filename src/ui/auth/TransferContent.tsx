@@ -12,6 +12,7 @@ import karmas from '../assets/karmas.png';
 import Column from '../common/Column';
 import FormikInput from '../form/FormikInput';
 import PhoneInput from '../form/PhoneInput';
+import wax from '../assets/wax-primary-logo.png';
 
 const Container = styled.div`
   padding: 50px 75px;
@@ -73,12 +74,29 @@ const ConfirmButton = styled(Button)`
   font-size: 16px;
 `;
 
+const WaxCloudContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 10px;
+`;
+
 const WaxCloudButton = styled(Button)`
-  width: 100%;
+  width: 376px;
   padding: 15px 0;
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 900;
-  background: #ff8b1c;
+  background: transparent linear-gradient(97deg, #FAC685 0%, #FF9100 100%) 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+  opacity: 1;
+
+  img {
+    width: 39px;
+    height: 14px;
+  }
+`;
+
+const WaxLogo = styled.div`
 `;
 
 const ScatterButton = styled(Button)`
@@ -297,6 +315,7 @@ interface Props {
 const TransferContent: React.FC<Props> = () => {
   const [step, setStep] = useState(1);
   const [sendCode, setSendCode] = useState(false);
+  const [active, setActive] = useState(0);
   
   const formik = useFormik({
     enableReinitialize: false,
@@ -338,11 +357,15 @@ const TransferContent: React.FC<Props> = () => {
           </ConfirmButton>
         </>
       ),
-      active: true
     },
     {
       name: 'Wax Cloud Wallet',
-      render: () => (<p>A</p>),
+      render: () => (<WaxCloudContainer>
+          <WaxCloudButton background="green" radius="rounded" onClick={() => { Router.push('/successtransfer') }}>
+          <img src={wax} alt="Wax Logo" /> Wax Cloud Wallet
+        </WaxCloudButton>
+      </WaxCloudContainer>
+      ),
     },
   ];
 
@@ -384,12 +407,12 @@ After doing this <span>we recommend changing your active private key.</span> </p
             <WaxActiveKey>
               {tabs.map((tab, index) => (
                 <React.Fragment key={index}>
-                  <TabButton decrease={index > 0} onClick={() => {console.log('Next Tab')}} active={tab.active}>
+                  <TabButton decrease={index > 0} onClick={() => {setActive(index)}} active={index == active}>
                     {tab.name}
                   </TabButton>
                 </React.Fragment>
               ))}
-              {tabs[tabs.findIndex(tab => tab.active)].render({})}
+              {tabs[tabs.findIndex((tab, index) => index == active)].render({})}
             </WaxActiveKey>
           </FormikProvider>
         </Column>) : <></>)
