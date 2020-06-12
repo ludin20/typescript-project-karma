@@ -1,6 +1,6 @@
-import a1 from './assets/a1.png';
-import a2 from './assets/a2.png';
-import a3 from './assets/a3.png';
+import a1 from './assets/r1.png';
+import a2 from './assets/r2.png';
+import a3 from './assets/r3.png';
 
 const referandearn = [
   {
