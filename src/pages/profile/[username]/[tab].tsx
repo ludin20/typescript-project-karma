@@ -86,10 +86,9 @@ const GET_POSTS = graphql`
 
 interface Props {
   me: string;
-  userData: any;
 }
 
-const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
+const ProfileWrapper: NextPage<Props> = ({ me }) => {
   const router = useRouter();
   const imgRef = useRef();
   const { username, tab } = router.query;
@@ -108,13 +107,26 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
   const [thoughts, setThoughts] = useState([]);
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const [userData, setUserData] = useState(null);
 
   const dispatch = useDispatch();
 
+  useQuery(GET_PROFILE, {
+    variables: {
+      accountname: username,
+      me,
+      profilePath: () => `profile/${username}?domainID=${1}`,
+      postsPath: () => `posts/account/${username}?domainID=${1}`,
+      followersPath: () => `profile/${username}/followers/`,
+      followingPath: () => `profile/${username}/following/`,
+    },
+    onCompleted: data => {
+      setUserData(data);
+    }
+  });
+
   useEffect(() => {
-    if (!userData || !userData.profile || !profile) {
-      router.back();
-    } else {
+    if (userData && userData.profile && profile) {
       setFollowers(
         userData.profile.followers.map((data: { author: string }) => ({
           ...data,
@@ -194,7 +206,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
 
   if (isMe)
     return (
-      <Me
+      userData && <Me
         tabs={tabs}
         tab={tab as string}
         followersData={followers}
@@ -205,7 +217,7 @@ const ProfileWrapper: NextPage<Props> = ({ me, userData }) => {
     );
 
   return (
-    <Profile
+    userData && <Profile
       tabs={tabs}
       tab={tab as string}
       profile={{ ...userData.profile, followers: followers, following: following }}
@@ -230,26 +242,12 @@ ProfileWrapper.getInitialProps = async (ctx: Context) => {
 
   validateTab(ctx, me ? `/profile/${me}/media` : '/home', ['media', 'thoughts']);
 
-  const username = ctx.query.username;
-  const { data } = await ctx.apolloClient.query({
-    query: GET_PROFILE,
-    variables: {
-      accountname: ctx.query.username,
-      me,
-      profilePath: () => `profile/${username}?domainID=${1}`,
-      postsPath: () => `posts/account/${username}?domainID=${1}`,
-      followersPath: () => `profile/${username}/followers/`,
-      followingPath: () => `profile/${username}/following/`,
-    },
-  });
-
   return {
     meta: {
       title: `Karma/${ctx.query.username}`,
     },
     me,
     layoutConfig: { layout: labels.DEFAULT, shouldHideHeader: true },
-    userData: data,
   };
 };
 
