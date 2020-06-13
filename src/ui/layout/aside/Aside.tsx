@@ -12,11 +12,19 @@ const Container = styled.div`
   position: fixed;
   top: 110px;
   bottom: 0;
-  right: 0;
   overflow: auto;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  @media (min-width: 1440px) {
+    left: 1000px;
+    margin-left: 15px;
+  }
+
+  @media (max-width: 1440px) {
+    right: 0;
   }
 
   @media (max-width: 1200px) {

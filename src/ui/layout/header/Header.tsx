@@ -39,6 +39,10 @@ const Container = styled.div<{ collapsed: boolean; shouldHideHeader: boolean }>`
   top: 0;
   z-index: 10;
 
+  @media (min-width: 1440px) {
+    max-width: 1415px;
+  }
+
   @media (max-width: 1200px) {
     padding: 30px 160px 10px 0;
   }

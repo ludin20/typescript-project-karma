@@ -58,6 +58,10 @@ const Container = styled.div<{ collapsed: boolean; shouldHideHeader: boolean }>`
 
   position: relative;
 
+  @media (min-width: 1440px) {
+    max-width: 1050px !important;
+  }
+
   @media (max-width: 1200px) {
     min-height: 100vh;
     min-width: calc(100% - 170px) !important;
