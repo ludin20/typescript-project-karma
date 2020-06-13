@@ -12,7 +12,7 @@ import karmas from '../assets/karmas.png';
 import Column from '../common/Column';
 import FormikInput from '../form/FormikInput';
 import PhoneInput from '../form/PhoneInput';
-import wax from '../assets/wax-primary-logo.png';
+import wax from '../assets/WAX-Cloud-logo.png';
 
 const Container = styled.div`
   padding: 50px 75px;
@@ -89,10 +89,16 @@ const WaxCloudButton = styled(Button)`
   background: transparent linear-gradient(97deg, #FAC685 0%, #FF9100 100%) 0% 0% no-repeat padding-box;
   border-radius: 8px;
   opacity: 1;
+  line-height: 40px;
+  position: relative;
+  padding-left: 60px;
 
   img {
-    width: 39px;
-    height: 14px;
+    width: 53px;
+    height: 34px;
+    position: absolute;
+    left: 36px;
+    top: 20px;
   }
 `;
 
