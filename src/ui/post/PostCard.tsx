@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import cookie from 'js-cookie';
 
 import { useS3PostMedias } from '../../hooks';
 import Avatar from '../common/Avatar';
@@ -13,12 +14,15 @@ import Text from '../common/Text';
 import FormattedText from '../common/FormattedText';
 import { useFormatDistanceStrict, useS3Image } from '../../hooks';
 import { RootState } from '../../store/ducks/rootReducer';
+import { KARMA_AUTHOR } from '../../common/config';
 
 import CreateComment from './CreateComment';
 
 
 import PostActions from './PostActions';
 import PostContent from './PostContent';
+import auth from 'src/store/sagas/auth';
+import remove from '../assets/trash.svg';
 
 const Container = styled.ul`
   list-style: none;
@@ -46,9 +50,40 @@ const headerCss = css`
   }
 `;
 
+const Button_one = styled.button`
+  border-radius: 3px 3px 3px 3px;
+  width: 11px;
+  height: 11px;
+  margin-top: -30px;
+  margin-right: 5px;
+  background: ${props => props.theme.white};
+  float: right;
+`;
+
+const Button_two = styled.button`
+  width: 149px;
+  background: #20252E 0% 0% no-repeat padding-box;
+  box-shadow: 0px 0px 20px #FFFFFF1A;
+  border-radius: 10px;
+  height: 44px;
+  text-align: left;
+  font: SemiBold 16px/19px Montserrat;
+  letter-spacing: 0px;
+  color: #EF3D52;
+  font-size: 18px;
+  opacity: 1;
+`;
+
 const usernameCSS = css`
   color: #6f767e;
   font-size: 16px;
+`;
+
+const backimgCSS = css`
+  width: 12px;
+  height: 16px;
+  margin-right: 8px;
+  margin-left: 10px;
 `;
 
 const Caption = styled.li`
@@ -156,6 +191,11 @@ const PostCard: React.FC<Props> = ({
     }
   };
 
+  const cookies = cookie.get();
+  const meUsername = cookies[KARMA_AUTHOR];
+
+  const [focus, setFocus] = useState(false);
+
   return (
     <Container>
       <Row align="center" justify="space-between">
@@ -180,6 +220,7 @@ const PostCard: React.FC<Props> = ({
         </Row>
 
         {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
+        {meUsername === author && (focus === false ? <Button_one onClick={() => setFocus(true)} /> : <Button_two onClick={() => setFocus(false)}><img src={remove} css={backimgCSS} alt="Delete Post" />Delete Post</Button_two>)}
       </Row>
       <Space height={25} />
       <Caption>
