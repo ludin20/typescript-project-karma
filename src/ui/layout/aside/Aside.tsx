@@ -51,8 +51,8 @@ const Aside: React.FC<Props> = ({ followers }) => {
       <Split />
       
       {/* Refer & Earn */}
-      <ReferandEarn data={followers} />
-      <Split />
+      {/* <ReferandEarn data={followers} />
+      <Split /> */}
 
       {/* <Trending /> */}
     </Container>
