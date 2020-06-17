@@ -219,8 +219,8 @@ const PostCard: React.FC<Props> = ({
           </Clickable>
         </Row>
 
-        {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
-        {meUsername === author && (focus === false ? <Button_one onClick={() => setFocus(true)} /> : <Button_two onClick={() => setFocus(false)}><img src={remove} css={backimgCSS} alt="Delete Post" />Delete Post</Button_two>)}
+        {/* {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
+        {meUsername === author && (focus === false ? <Button_one onClick={() => setFocus(true)} /> : <Button_two onClick={() => setFocus(false)}><img src={remove} css={backimgCSS} alt="Delete Post" />Delete Post</Button_two>)} */}
       </Row>
       <Space height={25} />
       <Caption>
