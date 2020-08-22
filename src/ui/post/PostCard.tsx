@@ -15,13 +15,9 @@ import FormattedText from '../common/FormattedText';
 import { useFormatDistanceStrict, useS3Image } from '../../hooks';
 import { RootState } from '../../store/ducks/rootReducer';
 import { KARMA_AUTHOR } from '../../common/config';
-
 import CreateComment from './CreateComment';
-
-
 import PostActions from './PostActions';
 import PostContent from './PostContent';
-import auth from 'src/store/sagas/auth';
 import remove from '../assets/trash.svg';
 
 const Container = styled.ul`
@@ -33,20 +29,39 @@ const Container = styled.ul`
   max-width: 1105px;
 `;
 
-const headerCss = css`
-  margin-top: -30px;
-  @media (max-width: 550px) {
-    display: initial;
-    margin-top: -4px;
-    span:nth-child(1) {
-      font-size: 23px;
+const BelowSection = styled.div<{ toogled: boolean }>`
+  width: 100%;
+  background: ${props => props.theme.dark};
+  border-radius: 25px 25px 25px 25px;
+
+  > div {
+    padding: 20px 15px 0;
+    border-radius: 25px 25px 0 0;
+
+    header {
+      display: flex;
+
+      strong {
+        font-size: 20px;
+        font-weight: 900;
+        color: #fff;
+      }
+
+      button {
+        background: none;
+        margin-left: 10px;
+
+        img {
+          width: 14px;
+          transition: transform 0.2s;
+          transform: ${props => props.toogled && 'rotate(-90deg)'};
+        }
+      }
     }
-    span {
-      font-size: 17px;
-    }
-    div:nth-child(2) {
-      height: 4px;
-    }
+  }
+
+  section {
+    color: #6f767e;
   }
 `;
 
@@ -96,8 +111,46 @@ const Caption = styled.li`
   }
 `;
 
+const Dropdown = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const DropdownContent = styled.div`
+  position: absolute;
+  background-color: none;
+  min-width: 150px;
+  max-width: 150px;
+  z-index: 1;
+  left: -80px;
+  top: 60px;
+
+  a {
+    color: white !important;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+    width: 150px !important;
+  }
+
+  a:hover {
+    cursor: pointer;
+    background-color: none;
+  }
+`;
+
 const Clickable = styled.div`
   cursor: pointer;
+`;
+
+const sendButtonCss = css`
+  right: 10px;
+`;
+
+const belowbutton = css`
+  background: none;
+  color: white;
+  font-size: 30px;
 `;
 
 export interface PostInterface {
@@ -163,12 +216,25 @@ const PostCard: React.FC<Props> = ({
 
   const router = useRouter();
 
+  const copyLink = () => {
+    const cookies = cookie.get();
+    const author = cookies[KARMA_AUTHOR];
+    const link = location.protocol + '//' + location.host + '/post/' + post_id + '/author/' + author;
+    var textField = document.createElement('textarea');
+    textField.innerText = link;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
+    setToogled(!toogled);
+  };
+
   const formattedDateStrings = useFormatDistanceStrict(created_at).split(' ');
   const formattedDate = formattedDateStrings[0] + formattedDateStrings[1][0];
   const avatar = useS3Image(author_profilehash, 'thumbSmall');
   const { hash } = useSelector((state: RootState) => state.user.profile);
   const userAvatar = useS3Image(hash, 'thumbSmall');
-
+  const [toogled, setToogled] = useState(false);
   useEffect(() => setData(post), [post]);
 
   const onSuccessAction = (action: string, value: number) => {
@@ -193,9 +259,8 @@ const PostCard: React.FC<Props> = ({
 
   const cookies = cookie.get();
   const meUsername = cookies[KARMA_AUTHOR];
-
   const [focus, setFocus] = useState(false);
-
+  
   return (
     <Container>
       <Row align="center" justify="space-between">
@@ -218,7 +283,20 @@ const PostCard: React.FC<Props> = ({
             </Text>
           </Clickable>
         </Row>
-
+          {meUsername != undefined ? <Space width={38} /> : "" }
+          {meUsername != undefined ? 
+          <Row align="center" justify="center" css={sendButtonCss}>
+            <BelowSection toogled={toogled}>
+              <Dropdown>
+                <button onClick={() => setToogled(!toogled)} css={belowbutton}>
+                  ...
+                </button>
+                {toogled && <DropdownContent>
+                  <a onClick={() => copyLink()}>Copy to link post</a>
+                </DropdownContent>}
+              </Dropdown>
+            </BelowSection>
+          </Row> : "" }
         {/* {!me && withFollowButton && <FollowButton following={false} shouldHideFollowOnMobile />}
         {meUsername === author && (focus === false ? <Button_one onClick={() => setFocus(true)} /> : <Button_two onClick={() => setFocus(false)}><img src={remove} css={backimgCSS} alt="Delete Post" />Delete Post</Button_two>)} */}
       </Row>

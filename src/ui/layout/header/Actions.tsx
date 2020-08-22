@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
+import cookie from 'js-cookie';
+import { KARMA_AUTHOR } from '../../../common/config';
 
 import CreatePostModal from '../../post/CreatePostModal';
 
@@ -128,18 +130,27 @@ interface Props {
 const Actions: React.FC<Props> = props => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-
+  const cookies = cookie.get();
+  const meUsername = cookies[KARMA_AUTHOR];
   return (
     <>
       <Container {...props}>
-        <button onClick={() => router.push('/activity')}>
+        {meUsername != undefined ? 
+          <button onClick={() => router.push('/activity')}>
+            <img src={activity} alt="Activity" />
+          </button> :
+          <button onClick={() => router.push('/auth/sign')}>
           <img src={activity} alt="Activity" />
-        </button>
-
-        <button onClick={() => setOpen(true)}>
+        </button> }
+        {meUsername != undefined ? 
+          <button onClick={() => setOpen(true)}>
           <img src={plus} alt="create post" />
           Create Post
-        </button>
+        </button> : 
+        <button onClick={() => router.push('/auth/sign')}>
+          <img src={plus} alt="create post" />
+          Create Post
+        </button> }
 
         <button onClick={() => setOpen(true)}>
           <img src={plus} alt="create post" />

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Layout from './Layout';
+import PostLayout from './PostLayout';
 import ReferandEarnLayout from './ReferandEarnLayout';
 import AuthLayout from './auth/AuthLayout';
 
@@ -18,6 +19,10 @@ export const layouts: ILayouts = {
     LABEL: 'DEFAULT',
     COMPONENT: Layout,
   },
+  COPYPOST: {
+    LABEL: 'COPYPOST',
+    COMPONENT: PostLayout,
+  },
   REFERANDEARN: {
     LABEL: 'REFERANDEARN',
     COMPONENT: ReferandEarnLayout,
@@ -31,10 +36,11 @@ export const layouts: ILayouts = {
     COMPONENT: NoLayout,
   },
 };
-const { DEFAULT, AUTH, NONE, REFERANDEARN } = layouts;
+const { DEFAULT, COPYPOST, AUTH, NONE, REFERANDEARN } = layouts;
 
 export const labels = {
   [DEFAULT.LABEL]: DEFAULT.LABEL,
+  [COPYPOST.LABEL]: COPYPOST.LABEL,
   [REFERANDEARN.LABEL]: REFERANDEARN.LABEL,
   [AUTH.LABEL]: AUTH.LABEL,
   [NONE.LABEL]: NONE.LABEL,
@@ -44,6 +50,8 @@ const getLayout = (layout: string) => {
   switch (layout) {
     case DEFAULT.LABEL:
       return DEFAULT.COMPONENT;
+    case COPYPOST.LABEL:
+      return COPYPOST.COMPONENT;
     case REFERANDEARN.LABEL:
       return REFERANDEARN.COMPONENT;
     case AUTH.LABEL:
