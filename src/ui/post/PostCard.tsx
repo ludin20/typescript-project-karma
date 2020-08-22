@@ -119,18 +119,20 @@ const Dropdown = styled.div`
 const DropdownContent = styled.div`
   position: absolute;
   background-color: none;
-  min-width: 150px;
-  max-width: 150px;
+  min-width: 130px;
+  max-width: 130px;
   z-index: 1;
-  left: -80px;
+  left: -95px;
   top: 60px;
 
   a {
     color: white !important;
-    padding: 5px 10px;
+    padding: 8px 0px;
     text-decoration: none;
     display: block;
-    width: 150px !important;
+    width: 130px !important;
+    font-size: 12px;
+    text-align: center;
   }
 
   a:hover {
@@ -144,7 +146,16 @@ const Clickable = styled.div`
 `;
 
 const sendButtonCss = css`
-  right: 10px;
+  margin-top: -70px;
+`;
+
+const copylinkbutton = css`
+  border: 1px solid #ffffff4a;
+
+  &:hover {
+    background-color: #494f5ab3;
+    border-color: #8c8f96bd;
+  }
 `;
 
 const belowbutton = css`
@@ -292,7 +303,7 @@ const PostCard: React.FC<Props> = ({
                   ...
                 </button>
                 {toogled && <DropdownContent>
-                  <a onClick={() => copyLink()}>Copy to link post</a>
+                  <a onClick={() => copyLink()} css={copylinkbutton}>Copy to link post</a>
                 </DropdownContent>}
               </Dropdown>
             </BelowSection>
