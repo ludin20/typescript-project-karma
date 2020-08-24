@@ -7,6 +7,8 @@ import profile from './profile';
 import quezPosts from './quezPosts';
 import whoToFollow from './whoToFollow';
 import referandearn from './referandearn';
+import nftmarket from './nftmarket';
+import nft from './nft';
 import trending from './trending';
 import feed from './feed';
 
@@ -23,6 +25,8 @@ export {
   quezPosts,
   whoToFollow,
   referandearn,
+  nftmarket,
+  nft,
   trending,
   feed,
 };

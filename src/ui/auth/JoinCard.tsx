@@ -58,14 +58,6 @@ const WaxCloudButton = styled(Button)`
   background: #ff8b1c;
 `;
 
-const AnchorCloudButton = styled(Button)`
-  width: 100%;
-  padding: 15px 0;
-  font-size: 20px;
-  font-weight: 900;
-  background: rgb(54, 80, 162);
-`;
-
 interface Props {
   label: string;
   input: React.ReactNode;
@@ -109,6 +101,7 @@ class TestApp extends Component {
   }
 
   purchase = async () => {
+    console.log("++++++++++++++++");
     const { ual: { activeUser } } = this.props
     try {
       const { accountName, chainId } = activeUser
@@ -117,6 +110,7 @@ class TestApp extends Component {
         requestPermission = activeUser.scatter.identity.accounts[0].authority
       }
       const demoActions = getActions(accountName, requestPermission, chainId)
+      console.log(demoActions, "---------------");
       const result = await activeUser.signTransaction(demoActions, { expireSeconds: 120, blocksBehind: 3 })
       this.setState({
         message: `Transfer Successful!`,
@@ -210,9 +204,6 @@ const JoinCard: React.FC<Props> = ({ label, input, legend, submitText, loading, 
     dispatch(authenticateWithWaxCloud());
   };
 
-  const onAnchorCloudSign = () => {
-  };
-
   return (
     <FormikProvider value={formik}>
       <Space height={30} />
@@ -244,7 +235,6 @@ const JoinCard: React.FC<Props> = ({ label, input, legend, submitText, loading, 
       <Space height={20} />
       <WaxCloudButton onClick={onWaxCloudSign}>Wax Cloud Wallet</WaxCloudButton>
       <Space height={20} />
-      {/* <AnchorCloudButton onClick={onAnchorCloudSign} type="button">Anchor</AnchorCloudButton> */}
       <UALWrapper />
       {/* <Space height={20} />
       <ScatterButton onClick={() => Router.push('/transfercontent') }>

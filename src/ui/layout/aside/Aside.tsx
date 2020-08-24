@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import WhoToFollow from './WhoToFollow';
 import ReferandEarn from './ReferandEarn';
+import NFTMarket from './NFTMarket';
 
 const Container = styled.div`
   min-width: 368px;
@@ -50,9 +51,11 @@ const Aside: React.FC<Props> = ({ followers }) => {
       <WhoToFollow data={followers} />
       <Split />
       
-      {/* Refer & Earn */}
-      {/* <ReferandEarn data={followers} />
-      <Split /> */}
+      <NFTMarket data={followers} />
+      <Split />
+
+      <ReferandEarn data={followers} />
+      <Split />
 
       {/* <Trending /> */}
     </Container>

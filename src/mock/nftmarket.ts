@@ -1,6 +1,6 @@
-import a1 from './assets/n6.png';
-import a2 from './assets/n7.png';
-import a3 from './assets/n9.png';
+import a1 from './assets/1.png';
+import a2 from './assets/2.png';
+import a3 from './assets/3.png';
 
 const nftmarket = [
   {

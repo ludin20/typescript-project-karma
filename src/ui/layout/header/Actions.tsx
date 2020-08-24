@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { useRouter } from 'next/router';
 import cookie from 'js-cookie';
 import { KARMA_AUTHOR } from '../../../common/config';
+import NFTButton from '../../common/NFTButton';
 
 import CreatePostModal from '../../post/CreatePostModal';
 
@@ -132,6 +133,7 @@ const Actions: React.FC<Props> = props => {
   const router = useRouter();
   const cookies = cookie.get();
   const meUsername = cookies[KARMA_AUTHOR];
+  const path = router.pathname;
   return (
     <>
       <Container {...props}>
@@ -143,15 +145,16 @@ const Actions: React.FC<Props> = props => {
           <img src={activity} alt="Activity" />
         </button> }
         {meUsername != undefined ? 
+          (path != '/nftmarket' ? 
           <button onClick={() => setOpen(true)}>
-          <img src={plus} alt="create post" />
-          Create Post
-        </button> : 
+            <img src={plus} alt="create post" />
+            Create Post
+          </button> : 
+          <NFTButton/>) : 
         <button onClick={() => router.push('/auth/sign')}>
           <img src={plus} alt="create post" />
           Create Post
         </button> }
-
         <button onClick={() => setOpen(true)}>
           <img src={plus} alt="create post" />
           Create
