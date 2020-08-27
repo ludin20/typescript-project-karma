@@ -31,20 +31,19 @@ const Container = styled(Row).attrs({
 
 const asset = css`
   background: none;
-  width: 125px;
   color: rgb(170, 170, 170);
   position: absolute;
-  margin-left: 570px;
+  margin-left: 695px;
+  padding: 5px 10px;
+  font-size: 14px;
   &:hover {
     opacity: 0.8;
     border: 1px solid #26CC8B;
-    padding: 10px 20px;
     border-radius: 90px;
     color: white;
   }
   &:focus {
     border: 1px solid #26CC8B;
-    padding: 10px 20px;
     border-radius: 90px;
     color: white;
   }
@@ -52,11 +51,11 @@ const asset = css`
 
 const listing = css`
   background: none;
-  width: 170px;
   color: rgb(170, 170, 170);
   position: absolute;
-  margin-left: 700px;
-  padding: 10px 20px;
+  margin-left: 795px;
+  padding: 5px 10px;
+  font-size: 14px;
   &:hover {
     opacity: 0.8;
     border: 1px solid #26CC8B;
@@ -71,27 +70,29 @@ const listing = css`
 `;
 
 const Trend = styled.button<{ toogled: boolean }>`
-  background: none;
-  width: 170px;
-  color: rgb(170, 170, 170);
+  background: #20252E;
+  color: white;
   position: absolute;
-  margin-left: 875px;
-  border: 1px solid rgb(170, 170, 170);
+  padding: 5px 25px 5px 10px;
+  margin-left: 940px;
+  border: 1px solid #ffffff1a;
   border-radius: 90px;
-  padding: 10px 20px;
+  font-size: 14px;
   &:hover {
     opacity: 0.8;
-    border: 1px solid #26CC8B;
+    border: 1px solid rgb(170,170,170);
     color: white;
   }
   &:focus {
-    border: 1px solid #26CC8B;
+    border: 1px solid rgb(170,170,170);
     color: white;
   }
   img {
-    width: 14px;
-    transition: transform 0.2s;
-    transform: ${props => props.toogled && 'rotate(-90deg)'};
+    position: absolute;
+    top: 12px;
+    right: 8px;
+    width: 10px;
+    transform: ${props => props.toogled && 'rotate(0deg)'};
   }
 `;
 

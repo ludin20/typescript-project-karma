@@ -71,7 +71,8 @@ const SidebarNav: React.FC<Props> = ({ avatar, setCollapsed, collapsed }) => {
 
   const dispatch = useDispatch();
   const notifications = useSelector((state: RootState) => state.activity.notifications);
-
+  const cookies = cookie.get();
+  const meUsername = cookies[KARMA_AUTHOR];
   const selected = useMemo(() => {
     return router.pathname.replace('/', '');
   }, [router.pathname]);
@@ -79,8 +80,6 @@ const SidebarNav: React.FC<Props> = ({ avatar, setCollapsed, collapsed }) => {
   const logOut = useCallback(() => {
     dispatch(signOutRequest());
   }, [dispatch]);
-
-  const cookies = cookie.get();
 
   return (
     <Container collapsed={collapsed}>
@@ -105,6 +104,7 @@ const SidebarNav: React.FC<Props> = ({ avatar, setCollapsed, collapsed }) => {
         Wallet
       </SidebarItem>
 
+      {meUsername != undefined ?
       <SidebarItem
         href="/profile/[username]/[tab]"
         as={`/profile/${cookies[KARMA_AUTHOR]}/media`}
@@ -112,7 +112,7 @@ const SidebarNav: React.FC<Props> = ({ avatar, setCollapsed, collapsed }) => {
         icon={avatar}
       >
         Profile
-      </SidebarItem>
+      </SidebarItem>  : ""}
 
       <Divider onClick={() => setCollapsed(!collapsed)} collapsed={collapsed} />
 

@@ -68,14 +68,14 @@ const CopySidebar: React.FC<Props> = ({ collapsed, setCollapsed, profile }) => {
           }}
           withAvatar={!!avatar}
         />
-      )}
+      )} */}
 
       <SidebarNav
         username={profile?.username}
         avatar={avatar || withoutAvatar}
         setCollapsed={setCollapsed}
         collapsed={collapsed}
-      /> */}
+      />
     </Container>
   );
 };

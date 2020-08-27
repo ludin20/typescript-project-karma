@@ -13,6 +13,7 @@ export { default as Space } from './common/Space';
 export { default as Title } from './common/Title';
 export { default as NFTTitle } from './common/NFTTitle';
 export { default as NFTFilter } from './common/NFTFilter';
+export { default as NFTLeftFilter } from './common/NFTLeftFilter';
 export { default as Button } from './common/Button';
 export { default as Avatar } from './common/Avatar';
 export { default as FollowButton } from './common/FollowButton';

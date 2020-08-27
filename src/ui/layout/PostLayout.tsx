@@ -169,24 +169,6 @@ const PostLayout: React.FC<Props> = ({
   const [followers, setFollowers] = useState([]);
   const [loadState, setLoadState] = useState(false);
 
-  // useQuery(GET_PROFILE, {
-  //   variables: {
-  //     accountname: author,
-  //     domainID: 1,
-  //     pathBuilder: () => `profile/${author}?domainID=${1}`,
-  //   },
-  //   onCompleted: data => {
-  //     if (data && data.profile) {
-  //       setProfile(data.profile);
-  //       setLoadState(true);
-  //       dispatch(updateProfileSuccess(data.profile));
-  //     }
-
-  //     if (data && (!data.profile || !data.profile.hash)) setModalIsOpen(true);
-  //     else setModalIsOpen(false);
-  //   },
-  // });
-
   useQuery(GET_FOLLOWERS, {
     variables: {
       accountname: author,
@@ -203,28 +185,9 @@ const PostLayout: React.FC<Props> = ({
     },
   });
 
-  // useEffect(() => {
-  //   dispatch(getWalletRequest());
-  // }, []);
-
   useEffect(() => {
     setIsLoading(authLoading || userLoading || activityLoading || actionLoading);
   }, [authLoading, userLoading, activityLoading, actionLoading]);
-
-  // useEffect(() => {
-  //   if (profile) {
-  //     setProfile(profile);
-  //     localStorage.setItem('upvoted', JSON.stringify(profile.upvoted));
-  //   }
-  //   if (isLoading && (!profile || !profile.hash)) setModalIsOpen(true);
-  //   else setModalIsOpen(false);
-  // }, [profile]);
-
-  // const close = useCallback(() => {
-  //   if (accountProfile && accountProfile.hash) {
-  //     setModalIsOpen(false);
-  //   }
-  // }, [accountProfile]);
 
   return (
     <Wrapper {...props}>

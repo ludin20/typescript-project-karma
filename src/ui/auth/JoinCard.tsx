@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Router from 'next/router';
+import { runSaga } from 'redux-saga';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { FormikProvider, FormikProps } from 'formik';
@@ -14,6 +14,9 @@ import Text from '../common/Text';
 
 import { authenticateWithScatter } from '../../store/ducks/auth';
 import { authenticateWithWaxCloud } from '../../store/ducks/auth';
+
+import { types, createProfileSuccess, updateProfileSuccess, profileFailure } from '../../store/ducks/user';
+import { createProfile, updateProfile } from '../../store/sagas/user';
 
 const Label = styled(Row)`
   span {
@@ -101,7 +104,6 @@ class TestApp extends Component {
   }
 
   purchase = async () => {
-    console.log("++++++++++++++++");
     const { ual: { activeUser } } = this.props
     try {
       const { accountName, chainId } = activeUser
@@ -110,7 +112,6 @@ class TestApp extends Component {
         requestPermission = activeUser.scatter.identity.accounts[0].authority
       }
       const demoActions = getActions(accountName, requestPermission, chainId)
-      console.log(demoActions, "---------------");
       const result = await activeUser.signTransaction(demoActions, { expireSeconds: 120, blocksBehind: 3 })
       this.setState({
         message: `Transfer Successful!`,
@@ -118,8 +119,20 @@ class TestApp extends Component {
         setTimeout(this.resetMessage, 5000)
       })
       console.info('SUCCESS:', result)
+      //Test CreateProfile
+      const dispatch = jest.fn();
+      await runSaga({ dispatch }, () =>
+        createProfile({ type: types.CREATE_PROFILE_REQUEST, payload: { data: activeUser } }),
+      ).toPromise();
+
+      expect(dispatch).toHaveBeenCalledWith(createProfileSuccess(activeUser));
     } catch (e) {
-      console.error('ERROR:', e)
+      const dispatch = jest.fn();
+      await runSaga({ dispatch }, () =>
+        createProfile({ type: types.CREATE_PROFILE_REQUEST, payload: { data: null } }),
+      ).toPromise();
+
+      expect(dispatch).toHaveBeenCalledWith(profileFailure());
     }
   }
 

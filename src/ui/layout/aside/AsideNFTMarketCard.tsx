@@ -40,6 +40,7 @@ const Container = styled.div<{ toogled: boolean }>`
           transition: transform 0.2s !important;
           transform: ${props => props.toogled && 'rotate(-90deg)'} !important;
           margin-left: 15px !important;
+          margin-top: -8px;
         }
 
         img:nth-child(2) {
@@ -56,12 +57,11 @@ const Container = styled.div<{ toogled: boolean }>`
 
         img {
           position: absolute;
-          top: 5px;
+          transform: rotate(10deg) !important;
           height: 50px !important;
           width: 50px !important;
-          transform: none !important;
           margin-left: -20px !important;
-          border: 2px solid #20252e;
+          top: 1px;
         }
 
         span {

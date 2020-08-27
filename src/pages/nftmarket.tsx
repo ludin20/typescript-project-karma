@@ -7,7 +7,7 @@ import ApolloClient from 'apollo-client';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
 import { withAuthSync } from '../auth/WithAuthSync';
-import { NFTTitle, NFTFilter } from '../ui';
+import { NFTTitle, NFTFilter, NFTLeftFilter } from '../ui';
 import { labels } from '../ui/layout';
 
 import { withApollo } from '../apollo/Apollo';
@@ -19,7 +19,7 @@ const Container = styled.div`
   max-width: 1280px;
   width: 1050px;
   height: 45vh;
-  padding: 30px 0px;
+  padding: 20px 0px;
 
   @media (max-width: 700px) {
     margin-top: 0;
@@ -52,11 +52,16 @@ interface Props {
 }
 
 const NFTMarket: NextPage<Props> = ({ profile }) => {
+  const [nft, setNft] = React.useState([]);
+  const changeNft = (data) => {
+    setNft(data);
+  }
   return (
     <>
       <NFTTitle>NFT Market</NFTTitle>
-      <NFTFilter>NFT Market</NFTFilter>
+      <NFTFilter></NFTFilter>
       <Container>
+        <NFTLeftFilter changeNft={changeNft}></NFTLeftFilter>
         {
           nft.map((item, index) => (
             <NFT data={item}>
