@@ -76,43 +76,21 @@ const collectionbutton = css`
 `;
 
 const karma = css`
-  width: 110px;
-  border: 1px solid #26CC8B;
-  border-radius: 90px;
-  color: #191A19;
-  padding: 7px 15px;
-  margin-right: 10px;
   background: linear-gradient(90deg, #2adce8 0%, #29db95 100%);
-  text-align: left;
-  display: flex;
-  align-items: center;
+  color: black;
+  border: 1px solid #ffffff1a;
+  padding: 5px 15px;
+  border-radius: 90px;
+  margin-right: 10px;
+  font-size: 14px;
   &:hover {
     opacity: 0.8;
   }
   &:focus {
-    border: 1px solid #26CC8B;
+    border: 1px solid rgb(170,170,170);
     border-radius: 90px;
     color: white;
   }
-  span {
-    position: absolute;
-    padding-left: 10px;
-    font-size: 14px;
-  }
-`;
-
-const iconbutton = css`
-  border: 1px solid #26CC8B;
-  background: #191A19;
-  border-radius: 100px;
-  width: 17px;
-  line-height: 22px;
-  height: 17px;
-  font-size: 18px;
-`;
-
-const icon = css`
-  width: 15px;
 `;
 
 const Toggle = styled.button<{ toogled: boolean }>`
@@ -138,12 +116,7 @@ const NFTFilter: React.FC<Props> = ({ children, bordered = true, size = 'default
   return (
     <Container bordered={bordered} size={size}>
       <button css={collectionbutton}>All Collections</button>
-      <button css={karma}>
-        <button css={iconbutton}>
-          <img css={icon} src={logo} alt="logo"/>
-        </button>
-        <span style={{paddingLeft: 23}}>KARMA</span>
-      </button>
+      <button css={karma}>KARMA</button>
       <button css={gpk}>GPK</button>
       <button css={tiger}>Tiger King</button>
       <Toggle onClick={() => setToogled(!toogled)} toogled={toogled}>

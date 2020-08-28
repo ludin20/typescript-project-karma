@@ -7,7 +7,7 @@ import ApolloClient from 'apollo-client';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
 import { withAuthSync } from '../auth/WithAuthSync';
-import { NFTTitle, NFTFilter, NFTLeftFilter } from '../ui';
+import { NFTTitle, NFTFilter, NFTLeftFilter, Loading } from '../ui';
 import { labels } from '../ui/layout';
 
 import { withApollo } from '../apollo/Apollo';
@@ -53,15 +53,22 @@ interface Props {
 
 const NFTMarket: NextPage<Props> = ({ profile }) => {
   const [nft, setNft] = React.useState([]);
+  const [loading, loadLoading] = React.useState(false);
   const changeNft = (data) => {
     setNft(data);
+  }
+  const setLoading = (data) => {
+    loadLoading(data);
   }
   return (
     <>
       <NFTTitle>NFT Market</NFTTitle>
       <NFTFilter></NFTFilter>
+      {loading ? (
+        <Loading withContainer size="big" />
+      ): (
       <Container>
-        <NFTLeftFilter changeNft={changeNft}></NFTLeftFilter>
+        <NFTLeftFilter changeNft={changeNft} setLoading={setLoading}></NFTLeftFilter>
         {
           nft.map((item, index) => (
             <NFT data={item}>
@@ -70,6 +77,7 @@ const NFTMarket: NextPage<Props> = ({ profile }) => {
           ))
         }
       </Container>
+      )}
     </>
   );
 };

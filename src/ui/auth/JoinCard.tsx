@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { runSaga } from 'redux-saga';
+import Router, { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { FormikProvider, FormikProps } from 'formik';
@@ -104,6 +105,7 @@ class TestApp extends Component {
   }
 
   purchase = async () => {
+    console.log("++++++++");
     const { ual: { activeUser } } = this.props
     try {
       const { accountName, chainId } = activeUser
@@ -126,6 +128,7 @@ class TestApp extends Component {
       ).toPromise();
 
       expect(dispatch).toHaveBeenCalledWith(createProfileSuccess(activeUser));
+      Router.push('/home');
     } catch (e) {
       const dispatch = jest.fn();
       await runSaga({ dispatch }, () =>

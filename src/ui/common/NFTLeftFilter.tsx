@@ -3,26 +3,14 @@ import styled, { css } from 'styled-components';
 import axios from 'axios';
 import SearchBar from '../layout/header/SearchBar';
 import { makeStyles } from '@material-ui/core/styles';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-
-import arrow from '../assets/arrow.svg';
-
-import Text from './Text';
-import Row from './Row';
-import Space from './Space';
-
 
 const Container = styled.div`
   width: 250px;
@@ -66,13 +54,16 @@ const scrollbarprimary = css`
 
 interface Props {
   changeNft: any;
+  setLoading: any
 }
 
-const NFTLeftFilter: React.FC<Props> = ({changeNft}) => {
+const NFTLeftFilter: React.FC<Props> = ({changeNft, setLoading}) => {
   useEffect(() => {
+    // setLoading(true);
     axios.get(`https://wax.api.atomicassets.io/atomicmarket/v1/stats/collections?collection_whitelist=alexartworks,alien.worlds,anyo.b1,aprenticeart,athalloffame,atomic,badcryptonft,badges.b1,boxmazeonwax,cheesmansart,chibisglobal,classeartacr,deadbabiesbg,dogpatchbrew,dopestickers,dripnwithwax,eosnationama,eosnhotsauce,giselxtotems,goblinsonwax,gpk.topps,inspectorgen,kaleidoscope,kogsofficial,krwingerarts,matthewsmaze,momentintime,niftywizards,officialhero,organicpics1,parodykidss2,pepe.hero,pokeyforever,radiosilence,ruummspringa,shipplememes,solarsystem1,splintercard,stickypeople,tenminuteart,theonlykarma,tone2tonenft,uplandfanart,uplandhotels,upliftart,uptonemotors,vigilantnfts,waxartcards1&sort=volume&order=desc&symbol=WAX`)
     .then(res => {
       setCollections(res.data.data.results);
+      // setLoading(false);
     });
   }, []);
   
