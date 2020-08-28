@@ -115,10 +115,10 @@ const SidebarNav: React.FC<Props> = ({ avatar, setCollapsed, collapsed }) => {
       </SidebarItem>  : ""}
 
       <Divider onClick={() => setCollapsed(!collapsed)} collapsed={collapsed} />
-
-      <SidebarItem onClick={logOut} selected={false} icon={logout}>
-        Logout
-      </SidebarItem>
+      {meUsername != undefined ?  
+        <SidebarItem onClick={logOut} selected={false} icon={logout}>
+          Logout
+        </SidebarItem> : ""}
     </Container>
   );
 };

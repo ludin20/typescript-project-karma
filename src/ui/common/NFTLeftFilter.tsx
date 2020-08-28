@@ -34,7 +34,7 @@ const icon = css`
 `;
 
 const scrollbarprimary = css` 
-  scrollbar-color: rgb(214,154,47) #f5f5f5;
+  scrollbar-color: #FF774A #f5f5f5;
   background-color: #20252E !important;
   color: white !important;
   font-size: 14px !important;
@@ -48,7 +48,7 @@ const scrollbarprimary = css`
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-    background-color: rgb(214,154,47);
+    background-color: #FF774A;
   }
 `;
 

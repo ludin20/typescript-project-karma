@@ -105,7 +105,6 @@ class TestApp extends Component {
   }
 
   purchase = async () => {
-    console.log("++++++++");
     const { ual: { activeUser } } = this.props
     try {
       const { accountName, chainId } = activeUser

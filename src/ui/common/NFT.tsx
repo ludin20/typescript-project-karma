@@ -77,7 +77,7 @@ const price = css`
 `;
 
 const Buybutton = styled.div<{ type?: 1 | 2 }>`
-  background: ${props => props.type == 1 ? '#26CC8B' : 'rgb(214, 154, 47)'};
+  background: ${props => props.type == 1 ? '#26CC8B' : '#FF774A'};
   height: 40px;
   width: 100%;
   border-radius: 0px 0px 20px 20px;
@@ -95,24 +95,24 @@ interface Props {
 }
 
 const NFT: React.FC<Props> = ({data}) => {
-  const [toogled, setToogled] = useState(true);
   var amount = (data.listing_price / 1000000) + '';
-  
-  let num = Number(amount).toLocaleString('en'); 
-  data.listing_price = num;
-
+  var num = Number(amount).toLocaleString('en'); 
+  if (num == "NaN")
+    data.listing_price = 0;
+  else
+    data.listing_price = num;
   return (
     <Container>
       <button css={asset}>{data.assets[0].template_mint}</button>
       <img css={avatar} src={"https://wax.atomichub.io/preview?ipfs=" + data.assets[0].data.img + "&size=185&output=webp&animated=true"}></img>
       <p css={title}>{data.assets[0].data.name}</p>
       <p css={description}>{data.assets[0].collection.collection_name}</p>
-      <p css={price}>
+      {/* <p css={price}>
         <button css={iconbutton}>
           <img css={icon} src={logo} alt="logo"/>
-        {/* </button><span>{data.listing_price / 1000000 * data.assets[0].collection.market_fee} KARMA</span> */}
+        </button><span>{data.listing_price / 1000000 * data.assets[0].collection.market_fee} KARMA</span>
         </button><span>{data.listing_price} KARMA</span>
-      </p>
+      </p> */}
       {/* <Buybutton type={data.type}>Buy {data.listing_price} {data.type==1 ? 'KARMA' : 'WAX' }</Buybutton> */}
       <Buybutton type={data.type}>Buy {data.listing_price} {data.listing_symbol}</Buybutton>
     </Container>

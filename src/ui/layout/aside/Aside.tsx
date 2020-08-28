@@ -54,8 +54,8 @@ const Aside: React.FC<Props> = ({ followers }) => {
       <NFTMarket data={followers} />
       <Split />
 
-      <ReferandEarn data={followers} />
-      <Split />
+      {/* <ReferandEarn data={followers} />
+      <Split /> */}
 
       {/* <Trending /> */}
     </Container>
