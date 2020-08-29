@@ -105,7 +105,7 @@ const ContentWrapper = styled.div<{ shouldHideHeader: boolean }>`
 `;
 
 const Content = styled.div`
-  width: calc(100% - (368px + 80px));
+  width: 1050px;
 
   @media (max-width: 1200px) {
     width: calc(100% - (300px + 80px));

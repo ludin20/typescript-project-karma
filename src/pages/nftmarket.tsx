@@ -9,12 +9,10 @@ import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { withAuthSync } from '../auth/WithAuthSync';
 import { NFTTitle, NFTFilter, NFTLeftFilter, Loading } from '../ui';
 import { labels } from '../ui/layout';
-
 import { withApollo } from '../apollo/Apollo';
 import { KARMA_AUTHOR } from '../common/config';
 import NFT from '../ui/common/NFT';
 import Space from '../ui/common/Space';
-import { nft } from '../mock';
 const Container = styled.div`
   max-width: 1280px;
   width: 1050px;
@@ -60,15 +58,13 @@ const NFTMarket: NextPage<Props> = ({ profile }) => {
   const setLoading = (data) => {
     loadLoading(data);
   }
+
   return (
     <>
       <NFTTitle>NFT Market</NFTTitle>
-      <NFTFilter></NFTFilter>
-      {loading ? (
-        <Loading withContainer size="big" />
-      ): (
+      <NFTFilter changeNft={changeNft}></NFTFilter>
       <Container>
-        <NFTLeftFilter changeNft={changeNft} setLoading={setLoading}></NFTLeftFilter>
+        {/* <NFTLeftFilter changeNft={changeNft} setLoading={setLoading}></NFTLeftFilter> */}
         {
           nft.map((item, index) => (
             <NFT data={item}>
@@ -77,7 +73,6 @@ const NFTMarket: NextPage<Props> = ({ profile }) => {
           ))
         }
       </Container>
-      )}
     </>
   );
 };

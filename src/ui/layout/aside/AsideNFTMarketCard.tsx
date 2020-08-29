@@ -112,7 +112,7 @@ const AsideNFTMarketCard: React.FC<Props> = ({ title, data }) => {
               <strong>{title}</strong>
               {
                 data.map((item, index) => (
-                  <NFTAvatar online={false} src={item.avatar} alt={name} size="small" />
+                  <NFTAvatar kye={index} online={false} src={item.avatar} alt={name} size="small" />
                 ))
               }
               <img class="arrow" src={arrow} alt="toogle" />
