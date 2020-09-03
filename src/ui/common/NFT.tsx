@@ -97,10 +97,7 @@ interface Props {
 const NFT: React.FC<Props> = ({data}) => {
   var amount = (data.listing_price / 1000000) + '';
   var num = Number(amount).toLocaleString('en'); 
-  if (num == "NaN")
-    data.listing_price = 0;
-  else
-    data.listing_price = num;
+  
   return (
     <Container>
       <button css={asset}>{data.assets[0].template_mint}</button>
@@ -114,7 +111,7 @@ const NFT: React.FC<Props> = ({data}) => {
         </button><span>{data.listing_price} KARMA</span>
       </p> */}
       {/* <Buybutton type={data.type}>Buy {data.listing_price} {data.type==1 ? 'KARMA' : 'WAX' }</Buybutton> */}
-      <Buybutton type={data.type}>Buy {data.listing_price} {data.listing_symbol}</Buybutton>
+      <Buybutton type={data.type}>Buy {num} {data.listing_symbol}</Buybutton>
     </Container>
   );
 };

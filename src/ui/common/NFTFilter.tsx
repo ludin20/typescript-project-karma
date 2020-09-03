@@ -87,12 +87,12 @@ const NFTFilter: React.FC<Props> = ({ children, bordered = true, size = 'default
     });
   }, []);
   
-  useEffect(() => {    
-    axios.get('https://wax.api.atomicassets.io/atomicmarket/v1/sales?state=1&max_assets=1&limit=40&page=1&order=desc&sort=created&collection_name=&symbol=WAX&collection_blacklist=caricaturexx,election2o2o,garbagepailz,jesusnft1234,jipewrgvpiwp,kogsfail1234,metalslugnft,monalisanft1,pokemon12345,realelection,safexnft5555,streetfighte,varievarie12,waxforerotic,wwaxxxbabess&show_seller_contracts=false&contract_whitelist=niftywizards,sales.heroes,theonlykarma&seller_blacklist=')
-    .then(res => {
-      changeNft(res.data.data);
-    });
-  }, []);
+  // useEffect(() => {    
+  //   axios.get('https://wax.api.atomicassets.io/atomicmarket/v1/sales?state=1&max_assets=1&limit=40&page=1&order=desc&sort=created&collection_name=&symbol=WAX&collection_blacklist=caricaturexx,election2o2o,garbagepailz,jesusnft1234,jipewrgvpiwp,kogsfail1234,metalslugnft,monalisanft1,pokemon12345,realelection,safexnft5555,streetfighte,varievarie12,waxforerotic,wwaxxxbabess&show_seller_contracts=false&contract_whitelist=niftywizards,sales.heroes,theonlykarma&seller_blacklist=')
+  //   .then(res => {
+  //     changeNft(res.data.data);
+  //   });
+  // }, []);
 
   const handleClick = (collection_name) => {
     if (collection_name == "all") {
