@@ -79,9 +79,6 @@ const NFTFilter: React.FC<Props> = ({ children, bordered = true, size = 'default
     axios.get(`https://wax.api.atomicassets.io/atomicmarket/v1/stats/collections?collection_whitelist=alexartworks,alien.worlds,anyo.b1,aprenticeart,athalloffame,atomic,badcryptonft,badges.b1,boxmazeonwax,cheesmansart,chibisglobal,classeartacr,deadbabiesbg,dogpatchbrew,dopestickers,dripnwithwax,eosnationama,eosnhotsauce,giselxtotems,goblinsonwax,gpk.topps,inspectorgen,kaleidoscope,kogsofficial,krwingerarts,matthewsmaze,momentintime,niftywizards,officialhero,organicpics1,parodykidss2,pepe.hero,pokeyforever,radiosilence,ruummspringa,shipplememes,solarsystem1,splintercard,stickypeople,tenminuteart,theonlykarma,tone2tonenft,uplandfanart,uplandhotels,upliftart,uptonemotors,vigilantnfts,waxartcards1&sort=volume&order=desc&symbol=WAX`)
     .then(res => {
       const result = res.data.data.results;
-      // result.unshift({'collection_name': 'All Collectinos'});
-      // setCollections(result);
-      // const temp = res.data.data.results.filter((item, index) => index < 8);
       const collectionArea = textInput.current.childNodes[0];
       const firstbutton = allbutton.current;
       firstbutton.click();
